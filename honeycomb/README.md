@@ -1,6 +1,7 @@
 # Honeycomb Kubernetes Agent
 
-[Honeycomb](https://honeycomb.io) is a tool for introspecting and interrogating your production systems.
+[Honeycomb](https://honeycomb.io) is a tool for understanding your production systems.
+This helm chart will install the [Honeycomb Kubernetes Agent](https://github.com/honeycombio/honeycomb-kubernetes-agent).
 
 ## TL;DR;
 ```bash
