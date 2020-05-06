@@ -1,0 +1,17 @@
+apiVersion: v2
+name: honeycomb
+description: Honeycomb Kubernetes Agent
+version: 0.9.1
+appVersion: 1.5.0
+keywords:
+  - observability
+  - tracing
+  - logs
+  - events
+home: https://honeycomb.io
+sources:
+  - https://github.com/honeycombio/honeycomb-kubernetes-agent
+icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+maintainers:
+  - name: puckpuck
+    email: pierre@honeycomb.io

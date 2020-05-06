@@ -1,0 +1,167 @@
+
+honeycomb:
+  # Specify your Honeycomb API KEY to send events
+  apiKey: YOUR_API_KEY
+  # Specify host URL to send all events to
+  apiHost: https://api.honeycomb.io/
+
+agent:
+  # Honeycomb agent watchers configuration
+  # (ref: https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)
+  watchers:
+    - dataset: kubernetes-logs
+      labelSelector: component=kube-controller-manager
+      namespace: kube-system
+      parser: glog
+    - dataset: kubernetes-logs
+      labelSelector: component=kube-scheduler
+      namespace: kube-system
+      parser: glog
+
+  # agent log verbosity: warn, info, debug, trace
+  verbosity: info
+
+  # splitLogging directs trace, debug, info, and warn log levels to stdout rather than stderr
+  splitLogging: false
+
+nameOverride: ""
+fullnameOverride: ""
+imagePullSecrets: []
+
+
+image:
+  repository: honeycombio/honeycomb-kubernetes-agent
+  # Overrides the image tag whose default is the chart version.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+terminationGracePeriodSeconds: 30
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+# Tolerate agent to run on all nodes by default
+tolerations:
+  - effect: NoSchedule
+    key: node.alpha.kubernetes.io/role
+    operator: Exists
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+
+affinity: {}
+
+
+# Kubernetes cluster events collection (uses heapster)
+events:
+  enabled: true
+
+  dataset: kubernetes-cluster-events
+
+  source: kubernetes:https://kubernetes.default
+
+  image:
+    repository: gcr.io/google_containers/heapster-amd64:v1.5.1
+    pullPolicy: IfNotPresent
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+# resource metrics collection (uses heapster)
+metrics:
+  enabled: true
+
+  dataset: kubernetes-resource-metrics
+
+  source: kubernetes.summary_api:https://kubernetes.default?kubeletPort=10250&kubeletHttps=true&useServiceAccount=true&insecure=true
+
+  image:
+    repository: gcr.io/google_containers/heapster-amd64:v1.5.1
+    pullPolicy: IfNotPresent
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+rbac:
+  # Specifies whether roles based access control rules should be created.
+  create: true
+
+
+serviceAccount:
+  # Specifies whether a service account should be created.
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+  # Annotations to add to the service account
+  annotations: {}

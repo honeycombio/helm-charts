@@ -1,0 +1,60 @@
+{{- if .Values.events.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "honeycomb.events.fullname" . }}
+  labels:
+    {{- include "honeycomb.events.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "honeycomb.events.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.events.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "honeycomb.events.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "honeycomb.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.events.podSecurityContext | nindent 8 }}
+      containers:
+        - name: eventer
+          securityContext:
+          {{- toYaml .Values.events.securityContext | nindent 12 }}
+          image: "{{ .Values.events.image.repository }}"
+          imagePullPolicy: {{ .Values.events.image.pullPolicy }}
+          command:
+            - /eventer
+          args:
+            - --source={{ .Values.events.source }}
+            - --sink=honeycomb:?dataset={{ .Values.events.dataset }}
+          env:
+            - name: HONEYCOMB_WRITEKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "honeycomb.fullname" . }}
+                  key: api-key
+          resources:
+            {{- toYaml .Values.events.resources | nindent 12 }}
+      {{- with .Values.events.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.events.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.events.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end}}

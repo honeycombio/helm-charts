@@ -1,0 +1,11 @@
+{{- $validApiKey := and (.Values.honeycomb.apiKey) (ne .Values.honeycomb.apiKey "YOUR_API_KEY") -}}
+
+{{- if not $validApiKey }}
+##### ERROR:
+You must set the value for 'honeycomb.apiKey' to your API Key that you can find your API key in your Honeycomb
+account profile: https://ui.honeycomb.io/account
+#####
+{{- end }}
+
+Honeycomb agent is setup and configured to collect events from your Kubernetes cluster. You should see data flowing
+within a few minutes at https://ui.honeycomb.io
