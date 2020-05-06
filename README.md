@@ -10,7 +10,7 @@ Packages:
 
 ### Add the Honeycomb Repo
 ```
-helm repo add honeycomb https://honeycombio.github.io/helm
+helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm repo update
 ```
 ### Install a chart
