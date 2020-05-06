@@ -1,14 +1,49 @@
 # Honeycomb Kubernetes Agent
 
-[Honeycomb](https://honeycomb.io) is the best observability platform EVAR!!!
+[Honeycomb](https://honeycomb.io) is a tool for introspecting and interrogating your production systems.
 
-## Installation
-
-_This chart is compatible with Helm 3 and above._
+## TL;DR;
 ```bash
-helm repo add honeycomb https://honeycombio.github.io/helm
+helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install honeycomb honeycomb/honeycomb --set honeycomb.apiKey=YOUR_API_KEY
 ```
+
+## Prerequisites
+- Helm 3.0+
+
+## Installing the Chart
+### Using default agent configuration
+By default this chart will deploy an agent watchers configuration to capture logs from the following system components:
+- kube-controller-manager
+- kube-scheduler
+
+```bash
+helm repo add honeycomb https://honeycombio.github.io/helm-charts
+helm install honeycomb honeycomb/honeycomb --set honeycomb.apiKey=YOUR_API_KEY
+```
+### Using modified agent configuration
+The agent watchers can be configured via this chart's `agent.watchers` property. Create a yaml file with your
+Honeycomb API key and custom agent configuration similar to the following:
+```yaml
+honeycomb:
+  apiKey: YOUR_API_KEY
+agent:
+  watchers:
+    - dataset: kubernetes-logs
+      labelSelector: component=kube-controller-manager
+      namespace: kube-system
+      parser: glog
+    - <dataset: kubernetes-logs
+      labelSelector: component=kube-scheduler
+      namespace: kube-system
+      parser: glog
+```
+Then use this yaml file when installing the chart
+```bash
+helm repo add honeycomb https://honeycombio.github.io/helm-charts
+helm install honeycomb honeycomb/honeycomb --values my-values-file.yaml
+```
+See [docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md) for more information on agent watchers configuration.
 
 ## Configuration
 
@@ -26,7 +61,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | --- | --- | --- |
 | `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
-| `agent.watchers` | An array of `watchers` configuration snippets for the agent | k8s-app |
+| `agent.watchers` | An array of `watchers` configuration snippets for the agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)) | kube-controller-manager, kube-scheduler |
 | `agent.verbosity` | Agent log level | `info` |
 | `agent.splitLogging` | Send all log levels to stdout instead of stderr | `false` |
 | `nameOverride` | String to partially override honeycomb.fullname template with a string (will append the release name) | `nil` |
