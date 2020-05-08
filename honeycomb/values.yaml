@@ -119,7 +119,10 @@ metrics:
 
   dataset: kubernetes-resource-metrics
 
+  # this source uses the kubelet secured port which is enabled on most K8s platforms
   source: kubernetes.summary_api:https://kubernetes.default?kubeletPort=10250&kubeletHttps=true&useServiceAccount=true&insecure=true
+  # this source uses the kubelet non-secured port. Some platforms like Azure require this source instead
+  # source: kubernetes:https://kubernetes.default
 
   image:
     repository: gcr.io/google_containers/heapster-amd64:v1.5.1

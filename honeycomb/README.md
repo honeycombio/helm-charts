@@ -1,6 +1,7 @@
 # Honeycomb Kubernetes Agent
 
-[Honeycomb](https://honeycomb.io) is a tool for understanding your production systems.
+[Honeycomb](https://honeycomb.io) is built for modern dev teams to see and understand how their production systems are 
+behaving. Our goal is to give engineers the observability they need to eliminate toil and delight their users.
 This helm chart will install the [Honeycomb Kubernetes Agent](https://github.com/honeycombio/honeycomb-kubernetes-agent).
 
 ## TL;DR;
@@ -106,3 +107,9 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
 | `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
 
+## Issues with metrics
+This chart will use the kubelet secured port by default to fetch resource metrics. On some Kubernetes platform like AKS,
+you will need to use the non-secured kubelet port instead. 
+
+Setting the `metrics.source` property to `kubernetes:https://kubernetes.default` will allow you to use the non-secured 
+kubelet port for resource metrics.  
