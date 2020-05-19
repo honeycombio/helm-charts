@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "opentelemetry-collector.fullname" . }}
+  labels:
+  {{- include "opentelemetry-collector.labels" . | nindent 4 }}
+data:
+  opentelemetry-collector-config: |
+    receivers:
+      otlp:
+        endpoint: 0.0.0.0:55680
+      jaeger:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:14250
+          thrift_http:
+            endpoint: 0.0.0.0:14268
+      zipkin:
+        endpoint: 0.0.0.0:9411
+
+    processors:
+      batch:
+      memory_limiter:
+        ballast_size_mib: {{ .Values.memory.ballastSizeMib }}
+        limit_mib: {{ .Values.memory.limitMib }}
+        spike_limit_mib: {{ .Values.memory.spikeLimitMib }}
+        check_interval: {{ .Values.memory.checkInterval }}
+      queued_retry:
+
+    exporters:
+      honeycomb:
+        api_key: ${HONEYCOMB_API_KEY}
+        api_url: {{ .Values.honeycomb.apiHost }}
+        dataset: {{ .Values.honeycomb.dataset }}
+        
+    extensions:
+      health_check:
+        port: 13133
+
+    service:
+      extensions: [health_check]
+      pipelines:
+        traces:
+          receivers: [otlp, jaeger, zipkin]
+          processors: [memory_limiter, batch, queued_retry]
+          exporters: [honeycomb]

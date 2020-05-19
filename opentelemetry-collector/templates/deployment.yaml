@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "opentelemetry-collector.fullname" . }}
+  labels:
+    {{- include "opentelemetry-collector.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "opentelemetry-collector.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "opentelemetry-collector.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - "/otelcontribcol"
+            - "--config=/conf/opentelemetry-collector-config.yaml"
+            - "--mem-ballast-size-mib={{ .Values.memory.ballastSizeMib }}"          
+          env:
+            - name: HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: honeycomb-{{ include "opentelemetry-collector.fullname" . }}
+                  key: api-key
+          ports:
+            - name: otlp 
+              containerPort: 55680
+              protocol: TCP
+            - name: jaeger-grpc 
+              containerPort: 14250
+              protocol: TCP
+            - name: jaeger-http 
+              containerPort: 14268
+              protocol: TCP
+            - name: zipkin 
+              containerPort: 9411
+              protocol: TCP
+            - name: metrics 
+              containerPort: 8888
+              protocol: TCP
+            - name: healthz
+              containerPort: 13133
+              protocol: TCP
+          volumeMounts:
+            - name: opentelemetry-collector-config
+              mountPath: /conf          
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 13133
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 13133
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: opentelemetry-collector-config
+          configMap:
+            name: {{ include "opentelemetry-collector.fullname" . }}
+            items:
+              - key: opentelemetry-collector-config
+                path: opentelemetry-collector-config.yaml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,76 @@
+# Default values for opentelemetry-collector.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+honeycomb:
+  # Specify your Honeycomb API KEY to send events
+  apiKey: YOUR_API_KEY
+  # Specify host URL to send all events to
+  apiHost: https://api.honeycomb.io/
+  # Specify the name of the dataset to send data to
+  dataset: opentelemetry-collector
+
+
+# Adjusting memory limits, must be done in conjunction with pod resource limits
+memory:
+  # memory ballast size should be max 1/3 to 1/2 of pod memory limits
+  ballastSizeMib: 683
+  # 80% of maximum memory up to 2G
+  limitMib: 400
+  # 25% of limit up to 2G
+  spikeLimitMib: 100
+  # How often to check for memory limits
+  checkInterval: 5s
+
+
+nameOverride: ""
+fullnameOverride: ""
+imagePullSecrets: []
+
+image:
+  repository: otel/opentelemetry-collector-contrib
+  # Overrides the image tag whose default is the chart version.
+  tag: ""  
+  pullPolicy: IfNotPresent
+
+
+# used if autoscaling.enabled is false
+replicaCount: 1
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  annotations: {}
+
+resources: 
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 400Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
