@@ -7,40 +7,32 @@ metadata:
 data:
   opentelemetry-collector-config: |
     receivers:
-      otlp:
-        endpoint: 0.0.0.0:55680
-      jaeger:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:14250
-          thrift_http:
-            endpoint: 0.0.0.0:14268
-      zipkin:
-        endpoint: 0.0.0.0:9411
+    {{- if .Values.config.receivers }}
+    {{- toYaml .Values.config.receivers | nindent 6 }}
+    {{- end }}
 
     processors:
-      batch:
-      memory_limiter:
-        ballast_size_mib: {{ .Values.memory.ballastSizeMib }}
-        limit_mib: {{ .Values.memory.limitMib }}
-        spike_limit_mib: {{ .Values.memory.spikeLimitMib }}
-        check_interval: {{ .Values.memory.checkInterval }}
-      queued_retry:
+    {{- if .Values.config.processors }}
+    {{- toYaml .Values.config.processors | nindent 6 }}
+    {{- end }}
 
     exporters:
       honeycomb:
         api_key: ${HONEYCOMB_API_KEY}
         api_url: {{ .Values.honeycomb.apiHost }}
         dataset: {{ .Values.honeycomb.dataset }}
-        
+    {{- if .Values.config.exporters }}
+    {{- toYaml .Values.config.exporters | nindent 6 }}
+    {{- end }}
+
     extensions:
-      health_check:
-        port: 13133
+    {{- if .Values.config.extensions }}
+    {{- toYaml .Values.config.extensions | nindent 6 }}
+    {{- end }}
 
     service:
-      extensions: [health_check]
-      pipelines:
-        traces:
-          receivers: [otlp, jaeger, zipkin]
-          processors: [memory_limiter, batch, queued_retry]
-          exporters: [honeycomb]
+    {{- if .Values.config.service }}
+    {{- toYaml .Values.config.service | nindent 6 }}
+    {{- end }}
+
+

@@ -35,7 +35,13 @@ spec:
           command:
             - "/otelcontribcol"
             - "--config=/conf/opentelemetry-collector-config.yaml"
-            - "--mem-ballast-size-mib={{ .Values.memory.ballastSizeMib }}"          
+            {{- if .Values.config.processors }}
+            {{- if .Values.config.processors.memory_limiter }}
+            {{- if .Values.config.processors.memory_limiter.ballast_size_mib }}
+            - "--mem-ballast-size-mib={{ .Values.config.processors.memory_limiter.ballast_size_mib }}"          
+            {{- end }}
+            {{- end }}
+            {{- end }}
           env:
             - name: HONEYCOMB_API_KEY
               valueFrom:
