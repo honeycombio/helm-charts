@@ -81,6 +81,7 @@ service:
   type: ClusterIP
   annotations: {}
 
+# Resource memory limits should be modified in conjunction with memory_limiter processor
 resources: 
   limits:
     cpu: 1000m
