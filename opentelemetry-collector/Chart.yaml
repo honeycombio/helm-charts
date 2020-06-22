@@ -7,11 +7,11 @@ appVersion: 0.4.0
 keywords:
   - observability
   - tracing
-home: https://honeycomb.io
+home: https://opentelemetry.io/
 sources:
   - https://github.com/honeycombio/opentelemetry-collector
   - https://github.com/honeycombio/opentelemetry-collector-contrib
-icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+icon: https://opentelemetry.io/img/logos/opentelemetry-horizontal-color.png
 maintainers:
   - name: puckpuck
     email: pierre@honeycomb.io
