@@ -1,0 +1,11 @@
+{{- $validApiKey := and (.Values.honeycomb.apiKey) (ne .Values.honeycomb.apiKey "YOUR_API_KEY") -}}
+
+{{- if not $validApiKey }}
+##### ERROR:
+You must set the value for 'honeycomb.apiKey' to your API Key that you can find your API key in your Honeycomb
+account profile: https://ui.honeycomb.io/account
+#####
+{{- end }}
+
+OpenTelemetry Collector is setup and configured to collect traces and send them to Honeycomb. 
+You can see your traces at https://ui.honeycomb.io
