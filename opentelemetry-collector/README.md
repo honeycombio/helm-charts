@@ -29,6 +29,15 @@ helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install honeycomb honeycomb/opentelemetry-collector --set honeycomb.apiKey=YOUR_API_KEY
 ```
 
+### Specifying Honeycomb dataset name
+If not specified this chart will be configured to send all data to a dataset named `opentelemetry-collector`. 
+If you need to use a different dataset you can specify it using the `honeycomb.dataset` property.
+```bash
+helm install honeycomb honeycomb/opentelemetry-collector \
+    --set honeycomb.apiKey=YOUR_API_KEY \
+    --set honeycomb.dataset=YOUR_DATASET_NAME
+```
+
 ### Using modified collector configuration
 The collector's configuration can be overriden via this chart's `config` property. You only need to specify properties that you want to override. Make sure to override the `service` section if you want to add or remove receivers, processors, or exporters. Create a yaml file with your Honeycomb API key and custom collector configuration. This example will add a Jager exporter to the configuration.
 ```yaml
