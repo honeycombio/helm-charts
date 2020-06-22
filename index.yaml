@@ -66,9 +66,9 @@ entries:
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2020-06-22T11:44:50.755297-04:00"
+    created: "2020-06-22T13:45:26.269154-04:00"
     description: OpenTelemetry Collector for Honeycomb
-    digest: 2d37ee1c6cb562437420ee1ce1e1d2643f5fcaf1db8c731512d363ea15e30bb4
+    digest: e781baae59fa4beeb3d1ab96b7f39ec5dd1a7229658d77a65ef83fd7a00e5288
     home: https://opentelemetry.io/
     icon: https://opentelemetry.io/img/logos/opentelemetry-horizontal-color.png
     keywords:
@@ -85,4 +85,4 @@ entries:
     urls:
     - opentelemetry-collector-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-22T11:44:50.752615-04:00"
+generated: "2020-06-22T13:45:26.267622-04:00"
