@@ -9,7 +9,7 @@ Honeycomb exporter configured.
 ## TL;DR;
 ```bash
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
-helm install honeycomb honeycomb/opentelemetry-collector --set honeycomb.apiKey=YOUR_API_KEY
+helm install opentelemetry-collector honeycomb/opentelemetry-collector --set honeycomb.apiKey=YOUR_API_KEY
 ```
 
 ## Prerequisites
@@ -26,14 +26,14 @@ By default this chart will deploy an OpenTelemetry Collector as a single replica
 
 ```bash
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
-helm install honeycomb honeycomb/opentelemetry-collector --set honeycomb.apiKey=YOUR_API_KEY
+helm install opentelemetry-collector honeycomb/opentelemetry-collector --set honeycomb.apiKey=YOUR_API_KEY
 ```
 
 ### Specifying Honeycomb dataset name
 If not specified this chart will be configured to send all data to a dataset named `opentelemetry-collector`. 
 If you need to use a different dataset you can specify it using the `honeycomb.dataset` property.
 ```bash
-helm install honeycomb honeycomb/opentelemetry-collector \
+helm install opentelemetry-collector honeycomb/opentelemetry-collector \
     --set honeycomb.apiKey=YOUR_API_KEY \
     --set honeycomb.dataset=YOUR_DATASET_NAME
 ```
@@ -56,7 +56,7 @@ config:
 Then use this yaml file when installing the chart
 ```bash
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
-helm install honeycomb honeycomb/honeycomb --values my-values-file.yaml
+helm install opentelemetry-collector honeycomb/opentelemetry-collector --values my-values-file.yaml
 ```
 See [design docs](https://github.com/open-telemetry/opentelemetry-collector/blob/master/docs/design.md) for more information on the OpenTelemetry Collector configuration.
 
