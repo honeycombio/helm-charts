@@ -9,6 +9,8 @@ honeycomb:
   apiHost: https://api.honeycomb.io/
   # Specify the name of the dataset to send data to
   dataset: opentelemetry-collector
+  # Specify the name of an existing secret resource containting your Honeycomb API KEY instead of having a secret resource created
+  existingSecret:
 
 
 config:

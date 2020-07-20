@@ -1,9 +1,9 @@
 {{- $validApiKey := and (.Values.honeycomb.apiKey) (ne .Values.honeycomb.apiKey "YOUR_API_KEY") -}}
 
-{{- if not $validApiKey }}
+{{- if and (not $validApiKey) (not .Values.honeycomb.existingSecret) }}
 ##### ERROR:
-You must set the value for 'honeycomb.apiKey' to your API Key that you can find your API key in your Honeycomb
-account profile: https://ui.honeycomb.io/account
+You must either set the value for 'honeycomb.apiKey' to your API Key that you can find your API key in your Honeycomb
+account profile: https://ui.honeycomb.io/account or provide an existing secret with the API key specified in 'honeycomb.existingSecret'
 #####
 {{- end }}
 
