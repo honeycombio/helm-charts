@@ -2,8 +2,9 @@
 
 {{- if and (not $validApiKey) (not .Values.honeycomb.existingSecret) }}
 ##### ERROR:
-You must either set the value for 'honeycomb.apiKey' to your API Key that you can find your API key in your Honeycomb
-account profile: https://ui.honeycomb.io/account or provide an existing secret with the API key specified in 'honeycomb.existingSecret'
+You must either set the value for 'honeycomb.apiKey' to your API Key that you can find in your Honeycomb account
+profile: https://ui.honeycomb.io/account or set the value for 'honeycomb.existingSecret' with the name of an existing
+secret resource name which contains your API Key
 #####
 {{- end }}
 
