@@ -65,8 +65,9 @@ See [design docs](https://github.com/open-telemetry/opentelemetry-collector/blob
 The [values.yaml](./values.yaml) file contains information about all configuration
 options for this chart.
 
-The only **required** option is `honeycomb.apiKey`. You can obtain your API Key by going to your Account profile 
-page inside of your Honeycomb instance.
+The only requirement is a Honeycomb API Key. This can be provided either by setting `honeycomb.apiKey` or by setting `honeycomb.existingSecret` to the name of an existing opaque secret resource with your API Key specified in the `api-key` field. 
+
+You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
 
 ## Parameters
 
@@ -77,6 +78,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
 | `honeycomb.dataset` | Name of dataset to send data into | `opentelemetry-collector` |
+| `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
 | `config` | OpenTelemetry Collector Configuration ([design docs](https://github.com/open-telemetry/opentelemetry-collector/blob/master/docs/design.md)) | receivers: [otlp, jaeger, zipkin] / processors: [memory_limiter, batch, queued_retry] / exporters: [honeycomb] |
 | `nameOverride` | String to partially override opentelemetry-collector.fullname template with a string (will append the release name) | `nil` |
 | `fullnameOverride` | String to fully override opentelemetry-collector.fullname template with a string | `nil` |

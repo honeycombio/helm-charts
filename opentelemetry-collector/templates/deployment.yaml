@@ -13,10 +13,14 @@ spec:
       {{- include "opentelemetry-collector.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if not .Values.honeycomb.existingSecret }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "opentelemetry-collector.selectorLabels" . | nindent 8 }}
     spec:
@@ -46,7 +50,11 @@ spec:
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.honeycomb.existingSecret }}
+                  name: {{ .Values.honeycomb.existingSecret }}
+                  {{- else }}
                   name: honeycomb-{{ include "opentelemetry-collector.fullname" . }}
+                  {{- end }}
                   key: api-key
           ports:
             - name: otlp 
