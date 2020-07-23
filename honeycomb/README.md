@@ -52,8 +52,9 @@ See [docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master
 The [values.yaml](./values.yaml) file contains information about all configuration
 options for this chart.
 
-The only **required** option is `honeycomb.apiKey`. You can obtain your API Key by going to your Account profile 
-page inside of your Honeycomb instance.
+The only requirement is a Honeycomb API Key. This can be provided either by setting `honeycomb.apiKey` or by setting `honeycomb.existingSecret` to the name of an existing opaque secret resource with your API Key specified in the `api-key` field. 
+
+You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
 
 ## Parameters
 
@@ -63,6 +64,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | --- | --- | --- |
 | `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
+| `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
 | `agent.watchers` | An array of `watchers` configuration snippets for the agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)) | kube-controller-manager, kube-scheduler |
 | `agent.verbosity` | Agent log level | `info` |
 | `agent.splitLogging` | Send all log levels to stdout instead of stderr | `false` |
