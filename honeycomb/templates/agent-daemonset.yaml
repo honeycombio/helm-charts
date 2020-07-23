@@ -16,7 +16,9 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/agent-config.yaml") . | sha256sum }}
+        {{- if not .Values.honeycomb.existingSecret }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}  
+        {{- end }}
         {{- with .Values.podAnnotations }}
             {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -40,7 +42,11 @@ spec:
             - name: HONEYCOMB_WRITEKEY
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.honeycomb.existingSecret }}
+                  name: {{ .Values.honeycomb.existingSecret }}
+                  {{- else }}
                   name: {{ include "honeycomb.fullname" . }}
+                  {{- end }}
                   key: api-key
             - name: NODE_NAME
               valueFrom:
