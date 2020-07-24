@@ -101,3 +101,9 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `nodeSelector` | Node labels for pod assignment | `{}` | 
 | `tolerations` | Tolerations for pod assignment | `[]`| 
 | `affinity` | Map of node/pod affinities | `{}` |
+
+
+## Upgrading
+
+### Upgrading from 0.1.1 or earlier.
+A breaking change in the OTLP receiver configuration was introduced. This change is part of the default configuration. If you changed the default OTLP receiver configuration, you will need to ensure your changes are compatible with the updated configuration layout for OTLP.
