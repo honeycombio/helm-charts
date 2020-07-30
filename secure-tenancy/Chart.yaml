@@ -1,0 +1,19 @@
+apiVersion: v2
+name: secure-tenancy
+description: Honeycomb Secure Tenancy
+version: 0.1.0
+appVersion: 1.2.1
+keywords:
+  - observability
+  - security
+dependencies:
+- name: mariadb
+  version: 7
+  repository: https://charts.bitnami.com/bitnami
+  condition: mysql.enabled
+  alias: mysql
+home: https://honeycomb.io
+icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+maintainers:
+  - name: puckpuck
+    email: pierre@honeycomb.io
