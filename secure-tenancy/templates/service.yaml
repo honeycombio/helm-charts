@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "secure-tenancy.fullname" . }}
+  labels:
+    {{- include "secure-tenancy.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}    
+spec:
+  type: {{ .Values.service.type }}
+  {{- if .Values.service.ip }}
+  loadBalancerIP: {{ .Values.service.ip }}
+  {{- end}}  
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "secure-tenancy.selectorLabels" . | nindent 4 }}
