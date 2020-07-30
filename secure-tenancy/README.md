@@ -12,7 +12,7 @@ This helm chart will install the [Honeycomb Secure Tenancy Proxy](https://docs.h
 Before installing this chart you will need to have Secure Tenancy enabled for your Honeycomb team. You will need to contact Honeycomb customer support or your account representative to have the functionality enabled.
 
 ### Building Image
-Honeycomb will provide you with a tarball for Secure Tenancy. You will need to build the image using the provided [Dockerfile](./resources/Dockerfile). Copy the Secure Tenancy tarbal into the same folder as the Dockerfile as `secure-tenancy.tbz` then run the followoing replacing YOUR_REPOSITORY accordingly:
+Honeycomb will provide you with a tarball for Secure Tenancy. You will need to build the image using the provided [Dockerfile](./resources/Dockerfile). Copy the Secure Tenancy tarball into the same folder as the Dockerfile as `secure-tenancy.tbz` then run the followoing replacing YOUR_REPOSITORY accordingly:
 
 ```bash
 docker build -t YOUR_REPOSITORY/honeycomb/secure-tenancy .
