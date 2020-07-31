@@ -27,6 +27,9 @@ mkdir ${BUILD_DIR}
 
 # create new tgz
 echo "creating new ${CHART_NAME} helm package"
+if ! helm dependency build "./${CHART_NAME}" ; then
+    echo "Failure: could not build chart dependencies"
+fi
 if ! helm package -d ${BUILD_DIR} "./${CHART_NAME}" ; then
     echo "Failure: error creating helm package"
     exit 1
