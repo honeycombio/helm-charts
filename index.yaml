@@ -3,6 +3,27 @@ entries:
   honeycomb:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2020-07-30T20:38:26.350253-04:00"
+    description: Honeycomb Kubernetes Agent
+    digest: 0a9b46efc5ccd7ba0c73fc0b70d4ef8b69978b1ed62c463a9b857be8f78e3d12
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - observability
+    - tracing
+    - logs
+    - events
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    name: honeycomb
+    sources:
+    - https://github.com/honeycombio/honeycomb-kubernetes-agent
+    urls:
+    - honeycomb-0.11.0.tgz
+    version: 0.11.0
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2020-05-13T15:23:05.158925-04:00"
     description: Honeycomb Kubernetes Agent
     digest: 02111ea6dab10c8e7f3ed478aa495a4ca7f9da1dbd020b7eb95ce42ce6466942
@@ -65,6 +86,27 @@ entries:
     version: 0.9.1
   opentelemetry-collector:
   - apiVersion: v2
+    appVersion: 0.6.0
+    created: "2020-07-30T20:38:26.35157-04:00"
+    description: OpenTelemetry Collector for Honeycomb
+    digest: 8e63252e394d17044444b48073b7789864bdd75b591f6f19e7e892e6d3170e56
+    home: https://opentelemetry.io/
+    icon: https://opentelemetry.io/img/logos/opentelemetry-horizontal-color.png
+    keywords:
+    - observability
+    - tracing
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    name: opentelemetry-collector
+    sources:
+    - https://github.com/honeycombio/opentelemetry-collector
+    - https://github.com/honeycombio/opentelemetry-collector-contrib
+    type: application
+    urls:
+    - opentelemetry-collector-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 0.4.0
     created: "2020-06-23T17:54:58.388379-04:00"
     description: OpenTelemetry Collector for Honeycomb
@@ -85,4 +127,30 @@ entries:
     urls:
     - opentelemetry-collector-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-23T17:54:58.387367-04:00"
+  secure-tenancy:
+  - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2020-07-30T20:38:26.35446-04:00"
+    dependencies:
+    - alias: mysql
+      condition: mysql.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.6.1
+    description: Honeycomb Secure Tenancy
+    digest: f2d85feabd984d641af69f2709f58eac3012ded8ff0074d9ac2cdef308a8d50e
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - observability
+    - security
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    - email: nathan@honeycomb.io
+      name: nathanleclaire
+    name: secure-tenancy
+    urls:
+    - secure-tenancy-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-07-30T20:38:26.3491-04:00"
