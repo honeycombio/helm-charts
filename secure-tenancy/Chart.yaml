@@ -8,7 +8,7 @@ keywords:
   - security
 dependencies:
 - name: mariadb
-  version: 7
+  version: 7.6.1
   repository: https://charts.bitnami.com/bitnami
   condition: mysql.enabled
   alias: mysql
