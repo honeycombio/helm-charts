@@ -81,7 +81,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
 | `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
-| `watchers` | An array of `watchers` configuration snippets for the agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)) | kube-controller-manager, kube-scheduler |
+| `watchers` | An array of `watchers` configuration snippets for the log agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)). Set this to an empty array `[]` to disable log collection. | kube-controller-manager, kube-scheduler |
 | `verbosity` | Agent log level | `info` |
 | `splitLogging` | Send all log levels to stdout instead of stderr | `false` |
 | `additionalFields` | Additional fields to add to each event | `nil` |
