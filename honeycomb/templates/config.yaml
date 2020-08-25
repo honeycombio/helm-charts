@@ -1,0 +1,21 @@
+{{- if .Values.rbac.create  }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "honeycomb.agent.fullname" . }}
+  labels:
+  {{- include "honeycomb.agent.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    apiHost: {{ .Values.honeycomb.apiHost }}
+    watchers:
+    {{- if .Values.watchers }}
+    {{- toYaml .Values.watchers | nindent 6 }}
+    {{- else }}
+    {{- toYaml .Values.watchers | nindent 6 }}
+    {{- end }}
+    metrics:
+    {{- toYaml .Values.metrics | nindent 6 }}
+    verbosity: {{ .Values.verbosity | default "info" }}
+    splitLogging: {{ .Values.splitLogging | default false }}
+{{- end }}
