@@ -1,2 +1,14 @@
-/_build/
-.idea/
+### Helm ###
+**/charts/*.tgz
+
+### Intellij ###
+.idea
+
+### macOS ###
+.DS_Store
+
+### Build ###
+_build/*
+
+### Local testing ###
+local/*
