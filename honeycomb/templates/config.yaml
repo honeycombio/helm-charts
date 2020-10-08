@@ -8,14 +8,19 @@ metadata:
 data:
   config.yaml: |
     apiHost: {{ .Values.honeycomb.apiHost }}
+    {{- if .Values.agent }}
     watchers:
-    {{- if .Values.watchers }}
-    {{- toYaml .Values.watchers | nindent 6 }}
+    {{- toYaml .Values.agent.watchers | nindent 6 }}
+    verbosity: {{ .Values.agent.verbosity | default "info" }}
+    splitLogging: {{ .Values.agent.splitLogging | default false }}
     {{- else }}
+    watchers:
     {{- toYaml .Values.watchers | nindent 6 }}
-    {{- end }}
-    metrics:
-    {{- toYaml .Values.metrics | nindent 6 }}
     verbosity: {{ .Values.verbosity | default "info" }}
     splitLogging: {{ .Values.splitLogging | default false }}
-{{- end }}
+    {{- end }}
+
+    metrics:
+    {{- toYaml .Values.metrics | nindent 6 }}
+
+  {{- end }}

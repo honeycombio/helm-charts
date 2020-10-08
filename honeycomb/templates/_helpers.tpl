@@ -39,20 +39,6 @@ Create a name for Honeycomb agent
 {{- end }}
 
 {{/*
-Create a name for events collector
-*/}}
-{{- define "honeycomb.events.fullname" -}}
-{{- printf "%s-events" (include "honeycomb.fullname" .) | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Create a name for metrics collector
-*/}}
-{{- define "honeycomb.metrics.fullname" -}}
-{{- printf "%s-metrics" (include "honeycomb.fullname" .) | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
 Basic labels
 */}}
 {{- define "honeycomb.basicLabels" -}}
@@ -95,37 +81,6 @@ Agent Selector labels
 app.kubernetes.io/component: agent
 {{- end }}
 
-{{/*
-Events Common labels
-*/}}
-{{- define "honeycomb.events.labels" -}}
-{{ include "honeycomb.basicLabels" . }}
-{{ include "honeycomb.metrics.selectorLabels" . }}
-{{- end }}
-
-{{/*
-Events Selector labels
-*/}}
-{{- define "honeycomb.events.selectorLabels" -}}
-{{ include "honeycomb.selectorLabels" . }}
-app.kubernetes.io/component: events
-{{- end }}
-
-{{/*
-Metrics Common labels
-*/}}
-{{- define "honeycomb.metrics.labels" -}}
-{{ include "honeycomb.basicLabels" . }}
-{{ include "honeycomb.metrics.selectorLabels" . }}
-{{- end }}
-
-{{/*
-Metrics Selector labels
-*/}}
-{{- define "honeycomb.metrics.selectorLabels" -}}
-{{ include "honeycomb.selectorLabels" . }}
-app.kubernetes.io/component: metrics
-{{- end }}
 {{/*
 Service account name to use
 */}}

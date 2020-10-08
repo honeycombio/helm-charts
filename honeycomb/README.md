@@ -48,7 +48,7 @@ helm install honeycomb honeycomb/honeycomb --values my-values-file.yaml
 ### Capturing events with Heptio Eventrouter
 An optional configuration is to capture Kubernetes events using the 
 [Heptio Eventrouter](https://github.com/heptiolabs/eventrouter) component.
-Configure the Eventrouter to use the `json` sink for logs, and you can capture them
+Configure the Eventrouter to use the `stdout` sink for logs, and you can capture them
 with this watchers configuration  
 ```yaml
 watchers:
