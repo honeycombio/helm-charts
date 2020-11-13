@@ -7,8 +7,20 @@ metadata:
   {{- include "honeycomb.agent.labels" . | nindent 4 }}
 data:
   config.yaml: |
+    apiHost: {{ .Values.honeycomb.apiHost }}
+    {{- if .Values.agent }}
     watchers:
     {{- toYaml .Values.agent.watchers | nindent 6 }}
     verbosity: {{ .Values.agent.verbosity | default "info" }}
     splitLogging: {{ .Values.agent.splitLogging | default false }}
-{{- end }}
+    {{- else }}
+    watchers:
+    {{- toYaml .Values.watchers | nindent 6 }}
+    verbosity: {{ .Values.verbosity | default "info" }}
+    splitLogging: {{ .Values.splitLogging | default false }}
+    {{- end }}
+
+    metrics:
+    {{- toYaml .Values.metrics | nindent 6 }}
+
+  {{- end }}

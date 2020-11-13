@@ -7,24 +7,36 @@ honeycomb:
   # Specify the name of an existing secret resource containing your Honeycomb API KEY instead of having a secret resource created
   existingSecret: ""
 
-agent:
-  # Honeycomb agent watchers configuration
-  # (ref: https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)
-  watchers:
-    - dataset: kubernetes-logs
-      labelSelector: component=kube-controller-manager
-      namespace: kube-system
-      parser: glog
-    - dataset: kubernetes-logs
-      labelSelector: component=kube-scheduler
-      namespace: kube-system
-      parser: glog
+watchers:
+  - dataset: kubernetes-logs
+    labelSelector: component=kube-controller-manager
+    namespace: kube-system
+    parser: glog
+  - dataset: kubernetes-logs
+    labelSelector: component=kube-scheduler
+    namespace: kube-system
+    parser: glog
 
-  # agent log verbosity: warn, info, debug, trace
-  verbosity: info
+metrics:
+  enabled: true
+  dataset: kubernetes-metrics
+  clusterName: k8s-cluster
+  metricGroups:
+    - node
+    - pod
+  # omitLabels:
+  #   - "private_label"
+  # additionalFields:
+  #   region: us-east-1
 
-  # splitLogging directs trace, debug, info, and warn log levels to stdout rather than stderr
-  splitLogging: false
+# agent log verbosity: warn, info, debug, trace
+verbosity: info
+
+# splitLogging directs trace, debug, info, and warn log levels to stdout rather than stderr
+splitLogging: false
+
+# additionalFields:
+#   cluster_name: dev_cluster
 
 nameOverride: ""
 fullnameOverride: ""
@@ -73,89 +85,6 @@ tolerations:
     operator: Exists
 
 affinity: {}
-
-
-# Kubernetes cluster events collection (uses heapster)
-events:
-  enabled: true
-
-  dataset: kubernetes-cluster-events
-
-  source: kubernetes:https://kubernetes.default
-
-  image:
-    repository: gcr.io/google_containers/heapster-amd64:v1.5.1
-    pullPolicy: IfNotPresent
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-  # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-
-# resource metrics collection (uses heapster)
-metrics:
-  enabled: true
-
-  dataset: kubernetes-resource-metrics
-
-  # this source uses the kubelet secured port which is enabled on most K8s platforms
-  source: kubernetes.summary_api:https://kubernetes.default?kubeletPort=10250&kubeletHttps=true&useServiceAccount=true&insecure=true
-  # this source uses the kubelet non-secured port. Some platforms like Azure require this source instead
-  # source: kubernetes:https://kubernetes.default
-
-  image:
-    repository: gcr.io/google_containers/heapster-amd64:v1.5.1
-    pullPolicy: IfNotPresent
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-  # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-  # runAsUser: 1000
-
-  resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-  #   memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
 
 rbac:
   # Specifies whether roles based access control rules should be created.

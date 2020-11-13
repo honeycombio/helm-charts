@@ -12,7 +12,10 @@ rules:
       - ""
     resources:
       - pods
+      - nodes/stats
+      - nodes/proxy
     verbs:
+      - get
       - list
       - watch
 {{- end }}

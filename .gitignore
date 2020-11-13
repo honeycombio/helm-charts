@@ -9,3 +9,6 @@
 
 ### Build ###
 _build/*
+
+### Local testing ###
+/_local/
