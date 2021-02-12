@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "refinery.fullname" . }}
+  labels:
+  {{- include "refinery.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+  {{- include "refinery.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-config.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if eq .Values.config.Metrics "prometheus" }}
+        prometheus.io/port: "9090"
+        prometheus.io/scrape: "true"
+        {{- end }}
+      labels:
+    {{- include "refinery.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "refinery.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["refinery"]
+          ports:
+            - name: data
+              containerPort: 8080
+              protocol: TCP
+            - name: peer
+              containerPort: 8081
+              protocol: TCP
+            {{- if eq .Values.config.Metrics "prometheus" }}
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+            {{- end }}
+          volumeMounts:
+            - name: refinery-config
+              mountPath: /etc/refinery/
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: incoming
+          resources:
+      {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: refinery-config
+          projected:
+            sources:
+              - configMap:
+                  name: {{ include "refinery.fullname" . }}-config
+                  items:
+                    - key: config.toml
+                      path: refinery.toml
+              - configMap:
+                  name: {{ include "refinery.fullname" . }}-rules
+                  items:
+                    - key: rules.toml
+                      path: rules.toml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}

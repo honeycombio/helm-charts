@@ -1,0 +1,19 @@
+apiVersion: v2
+name: refinery
+description: Chart to deploy Honeycomb Refinery
+type: application
+version: 0.9.0
+appVersion: 0.16.0
+keywords:
+  - refinery
+  - honeycomb
+  - observability
+  - sampling
+  - tracing
+home: https://honeycomb.io
+sources:
+  - https://github.com/honeycombio/refinery
+icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+maintainers:
+  - name: puckpuck
+    email: pierre@honeycomb.io

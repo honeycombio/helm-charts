@@ -1,0 +1,17 @@
+{{- if .Values.redis.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "refinery.redis.fullname" . }}
+  labels:
+    {{- include "refinery.redis.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+  selector:
+    {{- include "refinery.redis.selectorLabels" . | nindent 4 }}
+{{- end}}
