@@ -1,0 +1,21 @@
+{{- if .Values.k8sProcessor.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "k8sProcessor.rbac.name" . }}
+  labels:
+    {{- include "opentelemetry-collector.labels" . | nindent 4 }}
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - nodes/stats
+      - nodes/proxy
+    verbs:
+      - get
+      - list
+      - watch
+{{- end }}
