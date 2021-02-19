@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "k8sProcessor.rbac.name" . }}
+  name: {{ include "opentelemetry-collector.k8sprocessor.RBACName" . }}
   labels:
     {{- include "opentelemetry-collector.labels" . | nindent 4 }}
   annotations:
