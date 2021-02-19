@@ -11,6 +11,6 @@ roleRef:
   name: {{ include "honeycomb.agent.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "honeycomb.fullname" . }}
+    name: {{ include "honeycomb.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 {{- end }}

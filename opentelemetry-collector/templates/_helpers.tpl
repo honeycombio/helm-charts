@@ -50,3 +50,26 @@ Selector labels
 app.kubernetes.io/name: {{ include "opentelemetry-collector.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Service account name to use
+*/}}
+{{- define "opentelemetry-collector.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "opentelemetry-collector.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+K8s processor rbac/role name to use
+*/}}
+{{- define "opentelemetry-collector.k8sprocessor.RBACName" -}}
+{{- if .Values.k8sProcessor.rbac.create }}
+{{- $defaultname := printf "%s-%s" (include "opentelemetry-collector.fullname" .) "k8sprocessor" }}
+{{- default $defaultname .Values.k8sProcessor.rbac.name }}
+{{- else }}
+{{- default "default" .Values.k8sProcessor.rbac.name }}
+{{- end }}
+{{- end }}
