@@ -103,6 +103,11 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `nodeSelector` | Node labels for pod assignment | `{}` | 
 | `tolerations` | Tolerations for pod assignment | `[]`| 
 | `affinity` | Map of node/pod affinities | `{}` |
+| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` | 
+| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
+| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
+| `k8sProcessor.rbac.create` | Specify whether the cluster-role and cluster-role-bindings should be created for the k8s_tagger processor | `false` |
+| `k8sProcessor.rbac.name` | Name of the cluster-role and cluster-role-bindings for the k8s_tagger processor  | Generated using the `opentelemetry-collector.fullname` template `{opentelemetry-collector.fullname}-k8sprocessor` |
 
 
 ## Upgrading
