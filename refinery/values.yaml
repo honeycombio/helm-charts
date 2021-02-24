@@ -15,43 +15,49 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-# Values used to build config.toml
+# Values used to build config.yaml
 config:
-  ListenAddr: "0.0.0.0:8080"
-  PeerListenAddr: "0.0.0.0:8081"
-  HoneycombAPI: "https://api.honeycomb.io"
+  ListenAddr: 0.0.0.0:8080
+  PeerListenAddr: 0.0.0.0:8081
+  HoneycombAPI: https://api.honeycomb.io
   LoggingLevel: error
-  SendDelay: "2s"
-  TraceTimeout: "300s"
-  SendTicker: "100ms"
+  SendDelay: 2s
+  TraceTimeout: 300s
+  SendTicker: 100ms
   UpstreamBufferSize: 1000
   PeerBufferSize: 1000
-
-  # Implementation Choices
-  Logger: "logrus"
-  Metrics: "prometheus"
 
   InMemCollector:
     CacheCapacity: 1000
     MaxAlloc: 0
 
-  HoneycombLogger:
-    LoggerHoneycombAPI: "https://api.honeycomb.io"
-    LoggerAPIKey: "YOUR_API_KEY"
-    LoggerDataset: "refinery-logs"
+  # Implementation Choices
+  Logger: logrus
+  Metrics: prometheus
 
-  HoneycombMetrics:
-    MetricsHoneycombAPI: "https://api.honeycomb.io"
-    MetricsAPIKey: "YOUR_API_KEY"
-    MetricsDataset: "refinery-metrics"
-    MetricsReportingInterval: 3
+#   HoneycombLogger:
+#     LoggerHoneycombAPI: https://api.honeycomb.io
+#     LoggerAPIKey: YOUR_API_KEY
+#     LoggerDataset: refinery-logs
 
-# Values used to configure rules.toml with the same name
+#   HoneycombMetrics:
+#     MetricsHoneycombAPI: https://api.honeycomb.io
+#     MetricsAPIKey: YOUR_API_KEY
+#     MetricsDataset: refinery-metrics
+#     MetricsReportingInterval: 3
+
+  PrometheusMetrics:
+    MetricsListenAddr: 0.0.0.0:9090
+
+
+# Values used to build rules.yaml
 rules:
-  DryRun: false
+#  DryRun: false
   Sampler: DeterministicSampler
   SampleRate: 1
 
+
+# Redis configuration
 redis:
   enabled: true
   # existingHost:

@@ -5,5 +5,5 @@ metadata:
   labels:
   {{- include "refinery.labels" . | nindent 4 }}
 data:
-  config.toml: |
-{{ tpl (.Files.Get "config.toml") . | indent 6 }}
+  config.yaml: |
+{{- toYaml .Values.config | nindent 4 }}
