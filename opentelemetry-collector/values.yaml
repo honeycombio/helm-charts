@@ -13,8 +13,6 @@ honeycomb:
   # existingSecret:
   # (Optional): Constant sample rate. Can be used to send 1 / x events to Honeycomb. Defaults to 1 (always sample).
   # sample_rate: 1
-  # (Optional): The name of an attribute that contains the sample_rate for each span. If the attribute is on the span, it takes precedence over the static sample_rate configuration
-  # sample_rate_attribute:
 
 
 config:
