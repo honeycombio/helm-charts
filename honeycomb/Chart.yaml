@@ -2,7 +2,7 @@ apiVersion: v2
 name: honeycomb
 description: Honeycomb Kubernetes Agent
 version: 1.0.1
-appVersion: 2.1.1
+appVersion: 2.1.2
 keywords:
   - observability
   - tracing
