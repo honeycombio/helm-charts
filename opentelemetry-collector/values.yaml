@@ -40,7 +40,6 @@ config:
       spike_limit_mib: 100
       # How often to check for memory limits      
       check_interval: 5s
-    queued_retry:
       
   extensions:
     health_check:
@@ -51,7 +50,7 @@ config:
     pipelines:
       traces:
         receivers: [otlp, jaeger, zipkin]
-        processors: [memory_limiter, batch, queued_retry]
+        processors: [memory_limiter, batch]
         exporters: [honeycomb]
 
 
