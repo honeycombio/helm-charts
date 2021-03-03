@@ -34,7 +34,7 @@ watchers:
     labelSelector: component=kube-controller-manager
     namespace: kube-system
     parser: glog
-  - <dataset: kubernetes-logs
+  - dataset: kubernetes-logs
     labelSelector: component=kube-scheduler
     namespace: kube-system
     parser: glog

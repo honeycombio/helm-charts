@@ -80,6 +80,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `honeycomb.dataset` | Name of dataset to send data into | `opentelemetry-collector` |
 | `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
 | `honeycomb.sample_rate` | Constant sample rate. Can be used to send 1 / x events to Honeycomb. Defaults to 1 (always sample) | `1` |
+| `honeycomb.sample_rate_attribute` | The name of an attribute that contains the sample_rate for each span. | `nil` |
 | `config` | OpenTelemetry Collector Configuration ([design docs](https://github.com/open-telemetry/opentelemetry-collector/blob/master/docs/design.md)) | receivers: [otlp, jaeger, zipkin] / processors: [memory_limiter, batch, queued_retry] / exporters: [honeycomb] |
 | `nameOverride` | String to partially override opentelemetry-collector.fullname template with a string (will append the release name) | `nil` |
 | `fullnameOverride` | String to fully override opentelemetry-collector.fullname template with a string | `nil` |
@@ -102,6 +103,11 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `nodeSelector` | Node labels for pod assignment | `{}` | 
 | `tolerations` | Tolerations for pod assignment | `[]`| 
 | `affinity` | Map of node/pod affinities | `{}` |
+| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` | 
+| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
+| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
+| `k8sProcessor.rbac.create` | Specify whether the cluster-role and cluster-role-bindings should be created for the k8s_tagger processor | `false` |
+| `k8sProcessor.rbac.name` | Name of the cluster-role and cluster-role-bindings for the k8s_tagger processor  | Generated using the `opentelemetry-collector.fullname` template `{opentelemetry-collector.fullname}-k8sprocessor` |
 
 
 ## Upgrading
