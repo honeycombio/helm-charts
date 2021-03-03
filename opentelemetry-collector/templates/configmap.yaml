@@ -22,7 +22,6 @@ data:
         api_url: {{ .Values.honeycomb.apiHost }}
         dataset: {{ .Values.honeycomb.dataset }}
         sample_rate: {{ .Values.honeycomb.sample_rate }}
-        sample_rate_attribute: {{ .Values.honeycomb.sample_rate_attribute }}
     {{- if .Values.config.exporters }}
     {{- toYaml .Values.config.exporters | nindent 6 }}
     {{- end }}
