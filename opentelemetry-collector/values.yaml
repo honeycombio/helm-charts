@@ -13,8 +13,6 @@ honeycomb:
   # existingSecret:
   # (Optional): Constant sample rate. Can be used to send 1 / x events to Honeycomb. Defaults to 1 (always sample).
   # sample_rate: 1
-  # (Optional): The name of an attribute that contains the sample_rate for each span. If the attribute is on the span, it takes precedence over the static sample_rate configuration
-  # sample_rate_attribute:
 
 
 config:
@@ -40,7 +38,6 @@ config:
       spike_limit_mib: 100
       # How often to check for memory limits      
       check_interval: 5s
-    queued_retry:
       
   extensions:
     health_check:
@@ -51,7 +48,7 @@ config:
     pipelines:
       traces:
         receivers: [otlp, jaeger, zipkin]
-        processors: [memory_limiter, batch, queued_retry]
+        processors: [memory_limiter, batch]
         exporters: [honeycomb]
 
 
