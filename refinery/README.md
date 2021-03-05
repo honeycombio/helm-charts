@@ -21,13 +21,13 @@ helm install refinery honeycomb/refinery --values /path/to/your/refinery.yaml
 
 Add the Honeycomb repo to Helm:
 
-```bash
+```console
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 ```
 
 Install Refinery with your custom configuration file:
 
-```bash
+```console
 helm install refinery honeycomb/refinery --values /path/to/your/refinery.yaml
 ```
 
