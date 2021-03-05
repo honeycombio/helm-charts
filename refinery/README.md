@@ -139,13 +139,13 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `config.SendTicker` | blah | `100ms` |
 | `config.UpstreamBufferSize` | blah | `1000` |
 | `config.PeerBufferSize` | blah | `1000` |
-| `config.InMemCollector` | blah | `CacheCapacity`: 1000, `MaxAlloc`: 0 |
+| `config.InMemCollector` | blah | CacheCapacity: 1000, MaxAlloc: 0 |
 | `config.Logger` | blah | `logrus` |
 | `config.Metrics` | blah | `prometheus` |
-| `config.PrometheusMetrics` | blah | `MetricsListenAddr`: `0.0.0.0:9090` |
+| `config.PrometheusMetrics` | blah | MetricsListenAddr: 0.0.0.0:9090 |
 | `rules` | Refinery sampling rules | see [Configuring sampling rules](#configuring-sampling-rules) |
 | `redis.enabled` | blah | `true` |
-| `redis.image` | blah | `repository`: `redis`, `tag`: `6.0.2`, `pullPolicy`: `IfNotPresent` |
+| `redis.image` | blah | repository: redis, tag: 6.0.2, pullPolicy: IfNotPresent |
 | `prometheus.serviceMonitor.create` | Creates service monitor to collect prom metrics (depends on kube-prom) | `false` |
 | `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
@@ -157,7 +157,7 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `service.port` | Kubernetes Service port | `80` |
 | `ingress.enabled` | blah | `false` |
 | `ingress.annotations` | blah | `{}` |
-| `ingress.hosts` | blah | `host`: `chart-example.local`, `paths`: `true` |
+| `ingress.hosts` | blah | host: chart-example.local, paths: true |
 | `tls` | blah | `[]` |
 | `resources` | CPU/Memory resource requests/limits | limit: 1000m/2Gi, request: 500m/500Mi |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
