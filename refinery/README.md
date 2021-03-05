@@ -2,9 +2,9 @@
 
 [Refinery](https://github.com/honeycombio/refinery) is a trace-aware sampling proxy server for Honeycomb.
 
-[Honeycomb](https://honeycomb.io) is built for modern dev teams to see and understand how their production systems are behaving.
+[Honeycomb](https://honeycomb.io) is built for modern software teams to see and understand how their production systems are behaving.
 Our goal is to give engineers the observability they need to eliminate toil and delight their users.
-This helm chart will install  with the desired sampling rules passed in via a configuration file.
+This Helm Chart will install Refinery with the desired sampling rules passed in via a configuration file.
 
 ## TL;DR
 
@@ -19,19 +19,29 @@ helm install refinery honeycomb/refinery --values /path/to/your/refinery.yaml
 
 ## Installing the Chart
 
+Add the Honeycomb repo to Helm:
+
 ```bash
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
+```
+
+Install Refinery with your custom configuration file:
+
+```bash
 helm install refinery honeycomb/refinery --values /path/to/your/refinery.yaml
 ```
 
+If no configuration file is passed in, Refinery will deploy with the default configuration in [`values.yaml`](./values.yaml).
+
 ## Configuring sampling rules
 
-The default configuration set in [`values.yaml`](./values.yaml) uses the `DeterministicSampler` with a `SampleRate` of 1.
+### Deterministic Sampler
+
+The default sampling method set in [`values.yaml`](./values.yaml) uses the `DeterministicSampler` with a `SampleRate` of 1.
 This means that all of your data is sent to Honeycomb.
 Refinery does not down-sample your data by default.
 
 ```yaml
-# Values used to build rules.yaml
 rules:
 #  DryRun: false
   Sampler: DeterministicSampler
@@ -39,13 +49,14 @@ rules:
 ```
 
 To configure custom sampling rules, you will need to pass in your own `refinery.yaml` file.
-The Refinery documentation goes into more detail about how each sampling method works.
-These example configurations are provided to demonstrate the rules in YAML.
+[The Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) goes into more detail about how each sampling method works.
+These example configurations are provided to demonstrate how to define rules in YAML.
 
 ### Rules-Based Sampler
 
 ```yaml
 rules:
+#  DryRun: false
   my_dataset:
     Sampler: "RulesBasedSampler"
     rule:
@@ -71,6 +82,7 @@ This is the recommended sampler for most teams.
 
 ```yaml
 rules:
+#  DryRun: false
   my_dataset:
     Sampler: "EMADynamicSampler"
     GoalSampleRate: 2
@@ -91,44 +103,59 @@ If you decide to send [Refinery's runtime metrics](https://docs.honeycomb.io/man
 
 You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
 
+```yaml
+config:
+  Metrics: honeycomb
+  HoneycombMetrics:
+    # MetricsHoneycombAPI: https://api.honeycomb.io # default
+    MetricsAPIKey: YOUR_API_KEY
+    # MetricsDataset: "Refinery Metrics" # default
+    # MetricsReportingInterval: 3 # default
+```
+
 ## Parameters
 
-The following table lists the configurable parameters of the Refinery chart and their default values.
-
-`FIXME` how many of these are relevant?
+The following table lists the configurable parameters of the Refinery chart and their default values, as defined in [`values.yaml`](./values.yaml).
 
 | Parameter | Description | Default |
 | --- | --- | --- |
-| `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
-| `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
-| `honeycomb.dataset` | Name of dataset to send data into | `opentelemetry-collector` |
-| `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
-| `honeycomb.sample_rate` | Constant sample rate. Can be used to send 1 / x events to Honeycomb. Defaults to 1 (always sample) | `1` |
-| `honeycomb.sample_rate_attribute` | The name of an attribute that contains the sample_rate for each span. | `nil` |
-| `config` | OpenTelemetry Collector Configuration ([design docs](https://github.com/open-telemetry/opentelemetry-collector/blob/master/docs/design.md)) | receivers: [otlp, jaeger, zipkin] / processors: [memory_limiter, batch, queued_retry] / exporters: [honeycomb] |
-| `nameOverride` | String to partially override opentelemetry-collector.fullname template with a string (will append the release name) | `nil` |
-| `fullnameOverride` | String to fully override opentelemetry-collector.fullname template with a string | `nil` |
+| `replicaCount` | Number of Refinery replicas | `2` |
+| `image.repository` | Refinery image name | `honeycombio/refinery` |
+| `image.pullPolicy` | Refinery image pull policy | `IfNotPresent` |
+| `image.tag` | Refinery image tag (leave blank to use app version) | `nil` |
 | `imagePullSecrets` | Specify docker-registry secret names as an array | `[]` |
-| `image.repository` | OpenTelemetry Collector Image name | `otel/opentelemetry-collector-contrib` |
-| `image.tag` | OpenTelemetry Collector Image tag (leave blank to use app version) | `nil` |
-| `image.pullPolicy` | OpenTelemetry Collector image pull policy | `IfNotPresent` |
-| `replicaCount` | Number of OpenTelemetry Collector nodes | `1` |
+| `nameOverride` | String to partially override refinery.fullname template with a string (will append the release name) | `nil` |
+| `fullnameOverride` | String to fully override refinery.fullname template with a string | `nil` |
+| `config.ListenAddr` | blah | `0.0.0.0:8080` |
+| `config.PeerListenAddr` | blah | `0.0.0.0:8081` |
+| `config.HoneycombAPI` | blah | `https://api.honeycomb.io` |
+| `config.LoggingLevel` | blah | `error` |
+| `config.SendDelay` | blah | `2s` |
+| `config.TraceTimeout` | blah | `300s` |
+| `config.SendTicker` | blah | `100ms` |
+| `config.UpstreamBufferSize` | blah | `1000` |
+| `config.PeerBufferSize` | blah | `1000` |
+| `config.InMemCollector` | blah | `CacheCapacity`: 1000, `MaxAlloc`: 0 |
+| `config.Logger` | blah | `logrus` |
+| `config.Metrics` | blah | `prometheus` |
+| `config.PrometheusMetrics` | blah | `MetricsListenAddr`: `0.0.0.0:9090` |
+| `rules` | Refinery sampling rules | see [Configuring sampling rules](#configuring-sampling-rules) |
+| `redis.enabled` | blah | `true` |
+| `redis.image` | blah | `repository`: `redis`, `tag`: `6.0.2`, `pullPolicy`: `IfNotPresent` |
+| `prometheus.serviceMonitor.create` | Creates service monitor to collect prom metrics (depends on kube-prom) | `false` |
+| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
+| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
+| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
 | `podAnnotations` | Pod annotations | `{}` |
 | `podSecurityContext` | Security context for pod | `{}` |
 | `securityContext` | Security context for container | `{}` |
 | `service.type` | Kubernetes Service type | `ClusterIP` |
-| `service.annotations` | Annotations for OpenTelemetry Collector service | `{}` |
-| `resources` | CPU/Memory resource requests/limits | limit: 1000m/2Gi, request: 200m/400Mi |
-| `autoscaling.enabled` | Enable horizontal pod autoscaling | `false` |
-| `autoscaling.minReplicas` | Minimum replicas | `1` |
-| `autoscaling.maxReplicas` | Maximum replicas |  `10` |
-| `autoscaling.targetCPUUtilizationPercentage` | Target CPU utilization | `80` |
-| `autoscaling.targetMemoryUtilizationPercentage` | Target memory utilization | `nil` |
+| `service.port` | Kubernetes Service port | `80` |
+| `ingress.enabled` | blah | `false` |
+| `ingress.annotations` | blah | `{}` |
+| `ingress.hosts` | blah | `host`: `chart-example.local`, `paths`: `true` |
+| `tls` | blah | `[]` |
+| `resources` | CPU/Memory resource requests/limits | limit: 1000m/2Gi, request: 500m/500Mi |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
-| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
-| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
-| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
-| `k8sProcessor.rbac.create` | Specify whether the cluster-role and cluster-role-bindings should be created for the k8s_tagger processor | `false` |
-| `k8sProcessor.rbac.name` | Name of the cluster-role and cluster-role-bindings for the k8s_tagger processor  | Generated using the `opentelemetry-collector.fullname` template `{opentelemetry-collector.fullname}-k8sprocessor` |
