@@ -42,6 +42,7 @@ This means that all of your data is sent to Honeycomb.
 Refinery does not down-sample your data by default.
 
 ```yaml
+# values.yaml
 rules:
 #  DryRun: false
   Sampler: DeterministicSampler
@@ -55,6 +56,7 @@ These example configurations are provided to demonstrate how to define rules in 
 ### Rules-Based Sampler
 
 ```yaml
+# refinery.yaml
 rules:
 #  DryRun: false
   my_dataset:
@@ -76,11 +78,12 @@ rules:
         SampleRate: 10 # base case
 ```
 
-### Exponential Moving Average Dynamic Sampler
+### Exponential Moving Average (EMA) Dynamic Sampler
 
-This is the recommended sampler for most teams.
+This is the recommended sampling method for most teams.
 
 ```yaml
+# refinery.yaml
 rules:
 #  DryRun: false
   my_dataset:
@@ -104,6 +107,7 @@ If you decide to send [Refinery's runtime metrics](https://docs.honeycomb.io/man
 You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
 
 ```yaml
+# refinery.yaml
 config:
   Metrics: honeycomb
   HoneycombMetrics:
