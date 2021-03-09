@@ -8,6 +8,7 @@ This Helm Chart will install Refinery with the desired sampling rules passed in 
 
 ## TL;DR
 
+Install the chart with a deterministic sample rate of 1 out of every 2 events.
 ```console
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install refinery honeycomb/refinery --set rules.SampleRate=2
@@ -19,44 +20,42 @@ helm install refinery honeycomb/refinery --set rules.SampleRate=2
 
 ## Installing the Chart
 
-Add the Honeycomb repo to Helm:
+Install Refinery with your custom chart values file
 
 ```console
-helm repo add honeycomb https://honeycombio.github.io/helm-charts
-```
-
-Install Refinery with your custom configuration file:
-
-```console
-helm install refinery honeycomb/refinery --values /path/to/your/refinery.yaml
+helm install refinery honeycomb/refinery --values /path/to/refinery-values.yaml
 ```
 
 If no configuration file is passed in, Refinery will deploy with the default configuration in [`values.yaml`](./values.yaml).
 
 ## Configuring sampling rules
 
+The **Sample Rate** in Honeycomb is expressed as the denominator for 1 out of X events. 
+A sample rate of 20 means to keep 1 event from every 20, which is also equivalent to a 5% sampling you may see with other platforms.
+
+[The Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) goes into more detail about how each sampling method works.
+These example configurations are provided to demonstrate how to define rules in YAML.
+
 ### Deterministic Sampler
 
-The default sampling method set in [`values.yaml`](./values.yaml) uses the `DeterministicSampler` with a `SampleRate` of 1.
+The default sampling method uses the `DeterministicSampler` with a `SampleRate` of 1.
 This means that all of your data is sent to Honeycomb.
 Refinery does not down-sample your data by default.
 
 ```yaml
-# values.yaml
 rules:
 #  DryRun: false
   Sampler: DeterministicSampler
   SampleRate: 1
 ```
 
-To configure custom sampling rules, you will need to pass in your own `refinery.yaml` file.
-[The Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) goes into more detail about how each sampling method works.
-These example configurations are provided to demonstrate how to define rules in YAML.
+### Rules Based Sampler
 
-### Rules-Based Sampler
+The Rules Based Sampler allows you to specify specific span attribute values that will be used to determine a sample rate applied to the trace. 
+Rules are evaluated in order as they appear in the configuration. 
+A default rule should also be specified as the last rule.
 
 ```yaml
-# refinery.yaml
 rules:
 #  DryRun: false
   my_dataset:
@@ -80,10 +79,12 @@ rules:
 
 ### Exponential Moving Average (EMA) Dynamic Sampler
 
-This is the recommended sampling method for most teams.
+The EMA Dynamic Sampler, will determine sampling rates, based on field values. 
+Values that are seen often (ie: http status 200) will get sampled less than values that are rare (ie: http status 500). 
+You configure which fields to use for sampling decisions, the exponential moving average adjustment interval, and weight.
+This is the recommended sampling method for most teams. 
 
 ```yaml
-# refinery.yaml
 rules:
 #  DryRun: false
   my_dataset:
@@ -104,7 +105,7 @@ The repository's [values.yaml](./values.yaml) file contains information about al
 
 If you decide to send [Refinery's runtime metrics](https://docs.honeycomb.io/manage-data-volume/refinery/scale-and-troubleshoot/#understanding-refinerys-metrics) to Honeycomb, you will need to give Refinery an API for the team you want those metrics sent to.
 
-You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
+You can obtain your API Key by going to your Account profile page within your Honeycomb instance.
 
 ```yaml
 # refinery.yaml
