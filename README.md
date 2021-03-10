@@ -5,6 +5,7 @@ You can use Helm for installing [Honeycomb](https://honeycomb.io) packages in yo
 
 Packages:
 - [Honeycomb Kubernetes Agent](./honeycomb/)
+- [Honeycomb Refinery](./refinery)
 - [Honeycomb Secure Tenancy Proxy](./secure-tenancy)
 - [OpenTelemetry-Collector](./opentelemetry-collector)
 
