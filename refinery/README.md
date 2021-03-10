@@ -60,20 +60,20 @@ rules:
 #  DryRun: false
   my_dataset:
     Sampler: "RulesBasedSampler"
-    rule:
-      - name: "keep 5xx errors"
+    Rule:
+      - Name: "keep 5xx errors"
         SampleRate: 1
-        condition:
-          field: "status_code"
-          operator: ">="
-          value: 500
-      - name: "downsample 200 responses"
+        Condition:
+          - Field: "status_code"
+            Operator: ">="
+            Value: 500
+      - Name: "downsample 200 responses"
         SampleRate: 1000
-        condition:
-          field: "status_code"
-          operator: "="
-          value: 200
-      - name: "send 1 in 10 traces"
+        Condition:
+          - Field: "http.status_code"
+            Operator: "="
+            Value: 200
+      - Name: "send 1 in 10 traces"
         SampleRate: 10 # base case
 ```
 
