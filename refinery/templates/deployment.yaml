@@ -42,6 +42,10 @@ spec:
             - "/etc/refinery/config.yaml"
             - "-r"
             - "/etc/refinery/rules.yaml"
+          {{- with .Values.environment }}
+          env:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: data
               containerPort: 8080
