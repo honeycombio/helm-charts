@@ -138,7 +138,6 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `redis.image.repository` | Redis image name | `redis` |
 | `redis.image.tag` | Redis image tag | `6.0.2` |
 | `redis.image.pullPolicy` | Redis image pull policy | `IfNotPresent` |
-| `prometheus.serviceMonitor.create` | Creates service monitor to collect prom metrics (depends on kube-prom) | `false` |
 | `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
 | `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
