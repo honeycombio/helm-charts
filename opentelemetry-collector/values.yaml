@@ -86,18 +86,33 @@ service:
 ports: # configures both service, and deployment
   otlp:
     enabled: true
-    containerPort: 55681 # new port could also be 4317
-    servicePort: 55681
+    containerPort: 55680 # "legacy" port for backwards compatibility
+    servicePort: 55680
     protocol: TCP
   otlp-http:
     enabled: true
     containerPort: 55681 # http server starts up on 55681
     servicePort: 55681
     protocol: TCP
-  jaeger-thrift:
+  otlp-grpc:
+    enabled: true
+    containerPort: 4317 # new service port
+    servicePort: 4317
+    protocol: TCP
+  jaeger-thrift-http:
     enabled: true
     containerPort: 14268
     servicePort: 14268
+    protocol: TCP
+  jaeger-thrift-binary:
+    enabled: true
+    containerPort: 6832
+    servicePort: 6832
+    protocol: TCP
+  jaeger-thrift-compact:
+    enabled: true
+    containerPort: 6831
+    servicePort: 6831
     protocol: TCP
   jaeger-grpc:
     enabled: true
