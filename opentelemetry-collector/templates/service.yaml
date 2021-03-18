@@ -10,26 +10,14 @@ metadata:
   {{- end }}
 spec:
   type: {{ .Values.service.type }}
+  ports:
+    {{- range $key, $port := .Values.ports }}
+    {{- if $port.enabled }}
+    - name: {{ $key }}
+      port: {{ $port.servicePort }}
+      targetPort: {{ $key }}
+      protocol: {{ $port.protocol }}
+    {{- end }}
+    {{- end }}
   selector:
     {{- include "opentelemetry-collector.selectorLabels" . | nindent 4 }}
-  ports:
-    - name: otlp # Default endpoint for otlp receiver.
-      port: 55680
-      protocol: TCP
-      targetPort: 55680
-    - name: jaeger-grpc # Default endpoint for Jaeger gRPC receiver
-      port: 14250
-      protocol: TCP
-      targetPort: 14250
-    - name: jaeger-http # Default endpoint for Jaeger HTTP receiver.
-      port: 14268
-      protocol: TCP
-      targetPort: 14268
-    - name: zipkin # Default endpoint for Zipkin receiver.
-      port: 9411
-      protocol: TCP
-      targetPort: 9411
-    - name: metrics # Default endpoint for querying metrics.
-      port: 8888
-      protocol: TCP
-      targetPort: 8888

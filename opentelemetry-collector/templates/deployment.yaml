@@ -59,24 +59,13 @@ spec:
                   {{- end }}
                   key: api-key
           ports:
-            - name: otlp 
-              containerPort: 55680
-              protocol: TCP
-            - name: jaeger-grpc 
-              containerPort: 14250
-              protocol: TCP
-            - name: jaeger-http 
-              containerPort: 14268
-              protocol: TCP
-            - name: zipkin 
-              containerPort: 9411
-              protocol: TCP
-            - name: metrics 
-              containerPort: 8888
-              protocol: TCP
-            - name: healthz
-              containerPort: 13133
-              protocol: TCP
+            {{- range $key, $port := .Values.ports }}
+            {{- if $port.enabled }}
+            - name: {{ $key }}
+              containerPort: {{ $port.containerPort }}
+              protocol: {{ $port.protocol }}
+            {{- end }}
+            {{- end }}
           volumeMounts:
             - name: opentelemetry-collector-config
               mountPath: /conf          
