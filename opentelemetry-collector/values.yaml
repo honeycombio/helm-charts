@@ -99,17 +99,17 @@ ports: # configures both service, and deployment
     containerPort: 4317 # new service port
     servicePort: 4317
     protocol: TCP
-  jaeger-thrift-http:
+  jaeger-http:
     enabled: true
     containerPort: 14268
     servicePort: 14268
     protocol: TCP
-  jaeger-thrift-binary:
+  jaeger-binary:
     enabled: true
     containerPort: 6832
     servicePort: 6832
     protocol: TCP
-  jaeger-thrift-compact:
+  jaeger-compact:
     enabled: true
     containerPort: 6831
     servicePort: 6831
