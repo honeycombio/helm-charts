@@ -52,6 +52,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
