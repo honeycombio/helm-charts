@@ -38,6 +38,9 @@ main() {
     exit
   fi
 
+  rm -rf .deploy
+  mkdir -p .deploy
+
   echo "Packaging chart $chart_name..."
   package_chart "charts/$chart_name"
 
