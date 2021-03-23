@@ -28,6 +28,6 @@ workflows:
       - release-charts:
           filters:
             tags:
-              ignore: /.*/
+              only: /^v[0-9].+-.*/
             branches:
-              only: main
+              ignore: /.*/

@@ -14,55 +14,42 @@ set -o pipefail
 readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
 
 main() {
-    pushd "$REPO_ROOT" > /dev/null
+  pushd "$REPO_ROOT" > /dev/null
+  echo "Fetching tags..."
+  git fetch --tags
 
-    echo "Fetching tags..."
-    git fetch --tags
+  local latest_tag
+  latest_tag=$(git describe --tags --abbrev=0)
+  echo "Latest Tag: $latest_tag"
 
-    local latest_tag
-    latest_tag=$(find_latest_tag)
+  if [[ ! "$latest_tag" =~ ^v[0-9].+-.* ]]; then
+    echo "Latest Tag is not a 'v' Release tag"
+    exit
+  fi
 
-    local latest_tag_rev
-    latest_tag_rev=$(git rev-parse --verify "$latest_tag")
-    echo "$latest_tag_rev $latest_tag (latest tag)"
+  local chart_name
+  # shellcheck disable=SC2001
+  chart_name=$(echo "$latest_tag" | sed "s/^v.[^\-]*-\(.*\)/\1/")
 
-    local head_rev
-    head_rev=$(git rev-parse --verify HEAD)
-    echo "$head_rev HEAD"
+  echo "Chart Name: $chart_name"
 
-    if [[ "$latest_tag_rev" == "$head_rev" ]]; then
-        echo "No code changes. Nothing to release."
-        exit
-    fi
+  if [[ ! -d "$REPO_ROOT/charts/$chart_name" ]]; then
+    echo "Chart $chart_name not found"
+    exit
+  fi
 
-    rm -rf .deploy
-    mkdir -p .deploy
+  echo "Packaging chart $chart_name..."
+  package_chart "charts/$chart_name"
 
-    echo "Identifying changed charts since tag '$latest_tag'..."
+  echo "Releasing charts..."
+  release_charts
+  sleep 5
 
-    local changed_charts=()
-    readarray -t changed_charts <<< "$(git diff --find-renames --name-only "$latest_tag_rev" -- charts | cut -d '/' -f 2 | uniq)"
+  echo "Updating Helm repo index..."
+  update_index
 
-    if [[ -n "${changed_charts[*]}" ]]; then
-        for chart in "${changed_charts[@]}"; do
-            echo "Packaging chart '$chart'..."
-            package_chart "charts/$chart"
-        done
+  popd > /dev/null
 
-        release_charts
-        sleep 5
-        update_index
-    else
-        echo "Nothing to do. No chart changes detected."
-    fi
-
-    popd > /dev/null
-}
-
-find_latest_tag() {
-    if ! git describe --tags --abbrev=0 2> /dev/null; then
-        git rev-list --max-parents=0 --first-parent HEAD
-    fi
 }
 
 package_chart() {
