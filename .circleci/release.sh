@@ -14,7 +14,7 @@ set -o pipefail
 readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
 
 main() {
-  pushd "$REPO_ROOT" > /dev/null
+  pushd "$REPO_ROOT" >/dev/null
   echo "Fetching tags..."
   git fetch --tags
 
@@ -48,25 +48,25 @@ main() {
   echo "Updating Helm repo index..."
   update_index
 
-  popd > /dev/null
+  popd >/dev/null
 
 }
 
 package_chart() {
-    local chart="$1"
-    cr package "$chart"
+  local chart="$1"
+  cr package "$chart"
 }
 
 release_charts() {
-    cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME" 
+  cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME"
 }
 
 update_index() {
-    git config user.email "$GIT_EMAIL"
-    git config user.name "$GIT_USERNAME"
+  git config user.email "$GIT_EMAIL"
+  git config user.name "$GIT_USERNAME"
 
-    mkdir .cr-index
-    cr index --charts-repo "$CHARTS_REPO" --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME" --push
+  mkdir .cr-index
+  cr index --charts-repo "$CHARTS_REPO" --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME" --push
 }
 
 main
