@@ -64,7 +64,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /alive
-              port: incoming
+              port: data
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       volumes:
