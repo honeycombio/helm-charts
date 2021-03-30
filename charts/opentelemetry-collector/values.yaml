@@ -83,6 +83,48 @@ service:
   type: ClusterIP
   annotations: {}
 
+ports: # configures both service, and deployment
+  otlp:
+    enabled: true
+    containerPort: 55680 # "legacy" port for backwards compatibility
+    servicePort: 55680
+    protocol: TCP
+  otlp-http:
+    enabled: true
+    containerPort: 55681 # http server starts up on 55681
+    servicePort: 55681
+    protocol: TCP
+  otlp-grpc:
+    enabled: true
+    containerPort: 4317 # new service port
+    servicePort: 4317
+    protocol: TCP
+  jaeger-http:
+    enabled: true
+    containerPort: 14268
+    servicePort: 14268
+    protocol: TCP
+  jaeger-binary:
+    enabled: true
+    containerPort: 6832
+    servicePort: 6832
+    protocol: TCP
+  jaeger-compact:
+    enabled: true
+    containerPort: 6831
+    servicePort: 6831
+    protocol: TCP
+  jaeger-grpc:
+    enabled: true
+    containerPort: 14250
+    servicePort: 14250
+    protocol: TCP
+  zipkin:
+    enabled: true
+    containerPort: 9411
+    servicePort: 9411
+    protocol: TCP
+
 # Resource memory limits should be modified in conjunction with memory_limiter processor
 resources: 
   limits:

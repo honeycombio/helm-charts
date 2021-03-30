@@ -1,16 +1,18 @@
 apiVersion: v2
-name: honeycomb
-description: Honeycomb Kubernetes Agent
-version: 1.0.3
-appVersion: 2.1.3
+name: refinery
+description: Chart to deploy Honeycomb Refinery
+type: application
+version: 1.0.0
+appVersion: 1.1.1
 keywords:
+  - refinery
+  - honeycomb
   - observability
+  - sampling
   - tracing
-  - logs
-  - events
 home: https://honeycomb.io
 sources:
-  - https://github.com/honeycombio/honeycomb-kubernetes-agent
+  - https://github.com/honeycombio/refinery
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
   - name: puckpuck
