@@ -4,10 +4,10 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-: "${CR_TOKEN:?Environment variable CR_TOKEN must be set}"
-: "${GIT_REPOSITORY_URL:?Environment variable GIT_REPO_URL must be set}"
+: "${GITHUB_TOKEN:?Environment variable GITHUB_TOKEN must be set}"
 : "${GIT_USERNAME:?Environment variable GIT_USERNAME must be set}"
-: "${GIT_EMAIL:?Environment variable GIT_EMAIL must be set}"
+: "${GIT_REPOSITORY_URL:?Environment variable GIT_REPOSITORY_URL must be set}"
+: "${GIT_REPOSITORY_OWNER:?Environment variable GIT_REPOSITORY_OWNER must be set}"
 : "${GIT_REPOSITORY_NAME:?Environment variable GIT_REPOSITORY_NAME must be set}"
 : "${CHARTS_REPO:?Environment variable CHARTS_REPO must be set}"
 
@@ -24,7 +24,7 @@ main() {
 
   if [[ ! "$latest_tag" =~ ^v[0-9].+-.* ]]; then
     echo "Latest Tag is not a 'v' Release tag"
-    exit
+    exit 2
   fi
 
   local chart_name
@@ -35,7 +35,7 @@ main() {
 
   if [[ ! -d "$REPO_ROOT/charts/$chart_name" ]]; then
     echo "Chart $chart_name not found"
-    exit
+    exit 2
   fi
 
   rm -rf .deploy
@@ -61,15 +61,14 @@ package_chart() {
 }
 
 release_charts() {
-  cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME"
+  cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN"
 }
 
 update_index() {
-  git config user.email "$GIT_EMAIL"
   git config user.name "$GIT_USERNAME"
 
   mkdir .cr-index
-  cr index --charts-repo "$CHARTS_REPO" --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_USERNAME" --push
+  cr index --charts-repo "$CHARTS_REPO" --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN" --push
 }
 
 main
