@@ -1,4 +1,4 @@
-# Refinery: Sampling Proxy Service for Honeycomb
+# Honeycomb Refinery
 
 [Refinery](https://github.com/honeycombio/refinery) is a trace-aware sampling proxy server for Honeycomb.
 
