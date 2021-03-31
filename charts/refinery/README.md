@@ -1,4 +1,4 @@
-# Refinery: Sampling Proxy Service for Honeycomb
+# Honeycomb Refinery
 
 [Refinery](https://github.com/honeycombio/refinery) is a trace-aware sampling proxy server for Honeycomb.
 
@@ -34,7 +34,7 @@ The **Sample Rate** in Honeycomb is expressed as the denominator for 1 out of X 
 A sample rate of 20 means to keep 1 event from every 20, which is also equivalent to a 5% sampling you may see with other platforms.
 
 [The Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) goes into more detail about how each sampling method works.
-These example configurations are provided to demonstrate how to define rules in YAML.
+These example configurations are provided to demonstrate how to define rules in YAML. See the complete definitions in the [sample-configs](./sample-configs) folder.
 
 ### Deterministic Sampler
 
