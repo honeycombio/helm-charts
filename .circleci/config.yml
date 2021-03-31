@@ -1,13 +1,5 @@
 version: 2
 jobs:
-  lint-scripts:
-    docker:
-      - image: koalaman/shellcheck-alpine
-    steps:
-      - checkout
-      - run:
-          name: lint
-          command: shellcheck -x .circleci/*.sh
   release-charts:
     machine: true
     steps:
@@ -24,8 +16,8 @@ workflows:
   version: 2
   release:
     jobs:
-      - lint-scripts
       - release-charts:
+          context: Honeycomb Secrets for Public Repos
           filters:
             tags:
               only: /^v[0-9].+-.*/
