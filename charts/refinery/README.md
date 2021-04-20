@@ -96,6 +96,20 @@ rules:
     AdjustmentInterval: 15
     Weight: 0.5
 ```
+## Scaling Refinery
+
+Refinery is a stateful service and is not optimized for dynamic auto-scaling. Changes in cluster membership can result
+in temporary inconsistent sampling decisions and dropped traces. As such, we recommend provisioning refinery for your 
+anticipated peak load.
+
+The default configuration is to deploy 3 replicas with resource limits of 2 CPU cores, and 2Gi of memory. This configuration 
+is capable to handle a modest sampling load and should be configured based on your expected peak load. Scaling requirements
+are largely based on the velocity of spans received per second, and the average number of spans per trace. Other settings
+such as rule complexity and trace duration timeouts will also have an effect on scaling requirements.
+
+The primary setting that control scaling are `replicaCount` and `resources.limits`. When changing `resources.limits.memory`,
+you must also change `config.InMemCollector.MaxAlloc`. This should be set to 75-90% of the available memory for each replica.
+Refer to the comments in [values.yaml](./values.yaml) for more details about each property.
 
 ## Configuration
 

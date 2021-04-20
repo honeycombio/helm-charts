@@ -1,6 +1,25 @@
 # Default values for refinery.
 
-replicaCount: 2
+## Scaling Refinery ##
+#
+# Refinery is a stateful service and is not optimized for dynamic auto-scaling.
+# Changes in cluster membership can result in temporary inconsistent sampling
+# decisions and dropped traces. As such, we recommend provisioning refinery for
+# your anticipated peak load
+#
+# Use replicaCount and resource limits to set the size of your Refinery cluster
+# per your anticipated peak load.
+# Changing memory limits from the default 2Gi, requires updates to the
+# config.InMemCollector.MaxAlloc property.
+replicaCount: 3
+resources:
+  limits:
+    cpu: 2000m
+    # Changing memory limits requires updating config.InMemCollector.MaxAlloc
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 500Mi
 
 image:
   repository: honeycombio/refinery
@@ -22,54 +41,175 @@ environment: [ ]
   #   valueFrom:
   #     secretKeyRef:
   #       name: honeycomb
-#       key: api-key
+  #       key: api-key
 
-# Values used to build config.yaml
+# Values used to build config.yaml.
+# See the example in sample-configs/config_complete.yaml for full details on all properties
 config:
+  # ListenAddr is the IP and port on which to listen for incoming events.
   ListenAddr: 0.0.0.0:8080
+
+  # GRPCListenAddr is the IP and port on which to listen for incoming events over gRPC.
+  GRPCListenAddr: 0.0.0.0:9090
+
+  # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.
   PeerListenAddr: 0.0.0.0:8081
+
+  # HoneycombAPI is the URL for the upstream Honeycomb API
   HoneycombAPI: https://api.honeycomb.io
-  LoggingLevel: error
+
+  # LoggingLevel valid options are "debug", "info", "error", and "panic".
+  LoggingLevel: info
+
+  # SendDelay is a short timer that will be triggered when a trace is complete.
+  # Refinery will wait this duration before actually sending the trace.  The
+  # reason for this short delay is to allow for small network delays or clock
+  # jitters to elapse and any final spans to arrive before actually sending the
+  # trace.  This supports duration strings with supplied units. Set to 0 for
+  # immediate sends.
   SendDelay: 2s
+
+  # TraceTimeout is a long timer; it represents the outside boundary of how long
+  # to wait before sending an incomplete trace. Normally traces are sent when the
+  # root span arrives. Sometimes the root span never arrives (due to crashes or
+  # whatever), and this timer will send a trace even without having received the
+  # root span. If you have particularly long-lived traces you should increase this
+  # timer. This supports duration strings with supplied units.
   TraceTimeout: 300s
+
+  # SendTicker is a short timer; it determines the duration to use to check for traces to send
   SendTicker: 100ms
+
+  # UpstreamBufferSize and PeerBufferSize control how large of an event queue to use
+  # when buffering events that will be forwarded to peers or the upstream API.
   UpstreamBufferSize: 1000
   PeerBufferSize: 1000
 
+  # InMemCollector brings together all the settings that are relevant to
+  # collecting spans together to make traces.
   InMemCollector:
-    CacheCapacity: 1000
-    MaxAlloc: 0
 
+    # The collection cache is used to collect all spans into a trace as well as
+    # remember the sampling decision for any spans that might come in after the
+    # trace has been marked "complete" (either by timing out or seeing the root
+    # span). The number of traces in the cache should be many multiples (100x to
+    # 1000x) of the total number of concurrently active traces (trace throughput *
+    # trace duration).
+    CacheCapacity: 1000
+
+    # MaxAlloc is optional. If set, it must be an integer >= 0.
+    # If set to a non-zero value, once per tick (see SendTicker) the collector
+    # will compare total allocated bytes to this value. If allocation is too
+    # high, cache capacity will be reduced and an error will be logged.
+    # Useful values for this setting are generally in the range of 75%-90% of
+    # available system memory.
+    # This value should be set in according with the requests.limits.memory
+    # By default that setting is 2GB, and this is set to 85% of that limit
+    # 2 * 1024 * 1024 * 1024 * 0.85 = 1,825,361,101
+    MaxAlloc: 1825361101
+
+  # Logger describes which logger to use for Refinery logs. Valid options are
+  # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
+  # honeycomb option will send them to a Honeycomb dataset.
   Logger: logrus
+
+  # Metrics describes which service to use for Refinery metrics. Valid options are
+  # "prometheus" and "honeycomb". The prometheus option starts a listener that
+  # will reply to a request for /metrics. The honeycomb option will send summary
+  # metrics to a Honeycomb dataset.
   Metrics: prometheus
 
   # If using the Honeycomb Logger or Metrics, you can specify the API Key using an environment variable instead.
-#   HoneycombLogger:
-#     LoggerHoneycombAPI: https://api.honeycomb.io
-#     LoggerAPIKey: YOUR_API_KEY
-#     LoggerDataset: refinery-logs
+  #
+  # HoneycombLogger is a section of the config only used if you are using the
+  # HoneycombLogger to send all logs to a Honeycomb Dataset. If you are using a
+  # different logger (eg file-based logger) you can leave all this commented out.
+  # HoneycombLogger:
 
-#   HoneycombMetrics:
-#     MetricsHoneycombAPI: https://api.honeycomb.io
-#     MetricsAPIKey: YOUR_API_KEY
-#     MetricsDataset: refinery-metrics
-#     MetricsReportingInterval: 3
+    # LoggerHoneycombAPI is the URL for the upstream Honeycomb API.
+    # LoggerHoneycombAPI: https://api.honeycomb.io
+
+    # LoggerAPIKey is the API key to use to send log events to the Honeycomb logging dataset
+    # LoggerAPIKey: YOUR_API_KEY
+
+    # LoggerDataset is the name of the dataset to which to send Refinery logs
+    # LoggerDataset: refinery-logs
+
+  # HoneycombMetrics is a section of the config only used if you are using the
+  # HoneycombMetrics to send all metrics to a Honeycomb Dataset. If you are using a
+  # different metrics service (eg prometheus) you can leave all this
+  # commented out.
+  # HoneycombMetrics:
+
+    # MetricsHoneycombAPI is the URL for the upstream Honeycomb API.
+    # MetricsHoneycombAPI: https://api.honeycomb.io
+
+    # MetricsAPIKey is the API key to use to send log events to the Honeycomb logging dataset.
+    # MetricsAPIKey: YOUR_API_KEY
+
+    # MetricsDataset is the name of the dataset to which to send Refinery metrics
+    # MetricsDataset: refinery-metrics
+
+    # MetricsReportingInterval is the frequency (in seconds) to send metric events
+    # to Honeycomb. Between 1 and 60 is recommended.
+    # MetricsReportingInterval: 10
+
 
   PrometheusMetrics:
+    # MetricsListenAddr determines the interface and port on which Prometheus will
+    # listen for requests for /metrics.
     MetricsListenAddr: 0.0.0.0:9090
 
 
 # Values used to build rules.yaml
+# See the example in sample-configs/rules_complete.yaml for full details on all properties
 rules:
-#  DryRun: false
+
+  # DryRun - If enabled, marks traces that would be dropped given current sampling rules,
+  # and sends all traces regardless
+  # DryRun: false
+
+  # This is the default sampler used.
+  # Any traces received that are not for a defined dataset will use this sampler.
+  # Deterministic Sampler implementation. This is the simplest sampling algorithm
+  # - it is a static sample rate, choosing traces randomly to either keep or send
+  # (at the appropriate rate). It is not influenced by the contents of the trace.
   Sampler: DeterministicSampler
+
+  # SampleRate is the rate at which to sample. It indicates a ratio, where one
+  # sample trace is kept for every n traces seen. For example, a SampleRate of 30
+  # will keep 1 out of every 30 traces.
   SampleRate: 1
+
+  ## Dataset sampling rules ##
+  # Specify dataset rules by creating an object for each dataset
+  # Note: If your dataset name contains a space, you will have to escape the dataset name
+  # using single quotes, such as "dataset 1":
+  #
+  # This example creates a sampling definition for a dataset called: test-dataset
+  # test-dataset:
+    # Sampler: EMADynamicSampler
+    # GoalSampleRate: 5
+    # FieldList:
+    #  - request.method
+    #  - response.status_code
 
 
 # Redis configuration
 redis:
+
+  # To install a simple single pod Redis deployment set this to true.
+  # If false, you must specify a value for existingHost
+  # For production, it is recommended to set this to false and provide
+  # a highly available Redis configuration using existingHost
   enabled: true
+
+  # If redis.enabled is false this needs to be specified.
+  # This needs to be the name:port of an Redis configuration
   # existingHost:
+
+  # If redis.enabled is true, this the image that will be used to create
+  # the Redis deployment
   image:
     repository: redis
     tag: 6.0.2
@@ -115,14 +255,6 @@ ingress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
-
-resources:
-  limits:
-    cpu: 1000m
-    memory: 2Gi
-  requests:
-    cpu: 500m
-    memory: 500Mi
 
 nodeSelector: {}
 
