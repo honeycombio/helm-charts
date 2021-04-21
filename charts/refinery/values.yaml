@@ -27,6 +27,7 @@ environment: [ ]
 # Values used to build config.yaml
 config:
   ListenAddr: 0.0.0.0:8080
+  GRPCListenAddr: 0.0.0.0:4317
   PeerListenAddr: 0.0.0.0:8081
   HoneycombAPI: https://api.honeycomb.io
   LoggingLevel: error
@@ -101,6 +102,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  grpcPort: 4317
   annotations: {}
 
 ingress:
