@@ -138,7 +138,7 @@ The following table lists the configurable parameters of the Refinery chart and 
 
 | Parameter | Description | Default |
 | --- | --- | --- |
-| `replicaCount` | Number of Refinery replicas | `2` |
+| `replicaCount` | Number of Refinery replicas | `3` |
 | `image.repository` | Refinery image name | `honeycombio/refinery` |
 | `image.pullPolicy` | Refinery image pull policy | `IfNotPresent` |
 | `image.tag` | Refinery image tag (leave blank to use app version) | `nil` |
@@ -167,7 +167,7 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `ingress.hosts[0].name` | Hostname to your Refinery installation | `refinery.local` |
 | `ingress.hosts[0].paths` | Path within the url structure | `[]` |
 | `ingress.tls` | TLS hosts	| `[]` |
-| `resources` | CPU/Memory resource requests/limits | limit: 1000m/2Gi, request: 500m/500Mi |
+| `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
