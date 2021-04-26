@@ -50,6 +50,9 @@ spec:
             - name: data
               containerPort: 8080
               protocol: TCP
+            - name: grpc
+              containerPort: 4317
+              protocol: TCP
             - name: peer
               containerPort: 8081
               protocol: TCP

@@ -145,7 +145,8 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `podSecurityContext` | Security context for pod | `{}` |
 | `securityContext` | Security context for container | `{}` |
 | `service.type` | Kubernetes Service type | `ClusterIP` |
-| `service.port` | Service port | `80` |
+| `service.port` | Service port for data in Honeycomb format | `80` |
+| `service.grpcPort` | Service port for data in OTLP format over gRPC | `4317` |
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
 | `ingress.annotations` | Ingress annotations | `{}` |

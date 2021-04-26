@@ -15,6 +15,10 @@ spec:
       targetPort: data
       protocol: TCP
       name: data
+    - port: {{ .Values.service.grpcPort }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
     {{- if eq .Values.config.Metrics "prometheus" }}
     - port: 9090
       targetPort: metrics
