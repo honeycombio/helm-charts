@@ -8,7 +8,7 @@ This Helm Chart will install Refinery with the desired sampling rules passed in 
 
 ## TL;DR
 
-Install the chart with a deterministic sample rate of 1 out of every 2 events.
+Install the chart with a deterministic sample rate of 1 out of every **2** events.
 ```console
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install refinery honeycomb/refinery --set rules.SampleRate=2
@@ -114,6 +114,12 @@ Refer to the comments in [values.yaml](./values.yaml) for more details about eac
 ## Configuration
 
 The repository's [values.yaml](./values.yaml) file contains information about all configuration options for this chart.
+
+### Memory limits
+
+Sampling traces is a memory intensive operation. To ensure Refinery properly manages the memory allocation you should
+ensure the `config.InMemCollector.MaxAlloc` property is set in bytes to be 75%-90% of the pod memory limits configured
+with the `resources.limits.memory` property.
 
 ### Refinery Metrics
 
