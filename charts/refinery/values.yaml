@@ -75,7 +75,7 @@ config:
   # whatever), and this timer will send a trace even without having received the
   # root span. If you have particularly long-lived traces you should increase this
   # timer. This supports duration strings with supplied units.
-  TraceTimeout: 300s
+  TraceTimeout: 60s
 
   # SendTicker is a short timer; it determines the duration to use to check for traces to send
   SendTicker: 100ms
@@ -103,7 +103,7 @@ config:
     # high, cache capacity will be reduced and an error will be logged.
     # Useful values for this setting are generally in the range of 75%-90% of
     # available system memory.
-    # This value should be set in according with the requests.limits.memory
+    # This value should be set in according with the resources.limits.memory
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.85 = 1,825,361,101
     MaxAlloc: 1825361101
