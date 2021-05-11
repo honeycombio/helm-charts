@@ -17,12 +17,12 @@ data:
     {{- end }}
 
     exporters:
-      honeycomb:
-        api_key: ${HONEYCOMB_API_KEY}
-        api_url: {{ .Values.honeycomb.apiHost }}
-        dataset: {{ .Values.honeycomb.dataset }}
-        sample_rate: {{ .Values.honeycomb.sample_rate }}
-        sample_rate_attribute: {{ .Values.honeycomb.sample_rate_attribute }}
+      otlp:
+        endpoint: {{ .Values.honeycomb.apiHost }}
+        headers:
+          "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+          "x-honeycomb-dataset": "{{ .Values.honeycomb.dataset }}"
+
     {{- if .Values.config.exporters }}
     {{- toYaml .Values.config.exporters | nindent 6 }}
     {{- end }}
