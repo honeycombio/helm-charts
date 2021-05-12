@@ -67,7 +67,7 @@ rules:
           - Field: "status_code"
             Operator: ">="
             Value: 500
-      - Name: "downsample 200 responses"
+      - Name: "sample 200 responses"
         SampleRate: 1000
         Condition:
           - Field: "http.status_code"
@@ -140,7 +140,7 @@ config:
 
 ## Parameters
 
-The following table lists the configurable parameters of the Refinery chart and their default values, as defined in [`values.yaml`](./values.yaml).
+The following table lists the configurable parameters of the Refinery chart, and their default values, as defined in [`values.yaml`](./values.yaml).
 
 | Parameter | Description | Default |
 | --- | --- | --- |
@@ -177,3 +177,11 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
+
+## Upgrading
+
+### Upgrading from 1.1.1 or earlier.
+The default limits and replica count and memory were increased to properly represent minimum production requirements. 
+- `replicaCount` has been increased from `2` to `3`
+- `resources.limits.memory` has been increased from `1Gi` to `2Gi`
+- `config.TraceTimeout` has been decreased from `300s` to `60s`
