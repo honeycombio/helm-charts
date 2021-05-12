@@ -31,7 +31,7 @@ spec:
           image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
           imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
           ports:
-            - name: http
+            - name: redis
               containerPort: 6379
               protocol: TCP
       {{- with .Values.nodeSelector }}

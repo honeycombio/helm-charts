@@ -8,10 +8,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: http
+    - name: tcp-redis
       port: 6379
       protocol: TCP
-      targetPort: 6379
+      targetPort: redis
   selector:
     {{- include "refinery.redis.selectorLabels" . | nindent 4 }}
 {{- end}}
