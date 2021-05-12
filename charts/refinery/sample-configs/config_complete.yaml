@@ -221,7 +221,7 @@ HoneycombLogger:
 
 # HoneycombMetrics is a section of the config only used if you are using the
 # HoneycombMetrics to send all metrics to a Honeycomb Dataset. If you are using a
-# different metrics service (eg prometheus or metricsd) you can leave all this
+# different metrics service (eg prometheus) you can leave all this
 # commented out.
 HoneycombMetrics:
 

@@ -8,7 +8,7 @@ This Helm Chart will install Refinery with the desired sampling rules passed in 
 
 ## TL;DR
 
-Install the chart with a deterministic sample rate of 1 out of every 2 events.
+Install the chart with a deterministic sample rate of 1 out of every **2** events.
 ```console
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install refinery honeycomb/refinery --set rules.SampleRate=2
@@ -96,10 +96,30 @@ rules:
     AdjustmentInterval: 15
     Weight: 0.5
 ```
+## Scaling Refinery
+
+Refinery is a stateful service and is not optimized for dynamic auto-scaling. Changes in cluster membership can result
+in temporary inconsistent sampling decisions and dropped traces. As such, we recommend provisioning refinery for your 
+anticipated peak load.
+
+The default configuration is to deploy 3 replicas with resource limits of 2 CPU cores, and 2Gi of memory. This configuration 
+is capable to handle a modest sampling load and should be configured based on your expected peak load. Scaling requirements
+are largely based on the velocity of spans received per second, and the average number of spans per trace. Other settings
+such as rule complexity and trace duration timeouts will also have an effect on scaling requirements.
+
+The primary setting that control scaling are `replicaCount` and `resources.limits`. When changing `resources.limits.memory`,
+you must also change `config.InMemCollector.MaxAlloc`. This should be set to 75-90% of the available memory for each replica.
+Refer to the comments in [values.yaml](./values.yaml) for more details about each property.
 
 ## Configuration
 
 The repository's [values.yaml](./values.yaml) file contains information about all configuration options for this chart.
+
+### Memory limits
+
+Sampling traces is a memory intensive operation. To ensure Refinery properly manages the memory allocation you should
+ensure the `config.InMemCollector.MaxAlloc` property is set in bytes to be 75%-90% of the pod memory limits configured
+with the `resources.limits.memory` property.
 
 ### Refinery Metrics
 
@@ -124,7 +144,7 @@ The following table lists the configurable parameters of the Refinery chart and 
 
 | Parameter | Description | Default |
 | --- | --- | --- |
-| `replicaCount` | Number of Refinery replicas | `2` |
+| `replicaCount` | Number of Refinery replicas | `3` |
 | `image.repository` | Refinery image name | `honeycombio/refinery` |
 | `image.pullPolicy` | Refinery image pull policy | `IfNotPresent` |
 | `image.tag` | Refinery image tag (leave blank to use app version) | `nil` |
@@ -153,7 +173,7 @@ The following table lists the configurable parameters of the Refinery chart and 
 | `ingress.hosts[0].name` | Hostname to your Refinery installation | `refinery.local` |
 | `ingress.hosts[0].paths` | Path within the url structure | `[]` |
 | `ingress.tls` | TLS hosts	| `[]` |
-| `resources` | CPU/Memory resource requests/limits | limit: 1000m/2Gi, request: 500m/500Mi |
+| `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
