@@ -108,12 +108,12 @@ ports: # configures both service, and deployment
     enabled: true
     containerPort: 6832
     servicePort: 6832
-    protocol: TCP
+    protocol: UDP
   jaeger-compact:
     enabled: true
     containerPort: 6831
     servicePort: 6831
-    protocol: TCP
+    protocol: UDP
   jaeger-grpc:
     enabled: true
     containerPort: 14250
