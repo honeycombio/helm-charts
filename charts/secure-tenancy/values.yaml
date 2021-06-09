@@ -2,9 +2,9 @@
 honeycomb:
   # Specify Auth Token used for Secure Tenancy
   authToken: YOUR_AUTH_TOKEN
-  # Specify host URL to send all events to
+  # Specify host URL to send Honeycomb format events to
   apiHost: https://api.honeycomb.io
-  
+
   uiBaseUrl: https://ui.honeycomb.io
   
   maxIdleConnsPerHost: 100
@@ -76,6 +76,7 @@ service:
   annotations: {}
   type: ClusterIP
   port: 80
+  grpcPort: 4317
   # If using a LoadBalancer service, you may also want to specify the IP to use
   # ip: 
 

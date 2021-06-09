@@ -62,6 +62,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: grpc
+              containerPort: 8081
+              protocol: TCP
           volumeMounts:
           - name: config
             mountPath: /config

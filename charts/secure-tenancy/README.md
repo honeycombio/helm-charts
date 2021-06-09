@@ -100,7 +100,8 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `mysql.rootUser.password` | When `mysql.enabled` is true this will be the root password used | `root_password` |
 | `mysql.replication.password` | When `mysql.enabled` is true this will be the replication password used | `replication_password` |
 | `service.type` | Kubernetes Service type | `ClusterIP` |
-| `service.port` | Service HTTP port | `80` |
+| `service.port` | Service port for Honeycomb formatted telemetry | `80` |
+| `service.grpcPort` | Service port for OTLP over GRPC telemetry | `4317` |
 | `service.ip` | LoadBalancer service IP address | `nil` |
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
