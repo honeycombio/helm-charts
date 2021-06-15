@@ -4,6 +4,7 @@ honeycomb:
   authToken: YOUR_AUTH_TOKEN
   # Specify host URL to send Honeycomb format events to
   apiHost: https://api.honeycomb.io
+  grpcApiHost: https://api.honeycomb.io:443
 
   uiBaseUrl: https://ui.honeycomb.io
   
