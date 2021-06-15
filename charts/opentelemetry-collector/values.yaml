@@ -11,9 +11,10 @@ honeycomb:
   dataset: opentelemetry-collector
   # Specify the name of an existing secret resource containing your Honeycomb API KEY instead of having a secret resource created
   # existingSecret:
-  exportOptions:
-    insecure: true
-    balancer_name: round_robin
+  # Use this to specify options for the OTLP exporter, such as insecure, or balancer_name.
+  # exportOptions:
+  #   insecure: true
+  #   balancer_name: round_robin
 
 
 config:
