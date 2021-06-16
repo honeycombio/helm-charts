@@ -23,7 +23,7 @@ honeycomb:
   # When set to true:
   #   - the honeycomb.apiHost property needs to be changed to a URL with an http/https scheme.
   #   - the config.service.pipelines.traces.exporters property needs to be changed to specify the honeycomb exporter instead of otlp
-  useHoneycombExporter: false
+  # useHoneycombExporter: false
 
 
 config:
