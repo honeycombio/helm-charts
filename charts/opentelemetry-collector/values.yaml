@@ -9,13 +9,21 @@ honeycomb:
   apiHost: api.honeycomb.io:443
   # Specify the name of the dataset to send data to
   dataset: opentelemetry-collector
+
   # Specify the name of an existing secret resource containing your Honeycomb API KEY instead of having a secret resource created
   # existingSecret:
+
   # Use this to specify options for the OTLP exporter, such as insecure, or balancer_name.
   # All export options except for endpoint, and headers can be specified.
   # exportOptions:
   #   insecure: true
   #   balancer_name: round_robin
+
+  # Use this option to use the old Honeycomb Exporter instead of OTLP (default is false)
+  # When set to true:
+  #   - the honeycomb.apiHost property needs to be changed to a URL with an http/https scheme.
+  #   - the config.service.pipelines.traces.exporters property needs to be changed to specify the honeycomb exporter instead of otlp
+  useHoneycombExporter: false
 
 
 config:

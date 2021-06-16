@@ -17,6 +17,12 @@ data:
     {{- end }}
 
     exporters:
+      {{- if .Values.honeycomb.useHoneycombExporter }}
+      honeycomb:
+        api_key: ${HONEYCOMB_API_KEY}
+        api_url: {{ .Values.honeycomb.apiHost }}
+        dataset: {{ .Values.honeycomb.dataset }}
+      {{- else }}
       otlp:
         endpoint: {{ .Values.honeycomb.apiHost }}
         headers:
@@ -25,6 +31,7 @@ data:
         {{- if .Values.honeycomb.exportOptions }}
         {{- toYaml .Values.honeycomb.exportOptions | nindent 8 }}
         {{- end }}
+      {{- end }}
 
     {{- if .Values.config.exporters }}
     {{- toYaml .Values.config.exporters | nindent 6 }}
