@@ -75,6 +75,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | --- | --- | --- |
 | `honeycomb.authToken` | Honeycomb Secure Tenancy authorization token | `YOUR_AUTH_TOKEN` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
+| `honeycomb.grpcApiHost` | API URL for OTLP over GRPC to sent events to. Must include port. | `https://api.honeycomb.io:443` |
 | `honeycomb.uiBaseUrl` | URL used to access Honeycomb UI | `https://ui.honeycomb.io` |
 | `honeycomb.maxIdleConnsPerHost` | Maximum # of Idle connections to MySQL database | `100` |
 | `honeycomb.hsts.enabled` | Wether or not to enable HTTP Strict Transport Security | `false` |
