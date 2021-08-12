@@ -3,6 +3,27 @@ entries:
   honeycomb:
   - apiVersion: v2
     appVersion: 2.1.3
+    created: "2021-08-12T01:45:03.891480253Z"
+    description: Honeycomb Kubernetes Agent
+    digest: 574327e144673c71751eeb0b1faae4af1574170f59ba3fdf39bd0256937f79d4
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - observability
+    - tracing
+    - logs
+    - events
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    name: honeycomb
+    sources:
+    - https://github.com/honeycombio/honeycomb-kubernetes-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/honeycomb-1.0.4/honeycomb-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 2.1.3
     created: "2021-03-31T19:43:05.65117432Z"
     description: Honeycomb Kubernetes Agent
     digest: d522d9a8b9c7cc77e600ac3e658db6d20b676031667d0b797fc71f2eb747c58e
@@ -487,4 +508,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-12T01:36:20.054382794Z"
+generated: "2021-08-12T01:45:03.891583273Z"
