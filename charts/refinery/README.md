@@ -108,8 +108,19 @@ are largely based on the velocity of spans received per second, and the average 
 such as rule complexity and trace duration timeouts will also have an effect on scaling requirements.
 
 The primary setting that control scaling are `replicaCount` and `resources.limits`. When changing `resources.limits.memory`,
-you must also change `config.InMemCollector.MaxAlloc`. This should be set to 75-90% of the available memory for each replica.
+you must also change `config.InMemCollector.MaxAlloc`. This should be set to 80% of the available memory for each replica.
 Refer to the comments in [values.yaml](./values.yaml) for more details about each property.
+
+See [Refinery: Scale and Troubleshoot](https://docs.honeycomb.io/manage-data-volume/refinery/scale-and-troubleshoot/)
+for more details on how to properly scale Refinery.
+
+## Redis Configuration
+
+By default, a single node configuration of Redis will be installed. This configuration **is not** recommended for 
+production deployments of Refinery. It is recommended that you configure and install a high available setup of Redis 
+that can be used by this chart with the `redis.existingHost` parameter. 
+
+Redis is used for peer discovery only, and the workloads on an existing cluster will be minimal.
 
 ## Configuration
 
@@ -158,6 +169,9 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `redis.image.repository` | Redis image name | `redis` |
 | `redis.image.tag` | Redis image tag | `6.0.2` |
 | `redis.image.pullPolicy` | Redis image pull policy | `IfNotPresent` |
+| `redis.nodeSelector` | Node labels for pod assignment specific to the installed Redis deployment | `{}` |
+| `redis.tolerations` | Tolerations for pod assignment specific to the installed Redis deployment | `[]`|
+| `redis.affinity` | Map of node/pod affinities specific to the installed Redis deployment | `{}` |
 | `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
 | `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |

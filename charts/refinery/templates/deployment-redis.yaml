@@ -34,15 +34,15 @@ spec:
             - name: redis
               containerPort: 6379
               protocol: TCP
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.redis.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.redis.affinity }}
       affinity:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.redis.tolerations }}
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}

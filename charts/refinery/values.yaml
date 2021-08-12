@@ -102,11 +102,11 @@ config:
     # will compare total allocated bytes to this value. If allocation is too
     # high, cache capacity will be reduced and an error will be logged.
     # Useful values for this setting are generally in the range of 75%-90% of
-    # available system memory.
-    # This value should be set in according with the resources.limits.memory
+    # available system memory. Using 80% is the recommended.
+    # This value should be set in according to the resources.limits.memory
     # By default that setting is 2GB, and this is set to 85% of that limit
-    # 2 * 1024 * 1024 * 1024 * 0.85 = 1,825,361,101
-    MaxAlloc: 1825361101
+    # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
+    MaxAlloc: 1717986918
 
   # Logger describes which logger to use for Refinery logs. Valid options are
   # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
@@ -201,11 +201,11 @@ redis:
   # To install a simple single pod Redis deployment set this to true.
   # If false, you must specify a value for existingHost
   # For production, it is recommended to set this to false and provide
-  # a highly available Redis configuration using existingHost
+  # a highly available Redis configuration using redis.existingHost
   enabled: true
 
   # If redis.enabled is false this needs to be specified.
-  # This needs to be the name:port of an Redis configuration
+  # This needs to be the name:port of a Redis configuration
   # existingHost:
 
   # If redis.enabled is true, this the image that will be used to create
@@ -215,6 +215,14 @@ redis:
     tag: 6.0.2
     pullPolicy: IfNotPresent
 
+  # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
+  nodeSelector: {}
+
+  # Tolerations specific to installed Redis configuration. Requires redis.enabled to be true
+  tolerations: []
+
+  # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
+  affinity: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
