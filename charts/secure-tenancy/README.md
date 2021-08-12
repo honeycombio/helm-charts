@@ -75,6 +75,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | --- | --- | --- |
 | `honeycomb.authToken` | Honeycomb Secure Tenancy authorization token | `YOUR_AUTH_TOKEN` |
 | `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
+| `honeycomb.grpcApiHost` | API URL for OTLP over gRPC to sent events to. Must include port. | `https://api.honeycomb.io:443` |
 | `honeycomb.uiBaseUrl` | URL used to access Honeycomb UI | `https://ui.honeycomb.io` |
 | `honeycomb.maxIdleConnsPerHost` | Maximum # of Idle connections to MySQL database | `100` |
 | `honeycomb.hsts.enabled` | Wether or not to enable HTTP Strict Transport Security | `false` |
@@ -100,7 +101,8 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `mysql.rootUser.password` | When `mysql.enabled` is true this will be the root password used | `root_password` |
 | `mysql.replication.password` | When `mysql.enabled` is true this will be the replication password used | `replication_password` |
 | `service.type` | Kubernetes Service type | `ClusterIP` |
-| `service.port` | Service HTTP port | `80` |
+| `service.port` | Service port for Honeycomb formatted telemetry | `80` |
+| `service.grpcPort` | Service port for OTLP over gRPC telemetry | `4317` |
 | `service.ip` | LoadBalancer service IP address | `nil` |
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |

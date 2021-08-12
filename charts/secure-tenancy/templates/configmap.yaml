@@ -13,6 +13,8 @@ data:
     http_strict_transport_security_enabled: {{ .Values.honeycomb.hsts.enabled }}
     http_strict_transport_security_max_age: {{ .Values.honeycomb.hsts.maxAge }}
     max_idle_conns_per_host: {{ .Values.honeycomb.maxIdleConnsPerHost }}
+    grpc_listen_addr: 8081
+    api_grpc_base_url: {{ .Values.honeycomb.grpcApiHost | quote }}
   mysqlconfig.yaml: |
     host: "{{ include "db.fullhost" . }}"
     database: {{ .Values.mysql.db.name | quote }}
