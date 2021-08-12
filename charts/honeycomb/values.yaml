@@ -86,6 +86,9 @@ tolerations:
 
 affinity: {}
 
+## Optional priorityClassName for Honeycomb Agent
+priorityClassName: ""
+
 rbac:
   # Specifies whether roles based access control rules should be created.
   create: true

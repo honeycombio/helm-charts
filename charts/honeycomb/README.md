@@ -105,6 +105,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `nodeSelector` | Node labels for pod assignment | `{}` | 
 | `tolerations` | Tolerations for pod assignment | `[]`| 
 | `affinity` | Map of node/pod affinities | `{}` |
+| `priorityClassName` | Pod priority for Honeycomb agent | `nil` |
 | `rbac.create` | Specify whether RBAC resources should be created and used | `true` |
 | `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
