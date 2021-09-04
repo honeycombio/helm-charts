@@ -9,11 +9,23 @@ honeycomb:
 
 watchers:
   - dataset: kubernetes-logs
-    labelSelector: component=kube-controller-manager
+    labelSelector: "component=kube-apiserver,tier=control-plane"
     namespace: kube-system
     parser: glog
   - dataset: kubernetes-logs
-    labelSelector: component=kube-scheduler
+    labelSelector: "component=kube-scheduler,tier=control-plane"
+    namespace: kube-system
+    parser: glog
+  - dataset: kubernetes-logs
+    labelSelector: "component=kube-controller-manager,tier=control-plane"
+    namespace: kube-system
+    parser: glog
+  - dataset: kubernetes-logs
+    labelSelector: "k8s-app=kube-proxy"
+    namespace: kube-system
+    parser: glog
+  - dataset: kubernetes-logs
+    labelSelector: "k8s-app=kube-dns"
     namespace: kube-system
     parser: glog
 
