@@ -24,7 +24,7 @@ helm install honeycomb honeycomb/honeycomb --set honeycomb.apiKey=YOUR_API_KEY
 ```
 
 ### Using modified log watchers configuration
-The agent watchers can be configured via this chart's `agent.watchers` property. Create a yaml file with your
+The agent watchers can be configured via this chart's `watchers` property. Create a yaml file with your
 Honeycomb API key and custom agent configuration similar to the following:
 ```yaml
 honeycomb:
