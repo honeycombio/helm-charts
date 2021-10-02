@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "secure-tenancy.labels" . | nindent 4 }}
   annotations:
-    {{- if not .Values.omitHelm }}
     {{- if .Values.mysql.enabled }}
     "helm.sh/hook": post-install
     {{- else }}
@@ -13,7 +12,6 @@ metadata:
     {{- end }}
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
-    {{- end }}
 spec:
   backoffLimit: 5
   activeDeadlineSeconds: 200
@@ -32,7 +30,7 @@ spec:
               - "-url"
               - "mysql://$(HONEYCOMB_MYSQL_USER):$(HONEYCOMB_MYSQL_PASSWORD)@tcp({{ include "db.fullhost" . }})/{{ .Values.mysql.db.name }}?timeout=30s&tls={{ .Values.mysql.tls }}"
               - "-path"
-              - "/srv/hny/migrate"
+              - "/srv/hny/migrate/mysql"
               - "up"
           env:
             - name: HONEYCOMB_MYSQL_USER
