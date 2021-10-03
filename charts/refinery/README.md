@@ -184,7 +184,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
 | `ingress.annotations` | Ingress annotations | `{}` |
-| `ingress.hosts[0].host` | Hostname to use for Ingress | `refinery.local` |
+| `ingress.hosts[0].host` | Hostname to use for ingress | `refinery.local` |
 | `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
 | `ingress.tls` | TLS hosts	| `[]` |
 | `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
@@ -193,10 +193,6 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `affinity` | Map of node/pod affinities | `{}` |
 
 ## Upgrading
-
-### Upgrading from 1.1.3 or earlier
-The ingress controller was refactored and support for multiple `paths` for every host was removed. Only a single `path` 
-can be specified for each ingress host.
 
 ### Upgrading from 1.1.1 or earlier
 The default limits and replica count and memory were increased to properly represent minimum production requirements. 
