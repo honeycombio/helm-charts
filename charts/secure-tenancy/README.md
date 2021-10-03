@@ -107,8 +107,8 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
 | `ingress.annotations` | Ingress annotations | `{}` |
-| `ingress.hosts[0].name` | Hostname to your Secure Tenancy installation | `secure-tenancy.local` |
-| `ingress.hosts[0].paths` | Path within the url structure | `[]` |
+| `ingress.hosts[0].host` | Hostname to use for ingress | `secure-tenancy.local` |
+| `ingress.hosts[0].paths` | Array of path prefixes that will be used with the host | `[/]` |
 | `ingress.tls` | TLS hosts	| `[]` |
 | `autoscaling.enabled` | Enable autoscaling for Secure Tenancy deployment | `false` |
 | `autoscaling.minReplicas` | Minimum number of replicas to scale back (should be no less than 2) | `2` |
@@ -124,5 +124,13 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 ## Template Manifest
 It may be desired to have Helm render Kubernetes manifests but not have them installed.
 You can use the `helm template` command to accomplish this. 
-By default the output Kubernetes manifests will contain Helm specific annotations.
+By default, the output Kubernetes manifests will contain Helm specific annotations.
 You can remove these from the output templates by setting a special `omitHelm` parameter to false when generating the templates.
+
+## Upgrading
+
+### Upgrading from 0.1.4 or earlier 
+Support for stable Kubernetes was added. If you are deploying to a cluster that is Kubernetes version 1.19 or greater 
+this will leverage the stable version for Ingress. With the stable version, each path definition will use 
+`pathType: Prefix` which means the path itself can not contain any wildcards. If you previously had this set to `/*` or 
+similar, you will need to update your path to remove the wildcard.
