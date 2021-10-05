@@ -41,13 +41,6 @@ spec:
           command:
             - "/otelcontribcol"
             - "--config=/conf/opentelemetry-collector-config.yaml"
-            {{- if .Values.config.processors }}
-            {{- if .Values.config.processors.memory_limiter }}
-            {{- if .Values.config.processors.memory_limiter.ballast_size_mib }}
-            - "--mem-ballast-size-mib={{ .Values.config.processors.memory_limiter.ballast_size_mib }}"          
-            {{- end }}
-            {{- end }}
-            {{- end }}
           env:
             - name: HONEYCOMB_API_KEY
               valueFrom:
@@ -68,15 +61,17 @@ spec:
             {{- end }}
           volumeMounts:
             - name: opentelemetry-collector-config
-              mountPath: /conf          
+              mountPath: /conf
+          {{- if .Values.config.extensions.health_check }}
           livenessProbe:
             httpGet:
               path: /
-              port: 13133
+              port: {{ .Values.config.extensions.health_check.port }}
           readinessProbe:
             httpGet:
               path: /
-              port: 13133
+              port: {{ .Values.config.extensions.health_check.port }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
