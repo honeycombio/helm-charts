@@ -21,7 +21,10 @@ spec:
         prometheus.io/scrape: "true"
         {{- end }}
       labels:
-    {{- include "refinery.selectorLabels" . | nindent 8 }}
+      {{- include "refinery.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
