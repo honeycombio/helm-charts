@@ -212,7 +212,7 @@ redis:
   # the Redis deployment
   image:
     repository: redis
-    tag: 6.0.2
+    tag: 6.2.5
     pullPolicy: IfNotPresent
 
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
