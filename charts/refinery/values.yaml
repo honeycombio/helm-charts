@@ -259,7 +259,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: refinery.local
-      paths: []
+      path: /
   tls: []
   #  - secretName: refinery-tls
   #    hosts:

@@ -184,8 +184,8 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
 | `ingress.annotations` | Ingress annotations | `{}` |
-| `ingress.hosts[0].name` | Hostname to your Refinery installation | `refinery.local` |
-| `ingress.hosts[0].paths` | Path within the url structure | `[]` |
+| `ingress.hosts[0].host` | Hostname to use for ingress | `refinery.local` |
+| `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
 | `ingress.tls` | TLS hosts	| `[]` |
 | `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
@@ -194,7 +194,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 
 ## Upgrading
 
-### Upgrading from 1.1.1 or earlier.
+### Upgrading from 1.1.1 or earlier
 The default limits and replica count and memory were increased to properly represent minimum production requirements. 
 - `replicaCount` has been increased from `2` to `3`
 - `resources.limits.memory` has been increased from `1Gi` to `2Gi`
