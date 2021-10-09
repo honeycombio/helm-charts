@@ -114,6 +114,12 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 
 ## Upgrading
 
+### Upgrading from 1.0.x or earlier
+The default log collection now includes all standard Kubernetes services. 
+The following Kubernetes components will have logs collection enabled by default: 
+api-server, controller, scheduler, coredns, kube-proxy. 
+You can override this using the `watchers` parameter.
+
 ### Upgrading from 0.11.0 or earlier
 
 The `agent.` prefix for properties has been deprecated. 
