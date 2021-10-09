@@ -119,7 +119,15 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 
 ## Upgrading
 
-### Upgrading from 0.3.2 or earlier.
+### Upgrading from 0.4.3 or earlier
+OpenTelemetry has deprecated and removed the legacy ports for OTLP: 55680/55681. These ports have been removed from the 
+default configuration. The proper default ports for OTLP are 4317 for OTLP/GRPC and 4318 for OTLP/HTTP.
+
+Memory limiter and memory ballast have been reconfigured as part of the collector. A new processor and extension are now 
+used to configure memory limits and ballast. The default settings, will respond dynamically to the configured pod memory
+limits, and in most cases should not require any further configuration changes.
+
+### Upgrading from 0.3.2 or earlier
 The Honeycomb exporter has been deprecated in favor of using the OTLP exporter that the Honeycomb service supports natively. 
 Since the default OTLP exporter is now used, sampling of data on export is no longer supported, and use of the 
 `honeycomb.sample_rate` and `honeycomb.sample_rate_attribute` properties is no longer supported. 
@@ -129,7 +137,7 @@ Advanced sampling techniques can be accomplished using the [Honeycomb Refinery](
 The default value for the `honeycomb.apiHost` property has changed to represent a gRPC endpoint address. 
 If you copied this default value into your local values file, you will need to update this to `api.honeycomb.io:443` when upgrading.
 
-### Upgrading from 0.1.1 or earlier.
+### Upgrading from 0.1.1 or earlier
 A breaking change in the OTLP receiver configuration was introduced. This change is part of the default configuration. 
 If you changed the default OTLP receiver configuration, you will need to ensure your changes are compatible with the 
 updated configuration layout for OTLP.

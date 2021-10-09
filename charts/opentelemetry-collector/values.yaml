@@ -12,22 +12,18 @@ honeycomb:
 
   # Specify the name of an existing secret resource containing your Honeycomb API KEY instead of having a secret resource created
   # existingSecret:
-  # Use this to specify options for the OTLP exporter, such as insecure, or balancer_name.
+
+  # Use this to specify options for the OTLP/GRPC exporter, such as insecure, or balancer_name.
   # All export options except for endpoint, and headers can be specified.
   # exportOptions:
   #   insecure: true
   #   balancer_name: round_robin
 
-  # Use this to specify options for the OTLP exporter, such as insecure, or balancer_name.
-  # All export options except for endpoint, and headers can be specified.
-  # exportOptions:
-  #   insecure: true
-  #   balancer_name: round_robin
-
+  # DEPRECATED: Use of this option is deprecated and will be removed in a future release
   # Use this option to use the old Honeycomb Exporter instead of OTLP (default is false)
   # When set to true:
   #   - the honeycomb.apiHost property needs to be changed to a URL with an http/https scheme.
-  #   - the config.service.pipelines.traces.exporters property needs to be changed to specify the honeycomb exporter instead of otlp
+  #   - the config.service.pipelines.traces.exporters property needs to be changed to specify the honeycomb exporter instead of OTLP
   # useHoneycombExporter: false
 
 
@@ -48,16 +44,13 @@ config:
   processors:
     batch:
     memory_limiter:
-      # memory ballast size should be max 1/3 to 1/2 of pod memory limits
-      ballast_size_mib: 683
-      # 80% of maximum memory up to 2G
-      limit_mib: 400
-      # 25% of limit up to 2G
-      spike_limit_mib: 100
-      # How often to check for memory limits      
       check_interval: 5s
+      limit_percentage: 75
+      spike_limit_percentage: 25
       
   extensions:
+    memory_ballast:
+      size_in_percentage: 35
     health_check:
       port: 13133
 
@@ -102,40 +95,35 @@ service:
   annotations: {}
 
 ports: # configures both service, and deployment
-  otlp:
+  otlp-grpc:
     enabled: true
-    containerPort: 55680 # "legacy" port for backwards compatibility
-    servicePort: 55680
+    containerPort: 4317
+    servicePort: 4317
     protocol: TCP
   otlp-http:
     enabled: true
-    containerPort: 55681 # http server starts up on 55681
-    servicePort: 55681
+    containerPort: 4318
+    servicePort: 4318
     protocol: TCP
-  otlp-grpc:
-    enabled: true
-    containerPort: 4317 # new service port
-    servicePort: 4317
-    protocol: TCP
-  jaeger-http:
-    enabled: true
-    containerPort: 14268
-    servicePort: 14268
-    protocol: TCP
-  jaeger-binary:
-    enabled: true
-    containerPort: 6832
-    servicePort: 6832
-    protocol: UDP
   jaeger-compact:
     enabled: true
     containerPort: 6831
     servicePort: 6831
     protocol: UDP
+  jaeger-binary:
+    enabled: true
+    containerPort: 6832
+    servicePort: 6832
+    protocol: UDP
   jaeger-grpc:
     enabled: true
     containerPort: 14250
     servicePort: 14250
+    protocol: TCP
+  jaeger-http:
+    enabled: true
+    containerPort: 14268
+    servicePort: 14268
     protocol: TCP
   zipkin:
     enabled: true
