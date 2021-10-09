@@ -174,15 +174,19 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `redis.affinity` | Map of node/pod affinities specific to the installed Redis deployment | `{}` |
 | `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
+| `serviceAccount.labels` | Labels to be applied to ServiceAccount | `{}` |
 | `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
+| `podLabels` | Pod labels | `{}` |
 | `podAnnotations` | Pod annotations | `{}` |
 | `podSecurityContext` | Security context for pod | `{}` |
 | `securityContext` | Security context for container | `{}` |
 | `service.type` | Kubernetes Service type | `ClusterIP` |
 | `service.port` | Service port for data in Honeycomb format | `80` |
 | `service.grpcPort` | Service port for data in OTLP format over gRPC | `4317` |
+| `service.labels` | Service labels | `{}` |
 | `service.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable ingress controller resource | `false` |
+| `ingress.labels` | Ingress labels | `{}` |
 | `ingress.annotations` | Ingress annotations | `{}` |
 | `ingress.hosts[0].host` | Hostname to use for ingress | `refinery.local` |
 | `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
