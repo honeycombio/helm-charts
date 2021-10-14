@@ -194,12 +194,18 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `service.grpcPort` | Service port for data in OTLP format over gRPC | `4317` |
 | `service.labels` | Service labels | `{}` |
 | `service.annotations` | Service annotations | `{}` |
-| `ingress.enabled` | Enable ingress controller resource | `false` |
-| `ingress.labels` | Ingress labels | `{}` |
-| `ingress.annotations` | Ingress annotations | `{}` |
-| `ingress.hosts[0].host` | Hostname to use for ingress | `refinery.local` |
+| `ingress.enabled` | Enable Ingress controller resource for HTTP traffic | `false` |
+| `ingress.labels` | HTTP Ingress labels | `{}` |
+| `ingress.annotations` | HTTP Ingress annotations | `{}` |
+| `ingress.hosts[0].host` | Hostname to use for HTTP Ingress | `refinery.local` |
 | `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
-| `ingress.tls` | TLS hosts	| `[]` |
+| `ingress.tls` | TLS hosts for HTTP Ingress	| `[]` |
+| `grpcIngress.enabled` | Enable ingress controller resource for gRPC traffic | `false` |
+| `grpcIngress.labels` | gRPC Ingress labels | `{}` |
+| `grpcIngress.annotations` | gRPC Ingress annotations | `{}` |
+| `grpcIngress.hosts[0].host` | Hostname to use for gRPC Ingress | `refinery.local` |
+| `grpcIngress.hosts[0].path` | Path prefix that will be used for the host | `/` |
+| `grpcIngress.tls` | TLS hosts	for gRPC Ingress | `[]` |
 | `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
 | `autoscaling.enabled` | Enabled autoscaling for Refinery | `false` |
 | `autoscaling.minReplicas` | Set minimum number of replicas for Refinery | `3` |
