@@ -11,6 +11,14 @@ metadata:
     {{- end }}
   {{- with .Values.grpcIngress.annotations }}
   annotations:
+    alb.ingress.kubernetes.io/conditions.grpc: >
+      [{"field": "http-header", "httpHeaderConfig": {"httpHeaderName": "Content-Type", "values": ["application/grpc", "application/grpc+proto"]}}, {"field":"path-pattern","pathPatternConfig":{"values":["*"]}}]
+    # If the above rule matches, we forward to the given Service and port.
+    # See docs at https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/#actions
+    #
+    # NB: this looks like json, but it is actually a string.
+    alb.ingress.kubernetes.io/actions.grpc: >
+      {"type": "forward", "forwardConfig": { "targetGroups": [{"serviceName": "{{ include refinery.fullname }}", "servicePort": "{{ ..Values.service.grpcPort }}"}] }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
