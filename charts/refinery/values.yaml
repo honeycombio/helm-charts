@@ -88,6 +88,37 @@ config:
   UpstreamBufferSize: 1000
   PeerBufferSize: 1000
 
+  # Configure how Refinery peers are discovered and managed
+  PeerManagement:
+    # The type should always be redis when deployed to Kubernetes environments
+    Type: "redis"
+
+    # RedisHost is used to connect to redis for peer cluster membership management.
+    # Further, if the environment variable 'REFINERY_REDIS_HOST' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    RedisHost: "refinery-redis:6379"
+
+    # RedisPassword is the password used to connect to redis for peer cluster membership management.
+    # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    RedisPassword: ""
+
+    # UseTLS enables TLS when connecting to redis for peer cluster membership management, and sets the MinVersion to 1.2.
+    # Not eligible for live reload.
+    UseTLS: false
+
+    # IdentifierInterfaceName is optional.
+    # Due to the nature of DNS in Kubernetes, it is recommended to set this value to the 'eth0' interface name.
+    # When configured the pod's IP will be used in the peer list
+    IdentifierInterfaceName: eth0
+
+    # UseIPV6Identifier is optional. If using IdentifierInterfaceName, Refinery will default to the first
+    # IPv4 unicast address it finds for the specified interface. If UseIPV6Identifier is used, will use
+    # the first IPV6 unicast address found.
+    UseIPV6Identifier: false
+
   # InMemCollector brings together all the settings that are relevant to
   # collecting spans together to make traces.
   InMemCollector:
