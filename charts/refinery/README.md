@@ -219,6 +219,11 @@ The following table lists the configurable parameters of the Refinery chart, and
 
 ## Upgrading
 
+### Upgrading from 1.2.0 or earlier
+`PeerManagement` defaults are being set, including `NetworkIdentifierName: eth0` this was necessary
+to ensure communications when DNS on K8s can be flaky at times (especially on startup). If you had set this before
+you may need to update to use `eth0` instead as the value since the base image has also changed which controls this.
+
 ### Upgrading from 1.1.1 or earlier
 The default limits and replica count and memory were increased to properly represent minimum production requirements. 
 - `replicaCount` has been increased from `2` to `3`
