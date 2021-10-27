@@ -220,7 +220,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 ## Upgrading
 
 ### Upgrading from 1.2.0 or earlier
-`PeerManagement` defaults are being set, including `NetworkIdentifierName: eth0` this was necessary
+`PeerManagement` defaults are being set, including `NetworkIdentifierName: eth0`. This was necessary
 to ensure communications when DNS on K8s can be flaky at times (especially on startup). If you had set this before
 you may need to update to use `eth0` instead as the value since the base image has also changed which controls this.
 
