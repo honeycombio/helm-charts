@@ -273,6 +273,21 @@ ingress:
   #    hosts:
   #      - refinery.local
 
+grpcIngress:
+  enabled: false
+  labels: {}
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: refinery.local
+      path: /
+  tls: []
+  #  - secretName: refinery-tls
+  #    hosts:
+  #      - refinery.local
+
+
 # Setup autoscaling for refinery
 # When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
 # sent to Honeycomb, for a small period of time (approximately config.TraceTimeout * 2).
