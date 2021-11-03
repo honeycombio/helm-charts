@@ -7,11 +7,14 @@
 # decisions and dropped traces. As such, we recommend provisioning refinery for
 # your anticipated peak load
 #
+
 # Use replicaCount and resource limits to set the size of your Refinery cluster
 # per your anticipated peak load.
+# replicaCount is ignored if autoscaling is enabled
+replicaCount: 3
+
 # Changing memory limits from the default 2Gi, requires updates to the
 # config.InMemCollector.MaxAlloc property.
-replicaCount: 3
 resources:
   limits:
     cpu: 2000m
@@ -269,6 +272,21 @@ ingress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+
+# Setup autoscaling for refinery
+# When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
+# sent to Honeycomb, for a small period of time (approximately config.TraceTimeout * 2).
+# Because of this, scaleDown is disabled by default to avoid unnecessary broken traces should traffic go up and down rapidly.
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 75
+  # targetMemoryUtilizationPercentage: 80
+  behavior:
+    scaleDown:
+      selectPolicy: Disabled
+
 
 nodeSelector: {}
 

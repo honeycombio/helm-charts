@@ -114,6 +114,15 @@ Refer to the comments in [values.yaml](./values.yaml) for more details about eac
 See [Refinery: Scale and Troubleshoot](https://docs.honeycomb.io/manage-data-volume/refinery/scale-and-troubleshoot/)
 for more details on how to properly scale Refinery.
 
+### Using Autoscaling
+
+Refinery can be configured to auto-scale with load. During auto-scale events, trace sharding is recomputed, which will
+result in traces with missing spans being sent to Honeycomb. Traces with missing spans can happen for upto the 
+`config.TraceTimeout * 2`. In order to avoid auto-scale events, it is recommended to disable scaleDown which will limit
+broken traces should traffic rapidly go up and down.
+
+Autoscaling of refinery is configured using the `autoscaling` setting.
+
 ## Redis Configuration
 
 By default, a single node configuration of Redis will be installed. This configuration **is not** recommended for 
@@ -192,6 +201,12 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
 | `ingress.tls` | TLS hosts	| `[]` |
 | `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
+| `autoscaling.enabled` | Enabled autoscaling for Refinery | `false` |
+| `autoscaling.minReplicas` | Set minimum number of replicas for Refinery | `3` |
+| `autoscaling.maxReplicas` | Set maximum number of replicas for Refinery | `10` |
+| `autoscaling.targetCPUUtilizationPercentage` | Set the target CPU utilization percentage for scaling | `75` | 
+| `autoscaling.targetMemoryUtilizationPercentage` | Set the target Memory utilization percentage for scaling | `nil` |
+| `autoscaling.behavior` | Set the autoscaling behavior | scaleDown.selectPolicy: disabled |
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
