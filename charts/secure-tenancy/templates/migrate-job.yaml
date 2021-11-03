@@ -32,7 +32,7 @@ spec:
               - "-url"
               - "mysql://$(HONEYCOMB_MYSQL_USER):$(HONEYCOMB_MYSQL_PASSWORD)@tcp({{ include "db.fullhost" . }})/{{ .Values.mysql.db.name }}?timeout=30s&tls={{ .Values.mysql.tls }}"
               - "-path"
-              - "/srv/hny/migrate"
+              - "/srv/hny/migrate/mysql"
               - "up"
           env:
             - name: HONEYCOMB_MYSQL_USER
