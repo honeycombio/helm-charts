@@ -137,7 +137,7 @@ Redis is used for peer discovery only, and the workloads on an existing cluster 
 
 The repository's [values.yaml](./values.yaml) file contains information about all configuration options for this chart.
 
-**NOTE**: Configuration does not hot-reload and changes will recycle pods upgrading via `helm upgrade` operations.
+**NOTE**: Configuration does not hot-reload and changes will recycle pods when upgrading via `helm upgrade` operations.
 
 ### Memory limits
 
