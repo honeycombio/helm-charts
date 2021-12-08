@@ -1,5 +1,12 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.4.0
+
+- Upgrade Refinery to v1.8.0, for configurable MaxBatchSize (#87) | [@JamieDanielson](https://github.com/JamieDanielson)
+  - Refinery v1.7.0 also added improved histogram buckets for prometheus metrics
+- Update docs on pod recycling for config changes (#86) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+- Add changelogs and update releasing process (#81) | [@JamieDanielson](https://github.com/JamieDanielson)
+
 ## Refinery v1.3.1
 
 - Add release process by @puckpuck in #76
