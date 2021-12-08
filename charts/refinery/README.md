@@ -223,6 +223,10 @@ The following table lists the configurable parameters of the Refinery chart, and
 
 ## Upgrading
 
+### Upgrading from 1.3.1 or earlier
+
+`MaxBatchSize` is now configurable, set by default to its initially hardcoded value of 500. This value represents the number of events to include in a batch to be sent.
+
 ### Upgrading from 1.2.0 or earlier
 `PeerManagement` defaults are being set, including `NetworkIdentifierName: eth0`. This was necessary
 to ensure communications when DNS on K8s can be flaky at times (especially on startup). If you had set this before
