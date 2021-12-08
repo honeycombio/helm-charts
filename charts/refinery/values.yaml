@@ -80,6 +80,9 @@ config:
   # timer. This supports duration strings with supplied units.
   TraceTimeout: 60s
 
+  # MaxBatchSize is the number of events to be included in the batch for sending
+  MaxBatchSize: 500
+
   # SendTicker is a short timer; it determines the duration to use to check for traces to send
   SendTicker: 100ms
 
