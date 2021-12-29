@@ -1,5 +1,9 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.1.1
+
+- Fixes selectors for container metadata and logs
+
 ## Honeycomb Kubernetes Agent v1.1.0
 
 - Adds support for multiple architectures (amd64 + arm64) #64
