@@ -99,6 +99,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `image.pullPolicy` | Honeycomb agent image pull policy | `IfNotPresent` |
 | `terminationGracePeriodSeconds` | How many seconds to wait before terminating agent on shutdown | `30` |
 | `podAnnotations` | Pod annotations | `{}` |
+| `podLabels` | Pod labels | `{}` |
 | `podSecurityContext` | Security context for pod | `{}` | 
 | `securityContext` | Security context for container | `{}` | 
 | `resources` | CPU/Memory resource requests/limits | `{}` | 
