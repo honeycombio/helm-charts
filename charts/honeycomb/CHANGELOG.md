@@ -1,5 +1,10 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.2.0
+
+- Adds node metadata to metrics events
+- Fixes intermittent exception in metrics processor
+
 ## Honeycomb Kubernetes Agent v1.1.1
 
 - Fixes selectors for container metadata and logs
