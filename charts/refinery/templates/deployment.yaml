@@ -35,6 +35,18 @@ spec:
       serviceAccountName: {{ include "refinery.serviceAccountName" . }}
       securityContext:
       {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainer.enabled }}
+      initContainers:
+        - name: init-redis
+          image: busybox
+          command:
+            [
+              {{- $redisHost := ternary (printf "%s.%s.svc.cluster.local" (include "refinery.redis.fullname" .) .Release.Namespace) .Values.initContainer.redisHost .Values.redis.enabled -}}
+              "sh",
+              "-c",
+              "until nc -z {{ $redisHost }} 6379; do echo waiting for {{ $redisHost }} 6379; sleep 1; done",
+            ]
+      {{- end }}            
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

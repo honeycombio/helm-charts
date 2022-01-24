@@ -34,6 +34,13 @@ imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: ""
 
+# Use to configure an init container for Refinery deployment to wait until
+# the redis host is reachable
+initContainer:
+  enabled: true
+  # A custom redis host should be specified if using an external redis installation
+  # redisHost: ""
+
 # Use to pass in additional environment variables into Refinery
 # Refinery supports environment variables for some configuration options such as:
 # - Honeycomb API Key used by Logger and Metrics: REFINERY_HONEYCOMB_API_KEY
