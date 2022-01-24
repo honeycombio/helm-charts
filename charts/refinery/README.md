@@ -220,6 +220,8 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
+| `initContainer.enabled` | When true, an init container will be added in Refinery deployment to wait until Redis instances are reachable | `false` |
+| `initContainer.redisHost` | Custom redis host name used by Refinery init container to test connectivity | `nil` |
 
 ## Upgrading
 
