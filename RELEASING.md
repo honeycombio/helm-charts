@@ -6,6 +6,9 @@ When needing to release multiple charts, you must do the merge to main and relea
 
 ## Chart release process
 
+Note: Updates to `appVersion` ought to be done in a separate PR.
+Consider it like a dependency update; we don't mix those into release prep PRs.
+
 1. Update `version` in the `Chart.yaml` file for the specific chart being released
 2. Update `CHANGELOG.md` for the specific chart with the changes since the last release
 3. Commit changes, push, and open a release preparation pull request for review
