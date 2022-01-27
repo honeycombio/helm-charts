@@ -231,6 +231,10 @@ rules:
     #  - request.method
     #  - response.status_code
 
+  # LiveReload - If disabled, triggers a rolling restart of the cluster whenever the Rules
+  # configmap changes
+  # LiveReload:
+  #   disabled: true
 
 # Redis configuration
 redis:

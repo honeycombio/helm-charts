@@ -22,6 +22,9 @@ spec:
         prometheus.io/port: "9090"
         prometheus.io/scrape: "true"
         {{- end }}
+        {{- if .Values.rules.LiveReload.disabled }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-rules.yaml") . | sha256sum }}
+        {{- end }}
       labels:
       {{- include "refinery.selectorLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
