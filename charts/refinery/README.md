@@ -110,7 +110,7 @@ This can be accomplished by setting
 ```yaml
 rules:
   LiveReload:
-    disabled: true
+    enabled: false
 ```
 
 ## Scaling Refinery
