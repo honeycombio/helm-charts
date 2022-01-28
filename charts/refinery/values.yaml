@@ -233,8 +233,8 @@ rules:
 
   # LiveReload - If disabled, triggers a rolling restart of the cluster whenever the Rules
   # configmap changes
-  # LiveReload:
-  #   disabled: true
+  LiveReload:
+    enabled: true
 
 # Redis configuration
 redis:
