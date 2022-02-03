@@ -1,5 +1,9 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.5.0
+
+- Allow operators to disable live reload of Refinery related to changed sampling rules (#104)  | [@bixu](https://github.com/bixu)
+
 ## Refinery v1.4.0
 
 - Upgrade Refinery to v1.8.0, for configurable MaxBatchSize (#87) | [@JamieDanielson](https://github.com/JamieDanielson)
