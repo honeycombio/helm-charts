@@ -254,6 +254,27 @@ entries:
     version: 0.9.1
   opentelemetry-collector:
   - apiVersion: v2
+    appVersion: 0.43.0
+    created: "2022-02-03T22:33:48.794182923Z"
+    description: OpenTelemetry Collector for Honeycomb
+    digest: 0e91d306fb60e0dd14ba77680ea055cbaab2cb23a30277d0e1a6d2d539ae47c4
+    home: https://opentelemetry.io/
+    icon: https://opentelemetry.io/img/logos/opentelemetry-horizontal-color.png
+    keywords:
+    - observability
+    - tracing
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    name: opentelemetry-collector
+    sources:
+    - https://github.com/honeycombio/opentelemetry-collector
+    - https://github.com/honeycombio/opentelemetry-collector-contrib
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/opentelemetry-collector-1.1.0/opentelemetry-collector-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: 0.36.0
     created: "2021-10-09T12:49:20.349906409Z"
     description: OpenTelemetry Collector for Honeycomb
@@ -755,4 +776,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-25T22:47:08.314813939Z"
+generated: "2022-02-03T22:33:48.794363646Z"
