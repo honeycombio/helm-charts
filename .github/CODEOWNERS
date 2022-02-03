@@ -4,4 +4,4 @@
 # For anything not explicitly taken by someone else:
 * @honeycombio/telemetry-team
 
-/charts/secure-tenancy/ @honeycombio/secure-tenancy
+* /charts/secure-tenancy/ @honeycombio/secure-tenancy
