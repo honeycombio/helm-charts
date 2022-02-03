@@ -7,7 +7,7 @@ honeycomb:
   grpcApiHost: https://api.honeycomb.io:443
 
   uiBaseUrl: https://ui.honeycomb.io
-  
+
   maxIdleConnsPerHost: 100
   hsts:
     enabled: false
@@ -15,11 +15,15 @@ honeycomb:
 
   # Transformer to use.  Valid values are `aes256siv` or `sha256hmac`
   transformer: aes256siv
-  
+  # maximum number of goroutines to process encryption requests.
+  # See documentation on tuning this value at
+  # https://docs.honeycomb.io/authentication-and-security/secure-tenancy/deployments/#tuning-the-secure-proxy
+  maxParallelism: 8
+
 
 image:
   # this must be provided
-  repository: 
+  repository:
   tag:
   pullPolicy: IfNotPresent
 
@@ -27,9 +31,10 @@ image:
 replicaCount: 2
 
 
-# Secure Tenancy self-metrics.
+# Secure Tenancy telemetry (recommended)
+# see https://docs.honeycomb.io/authentication-and-security/secure-tenancy/configuration/#send-proxy-metrics-to-honeycomb
 metrics:
-  # leave API key blank to disable self-metrics
+  # leave API key blank to disable telemetry
   apiKey:
   dataset: secure-tenancy
   apiHost: https://api.honeycomb.io
@@ -42,7 +47,7 @@ mysql:
   # if mysql.enabled is false this needs to be specified when the name of the host
   # when specified mysql will not be installed and the specified host:port will be used instead
   # this takes not effect if mysql.enabled is true
-  # existingHost: 
+  # existingHost:
 
   # Use TLS when communicating with MySQL
   tls: false
@@ -56,7 +61,7 @@ mysql:
     password: db_password
     # MySQL database
     name: hny-secure-tenancy
-  
+
   # if mysql.enabled is true, ths is the root password used
   rootUser:
     password: root_password
@@ -64,11 +69,11 @@ mysql:
   replication:
     password: replication_password
 
-  # disable tests by default 
+  # disable tests by default
   tests:
     enabled: false
 
-       
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -79,7 +84,7 @@ service:
   port: 80
   grpcPort: 4317
   # If using a LoadBalancer service, you may also want to specify the IP to use
-  # ip: 
+  # ip:
 
 ingress:
   enabled: false
@@ -109,11 +114,11 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 2
+  #   memory: 2Gi
   # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  #   cpu: 2
+  #   memory: 2Gi
 
 nodeSelector: {}
 
