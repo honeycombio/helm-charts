@@ -3,6 +3,7 @@
 ## Refinery v1.5.0
 
 - Allow operators to disable live reload of Refinery related to changed sampling rules (#104)  | [@bixu](https://github.com/bixu)
+- Bump refinery image version to 1.9.0 (#111) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
 
 ## Refinery v1.4.0
 
