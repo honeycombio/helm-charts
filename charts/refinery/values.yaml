@@ -37,6 +37,7 @@ fullnameOverride: ""
 # Use to pass in additional environment variables into Refinery
 # Refinery supports environment variables for some configuration options such as:
 # - Honeycomb API Key used by Logger and Metrics: REFINERY_HONEYCOMB_API_KEY
+# - gRPC listen address: REFINERY_GRPC_LISTEN_ADDRESS
 # - Redis Host: REFINERY_REDIS_HOST
 # - Redis Password: REFINERY_REDIS_PASSWORD
 environment: [ ]
@@ -53,6 +54,8 @@ config:
   ListenAddr: 0.0.0.0:8080
 
   # GRPCListenAddr is the IP and port on which to listen for incoming events over gRPC.
+  # If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
+  # precedence and this value is ignored.
   GRPCListenAddr: 0.0.0.0:4317
 
   # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.

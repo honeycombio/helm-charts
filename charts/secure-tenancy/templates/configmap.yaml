@@ -15,6 +15,7 @@ data:
     max_idle_conns_per_host: {{ .Values.honeycomb.maxIdleConnsPerHost }}
     grpc_listen_addr: 8081
     api_grpc_base_url: {{ .Values.honeycomb.grpcApiHost | quote }}
+    max_parallelism: {{ .Values.honeycomb.maxParallelism }}
   mysqlconfig.yaml: |
     host: "{{ include "db.fullhost" . }}"
     database: {{ .Values.mysql.db.name | quote }}
