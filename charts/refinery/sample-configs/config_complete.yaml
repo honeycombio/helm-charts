@@ -13,6 +13,8 @@ ListenAddr: '0.0.0.0:8080'
 # gRPC. Incoming traffic is expected to be unencrypted, so if using SSL put
 # something like nginx in front to do the decryption.
 # Should be of the form 0.0.0.0:4317
+# If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
+# precedence and this value is ignored.
 # Not eligible for live reload.
 GRPCListenAddr: '0.0.0.0:4317'
 
