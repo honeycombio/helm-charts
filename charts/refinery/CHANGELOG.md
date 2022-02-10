@@ -2,7 +2,7 @@
 
 ## Refinery v1.6.0
 
-- bump app version to [1.10.0](https://github.com/honeycombio/refinery/releases/tag/v1.9.0) (#117) | [@vreynolds](https://github.com/vreynolds)
+- bump app version to [1.10.0](https://github.com/honeycombio/refinery/releases/tag/v1.10.0) (#117) | [@vreynolds](https://github.com/vreynolds)
   - this release includes bug fixes and a new Redis Username configuration option
 
 ## Refinery v1.5.0
