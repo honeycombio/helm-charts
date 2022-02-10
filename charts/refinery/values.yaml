@@ -39,6 +39,7 @@ fullnameOverride: ""
 # - Honeycomb API Key used by Logger and Metrics: REFINERY_HONEYCOMB_API_KEY
 # - gRPC listen address: REFINERY_GRPC_LISTEN_ADDRESS
 # - Redis Host: REFINERY_REDIS_HOST
+# - Redis Username: REFINERY_REDIS_USERNAME
 # - Redis Password: REFINERY_REDIS_PASSWORD
 environment: [ ]
   # - name: REFINERY_HONEYCOMB_API_KEY
@@ -104,6 +105,12 @@ config:
     # precedence and this value is ignored.
     # Not eligible for live reload.
     RedisHost: "refinery-redis:6379"
+
+    # RedisUsername is the username used to connect to redis for peer cluster membership management.
+    # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    # RedisUsername = ""
 
     # RedisPassword is the password used to connect to redis for peer cluster membership management.
     # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes
