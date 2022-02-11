@@ -15,14 +15,14 @@ replicaCount: 3
 
 # Changing memory limits from the default 2Gi, requires updates to the
 # config.InMemCollector.MaxAlloc property.
-resources:
-  limits:
-    cpu: 2000m
+resources: {}
+  # limits: 
+    # cpu: 2000m
     # Changing memory limits requires updating config.InMemCollector.MaxAlloc
-    memory: 2Gi
-  requests:
-    cpu: 500m
-    memory: 500Mi
+  #   memory: 2Gi
+  # requests:
+  #   cpu: 500m
+  #   memory: 500Mi
 
 image:
   repository: honeycombio/refinery
@@ -153,7 +153,7 @@ config:
     # This value should be set in according to the resources.limits.memory
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
-    MaxAlloc: 1717986918
+    # MaxAlloc: 1717986918
 
   # Logger describes which logger to use for Refinery logs. Valid options are
   # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
