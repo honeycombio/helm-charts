@@ -306,6 +306,12 @@ service:
   labels: {}
   annotations: {}
 
+headlessService:
+  enabled: false
+  grpcPort: 4317
+  labels: {}
+  annotations: {}
+
 ingress:
   enabled: false
   labels: {}

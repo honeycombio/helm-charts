@@ -212,6 +212,10 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `service.grpcPort` | Service port for data in OTLP format over gRPC | `4317` |
 | `service.labels` | Service labels | `{}` |
 | `service.annotations` | Service annotations | `{}` |
+| `headlessService.enabaled` | Enable Kubernetes Headless Service for gRPC traffic | `false` |
+| `headlessService.grpcPort` | Headless Service port for data in OTLP format over gRPC | `4317` |
+| `headlessService.labels` | Hedless Service labels | `{}` |
+| `headlessService.annotations` | Service annotations | `{}` |
 | `ingress.enabled` | Enable Ingress controller resource for HTTP traffic | `false` |
 | `ingress.labels` | HTTP Ingress labels | `{}` |
 | `ingress.annotations` | HTTP Ingress annotations | `{}` |
