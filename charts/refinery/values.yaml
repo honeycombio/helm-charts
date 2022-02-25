@@ -95,6 +95,13 @@ config:
   UpstreamBufferSize: 1000
   PeerBufferSize: 1000
 
+  # EnvironmentCacheTTL is the amount of time a cache entry will live that associates
+  # an API key with an environment name.
+  # Cache misses lookup the environment name using HoneycombAPI config value.
+  # Default is 1 hour ("1h").
+  # Not eligible for live reload.
+  EnvironmentCacheTTL: "1h"
+
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
     # The type should always be redis when deployed to Kubernetes environments
