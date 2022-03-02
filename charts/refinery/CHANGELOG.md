@@ -1,5 +1,10 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.7.0
+
+- Bump app version to [v1.12.0](https://github.com/honeycombio/refinery/releases/tag/v1.12.0) (#125) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+  - this release adds preliminary support for environments and services
+
 ## Refinery v1.6.0
 
 - bump app version to [1.10.0](https://github.com/honeycombio/refinery/releases/tag/v1.10.0) (#117) | [@vreynolds](https://github.com/vreynolds)
