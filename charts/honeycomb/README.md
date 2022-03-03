@@ -76,41 +76,43 @@ You can obtain your API Key by going to your Account profile page inside of your
 
 The following table lists the configurable parameters of the Honeycomb chart, and their default values.
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `honeycomb.apiKey` | Honeycomb API Key | `YOUR_API_KEY` |
-| `honeycomb.apiHost` | API URL to sent events to | `https://api.honeycomb.io` |
-| `honeycomb.existingSecret` | Name of an existing secret resource to use containing your API Key in the `api-key` field | `nil` |
-| `watchers` | An array of `watchers` configuration snippets for the log agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)). Set this to an empty array `[]` to disable log collection. | kube-controller-manager, kube-scheduler |
-| `verbosity` | Agent log level | `info` |
-| `splitLogging` | Send all log levels to stdout instead of stderr | `false` |
-| `additionalFields` | Additional fields to add to each event | `nil` |
-| `metrics.enabled` | Enable and install metrics collection as events into Honeycomb | `true` |
-| `metrics.dataset` | Name of Honeycomb dataset for Kubernetes metrics | `kubernetes-metrics` |
-| `metrics.clusterName` | Name of Kubernetes cluster to use for metrics | `k8s-cluster` |
-| `metrics.metricGroups` | Resource groups (node, pod, container, volume) to collect metrics from | `node, pod` |
-| `metrics.omitLabels` | Pod labels to omit from being emitted as fields in metrics | `nil` |
-| `metrics.additionalFields` | Additional fields to add to each metric (overrides global setting) | `nil` |
-| `nameOverride` | String to partially override honeycomb.fullname template with a string (will append the release name) | `nil` |
-| `fullnameOverride` | String to fully override honeycomb.fullname template with a string | `nil` |
-| `imagePullSecrets` | Specify docker-registry secret names as an array | `[]` |
-| `image.repository` | Honeycomb Agent Image name | `honeycombio/honeycomb-kubernetes-agent` |
-| `image.tag` | Honeycomb Image tag (leave blank to use app version) | `nil` |
-| `image.pullPolicy` | Honeycomb agent image pull policy | `IfNotPresent` |
-| `terminationGracePeriodSeconds` | How many seconds to wait before terminating agent on shutdown | `30` |
-| `podAnnotations` | Pod annotations | `{}` |
-| `podLabels` | Pod labels | `{}` |
-| `podSecurityContext` | Security context for pod | `{}` | 
-| `securityContext` | Security context for container | `{}` | 
-| `resources` | CPU/Memory resource requests/limits | `{}` | 
-| `nodeSelector` | Node labels for pod assignment | `{}` | 
-| `tolerations` | Tolerations for pod assignment | `[]`| 
-| `affinity` | Map of node/pod affinities | `{}` |
-| `priorityClassName` | Pod priority for Honeycomb agent | `nil` |
-| `rbac.create` | Specify whether RBAC resources should be created and used | `true` |
-| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
-| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `honeycomb.fullname` template |
-| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
+| Parameter                       | Description                                                                                                                                                                                                                                 | Default                                           |
+|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| `honeycomb.apiKey`              | Honeycomb API Key                                                                                                                                                                                                                           | `YOUR_API_KEY`                                    |
+| `honeycomb.apiHost`             | API URL to sent events to                                                                                                                                                                                                                   | `https://api.honeycomb.io`                        |
+| `honeycomb.existingSecret`      | Name of an existing secret resource to use containing your API Key in the `api-key` field                                                                                                                                                   | `nil`                                             |
+| `watchers`                      | An array of `watchers` configuration snippets for the log agent ([docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master/docs/configuration-reference.md)). Set this to an empty array `[]` to disable log collection. | kube-controller-manager, kube-scheduler           |
+| `verbosity`                     | Agent log level                                                                                                                                                                                                                             | `info`                                            |
+| `splitLogging`                  | Send all log levels to stdout instead of stderr                                                                                                                                                                                             | `false`                                           |
+| `additionalFields`              | Additional fields to add to each event                                                                                                                                                                                                      | `nil`                                             |
+| `retryBufferSize`               | Retry buffer size. Set to 0 to disable retry buffer.                                                                                                                                                                                        | `0`                                               |
+| `retryBufferExpire`             | Optional timer to expire retry buffer events, if retry buffer is enabled                                                                                                                                                                    | `0`                                               |
+| `metrics.enabled`               | Enable and install metrics collection as events into Honeycomb                                                                                                                                                                              | `true`                                            |
+| `metrics.dataset`               | Name of Honeycomb dataset for Kubernetes metrics                                                                                                                                                                                            | `kubernetes-metrics`                              |
+| `metrics.clusterName`           | Name of Kubernetes cluster to use for metrics                                                                                                                                                                                               | `k8s-cluster`                                     |
+| `metrics.metricGroups`          | Resource groups (node, pod, container, volume) to collect metrics from                                                                                                                                                                      | `node, pod`                                       |
+| `metrics.omitLabels`            | Pod labels to omit from being emitted as fields in metrics                                                                                                                                                                                  | `nil`                                             |
+| `metrics.additionalFields`      | Additional fields to add to each metric (overrides global setting)                                                                                                                                                                          | `nil`                                             |
+| `nameOverride`                  | String to partially override honeycomb.fullname template with a string (will append the release name)                                                                                                                                       | `nil`                                             |
+| `fullnameOverride`              | String to fully override honeycomb.fullname template with a string                                                                                                                                                                          | `nil`                                             |
+| `imagePullSecrets`              | Specify docker-registry secret names as an array                                                                                                                                                                                            | `[]`                                              |
+| `image.repository`              | Honeycomb Agent Image name                                                                                                                                                                                                                  | `honeycombio/honeycomb-kubernetes-agent`          |
+| `image.tag`                     | Honeycomb Image tag (leave blank to use app version)                                                                                                                                                                                        | `nil`                                             |
+| `image.pullPolicy`              | Honeycomb agent image pull policy                                                                                                                                                                                                           | `IfNotPresent`                                    |
+| `terminationGracePeriodSeconds` | How many seconds to wait before terminating agent on shutdown                                                                                                                                                                               | `30`                                              |
+| `podAnnotations`                | Pod annotations                                                                                                                                                                                                                             | `{}`                                              |
+| `podLabels`                     | Pod labels                                                                                                                                                                                                                                  | `{}`                                              |
+| `podSecurityContext`            | Security context for pod                                                                                                                                                                                                                    | `{}`                                              | 
+| `securityContext`               | Security context for container                                                                                                                                                                                                              | `{}`                                              | 
+| `resources`                     | CPU/Memory resource requests/limits                                                                                                                                                                                                         | `{}`                                              | 
+| `nodeSelector`                  | Node labels for pod assignment                                                                                                                                                                                                              | `{}`                                              | 
+| `tolerations`                   | Tolerations for pod assignment                                                                                                                                                                                                              | `[]`                                              | 
+| `affinity`                      | Map of node/pod affinities                                                                                                                                                                                                                  | `{}`                                              |
+| `priorityClassName`             | Pod priority for Honeycomb agent                                                                                                                                                                                                            | `nil`                                             |
+| `rbac.create`                   | Specify whether RBAC resources should be created and used                                                                                                                                                                                   | `true`                                            |
+| `serviceAccount.create`         | Specify whether a ServiceAccount should be created                                                                                                                                                                                          | `true`                                            |
+| `serviceAccount.name`           | The name of the ServiceAccount to create                                                                                                                                                                                                    | Generated using the `honeycomb.fullname` template |
+| `serviceAccount.annotations`    | Annotations to be applied to ServiceAccount                                                                                                                                                                                                 | `{}`                                              |
 
 
 ## Upgrading

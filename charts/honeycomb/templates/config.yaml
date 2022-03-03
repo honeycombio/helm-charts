@@ -7,18 +7,28 @@ metadata:
 data:
   config.yaml: |
     apiHost: {{ .Values.honeycomb.apiHost }}
+
+    {{/* Early versions of the config had an agent sub-section, now deprecated */}}
     {{- if .Values.agent }}
     watchers:
     {{- toYaml .Values.agent.watchers | nindent 6 }}
     verbosity: {{ .Values.agent.verbosity | default "info" }}
     splitLogging: {{ .Values.agent.splitLogging | default false }}
+
     {{- else }}
     watchers:
     {{- toYaml .Values.watchers | nindent 6 }}
     verbosity: {{ .Values.verbosity | default "info" }}
     splitLogging: {{ .Values.splitLogging | default false }}
+    retryBufferSize: {{ .Values.retryBufferSize }}
+    retryBufferExpire: {{ .Values.retryBufferExpire }}
+    additionalFields:
+      {{- with .Values.additionalFields }}
+          {{- toYaml . | nindent 6 }}
+      {{- end }}
     {{- end }}
 
     metrics:
     {{- toYaml .Values.metrics | nindent 6 }}
+
 

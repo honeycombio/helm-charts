@@ -40,13 +40,25 @@ metrics:
   # additionalFields:
   #   region: us-east-1
 
-# agent log verbosity: warn, info, debug, trace
+# agent log verbosity: panic, fatal, error, warn, info, debug, trace
 verbosity: info
 
 # splitLogging directs trace, debug, info, and warn log levels to stdout rather than stderr
 splitLogging: false
 
-# additionalFields:
+# Retry Buffer size
+# Setting the Retry buffer to > 0, will enable an additional buffer at the agent level.
+# This is a ring buffer with a maximum size (capacity).
+retryBufferSize: 0
+
+# Retry Buffer expire
+# The expire timer is used to evict items from the buffer before a ring is completed.
+# Setting Expire to 0 will wait for the ring buffer to be exhausted before evicting items.
+# The expire timer is expressed as a time duration (e.g. 10s, 1m, etc.)
+retryBufferExpire: 0
+
+# Additional fields added to each log event output from the agent
+additionalFields:
 #   cluster_name: dev_cluster
 
 nameOverride: ""
