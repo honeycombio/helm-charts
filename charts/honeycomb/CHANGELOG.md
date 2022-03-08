@@ -1,5 +1,9 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.4.0
+
+- Adds support for a retry ring buffer (#127)
+
 ## Honeycomb Kubernetes Agent v1.3.1
 
 - Bump honeycomb agent from 2.3.1 to [2.3.2](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.3.2) (#113)
