@@ -76,6 +76,16 @@ spec:
             httpGet:
               path: /alive
               port: data
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /alive
+              port: data
+            initialDelaySeconds: 0
+            periodSeconds: 3
+            failureThreshold: 5
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       volumes:
