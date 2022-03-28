@@ -1,5 +1,11 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.8.0
+
+- add readiness probe (#130) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+- bump app version to [1.12.1](https://github.com/honeycombio/refinery/releases/tag/v1.12.1) (#131) | [@vreynolds](https://github.com/vreynolds)
+  - in this release: fix error log to match event metadata
+
 ## Refinery v1.7.0
 
 - Bump app version to [v1.12.0](https://github.com/honeycombio/refinery/releases/tag/v1.12.0) (#125) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
