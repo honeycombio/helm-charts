@@ -1,5 +1,11 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.0
+
+- Bump agent version to [2.5.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.0) (#133)
+  - Adds exclude capability for certain logging paths
+  - Updates memory.utilization memory counter to use memory.workingset
+
 ## Honeycomb Kubernetes Agent v1.4.0
 
 - Adds support for a retry ring buffer (#127)
