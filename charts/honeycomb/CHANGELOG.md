@@ -1,5 +1,21 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.0
+
+- Bump agent version to [2.5.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.0) (#133)
+  - Adds exclude capability for certain logging paths
+  - Updates memory.utilization memory counter to use memory.workingset
+
+## Honeycomb Kubernetes Agent v1.4.0
+
+- Adds support for a retry ring buffer (#127)
+
+## Honeycomb Kubernetes Agent v1.3.1
+
+- Bump honeycomb agent from 2.3.1 to [2.3.2](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.3.2) (#113)
+  - maintenance release updating libhoney-go
+- docs: how to ingress local refinery chart (#112)
+
 ## Honeycomb Kubernetes Agent v1.3.0
 
 - bump agent version to 2.3.1 (#98)

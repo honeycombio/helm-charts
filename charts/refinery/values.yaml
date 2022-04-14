@@ -37,7 +37,9 @@ fullnameOverride: ""
 # Use to pass in additional environment variables into Refinery
 # Refinery supports environment variables for some configuration options such as:
 # - Honeycomb API Key used by Logger and Metrics: REFINERY_HONEYCOMB_API_KEY
+# - gRPC listen address: REFINERY_GRPC_LISTEN_ADDRESS
 # - Redis Host: REFINERY_REDIS_HOST
+# - Redis Username: REFINERY_REDIS_USERNAME
 # - Redis Password: REFINERY_REDIS_PASSWORD
 environment: [ ]
   # - name: REFINERY_HONEYCOMB_API_KEY
@@ -53,6 +55,8 @@ config:
   ListenAddr: 0.0.0.0:8080
 
   # GRPCListenAddr is the IP and port on which to listen for incoming events over gRPC.
+  # If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
+  # precedence and this value is ignored.
   GRPCListenAddr: 0.0.0.0:4317
 
   # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.
@@ -91,6 +95,13 @@ config:
   UpstreamBufferSize: 1000
   PeerBufferSize: 1000
 
+  # EnvironmentCacheTTL is the amount of time a cache entry will live that associates
+  # an API key with an environment name.
+  # Cache misses lookup the environment name using HoneycombAPI config value.
+  # Default is 1 hour ("1h").
+  # Not eligible for live reload.
+  EnvironmentCacheTTL: "1h"
+
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
     # The type should always be redis when deployed to Kubernetes environments
@@ -101,6 +112,12 @@ config:
     # precedence and this value is ignored.
     # Not eligible for live reload.
     RedisHost: "refinery-redis:6379"
+
+    # RedisUsername is the username used to connect to redis for peer cluster membership management.
+    # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    # RedisUsername = ""
 
     # RedisPassword is the password used to connect to redis for peer cluster membership management.
     # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes
@@ -231,6 +248,9 @@ rules:
     #  - request.method
     #  - response.status_code
 
+  # LiveReload - If disabled, triggers a rolling restart of the cluster whenever
+  # the Rules configmap changes
+  LiveReload: true
 
 # Redis configuration
 redis:

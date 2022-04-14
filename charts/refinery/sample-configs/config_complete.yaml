@@ -13,6 +13,8 @@ ListenAddr: '0.0.0.0:8080'
 # gRPC. Incoming traffic is expected to be unencrypted, so if using SSL put
 # something like nginx in front to do the decryption.
 # Should be of the form 0.0.0.0:4317
+# If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
+# precedence and this value is ignored.
 # Not eligible for live reload.
 GRPCListenAddr: '0.0.0.0:4317'
 
@@ -121,6 +123,12 @@ PeerManagement:
   # precedence and this value is ignored.
   # Not eligible for live reload.
   RedisHost: "redis:6379"
+
+  # RedisUsername is the username used to connect to redis for peer cluster membership management.
+  # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
+  # precedence and this value is ignored.
+  # Not eligible for live reload.
+  # RedisUsername = ""
 
   # RedisPassword is the password used to connect to redis for peer cluster membership management.
   # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes

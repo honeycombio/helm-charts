@@ -38,8 +38,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-            - "/otelcontribcol"
+          args:
             - "--config=/conf/opentelemetry-collector-config.yaml"
           env:
             - name: HONEYCOMB_API_KEY

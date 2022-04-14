@@ -98,6 +98,20 @@ rules:
     AdjustmentInterval: 15
     Weight: 0.5
 ```
+
+### Disabling Live-Reload on Rules Changes
+
+Depending on Kubernetes use-cases, operators may wish to disable Refinery's
+default live-reload behavior on rules changes and rely instead on Kubernetes
+to trigger a rolling pod update when the rule configmap changes.
+
+This can be accomplished by setting
+
+```yaml
+rules:
+  LiveReload: false
+```
+
 ## Scaling Refinery
 
 Refinery is a stateful service and is not optimized for dynamic auto-scaling. Changes in cluster membership can result

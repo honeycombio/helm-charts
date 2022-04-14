@@ -1,5 +1,29 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.8.0
+
+- add readiness probe (#130) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+- bump app version to [1.12.1](https://github.com/honeycombio/refinery/releases/tag/v1.12.1) (#131) | [@vreynolds](https://github.com/vreynolds)
+  - in this release: fix error log to match event metadata
+
+## Refinery v1.7.0
+
+- Bump app version to [v1.12.0](https://github.com/honeycombio/refinery/releases/tag/v1.12.0) (#125) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+  - this release adds preliminary support for environments and services
+
+## Refinery v1.6.0
+
+- bump app version to [1.10.0](https://github.com/honeycombio/refinery/releases/tag/v1.10.0) (#117) | [@vreynolds](https://github.com/vreynolds)
+  - this release includes bug fixes and a new Redis Username configuration option
+
+## Refinery v1.5.0
+
+- Allow operators to disable live reload of Refinery related to changed sampling rules (#104)  | [@bixu](https://github.com/bixu)
+- Bump refinery image version to [1.9.0](https://github.com/honeycombio/refinery/releases/tag/v1.9.0) (#111) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+  - Honor env. variable to set gRPC listener address
+  - Add retries when connecting to redis during init
+  - Properly set meta.refinery.local_hostname field
+
 ## Refinery v1.4.0
 
 - Upgrade Refinery to v1.8.0, for configurable MaxBatchSize (#87) | [@JamieDanielson](https://github.com/JamieDanielson)
