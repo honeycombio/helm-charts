@@ -21,6 +21,9 @@ spec:
       secretName: {{ .secretName }}
     {{- end }}
   {{- end }}
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}

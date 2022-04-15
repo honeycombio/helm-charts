@@ -107,6 +107,7 @@ The following table lists the configurable parameters of the Honeycomb chart, an
 | `service.ip`                                    | LoadBalancer service IP address                                                                       | `nil`                          |
 | `service.annotations`                           | Service annotations                                                                                   | `{}`                           |
 | `ingress.enabled`                               | Enable ingress controller resource                                                                    | `false`                        |
+| `ingress.className`                             | Sets `ingressClassName` in the ingress controller spec                                                | `YOUR_CLASS_NAME`              |
 | `ingress.annotations`                           | Ingress annotations                                                                                   | `{}`                           |
 | `ingress.hosts[0].host`                         | Hostname to use for ingress                                                                           | `secure-tenancy.local`         |
 | `ingress.hosts[0].paths`                        | Array of path prefixes that will be used with the host                                                | `[/]`                          |
