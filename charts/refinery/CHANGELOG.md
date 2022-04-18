@@ -1,5 +1,11 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.9.0
+
+- bump app version to [1.13.0](https://github.com/honeycombio/refinery/releases/tag/v1.13.0) (#136) | [@JamieDanielson](https://github.com/JamieDanielson)
+  - This release adds parsing for nested json fields in the rules sampler
+- support ingressClassName (#105) | [@kentquirk](https://github.com/kentquirk)
+
 ## Refinery v1.8.0
 
 - add readiness probe (#130) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
