@@ -1,9 +1,13 @@
 # Secure Tenancy Helm Chart Changelog
 
+## Secure Tenancy v1.2.0
+
+- support ingressClassName (#105) | [@kentquirk](https://github.com/kentquirk)
+
 ## Secure Tenancy v1.1.0
 
 - update ST chart to support 1.12.1 (#103) | [@kentquirk](https://github.com/kentquirk)
-  - This updates the Secure Tenancy chart to support Release 1.12.1 of Secure Tenancy, including adding support for the new max_parallelism configuration value 
+  - This updates the Secure Tenancy chart to support Release 1.12.1 of Secure Tenancy, including adding support for the new max_parallelism configuration value
 
 ## Secure Tenancy v1.0.0
 
