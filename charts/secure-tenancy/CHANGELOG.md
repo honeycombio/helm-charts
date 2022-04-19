@@ -3,6 +3,7 @@
 ## Secure Tenancy v1.2.0
 
 - support ingressClassName (#105) | [@kentquirk](https://github.com/kentquirk)
+
 ## Secure Tenancy v1.1.0
 
 - update ST chart to support 1.12.1 (#103) | [@kentquirk](https://github.com/kentquirk)
