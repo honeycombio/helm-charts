@@ -829,6 +829,33 @@ entries:
   secure-tenancy:
   - apiVersion: v2
     appVersion: 1.12.1
+    created: "2022-04-19T14:07:45.272534083Z"
+    dependencies:
+    - alias: mysql
+      condition: mysql.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.6.1
+    description: Honeycomb Secure Tenancy
+    digest: 9ada28bc191bf240e957dbbd434d7f8c9e556d3020d622388297e2a7b2ed3e67
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - observability
+    - security
+    maintainers:
+    - email: pierre@honeycomb.io
+      name: puckpuck
+    - email: kentquirk@honeycomb.io
+      name: kentquirk
+    - email: michaelsimo@honeycomb.io
+      name: reulan
+    name: secure-tenancy
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/secure-tenancy-1.2.0/secure-tenancy-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 1.12.1
     created: "2022-02-10T20:38:08.45585868Z"
     dependencies:
     - alias: mysql
@@ -981,4 +1008,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-18T20:49:16.357732318Z"
+generated: "2022-04-19T14:07:45.273706163Z"
