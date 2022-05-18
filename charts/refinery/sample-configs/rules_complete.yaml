@@ -22,11 +22,11 @@ Sampler: DeterministicSampler
 SampleRate: 1
 
 # With the change to support environemt and services in Honeycomb, some users will
-# want to support both sending telemetry to a legacy dataset and a new environment
+# want to support both sending telemetry to a classic dataset and a new environment
 # called the same thing (eg `production`).
 #
 # This can be accomplished by leveraging the new `DatasetPrefix` configuration property
-# and then using that prefix in the rules definitions for the legacy datasets.
+# and then using that prefix in the rules definitions for the classic datasets.
 # DatasetPrefix: "production"
 
 
