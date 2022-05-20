@@ -1,5 +1,11 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.10.0
+
+- Bump refinery to 1.14.1 (#139) | [@kentquirk](https://github.com/kentquirk)
+  - Add support and sample config for environment and dataset rules with same names
+  - Fix crash bug related to sharding
+
 ## Refinery v1.9.0
 
 - bump app version to [1.13.0](https://github.com/honeycombio/refinery/releases/tag/v1.13.0) (#136) | [@JamieDanielson](https://github.com/JamieDanielson)
