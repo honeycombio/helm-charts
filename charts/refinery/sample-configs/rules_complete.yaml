@@ -21,6 +21,15 @@ Sampler: DeterministicSampler
 # Eligible for live reload.
 SampleRate: 1
 
+# With the change to support environemt and services in Honeycomb, some users will
+# want to support both sending telemetry to a classic dataset and a new environment
+# called the same thing (eg `production`).
+#
+# This can be accomplished by leveraging the new `DatasetPrefix` configuration property
+# and then using that prefix in the rules definitions for the classic datasets.
+# DatasetPrefix: "production"
+
+
 ############################
 ## Dataset sampling rules ##
 ############################
@@ -211,9 +220,17 @@ dataset3:
 dataset4:
   Sampler: RulesBasedSampler
   # Optional, if set to true then the rules will also check nested json fields, in the format of parent.child
-	CheckNestedFields: false
-  rule:
-    - name: 500 errors
+  CheckNestedFields: false
+  dataset4.rule:
+    - name: "drop healthchecks"
+      drop: true
+      condition:
+        field: http.route
+        operator: '='
+        value: "/health-check"
+
+  dataset4.rule:
+    - name: "keep slow 500 errors"
       SampleRate: 1
       condition:
         - field: status_code
@@ -222,12 +239,23 @@ dataset4:
         - field: duration_ms
           operator: '>='
           value: 1000.789
-    - name: drop 200 responses
-      drop: true
+
+  dataset4.rule:
+    - name: "dynamically sample 200 responses"
       condition:
         - field: status_code
           operator: '='
           value: 200
+      sampler.EMADynamicSampler:
+        Sampler: "EMADynamicSampler"
+        GoalSampleRate: 15
+        FieldList:
+          - "request.method"
+          - "request.route"
+        AddSampleRateKeyToTrace: true
+        AddSampleRateKeyToTraceField: "meta.refinery.dynsampler_key"
+
+  dataset4.rule:
     - SampleRate: 10 # default when no rules match
 
 dataset5:
