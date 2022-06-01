@@ -1,5 +1,9 @@
 # OpenTelemetry Collector Helm Chart Changelog
 
+## OpenTelemetry Collector v1.2.0
+
+- Update OpenTelemetry Collector to 0.52.0 (#143)
+
 ## OpenTelemetry Collector v1.1.0
 
 - Update OpenTelemetry Collector to v0.43.0 (#106)
