@@ -72,6 +72,9 @@ spec:
           volumeMounts:
             - name: refinery-config
               mountPath: /etc/refinery/
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /alive
@@ -102,6 +105,9 @@ spec:
                   items:
                     - key: rules.yaml
                       path: rules.yaml
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
