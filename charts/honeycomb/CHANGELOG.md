@@ -1,5 +1,11 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.1
+
+- Bump kubernetes agent version to [2.5.2](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.2) (#148)
+  - Update to Go 1.18
+  - Only return cpu.utilization if a limit was provided
+
 ## Honeycomb Kubernetes Agent v1.5.0
 
 - Bump agent version to [2.5.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.0) (#133)
