@@ -11,8 +11,16 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
+    {{- if and (index .Values.ports "otlp-http") ((index .Values.ports "otlp-http" ).enabled) }}
+    {{- with (index .Values.ports "otlp-http") }}
+    - name: otlp-http
+      port: {{ .servicePort }}
+      targetPort: otlp-http
+      protocol: {{ .protocol }}
+    {{- end }}
+    {{- end }}
     {{- range $key, $port := .Values.ports }}
-    {{- if $port.enabled }}
+    {{- if and $port.enabled (ne $key "otlp-http") }}
     - name: {{ $key }}
       port: {{ $port.servicePort }}
       targetPort: {{ $key }}
