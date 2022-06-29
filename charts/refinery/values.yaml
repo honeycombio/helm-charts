@@ -48,7 +48,7 @@ environment: [ ]
   #       name: honeycomb
   #       key: api-key
 
-# Use this in conjunction with `.Values.extraVolumes` to map additional volumes into the Refinery pods 
+# Use to map additional volumes into the Refinery pods 
 # Useful for volume-based secrets
 extraVolumeMounts: [ ]
   # - name: honeycomb-secrets
