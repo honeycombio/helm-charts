@@ -55,7 +55,7 @@ extraVolumeMounts: [ ]
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
-# Use this in conjunction with `.Values.extraVolumeMounts` to map additional volumes into the Refinery pods 
+# Use to map additional volumes into the Refinery pods 
 extraVolumes: [ ]
   # - name: honeycomb-secrets
   #   csi:
