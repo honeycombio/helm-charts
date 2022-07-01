@@ -48,6 +48,22 @@ environment: [ ]
   #       name: honeycomb
   #       key: api-key
 
+# Use to map additional volumes into the Refinery pods 
+# Useful for volume-based secrets
+extraVolumeMounts: [ ]
+  # - name: honeycomb-secrets
+  #   mountPath: "/mnt/secrets-store"
+  #   readOnly: true
+
+# Use to map additional volumes into the Refinery pods 
+extraVolumes: [ ]
+  # - name: honeycomb-secrets
+  #   csi:
+  #     driver: secrets-store.csi.k8s.io
+  #     readOnly: true
+  #     volumeAttributes:
+  #       secretProviderClass: "honeycomb-secrets"
+
 # Values used to build config.yaml.
 # See the example in sample-configs/config_complete.yaml for full details on all properties
 config:
