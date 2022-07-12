@@ -256,6 +256,18 @@ dataset4:
         AddSampleRateKeyToTraceField: "meta.refinery.dynsampler_key"
 
   dataset4.rule:
+    - name: "sample traces originating from a service"
+      scope: "span"
+      sampleRate: 5
+      condition:
+        - field: "service.name"
+          operator: '='
+          value: "users"
+        - field: "meta.span_type"
+          operator: "="
+          value: "root"
+
+  dataset4.rule:
     - SampleRate: 10 # default when no rules match
 
 dataset5:
