@@ -1,5 +1,11 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.11.0
+
+- Enable extra volume configurations in deployment config (#147) | [@mars64](https://github.com/mars64)
+- Bump Refinery to 1.15.0 (#153) | [@vreynolds](https://github.com/vreynolds)
+  - Add scope-based rules
+
 ## Refinery v1.10.0
 
 - Bump refinery to 1.14.1 (#139) | [@kentquirk](https://github.com/kentquirk)
