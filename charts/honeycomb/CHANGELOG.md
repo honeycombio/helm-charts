@@ -2,6 +2,7 @@
 
 ## Honeycomb Kubernetes Agent v1.5.2
 
+- Add helm namespace to templates (#155) | @alex-bezek
 - Bump kubernetes agen version to [2.5.3](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.3) (#159)
   - fixed openSSL CVE
 
