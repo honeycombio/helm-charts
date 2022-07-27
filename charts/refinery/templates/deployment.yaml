@@ -104,7 +104,7 @@ spec:
                 {{- if .Values.config.ConfigMap.Rules.Name }}
                 - name: {{ .Values.config.ConfigMap.Rules.Name }}
                 {{- else }}
-                - name: {{ include "çrefinery.fullname" . }}-rules
+                - name: {{ include "refinery.fullname" . }}-rules
                 {{- end }}
                   items:
                     - key: rules.yaml
