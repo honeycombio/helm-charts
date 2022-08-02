@@ -1,4 +1,4 @@
-{{ if not .Values.config.ConfigMapRulesName }}
+{{ if not .Values.config.RulesConfigMapName }}
 
 apiVersion: v1
 kind: ConfigMap
