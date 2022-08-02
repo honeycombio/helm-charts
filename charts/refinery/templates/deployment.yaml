@@ -101,8 +101,8 @@ spec:
                     - key: config.yaml
                       path: config.yaml
               - configMap:
-                {{- if .Values.config.ConfigMap.Rules.Name }}
-                - name: {{ .Values.config.ConfigMap.Rules.Name }}
+                {{- if .Values.config.ConfigMapRulesName }}
+                - name: {{ .Values.config.ConfigMapRulesName }}
                 {{- else }}
                 - name: {{ include "refinery.fullname" . }}-rules
                 {{- end }}

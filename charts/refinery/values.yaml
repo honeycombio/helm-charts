@@ -232,9 +232,7 @@ config:
 
   # When Name is left blank, refinery sets up a ConfigMap with the rules defined below.
   # The alternative is to pass in your own ConfigMap with the rules defined there.
-  ConfigMap:
-    Rules:
-      Name:
+  ConfigMapRulesName:
 
 # Values used to build rules.yaml
 # See the example in sample-configs/rules_complete.yaml for full details on all properties
