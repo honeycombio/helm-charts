@@ -230,9 +230,9 @@ config:
     # listen for requests for /metrics.
     MetricsListenAddr: 0.0.0.0:9090
 
-  # When RulesConfigMapName is left blank, refinery sets up a ConfigMap with the rules defined below.
-  # The alternative is to pass in your own ConfigMap with the rules defined there. The only caveat is 
-  # you need to use rules.yaml as the key, but the value can be templated out.
+  # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
+  # When blank, refinery is configured using the a ConfigMap based on the rules below.
+  # When set, refinery is configured using the rules defined in the provided ConfigMap. The ConfigMap must use rules.yaml as the key but the value can be templated.
   RulesConfigMapName:
 
 # Values used to build rules.yaml
