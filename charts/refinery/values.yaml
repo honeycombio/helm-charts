@@ -48,14 +48,14 @@ environment: [ ]
   #       name: honeycomb
   #       key: api-key
 
-# Use to map additional volumes into the Refinery pods 
+# Use to map additional volumes into the Refinery pods
 # Useful for volume-based secrets
 extraVolumeMounts: [ ]
   # - name: honeycomb-secrets
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
-# Use to map additional volumes into the Refinery pods 
+# Use to map additional volumes into the Refinery pods
 extraVolumes: [ ]
   # - name: honeycomb-secrets
   #   csi:
@@ -230,6 +230,10 @@ config:
     # listen for requests for /metrics.
     MetricsListenAddr: 0.0.0.0:9090
 
+  # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
+  # When blank, refinery is configured using the a ConfigMap based on the rules below.
+  # When set, refinery is configured using the rules defined in the provided ConfigMap. The ConfigMap must use rules.yaml as the key but the value can be templated.
+  RulesConfigMapName: ""
 
 # Values used to build rules.yaml
 # See the example in sample-configs/rules_complete.yaml for full details on all properties
