@@ -221,7 +221,7 @@ dataset4:
   Sampler: RulesBasedSampler
   # Optional, if set to true then the rules will also check nested json fields, in the format of parent.child
   CheckNestedFields: false
-  dataset4.rule:
+  rule:
     - name: "drop healthchecks"
       drop: true
       condition:
@@ -229,7 +229,6 @@ dataset4:
         operator: '='
         value: "/health-check"
 
-  dataset4.rule:
     - name: "keep slow 500 errors"
       SampleRate: 1
       condition:
@@ -240,7 +239,6 @@ dataset4:
           operator: '>='
           value: 1000.789
 
-  dataset4.rule:
     - name: "dynamically sample 200 responses"
       condition:
         - field: status_code
@@ -255,7 +253,6 @@ dataset4:
         AddSampleRateKeyToTrace: true
         AddSampleRateKeyToTraceField: "meta.refinery.dynsampler_key"
 
-  dataset4.rule:
     - name: "sample traces originating from a service"
       scope: "span"
       sampleRate: 5
@@ -267,7 +264,6 @@ dataset4:
           operator: "="
           value: "root"
 
-  dataset4.rule:
     - SampleRate: 10 # default when no rules match
 
 dataset5:
