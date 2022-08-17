@@ -1,5 +1,11 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.12.0
+
+- Custom rules configmap (#162) | [@teaguecole](https://github.com/teaguecole)
+- Use correct syntax in commented out field (#165) | [@jazzdan](https://github.com/jazzdan)
+- Fix a TOML->YAML conversion whoopsie (#163) | [irvingpop](https://github.com/irvingpop)
+
 ## Refinery v1.11.0
 
 - Enable extra volume configurations in deployment config (#147) | [@mars64](https://github.com/mars64)
