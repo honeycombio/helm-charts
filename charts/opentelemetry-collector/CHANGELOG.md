@@ -1,5 +1,9 @@
 # OpenTelemetry Collector Helm Chart Changelog
 
+## OpenTelemetry Collector v1.2.1
+
+- Swap order of hpa spec.metrics #164 (@chrisdotm)
+
 ## OpenTelemetry Collector v1.2.0
 
 - Update OpenTelemetry Collector to 0.52.0 (#143)
