@@ -244,14 +244,15 @@ dataset4:
         - field: status_code
           operator: '='
           value: 200
-      sampler.EMADynamicSampler:
-        Sampler: "EMADynamicSampler"
-        GoalSampleRate: 15
-        FieldList:
-          - "request.method"
-          - "request.route"
-        AddSampleRateKeyToTrace: true
-        AddSampleRateKeyToTraceField: "meta.refinery.dynsampler_key"
+      sampler:
+        EMADynamicSampler:
+          Sampler: "EMADynamicSampler"
+          GoalSampleRate: 15
+          FieldList:
+            - "request.method"
+            - "request.route"
+          AddSampleRateKeyToTrace: true
+          AddSampleRateKeyToTraceField: "meta.refinery.dynsampler_key"
 
     - name: "sample traces originating from a service"
       scope: "span"
