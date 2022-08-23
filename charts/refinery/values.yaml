@@ -242,7 +242,7 @@ rules:
   # DryRun - If enabled, marks traces that would be dropped given current sampling rules,
   # and sends all traces regardless
   # DryRun: false
-
+  # lb:
   # This is the default sampler used.
   # Any traces received that are not for a defined dataset will use this sampler.
   # Deterministic Sampler implementation. This is the simplest sampling algorithm
@@ -262,11 +262,11 @@ rules:
   #
   # This example creates a sampling definition for a dataset called: test-dataset
   # test-dataset:
-    # Sampler: EMADynamicSampler
-    # GoalSampleRate: 5
-    # FieldList:
-    #  - request.method
-    #  - response.status_code
+  #   Sampler: EMADynamicSampler
+  #   GoalSampleRate: 5
+  #   FieldList:
+  #    - request.method
+  #    - response.status_code
 
   # LiveReload - If disabled, triggers a rolling restart of the cluster whenever
   # the Rules configmap changes
