@@ -1,5 +1,10 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.12.1
+
+- separate yaml layers to help parsing (#169) | [mterhar](https://github.com/mterhar)
+- fix: Remove obsolete dash from configmap names (#170) | [bondarewicz](https://github.com/bondarewicz)
+
 ## Refinery v1.12.0
 
 - Custom rules configmap (#162) | [@teaguecole](https://github.com/teaguecole)
