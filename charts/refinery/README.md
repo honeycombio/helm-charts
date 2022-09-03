@@ -123,9 +123,14 @@ is capable to handle a modest sampling load and should be configured based on yo
 are largely based on the velocity of spans received per second, and the average number of spans per trace. Other settings
 such as rule complexity and trace duration timeouts will also have an effect on scaling requirements.
 
-The primary setting that control scaling are `replicaCount` and `resources.limits`. When changing `resources.limits.memory`,
-you must also change `config.InMemCollector.MaxAlloc`. This should be set to 80% of the available memory for each replica.
-Refer to the comments in [values.yaml](./values.yaml) for more details about each property.
+The primary settings that control scaling are `replicaCount` and
+`resources.limits`. By default, this chart will auto-configure Refinery's
+`MaxAlloc` to 75% of each pod's `resources.limits.requests.memory` setting.
+
+If setting `config.InMemCollector.MaxAlloc` explicitly, you must ensure that the
+value is nor more than 80% of the memory requested for each replica. Refer to
+the comments in [values.yaml](./values.yaml) for more details about each
+property.
 
 See [Refinery: Scale and Troubleshoot](https://docs.honeycomb.io/manage-data-volume/refinery/scale-and-troubleshoot/)
 for more details on how to properly scale Refinery.

@@ -6,4 +6,36 @@ metadata:
   {{- include "refinery.labels" . | nindent 4 }}
 data:
   config.yaml: |
-{{- toYaml .Values.config | nindent 4 }}
+    EnvironmentCacheTTL: {{ .Values.config.EnvironmentCacheTTL }}
+    GRPCListenAddr: {{ .Values.config.GRPCListenAddr }}
+    HoneycombAPI: {{ .Values.config.HoneycombAPI }}
+    InMemCollector:
+      CacheCapacity: {{ .Values.config.InMemCollector.CacheCapacity }}
+
+      {{- if hasKey .Values.config.InMemCollector "MaxAlloc" }}
+      MaxAlloc: {{ .Values.config.InMemCollector.MaxAlloc }}
+      {{ else }}
+      MaxAlloc: {{ mulf .Values.resources.requests.memory 0.8 }}
+      {{- end }}
+
+    ListenAddr: {{ .Values.config.ListenAddr }}
+    Logger: {{ .Values.config.Logger }}
+    LoggingLevel: {{ .Values.config.LoggingLevel }}
+    MaxBatchSize: {{ .Values.config.MaxBatchSize }}
+    Metrics: {{ .Values.config.Metrics }}
+    PeerBufferSize: {{ .Values.config.PeerBufferSize }}
+    PeerListenAddr: {{ .Values.config.PeerListenAddr }}
+    PeerManagement:
+      IdentifierInterfaceName: {{ .Values.config.PeerManagement.IdentifierInterfaceName }}
+      RedisHost: {{ .Values.config.PeerManagement.RedisHost }}
+      RedisPassword: "{{ .Values.config.PeerManagement.RedisPassword }}"
+      Type: {{ .Values.config.PeerManagement.Type }}
+      UseIPV6Identifier: {{ .Values.config.PeerManagement.UseIPV6Identifier }}
+      UseTLS: {{ .Values.config.PeerManagement.UseTLS }}
+    PrometheusMetrics:
+      MetricsListenAddr: {{ .Values.config.PrometheusMetrics.MetricsListenAddr }}
+    RulesConfigMapName: "{{ .Values.config.RulesConfigMapName }}"
+    SendDelay: {{ .Values.config.SendDelay }}
+    SendTicker: {{ .Values.config.SendTicker }}
+    TraceTimeout: {{ .Values.config.TraceTimeout }}
+    UpstreamBufferSize: {{ .Values.config.UpstreamBufferSize }}
