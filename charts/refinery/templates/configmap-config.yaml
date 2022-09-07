@@ -15,7 +15,7 @@ data:
       {{- if hasKey .Values.config.InMemCollector "MaxAlloc" }}
       MaxAlloc: {{ .Values.config.InMemCollector.MaxAlloc }}
       {{ else }}
-      MaxAlloc: {{ mulf .Values.resources.requests.memory 0.8 }}
+      MaxAlloc: {{ mulf .Values.resources.requests.memory 0.75 }}
       {{- end }}
 
     ListenAddr: {{ .Values.config.ListenAddr }}
