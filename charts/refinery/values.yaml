@@ -176,7 +176,7 @@ config:
     # This value should be set in according to the resources.limits.memory
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
-    # MaxAlloc: 42
+    # MaxAlloc: 1717986918
 
   # Logger describes which logger to use for Refinery logs. Valid options are
   # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
