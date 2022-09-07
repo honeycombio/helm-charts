@@ -19,7 +19,7 @@ resources:
   limits:
     cpu: 2000m
     # Changing memory limits requires updating config.InMemCollector.MaxAlloc
-    memory: 2097152000 # use bytes to allow auto-configuration of `MaxAlloc`
+    memory: 2147483648 # use bytes to allow auto-configuration of `MaxAlloc`
   requests:
     cpu: 500m
     memory: 524288000 # use bytes to allow auto-configuration of `MaxAlloc`
