@@ -92,6 +92,11 @@ config:
   # immediate sends.
   SendDelay: 2s
 
+  # BatchTimeout dictates how frequently to send unfulfilled batches. By default
+  # this will use the DefaultBatchTimeout in libhoney as its value, which is 100ms.
+  # Eligible for live reload.
+  BatchTimeout: 1s
+
   # TraceTimeout is a long timer; it represents the outside boundary of how long
   # to wait before sending an incomplete trace. Normally traces are sent when the
   # root span arrives. Sometimes the root span never arrives (due to crashes or
@@ -117,6 +122,16 @@ config:
   # Default is 1 hour ("1h").
   # Not eligible for live reload.
   EnvironmentCacheTTL: "1h"
+
+  # AdditionalErrorFields should be a list of span fields that should be included when logging
+  # errors that happen during ingestion of events (for example, the span too large error).
+  # This is primarily useful in trying to track down misbehaving senders in a large installation.
+  # The fields `dataset`, `apihost`, and `environment` are always included.
+  # If a field is not present in the span, it will not be present in the error log.
+  # Default is ["trace.span_id"].
+  # Eligible for live reload.
+  AdditionalErrorFields:
+    - trace.span_id
 
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
