@@ -384,12 +384,21 @@ service:
   labels: {}
   annotations: {}
 
+
+# ingressClassName: (deprecated)
+# Sets the ingress class for the HTTP ingress if k8s >=1.19-0
+# or the HTTP beta ingress if (k8s >=1.19-0). 
+# Using `ingress.ingressClassName` is recommended.
+
 ingress:
   enabled: false
   labels: {}
   annotations: {}
     # kubernetes.io/tls-acme: "true"
 # ingressClassName: nginx
+# className: nginx (deprecated)
+# Sets the ingress class for the gRPC ingress.
+# Using `grpcIngress.ingressClassName` is recommended.
   hosts:
     - host: refinery.local
       path: /
