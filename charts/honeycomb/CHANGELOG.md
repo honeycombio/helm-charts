@@ -1,5 +1,10 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.3
+
+- Bump kubernetes agent version to [2.5.4](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.4) (#148)
+  - Bump dependencies, including libhoney
+
 ## Honeycomb Kubernetes Agent v1.5.2
 
 - Add helm namespace to templates (#155) | @alex-bezek

@@ -1,5 +1,18 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.14.0
+
+- Bump Refinery version to 1.17.0 (#182) | [@vreynolds](https://github.com/vreynolds)
+  - Allow adding extra fields to error logs
+  - Allow BatchTimeout to be overridden on the libhoney Transmission
+  - Fix concurrent read/write
+
+## Refinery v1.13.0
+
+- Bump refinery version to 1.16.0 (#179) | [@kentquirk](https://github.com/kentquirk)
+- Update sample config with new fields for new version (#178) | [@kentquirk](https://github.com/kentquirk)
+- Add Helm namespace metadata (#175) | [@masonjlegere](https://github.com/masonjlegere)
+
 ## Refinery v1.12.1
 
 - separate yaml layers to help parsing (#169) | [mterhar](https://github.com/mterhar)
