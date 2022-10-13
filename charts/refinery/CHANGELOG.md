@@ -1,5 +1,13 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.15.0
+
+- Bump Refinery version to 1.18.0 (#188) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+  - Track span count and optionally add it to root
+  - Add support for metrics api key env var
+  - RedisIdentifier now operates properly in more circumstances
+  - Properly set metadata to values that will work.
+
 ## Refinery v1.14.0
 
 - Bump Refinery version to 1.17.0 (#182) | [@vreynolds](https://github.com/vreynolds)
