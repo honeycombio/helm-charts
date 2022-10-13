@@ -123,6 +123,20 @@ config:
   # Not eligible for live reload.
   EnvironmentCacheTTL: "1h"
 
+  # QueryAuthToken, if specified, provides a token that must be specified with
+  # the header "X-Honeycomb-Refinery-Query" in order for a /query request to succeed.
+  # These /query requests are intended for debugging refinery installations and
+  # are not typically needed in normal operation.
+  # Can be specified in the environment as REFINERY_QUERY_AUTH_TOKEN.
+  # If left unspecified, the /query endpoints are inaccessible.
+  # Not eligible for live reload.
+  # QueryAuthToken: "some-random-value"
+
+  # AddRuleReasonToTrace causes traces that are sent to Honeycomb to include the field `meta.refinery.reason`.
+  # This field contains text indicating which rule was evaluated that caused the trace to be included.
+  # Eligible for live reload.
+  AddRuleReasonToTrace: true
+
   # AdditionalErrorFields should be a list of span fields that should be included when logging
   # errors that happen during ingestion of events (for example, the span too large error).
   # This is primarily useful in trying to track down misbehaving senders in a large installation.
@@ -132,6 +146,14 @@ config:
   # Eligible for live reload.
   AdditionalErrorFields:
     - trace.span_id
+
+  # AddSpanCountToRoot adds a new metadata field, `meta.span_count` to root spans to indicate
+  # the number of child spans on the trace at the time the sampling decision was made.
+  # This value is available to the rules-based sampler, making it possible to write rules that
+  # are dependent upon the number of spans in the trace.
+  # Default is false.
+  # Eligible for live reload.
+  AddSpanCountToRoot: false
 
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
