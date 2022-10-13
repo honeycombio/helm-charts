@@ -24,7 +24,7 @@ spec:
         prometheus.io/scrape: "true"
         {{- end }}
         {{- if hasKey .Values.rules "LiveReload" | ternary (not .Values.rules.LiveReload) false }}
-        checksum/config: {{ include (print $.Template.BasePath "/configmap-rules.yaml") . | sha256sum }}
+        checksum/rules: {{ include (print $.Template.BasePath "/configmap-rules.yaml") . | sha256sum }}
         {{- end }}
       labels:
       {{- include "refinery.selectorLabels" . | nindent 8 }}
