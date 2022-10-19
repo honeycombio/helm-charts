@@ -3,7 +3,6 @@
 set -o errexit
 
 readonly HELM_VERSION=3.5.2
-readonly CHART_RELEASER_VERSION=1.2.0
 readonly CHART_TESTING_VERSION=3.7.1
 readonly MINIKUBE_VERSION=v1.27.1
 
