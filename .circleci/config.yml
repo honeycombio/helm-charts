@@ -1,5 +1,26 @@
 version: 2
 jobs:
+  test-modified-charts:
+    machine:
+      image: ubuntu-2004:202201-02
+    environment:
+      K8S_VERSION: v1.23.13
+    steps:
+      - checkout
+      - run:
+          name: Install tools
+          command: |
+            echo "export K8S_VERSION=$K8S_VERSION" >> $BASH_ENV
+            .circleci/install_testing_tools.sh
+      - run:
+          name: Start minikube
+          command: |
+            minikube start --driver=none --kubernetes-version=${K8S_VERSION}
+      - run:
+          name: Test charts
+          command: ct install --config ./ct.yaml
+
+
   release-charts:
     machine:
       image: ubuntu-2004:202201-02
@@ -16,6 +37,12 @@ jobs:
 
 workflows:
   version: 2
+  test:
+    jobs:
+      - test-modified-charts:
+          filters:
+            branches:
+              only: /.*/
   release:
     jobs:
       - release-charts:
