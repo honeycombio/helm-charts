@@ -66,6 +66,8 @@ extraVolumes: [ ]
 
 # Values used to build config.yaml.
 # See the example in sample-configs/config_complete.yaml for full details on all properties
+# Supports templating. To escape existing instances of {{ }}, use {{` <original content> `}}.
+# For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
 config:
   # ListenAddr is the IP and port on which to listen for incoming events.
   ListenAddr: 0.0.0.0:8080
@@ -164,7 +166,9 @@ config:
     # Further, if the environment variable 'REFINERY_REDIS_HOST' is set it takes
     # precedence and this value is ignored.
     # Not eligible for live reload.
-    RedisHost: "refinery-redis:6379"
+    # RedisHost will default to the name used for the release or name overrides depending on what is used,
+    # but can be overriden to a specific value.
+    RedisHost: '{{include "refinery.redis.fullname" .}}:6379'
 
     # RedisUsername is the username used to connect to redis for peer cluster membership management.
     # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
