@@ -1,0 +1,11 @@
+resources:
+  limits:
+    cpu: 100m
+    memory: 200M
+  requests:
+    cpu: 100m
+    memory: 200M
+
+redis:
+  enabled: false
+  existingHost: existing-redis-host:1111
