@@ -1,0 +1,5 @@
+k8sProcessor:
+  rbac:
+    # Specifies whether roles based access control rules should be created.
+    create: true
+    name: "testing-rbac"
