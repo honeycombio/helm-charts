@@ -1,0 +1,13 @@
+resources:
+  limits:
+    cpu: 100m
+    memory: 200M
+  requests:
+    cpu: 100m
+    memory: 200M
+
+ingress:
+  enabled: true
+
+grpcIngress:
+  enabled: true
