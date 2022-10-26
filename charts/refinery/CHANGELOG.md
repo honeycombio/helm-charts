@@ -1,5 +1,10 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.15.1
+
+- Avoid checksum/config collision (#197) | @mterhar
+- Update to set redis host based on release name (#194) | @TylerHelmuth
+
 ## Refinery v1.15.0
 
 - Bump Refinery version to 1.18.0 (#188) | [@TylerHelmuth](https://github.com/TylerHelmuth)
