@@ -1,5 +1,11 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.4
+
+- Bump kubernetes agent version to [2.5.5](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.5) (#148)
+    - Put the k8s metadata processor first
+    - Bump dependencies
+
 ## Honeycomb Kubernetes Agent v1.5.3
 
 - Bump kubernetes agent version to [2.5.4](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.4) (#148)
