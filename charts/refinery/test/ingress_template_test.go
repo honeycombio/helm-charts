@@ -41,6 +41,7 @@ func TestIngressTemplateClassName(t *testing.T) {
 			options := &helm.Options{
 				SetValues: map[string]string{
 					"ingress.enabled":     "true",
+					"grpcIngress.enabled": "true",
 					tt.ingressClassKey:    vv.ingressClassName,
 					tt.deprecatedClassKey: vv.deprecatedClassName,
 				},
