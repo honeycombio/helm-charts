@@ -25,7 +25,7 @@ spec:
     {{- end }}
   {{- end }}
   {{- if or .Values.grpcIngress.ingressClassName .Values.ingress.className }}
-  ingressClassName: {{ .Values.grpcIngress.ingressClassName .Values.ingress.className }}
+  ingressClassName: {{ .Values.grpcIngress.ingressClassName | default .Values.ingress.className }}
   {{- end }}
   rules:
     {{- range .Values.grpcIngress.hosts }}
