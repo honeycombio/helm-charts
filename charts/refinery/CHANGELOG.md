@@ -5,6 +5,7 @@
 - bump app version to 1.19.0 (#203) | [@TylerHelmuth](https://github.com/TylerHelmuth)
   - Add command to query config metadata
   - New cache management strategy
+
 ## Refinery v1.15.1
 
 - Avoid checksum/config collision (#197) | @mterhar
