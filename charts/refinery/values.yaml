@@ -157,6 +157,16 @@ config:
   # Eligible for live reload.
   AddSpanCountToRoot: false
 
+  # CacheOverrunStrategy controls the cache management behavior under memory pressure.
+  # "resize" means that when a cache overrun occurs, the cache is shrunk and never grows again,
+  # which is generally not helpful unless it occurs because of a permanent change in traffic patterns.
+  # In the "impact" strategy, the items having the most impact on the cache size are
+  # ejected from the cache earlier than normal but the cache is not resized.
+  # In all cases, it only applies if MaxAlloc is nonzero.
+  # Default is "resize" for compatibility but "impact" is recommended for most installations.
+  # Eligible for live reload.
+  CacheOverrunStrategy: "impact"
+
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
     # The type should always be redis when deployed to Kubernetes environments
