@@ -1,5 +1,10 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.5.5
+
+- Bump kubernetes agent version to [2.5.6](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.6) (#205)
+    - Add support for building sample keys from integer fields
+
 ## Honeycomb Kubernetes Agent v1.5.4
 
 - Bump kubernetes agent version to [2.5.5](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.5) (#148)
