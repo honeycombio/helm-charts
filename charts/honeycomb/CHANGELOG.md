@@ -1,5 +1,10 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.6.0
+
+- Bump kubernetes agent version to [2.6.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.6.0) (#309)
+    - Allow MinEventsPerSecond to be configured
+
 ## Honeycomb Kubernetes Agent v1.5.5
 
 - Bump kubernetes agent version to [2.5.6](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.5.6) (#205)
