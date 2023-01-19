@@ -1,5 +1,9 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.17.0
+  - fix: Updated ordering of CPU/Memory resource metrics (#217) | @robiball
+  - maint: Update HPAs to autoscaling/v2 (#215) | @robiball
+
 ## Refinery v1.16.0
 
 - bump app version to 1.19.0 (#203) | [@TylerHelmuth](https://github.com/TylerHelmuth)
