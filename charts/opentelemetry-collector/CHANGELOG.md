@@ -2,10 +2,12 @@
 
 ## OpenTelemetry Collector v1.3.0
 
- - fix: Updated ordering of CPU/Memory resource metrics (#217) | @robiball 
- - maint: Update HPAs to autoscaling/v2 (#215) | @robiball 
+ - fix: Updated ordering of CPU/Memory resource metrics (#217) | @robiball
+ - maint: Update HPAs to autoscaling/v2 (#215) | @robiball
+    - This means that the chart now only supports k8s 1.23+
  - ci: Add collector test scenarios (#196) | @TylerHelmuth
  - ci: Add chart testing (#193) | @TylerHelmuth
+ 
 
 ## OpenTelemetry Collector v1.2.1
 
