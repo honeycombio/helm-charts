@@ -15,6 +15,7 @@ helm install opentelemetry-collector honeycomb/opentelemetry-collector --set hon
 
 ## Prerequisites
 - Helm 3.0+
+- Kubernetes 1.23+
 
 ## Installing the Chart
 ### Using default configuration
