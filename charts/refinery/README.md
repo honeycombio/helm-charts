@@ -17,6 +17,7 @@ helm install refinery honeycomb/refinery --set rules.SampleRate=2
 ## Prerequisites
 
 - Helm 3.0+
+- Kubernetes 1.23+
 
 ## Installing the Chart
 
