@@ -35,7 +35,7 @@ metrics:
   metricGroups:
     - node
     - pod
-  # interval: 20 ## honeycomb-agent defaults to 10
+  # interval: 20s ## honeycomb-agent defaults to 10s
   # omitLabels:
   #   - "private_label"
   # additionalFields:
