@@ -17,10 +17,16 @@ spec:
   ports:
     - port: {{ .Values.service.port }}
       targetPort: data
+      {{- if not (empty .Values.service.httpNodePort) }}
+      nodePort: {{ .Values.service.httpNodePort }}
+      {{- end }}
       protocol: TCP
       name: data
     - port: {{ .Values.service.grpcPort }}
       targetPort: grpc
+      {{- if not (empty .Values.service.grpcNodePort) }}
+      nodePort: {{ .Values.service.grpcNodePort }}
+      {{- end }}
       protocol: TCP
       name: grpc
     {{- if eq .Values.config.Metrics "prometheus" }}
