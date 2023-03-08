@@ -352,6 +352,24 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
 
+secretProvider:
+  # Specifies whether a SecretProviderClass should be created
+  # create: true
+  # spec:
+  #   provider: aws
+  #   secretObjects:
+  #   - secretName: refinery
+  #   type: Opaque
+  #   data:
+  #     - key: yourenvironment.honeycomb_api_key
+  #     objectName: yourenvironment.honeycomb_api_key
+  #   parameters:
+  #     objects: |
+  #         - objectName: yourenvironment.honeycomb_api_key
+  #           objectType: "ssmparameter"
+  # The name of the SecretProviderClass to use.
+  # name: "refinery"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
