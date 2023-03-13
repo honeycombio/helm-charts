@@ -167,6 +167,24 @@ config:
   # Eligible for live reload.
   CacheOverrunStrategy: "impact"
 
+  # Set the field names to use for the event ID fields. These fields are used to
+  # identify events that are part of the same trace. TraceIdFieldNames are used
+  # to determine if an event is a Trace or another event type. ParentIdFieldNames
+  # are used to determine if an event is a root span or not.
+  # TraceIdFieldNames:
+  #   - "trace.trace_id"
+  #   - "traceId"
+  # ParentIdFieldNames:
+  #   - "trace.parent_id"
+  #   - "parentId"
+
+  # AdditionalAttributes is a map that can be used for injecting user-defined
+  # attributes. For example, it could be used for naming a refinery cluster.
+  # Both keys and values must be strings.
+  # AdditionalAttributes:
+    # ClusterName: MyCluster
+    # environment: production
+
   # Configure how Refinery peers are discovered and managed
   PeerManagement:
     # The type should always be redis when deployed to Kubernetes environments
@@ -192,6 +210,18 @@ config:
     # Not eligible for live reload.
     RedisPassword: ""
 
+    # RedisPrefix is a string used as a prefix for the keys in redis while storing
+    # the peer membership. It might be useful to set this in any situation where
+    # multiple refinery clusters or multiple applications want to share a single
+    # Redis instance. It may not be blank.
+    RedisPrefix: "refinery"
+
+    # RedisDatabase is an integer from 0-15 indicating the database number to use
+    # for the Redis instance storing the peer membership. It might be useful to set
+    # this in any situation where multiple refinery clusters or multiple
+    # applications want to share a single Redis instance.
+    RedisDatabase: 0
+
     # UseTLS enables TLS when connecting to redis for peer cluster membership management, and sets the MinVersion to 1.2.
     # Not eligible for live reload.
     UseTLS: false
@@ -205,6 +235,15 @@ config:
     # IPv4 unicast address it finds for the specified interface. If UseIPV6Identifier is used, will use
     # the first IPV6 unicast address found.
     UseIPV6Identifier: false
+
+    # Strategy controls the way that traces are assigned to refinery nodes.
+    # The "legacy" strategy uses a simple algorithm that unfortunately causes
+    # 1/2 of the in-flight traces to be assigned to a different node whenever the
+    # number of nodes changes.
+    # The legacy strategy is deprecated and is intended to be removed in a future release.
+    # The "hash" strategy is strongly recommended, as only 1/N traces (where N is the
+    # number of nodes) are disrupted when the node count changes.
+    Strategy: "legacy"
 
   # InMemCollector brings together all the settings that are relevant to
   # collecting spans together to make traces.
@@ -228,6 +267,96 @@ config:
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
     MaxAlloc: 1717986918
+  
+  # Controls the parameters of the stress relief system. There is a metric called
+  # stress_level that is emitted as part of refinery metrics. It is a measure of
+  # refinery's throughput rate relative to its processing rate, combined with the
+  # amount of room in its internal queues, and ranges from 0 to 100. It is
+  # generally expected to be 0 except under heavy load. When stress levels reach
+  # 100, there is an increased chance that refinery will become unstable.
+  #
+  # To avoid this problem, the Stress Relief system can do deterministic sampling
+  # on new trace traffic based solely on TraceID, without having to store traces
+  # in the cache or take the time processing sampling rules. Existing traces in
+  # flight will be processed normally, but when Stress Relief is active, trace
+  # decisions are made deterministically on a per-span basis; all spans will be
+  # sampled according to the SamplingRate specified here.
+  #
+  # Once Stress Relief activates (by exceeding the ActivationLevel), it will not
+  # deactivate until stress_level falls below the DeactivationLevel. When it
+  # deactivates, normal trace decisions are made -- and any additional spans that
+  # arrive for traces that were active during Stress Relief will respect those
+  # decisions.
+  #
+  # The measurement of stress is a lagging indicator and is highly dependent on
+  # Refinery configuration and scaling. Other configuration values should be well
+  # tuned first, before adjusting the Stress Relief Activation parameters.
+  StressRelief:
+    # Mode is a string indicating how to use Stress Relief. Options are:
+    # - "never" means that Stress Relief will never activate
+    # - "monitor" is the recommended setting, and means that Stress Relief will monitor
+    #     the status of refinery and activate according to the levels set below.
+    # - "always" means that Stress Relief is always on, which may be useful in an
+    #     emergency situation.
+    Mode: "never"
+
+    # ActivationLevel is the stress_level (from 0-100) at which Stress Relief is triggered.
+    ActivationLevel: 75
+
+    # DeactivationLevel is the stress_level (from 0-100) at which Stress Relief is
+    # turned off (subject to MinimumActivationDuration). Under normal circumstances,
+    # it should be well below ActivationLevel to avoid oscillations.
+    DeactivationLevel: 25
+
+    # StressSamplingRate is the sampling rate to use when Stress Relief is
+    # activated. All new traces will be deterministically sampled at this rate based
+    # only on the traceID.
+    StressSamplingRate: 100
+
+    # MinimumActivationDuration is the minimum time that stress relief will stay
+    # enabled, once activated. This prevents oscillations.
+    MinimumActivationDuration: 10s
+
+    # MinimumStartupDuration is used when switching into Monitor mode.
+    # When stress monitoring is enabled, it will start up in stressed mode for a
+    # at least this amount of time to try to make sure that Refinery can handle the load
+    # before it begins processing it in earnest. This is to help address the
+    # problem of trying to bring a new node into an already-overloaded
+    # cluster. If this duration is 0, Refinery will not start in stressed mode.
+    # This can provide faster startup at the possible cost of startup instability.
+    MinimumStartupDuration: 3s
+
+  # Sample Cache Configuration controls the sample cache used to retain information about trace
+  # status after the sampling decision has been made.
+  SampleCacheConfig:
+
+    # Type controls the type of sample cache used.
+    # "legacy" is a strategy where both keep and drop decisions are stored in a circular buffer that is
+    # 5x the size of the trace cache. This is Refinery's original sample cache strategy.
+    # "cuckoo" is a strategy where dropped traces are preserved in a "Cuckoo Filter", which can remember
+    # a much larger number of dropped traces, leaving capacity to retain a much larger number of kept traces.
+    # It is also more configurable. The cuckoo filter is recommended for most installations.
+    Type: "legacy"
+
+    # KeptSize controls the number of traces preserved in the cuckoo kept traces cache.
+    # Refinery keeps a record of each trace that was kept and sent to Honeycomb, along with some
+    # statistical information. This is most useful in cases where the trace was sent before sending
+    # the root span, so that the root span can be decorated with accurate metadata.
+    # Does not apply to the "legacy" type of cache.
+    # KeptSize: 10_000
+
+    # DroppedSize controls the size of the cuckoo dropped traces cache.
+    # This cache consumes 4-6 bytes per trace at a scale of millions of traces.
+    # Changing its size with live reload sets a future limit, but does not have an immediate effect.
+    # Does not apply to the "legacy" type of cache.
+    # DroppedSize: 1_000_000
+
+    # SizeCheckInterval controls the duration of how often the cuckoo cache re-evaluates
+    # the remaining capacity of its dropped traces cache and possibly cycles it.
+    # This cache is quite resilient so it doesn't need to happen very often, but the
+    # operation is also inexpensive.
+    # Does not apply to the "legacy" type of cache.
+    # SizeCheckInterval: "10s"
 
   # Logger describes which logger to use for Refinery logs. Valid options are
   # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
@@ -317,6 +446,7 @@ rules:
   #   GoalSampleRate: 5
   #   FieldList:
   #    - request.method
+  #    - http.target
   #    - response.status_code
 
   # LiveReload - If disabled, triggers a rolling restart of the cluster whenever

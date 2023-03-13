@@ -1,2 +1,14 @@
+{{- if eq .Values.config.PeerManagement.Strategy "legacy" }}
+[INFO] We recommend setting "config.PeerManagement.Strategy" to "hash". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
+{{ end }}
+
+{{- if eq .Values.config.StressRelief.Mode "never" }}
+[INFO] We recommend setting "config.StressRelief.Mode" to "monitor". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
+{{ end }}
+
+{{- if eq .Values.config.SampleCacheConfig.Type "legacy" }}
+[INFO] We recommend setting "config.SampleCacheConfig.Type" to "cuckoo". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
+{{ end }}
+
 Honeycomb refinery is setup and configured to refine events that are sent through it. You should see data flowing
 within a few minutes at https://ui.honeycomb.io
