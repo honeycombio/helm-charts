@@ -1,5 +1,24 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.7.0
+
+- Bump kubernetes agent version to [2.7.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.7.0) (#226) | @TylerHelmuth
+  - fix: Validate label selector and paths are mutually exclusive
+  - fix: do not accumulate if pod is not there anymore
+  - docs: Update keyval docs
+  - docs: Add paths and exclude docs
+  - maint(deps): bump k8s.io/kubelet from 0.26.1 to 0.26.2
+  - maint(deps): bump k8s.io/client-go from 0.26.1 to 0.26.2
+  - maint(deps): bump github.com/honeycombio/dynsampler-go
+  - maint(deps): bump golang.org/x/net from 0.5.0 to 0.7.0
+  - maint(deps): bump github.com/stretchr/testify from 1.8.1 to 1.8.2
+  - maint(deps): bump k8s.io/client-go from 0.25.2 to 0.26.1
+  - maint(deps): bump k8s.io/kubelet from 0.25.3 to 0.26.1
+  - maint(deps): bump github.com/bmatcuk/doublestar/v4 from 4.3.0 to 4.6.0
+  - Bump github.com/honeycombio/honeytail from 1.8.1 to 1.8.2
+  - maint: don't spam the logs with filtered-out filenames
+- docs: [honeycomb] - specify metric interval as duration unit (#221) | @puckpuck
+
 ## Honeycomb Kubernetes Agent v1.6.0
 
 - Bump kubernetes agent version to [2.6.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.6.0) (#309)
