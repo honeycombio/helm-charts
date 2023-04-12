@@ -3,7 +3,7 @@
 The OpenTelemetry Collector for Honeycomb helm chart is being sunset in favor of the [OpenTelemetry community's opentelemetry-collector helm chart](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/main/charts/opentelemetry-collector).
 This community chart provides an overall better experience deploying and managing the collector in kubernetes.  
 
-The primary difference between this chart and the community chart is that the community chart does not include a `honeycomb` section for specifying your API key, API host, and dataset name. Instead, you must configure an otlp/otlphttp exporter following [our Collector documentation](https://docs.honeycomb.io/getting-data-in/otel-collector/).  A basic values.yaml would look like
+The primary difference between this chart and the community chart is that the community chart does not include a `honeycomb` section for specifying your API key, API host, and dataset name. Instead, you must configure an otlp/otlphttp exporter following [our Collector documentation](https://docs.honeycomb.io/getting-data-in/otel-collector/).  Example:
 
 ```yaml
 mode: deployment
