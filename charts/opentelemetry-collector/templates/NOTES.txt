@@ -8,5 +8,7 @@ secret resource name which contains your API Key
 #####
 {{- end }}
 
+[WARNING] This chart has been sunset, please use the open-telemetry/opentelemetry-collector chart instead. See https://github.com/honeycombio/helm-charts#sunset-notice for more details.
+
 OpenTelemetry Collector is setup and configured to collect traces and send them to Honeycomb. 
 You can see your traces at https://ui.honeycomb.io
