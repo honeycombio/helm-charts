@@ -496,6 +496,9 @@ podLabels: {}
 
 podAnnotations: {}
 
+deploymentAnnotations: {}
+deploymentRedisAnnotations: {}
+
 podSecurityContext: {}
   # fsGroup: 2000
 
