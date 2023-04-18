@@ -481,7 +481,7 @@ redis:
 
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
-  deploymentAnnotations: {}
+  annotations: {}
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
