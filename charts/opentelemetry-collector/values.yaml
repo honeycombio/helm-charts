@@ -77,8 +77,6 @@ image:
 # used if autoscaling.enabled is false
 replicaCount: 1
 
-deploymentAnnotations: {}
-
 podAnnotations: {}
 
 podSecurityContext: {}
