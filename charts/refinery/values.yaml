@@ -481,7 +481,7 @@ redis:
 
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
-
+  deploymentAnnotations: {}
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -497,7 +497,6 @@ podLabels: {}
 podAnnotations: {}
 
 deploymentAnnotations: {}
-deploymentRedisAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
