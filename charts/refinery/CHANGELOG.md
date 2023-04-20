@@ -1,5 +1,8 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.19.0
+  - chore: bump appVersion to 1.21 (#235) | @fchikwekwe
+
 ## Refinery v1.18.0
   - maint: Update refinery chart to use refinery [1.20.0](https://github.com/honeycombio/refinery/releases/tag/v1.20.0) (#227) | @TylerHelmuth
     - This is a significant and exciting upgrade of Refinery.  For more details see [Refinery's Release notes](https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200).
