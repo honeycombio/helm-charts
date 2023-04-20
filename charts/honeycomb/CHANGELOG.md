@@ -1,5 +1,8 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+## Honeycomb Kubernetes Agent v1.7.1
+ - maint: bump honeycomb chart appVersion (#238) | @TylerHelmuth
+
 ## Honeycomb Kubernetes Agent v1.7.0
 
 - Bump kubernetes agent version to [2.7.0](https://github.com/honeycombio/honeycomb-kubernetes-agent/releases/tag/v2.7.0) (#226) | @TylerHelmuth
