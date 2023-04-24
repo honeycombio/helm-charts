@@ -38,6 +38,10 @@ watchers:
     labelSelector: component=kube-scheduler
     namespace: kube-system
     parser: glog
+# Optional your additional env settings
+additionalEnv:
+  - name: HTTP_PROXY
+    value: http://your-proxy-url.example:8080
 ```
 Then use this yaml file when installing the chart
 ```bash
