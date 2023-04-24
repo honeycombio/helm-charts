@@ -97,6 +97,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+additionalEnv: {}
+
 nodeSelector: {}
 
 # Tolerate agent to run on all nodes by default
