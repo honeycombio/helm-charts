@@ -97,7 +97,6 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-additionalEnv: {}
 
 nodeSelector: {}
 

@@ -62,8 +62,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-            {{- if gt (len .Values.additionalEnv) 0 -}}
-              {{- toYaml .Values.additionalEnv | nindent 12}}
+            {{- with .Values.additionalEnv -}}
+              {{- . | toYaml | nindent 12}}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
