@@ -97,6 +97,10 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# You can add additional environment values like this:
+#additionalEnv:
+#  - name: var_name
+#    value: var_value
 
 nodeSelector: {}
 
