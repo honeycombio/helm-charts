@@ -6,6 +6,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
   {{- include "refinery.redis.labels" . | nindent 4 }}
+{{- with .Values.redis.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
 spec:
   replicas: 1
   selector:
