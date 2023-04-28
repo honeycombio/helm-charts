@@ -98,7 +98,7 @@ resources: {}
   #   memory: 128Mi
 
 # Field for adding additional environment variables
-#additionalEnv:
+additionalEnv: {}
 #  - name: var_name
 #    value: var_value
 
