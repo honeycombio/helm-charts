@@ -97,6 +97,11 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Field for adding additional environment variables
+additionalEnv: {}
+#  - name: var_name
+#    value: var_value
+
 nodeSelector: {}
 
 # Tolerate agent to run on all nodes by default
