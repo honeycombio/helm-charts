@@ -235,6 +235,9 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `nodeSelector` | Node labels for pod assignment | `{}` |
 | `tolerations` | Tolerations for pod assignment | `[]`|
 | `affinity` | Map of node/pod affinities | `{}` |
+| `secretProvider.create` | Specify whether a SecretProvider should be created | `false` |
+| `secretProvider.name` | Specify the name of your SecretProvider | `nil` |
+| `secretProvider.spec` | Specify the spec of your SecretProvider | `nil` |
 
 ## Upgrading
 
