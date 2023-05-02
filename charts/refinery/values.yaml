@@ -565,3 +565,25 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+# If you need to create a secret provider, such as for using AWS SSM, you can do so here:
+#
+# secretProvider:
+#   create: true
+#   spec:
+#     provider: aws
+#     secretObjects:
+#     - secretName: refinery
+#       type: Opaque
+#       data:
+#         - key: yourenvironment.refinery_honeycomb_api_key
+#           objectName: youenvironment.refinery_honeycomb_api_key
+#     parameters:
+#       objects: |
+#           - objectName: yourenvironment.refinery_honeycomb_api_key
+#             objectType: "ssmparameter"
+#   name: "refinery"
+
+secretProvider:
+  create: false
