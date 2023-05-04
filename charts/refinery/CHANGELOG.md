@@ -1,5 +1,9 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v1.19.1
+  - feat: Add the ability to create your own Secret Provider (#243) | @RainofTerra
+  - chore: Allow users to add annotations for refinery and collector deployments (#236) | @suryapandian
+
 ## Refinery v1.19.0
   - chore: bump appVersion to 1.21 (#235) | @fchikwekwe
 
