@@ -567,7 +567,9 @@ tolerations: []
 affinity: {}
 
 
-# If you need to create a secret provider, such as for using AWS SSM, you can do so here:
+# If you need to create a secret provider, such as for using AWS SSM, you can do so here.
+# secretProvider functionality requires the Secret Store CSI Driver:
+# https://secrets-store-csi-driver.sigs.k8s.io/
 #
 # secretProvider:
 #   create: true
