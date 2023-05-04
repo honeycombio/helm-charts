@@ -267,7 +267,7 @@ config:
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
     MaxAlloc: 1717986918
-  
+
   # Controls the parameters of the stress relief system. There is a metric called
   # stress_level that is emitted as part of refinery metrics. It is a measure of
   # refinery's throughput rate relative to its processing rate, combined with the
@@ -565,3 +565,29 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+# If you need to create a secret provider, such as for using AWS SSM, you can do so here.
+# secretProvider functionality requires the Secret Store CSI Driver:
+# https://secrets-store-csi-driver.sigs.k8s.io/
+#
+# secretProvider:
+#   create: true
+#   spec:
+#     provider: aws
+#     secretObjects:
+#     - secretName: refinery
+#       type: Opaque
+#       data:
+#         - key: yourenvironment.refinery_honeycomb_api_key
+#           objectName: youenvironment.refinery_honeycomb_api_key
+#     parameters:
+#       objects: |
+#           - objectName: yourenvironment.refinery_honeycomb_api_key
+#             objectType: "ssmparameter"
+#   name: "refinery"
+
+secretProvider:
+  create: false
+  name: refinery
+  spec: {}
