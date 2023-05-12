@@ -2,8 +2,8 @@
 
 set -o errexit
 
-readonly HELM_VERSION=3.5.2
-readonly CHART_RELEASER_VERSION=1.2.0
+readonly HELM_VERSION=3.12.0
+readonly CHART_RELEASER_VERSION=1.5.0
 
 echo "Installing Helm..."
 curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
