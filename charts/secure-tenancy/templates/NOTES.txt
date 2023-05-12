@@ -1,1 +1,0 @@
-[WARNING] this chart has been deprecated.
