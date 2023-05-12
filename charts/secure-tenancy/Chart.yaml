@@ -1,7 +1,7 @@
 apiVersion: v2
 name: secure-tenancy
 description: "Deprecated: Honeycomb Secure Tenancy"
-version: 1.2.2
+version: 1.2.3
 appVersion: 1.12.1
 keywords:
   - observability
