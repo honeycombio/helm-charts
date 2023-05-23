@@ -1,14 +1,1 @@
-{{- $validApiKey := and (.Values.honeycomb.apiKey) (ne .Values.honeycomb.apiKey "YOUR_API_KEY") -}}
-
-{{- if and (not $validApiKey) (not .Values.honeycomb.existingSecret) }}
-##### ERROR:
-You must either set the value for 'honeycomb.apiKey' to your API Key that you can find in your Honeycomb account
-profile: https://ui.honeycomb.io/account or set the value for 'honeycomb.existingSecret' with the name of an existing
-secret resource name which contains your API Key
-#####
-{{- end }}
-
-[WARNING] This chart has been sunset, please use the open-telemetry/opentelemetry-collector chart instead. See https://github.com/honeycombio/helm-charts#sunset-notice for more details.
-
-OpenTelemetry Collector is setup and configured to collect traces and send them to Honeycomb. 
-You can see your traces at https://ui.honeycomb.io
+[WARNING] This chart has been deprecated, please use the open-telemetry/opentelemetry-collector chart instead. See https://github.com/honeycombio/helm-charts#deprecation-notice for more details.

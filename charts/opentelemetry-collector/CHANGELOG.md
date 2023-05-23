@@ -1,5 +1,9 @@
 # OpenTelemetry Collector Helm Chart Changelog
 
+## OpenTelemetry Collector v1.3.1
+
+- deprecate opentelemetry-collector chart (#251) | [TylerHelmuth](https://github.com/TylerHelmuth)
+
 ## OpenTelemetry Collector v1.3.0
 
  - fix: Updated ordering of CPU/Memory resource metrics (#217) | @robiball
