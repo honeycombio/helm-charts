@@ -64,10 +64,11 @@ release_charts() {
 
 update_index() {
   git config user.name "$GIT_USERNAME"
-  git remote set-url origin "https://github.com/$GIT_REPOSITORY_OWNER/$GIT_REPOSITORY_NAME.git"
+  git config --global --unset url.ssh://git@github.com.insteadof
+  git remote add origin-https "https://github.com/$GIT_REPOSITORY_OWNER/$GIT_REPOSITORY_NAME.git"
 
   mkdir .cr-index
-  cr index --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN" --push
+  cr index --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN" --remote "origin-https" --push
 }
 
 main
