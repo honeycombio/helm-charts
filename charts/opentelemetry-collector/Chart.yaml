@@ -1,8 +1,8 @@
 apiVersion: v2
 name: opentelemetry-collector
-description: OpenTelemetry Collector for Honeycomb
+description: Deprecated OpenTelemetry Collector for Honeycomb
 type: application
-version: 1.3.0
+version: 1.3.1
 appVersion: 0.52.0
 keywords:
   - observability
@@ -12,6 +12,4 @@ sources:
   - https://github.com/honeycombio/opentelemetry-collector
   - https://github.com/honeycombio/opentelemetry-collector-contrib
 icon: https://opentelemetry.io/img/logos/opentelemetry-horizontal-color.png
-maintainers:
-  - name: puckpuck
-    email: pierre@honeycomb.io
+deprecated: true
