@@ -267,6 +267,19 @@ config:
     # By default that setting is 2GB, and this is set to 85% of that limit
     # 2 * 1024 * 1024 * 1024 * 0.80 = 1,717,986,918
     MaxAlloc: 1717986918
+    
+  # Reflects: https://pkg.go.dev/google.golang.org/grpc/keepalive#ServerParameters
+  GRPCServerParameters:
+  
+    # MaxConnectionAge is a duration for the maximum amount of time a
+    # connection may exist before it will be closed by sending a GoAway. A
+    # random jitter of +/-10% will be added to MaxConnectionAge to spread out
+    # connection storms.
+    # 0s sets duration to infinity which is the default:
+    # Recommended to set it to "3m" if there are multiple replicas
+    # https://github.com/grpc/grpc-go/blob/60a3a7e969c401ca16dbcd0108ad544fb35aa61c/internal/transport/http2_server.go#L220-L222
+    # Not eligible for live reload.
+    MaxConnectionAge: "0s"
 
   # Controls the parameters of the stress relief system. There is a metric called
   # stress_level that is emitted as part of refinery metrics. It is a measure of
