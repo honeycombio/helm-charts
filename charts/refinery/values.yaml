@@ -7,7 +7,6 @@
 # decisions and dropped traces. As such, we recommend provisioning refinery for
 # your anticipated peak load
 #
-
 # Use replicaCount and resource limits to set the size of your Refinery cluster
 # per your anticipated peak load.
 # replicaCount is ignored if autoscaling is enabled
@@ -69,114 +68,118 @@ extraVolumes: [ ]
 # Supports templating. To escape existing instances of {{ }}, use {{` <original content> `}}.
 # For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
 config:
-  # ListenAddr is the IP and port on which to listen for incoming events.
-  ListenAddr: 0.0.0.0:8080
+  General:
+    ConfigurationVersion: 2
+    MinRefineryVersion: v2.0
 
-  # GRPCListenAddr is the IP and port on which to listen for incoming events over gRPC.
-  # If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
-  # precedence and this value is ignored.
-  GRPCListenAddr: 0.0.0.0:4317
+  Network:
+    # ListenAddr is the IP and port on which to listen for incoming events.
+    ListenAddr: 0.0.0.0:8080
+    
+    # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.
+    PeerListenAddr: 0.0.0.0:8081
 
-  # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.
-  PeerListenAddr: 0.0.0.0:8081
+    # HoneycombAPI is the URL for the upstream Honeycomb API
+    HoneycombAPI: https://api.honeycomb.io
 
-  # HoneycombAPI is the URL for the upstream Honeycomb API
-  HoneycombAPI: https://api.honeycomb.io
+  GRPCServerParameters:
+    # ListenAddr is the IP and port on which to listen for incoming events over gRPC.
+    # If the environment variable 'REFINERY_GRPC_LISTEN_ADDRESS' is set it takes
+    # precedence and this value is ignored.
+    ListenAddr: 0.0.0.0:4317
 
-  # LoggingLevel valid options are "debug", "info", "error", and "panic".
-  LoggingLevel: info
+  Logger:
+    Type: stdout
+    Level: warn
 
-  # SendDelay is a short timer that will be triggered when a trace is complete.
-  # Refinery will wait this duration before actually sending the trace.  The
-  # reason for this short delay is to allow for small network delays or clock
-  # jitters to elapse and any final spans to arrive before actually sending the
-  # trace.  This supports duration strings with supplied units. Set to 0 for
-  # immediate sends.
-  SendDelay: 2s
+  Traces:
+    # SendDelay is a short timer that will be triggered when a trace is complete.
+    # Refinery will wait this duration before actually sending the trace.  The
+    # reason for this short delay is to allow for small network delays or clock
+    # jitters to elapse and any final spans to arrive before actually sending the
+    # trace.  This supports duration strings with supplied units. Set to 0 for
+    # immediate sends.
+    SendDelay: 2s
 
-  # BatchTimeout dictates how frequently to send unfulfilled batches. By default
-  # this will use the DefaultBatchTimeout in libhoney as its value, which is 100ms.
-  # Eligible for live reload.
-  BatchTimeout: 1s
+    # BatchTimeout dictates how frequently to send unfulfilled batches. By default
+    # this will use the DefaultBatchTimeout in libhoney as its value, which is 100ms.
+    # Eligible for live reload.
+    BatchTimeout: 1s
 
-  # TraceTimeout is a long timer; it represents the outside boundary of how long
-  # to wait before sending an incomplete trace. Normally traces are sent when the
-  # root span arrives. Sometimes the root span never arrives (due to crashes or
-  # whatever), and this timer will send a trace even without having received the
-  # root span. If you have particularly long-lived traces you should increase this
-  # timer. This supports duration strings with supplied units.
-  TraceTimeout: 60s
+    # TraceTimeout is a long timer; it represents the outside boundary of how long
+    # to wait before sending an incomplete trace. Normally traces are sent when the
+    # root span arrives. Sometimes the root span never arrives (due to crashes or
+    # whatever), and this timer will send a trace even without having received the
+    # root span. If you have particularly long-lived traces you should increase this
+    # timer. This supports duration strings with supplied units.
+    TraceTimeout: 60s
 
-  # MaxBatchSize is the number of events to be included in the batch for sending
-  MaxBatchSize: 500
+    # MaxBatchSize is the number of events to be included in the batch for sending
+    MaxBatchSize: 500
 
-  # SendTicker is a short timer; it determines the duration to use to check for traces to send
-  SendTicker: 100ms
+    # SendTicker is a short timer; it determines the duration to use to check for traces to send
+    SendTicker: 100ms
 
-  # UpstreamBufferSize and PeerBufferSize control how large of an event queue to use
-  # when buffering events that will be forwarded to peers or the upstream API.
-  UpstreamBufferSize: 1000
-  PeerBufferSize: 1000
+  BufferSizes:
+    # UpstreamBufferSize and PeerBufferSize control how large of an event queue to use
+    # when buffering events that will be forwarded to peers or the upstream API.
+    UpstreamBufferSize: 10000
+    
+    PeerBufferSize: 10000
 
-  # EnvironmentCacheTTL is the amount of time a cache entry will live that associates
-  # an API key with an environment name.
-  # Cache misses lookup the environment name using HoneycombAPI config value.
-  # Default is 1 hour ("1h").
-  # Not eligible for live reload.
-  EnvironmentCacheTTL: "1h"
+  Specialized:
+    # EnvironmentCacheTTL is the amount of time a cache entry will live that associates
+    # an API key with an environment name.
+    # Cache misses lookup the environment name using HoneycombAPI config value.
+    # Default is 1 hour ("1h").
+    # Not eligible for live reload.
+    EnvironmentCacheTTL: "1h"
 
-  # QueryAuthToken, if specified, provides a token that must be specified with
-  # the header "X-Honeycomb-Refinery-Query" in order for a /query request to succeed.
-  # These /query requests are intended for debugging refinery installations and
-  # are not typically needed in normal operation.
-  # Can be specified in the environment as REFINERY_QUERY_AUTH_TOKEN.
-  # If left unspecified, the /query endpoints are inaccessible.
-  # Not eligible for live reload.
-  # QueryAuthToken: "some-random-value"
+  Debugging:
+      # AdditionalErrorFields should be a list of span fields that should be included when logging
+      # errors that happen during ingestion of events (for example, the span too large error).
+      # This is primarily useful in trying to track down misbehaving senders in a large installation.
+      # The fields `dataset`, `apihost`, and `environment` are always included.
+      # If a field is not present in the span, it will not be present in the error log.
+      # Default is ["trace.span_id"].
+      # Eligible for live reload.
+      AdditionalErrorFields:
+        - trace.span_id
 
-  # AddRuleReasonToTrace causes traces that are sent to Honeycomb to include the field `meta.refinery.reason`.
-  # This field contains text indicating which rule was evaluated that caused the trace to be included.
-  # Eligible for live reload.
-  AddRuleReasonToTrace: true
+    # QueryAuthToken, if specified, provides a token that must be specified with
+    # the header "X-Honeycomb-Refinery-Query" in order for a /query request to succeed.
+    # These /query requests are intended for debugging refinery installations and
+    # are not typically needed in normal operation.
+    # Can be specified in the environment as REFINERY_QUERY_AUTH_TOKEN.
+    # If left unspecified, the /query endpoints are inaccessible.
+    # Not eligible for live reload.
+    # QueryAuthToken: "some-random-value"
 
-  # AdditionalErrorFields should be a list of span fields that should be included when logging
-  # errors that happen during ingestion of events (for example, the span too large error).
-  # This is primarily useful in trying to track down misbehaving senders in a large installation.
-  # The fields `dataset`, `apihost`, and `environment` are always included.
-  # If a field is not present in the span, it will not be present in the error log.
-  # Default is ["trace.span_id"].
-  # Eligible for live reload.
-  AdditionalErrorFields:
-    - trace.span_id
+  RefineryTelemetry:
+    # AddRuleReasonToTrace causes traces that are sent to Honeycomb to include the field `meta.refinery.reason`.
+    # This field contains text indicating which rule was evaluated that caused the trace to be included.
+    # Eligible for live reload.
+    AddRuleReasonToTrace: true
 
-  # AddSpanCountToRoot adds a new metadata field, `meta.span_count` to root spans to indicate
-  # the number of child spans on the trace at the time the sampling decision was made.
-  # This value is available to the rules-based sampler, making it possible to write rules that
-  # are dependent upon the number of spans in the trace.
-  # Default is false.
-  # Eligible for live reload.
-  AddSpanCountToRoot: false
+    # AddSpanCountToRoot adds a new metadata field, `meta.span_count` to root spans to indicate
+    # the number of child spans on the trace at the time the sampling decision was made.
+    # This value is available to the rules-based sampler, making it possible to write rules that
+    # are dependent upon the number of spans in the trace.
+    # Default is false.
+    # Eligible for live reload.
+    AddSpanCountToRoot: true
 
-  # CacheOverrunStrategy controls the cache management behavior under memory pressure.
-  # "resize" means that when a cache overrun occurs, the cache is shrunk and never grows again,
-  # which is generally not helpful unless it occurs because of a permanent change in traffic patterns.
-  # In the "impact" strategy, the items having the most impact on the cache size are
-  # ejected from the cache earlier than normal but the cache is not resized.
-  # In all cases, it only applies if MaxAlloc is nonzero.
-  # Default is "resize" for compatibility but "impact" is recommended for most installations.
-  # Eligible for live reload.
-  CacheOverrunStrategy: "impact"
-
-  # Set the field names to use for the event ID fields. These fields are used to
-  # identify events that are part of the same trace. TraceIdFieldNames are used
-  # to determine if an event is a Trace or another event type. ParentIdFieldNames
-  # are used to determine if an event is a root span or not.
-  # TraceIdFieldNames:
-  #   - "trace.trace_id"
-  #   - "traceId"
-  # ParentIdFieldNames:
-  #   - "trace.parent_id"
-  #   - "parentId"
+  IDFields:
+    # Set the field names to use for the event ID fields. These fields are used to
+    # identify events that are part of the same trace. TraceIdFieldNames are used
+    # to determine if an event is a Trace or another event type. ParentIdFieldNames
+    # are used to determine if an event is a root span or not.
+    # TraceNames:
+    #   - "trace.trace_id"
+    #   - "traceId"
+    # ParentNames:
+    #   - "trace.parent_id"
+    #   - "parentId"
 
   # AdditionalAttributes is a map that can be used for injecting user-defined
   # attributes. For example, it could be used for naming a refinery cluster.
@@ -190,42 +193,6 @@ config:
     # The type should always be redis when deployed to Kubernetes environments
     Type: "redis"
 
-    # RedisHost is used to connect to redis for peer cluster membership management.
-    # Further, if the environment variable 'REFINERY_REDIS_HOST' is set it takes
-    # precedence and this value is ignored.
-    # Not eligible for live reload.
-    # RedisHost will default to the name used for the release or name overrides depending on what is used,
-    # but can be overriden to a specific value.
-    RedisHost: '{{include "refinery.redis.fullname" .}}:6379'
-
-    # RedisUsername is the username used to connect to redis for peer cluster membership management.
-    # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
-    # precedence and this value is ignored.
-    # Not eligible for live reload.
-    # RedisUsername: ""
-
-    # RedisPassword is the password used to connect to redis for peer cluster membership management.
-    # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes
-    # precedence and this value is ignored.
-    # Not eligible for live reload.
-    RedisPassword: ""
-
-    # RedisPrefix is a string used as a prefix for the keys in redis while storing
-    # the peer membership. It might be useful to set this in any situation where
-    # multiple refinery clusters or multiple applications want to share a single
-    # Redis instance. It may not be blank.
-    RedisPrefix: "refinery"
-
-    # RedisDatabase is an integer from 0-15 indicating the database number to use
-    # for the Redis instance storing the peer membership. It might be useful to set
-    # this in any situation where multiple refinery clusters or multiple
-    # applications want to share a single Redis instance.
-    RedisDatabase: 0
-
-    # UseTLS enables TLS when connecting to redis for peer cluster membership management, and sets the MinVersion to 1.2.
-    # Not eligible for live reload.
-    UseTLS: false
-
     # IdentifierInterfaceName is optional.
     # Due to the nature of DNS in Kubernetes, it is recommended to set this value to the 'eth0' interface name.
     # When configured the pod's IP will be used in the peer list
@@ -236,19 +203,38 @@ config:
     # the first IPV6 unicast address found.
     UseIPV6Identifier: false
 
-    # Strategy controls the way that traces are assigned to refinery nodes.
-    # The "legacy" strategy uses a simple algorithm that unfortunately causes
-    # 1/2 of the in-flight traces to be assigned to a different node whenever the
-    # number of nodes changes.
-    # The legacy strategy is deprecated and is intended to be removed in a future release.
-    # The "hash" strategy is strongly recommended, as only 1/N traces (where N is the
-    # number of nodes) are disrupted when the node count changes.
-    Strategy: "legacy"
+  RedisPeerManagement:
+    Host: '{{include "refinery.redis.fullname" .}}:6379'
 
-  # InMemCollector brings together all the settings that are relevant to
-  # collecting spans together to make traces.
-  InMemCollector:
+    # RedisUsername is the username used to connect to redis for peer cluster membership management.
+    # If the environment variable 'REFINERY_REDIS_USERNAME' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    # Username: ""
 
+    # RedisPassword is the password used to connect to redis for peer cluster membership management.
+    # If the environment variable 'REFINERY_REDIS_PASSWORD' is set it takes
+    # precedence and this value is ignored.
+    # Not eligible for live reload.
+    Password: ""
+
+    # RedisPrefix is a string used as a prefix for the keys in redis while storing
+    # the peer membership. It might be useful to set this in any situation where
+    # multiple refinery clusters or multiple applications want to share a single
+    # Redis instance. It may not be blank.
+    Prefix: "refinery"
+
+    # RedisDatabase is an integer from 0-15 indicating the database number to use
+    # for the Redis instance storing the peer membership. It might be useful to set
+    # this in any situation where multiple refinery clusters or multiple
+    # applications want to share a single Redis instance.
+    Database: 0
+
+    # UseTLS enables TLS when connecting to redis for peer cluster membership management, and sets the MinVersion to 1.2.
+    # Not eligible for live reload.
+    UseTLS: false
+
+  Collection:
     # The collection cache is used to collect all spans into a trace as well as
     # remember the sampling decision for any spans that might come in after the
     # trace has been marked "complete" (either by timing out or seeing the root
@@ -311,15 +297,15 @@ config:
     #     the status of refinery and activate according to the levels set below.
     # - "always" means that Stress Relief is always on, which may be useful in an
     #     emergency situation.
-    Mode: "never"
+    Mode: "monitor"
 
     # ActivationLevel is the stress_level (from 0-100) at which Stress Relief is triggered.
-    ActivationLevel: 75
+    ActivationLevel: 90
 
     # DeactivationLevel is the stress_level (from 0-100) at which Stress Relief is
     # turned off (subject to MinimumActivationDuration). Under normal circumstances,
     # it should be well below ActivationLevel to avoid oscillations.
-    DeactivationLevel: 25
+    DeactivationLevel: 70
 
     # StressSamplingRate is the sampling rate to use when Stress Relief is
     # activated. All new traces will be deterministically sampled at this rate based
@@ -341,112 +327,52 @@ config:
 
   # Sample Cache Configuration controls the sample cache used to retain information about trace
   # status after the sampling decision has been made.
-  SampleCacheConfig:
-
-    # Type controls the type of sample cache used.
-    # "legacy" is a strategy where both keep and drop decisions are stored in a circular buffer that is
-    # 5x the size of the trace cache. This is Refinery's original sample cache strategy.
-    # "cuckoo" is a strategy where dropped traces are preserved in a "Cuckoo Filter", which can remember
-    # a much larger number of dropped traces, leaving capacity to retain a much larger number of kept traces.
-    # It is also more configurable. The cuckoo filter is recommended for most installations.
-    Type: "legacy"
-
+  SampleCache:
     # KeptSize controls the number of traces preserved in the cuckoo kept traces cache.
     # Refinery keeps a record of each trace that was kept and sent to Honeycomb, along with some
     # statistical information. This is most useful in cases where the trace was sent before sending
     # the root span, so that the root span can be decorated with accurate metadata.
     # Does not apply to the "legacy" type of cache.
-    # KeptSize: 10_000
+    KeptSize: 10000
 
     # DroppedSize controls the size of the cuckoo dropped traces cache.
     # This cache consumes 4-6 bytes per trace at a scale of millions of traces.
     # Changing its size with live reload sets a future limit, but does not have an immediate effect.
     # Does not apply to the "legacy" type of cache.
-    # DroppedSize: 1_000_000
+    DroppedSize: 1000000
 
     # SizeCheckInterval controls the duration of how often the cuckoo cache re-evaluates
     # the remaining capacity of its dropped traces cache and possibly cycles it.
     # This cache is quite resilient so it doesn't need to happen very often, but the
     # operation is also inexpensive.
     # Does not apply to the "legacy" type of cache.
-    # SizeCheckInterval: "10s"
-
-  # Logger describes which logger to use for Refinery logs. Valid options are
-  # "logrus" and "honeycomb". The logrus option will write logs to STDOUT and the
-  # honeycomb option will send them to a Honeycomb dataset.
-  Logger: logrus
-
-  # Metrics describes which service to use for Refinery metrics. Valid options are
-  # "prometheus" and "honeycomb". The prometheus option starts a listener that
-  # will reply to a request for /metrics. The honeycomb option will send summary
-  # metrics to a Honeycomb dataset.
-  Metrics: prometheus
-
-  # If using the Honeycomb Logger or Metrics, you can specify the API Key using an environment variable instead.
-  #
-  # HoneycombLogger is a section of the config only used if you are using the
-  # HoneycombLogger to send all logs to a Honeycomb Dataset. If you are using a
-  # different logger (eg file-based logger) you can leave all this commented out.
-  # HoneycombLogger:
-
-    # LoggerHoneycombAPI is the URL for the upstream Honeycomb API.
-    # LoggerHoneycombAPI: https://api.honeycomb.io
-
-    # LoggerAPIKey is the API key to use to send log events to the Honeycomb logging dataset
-    # LoggerAPIKey: YOUR_API_KEY
-
-    # LoggerDataset is the name of the dataset to which to send Refinery logs
-    # LoggerDataset: refinery-logs
-
-  # HoneycombMetrics is a section of the config only used if you are using the
-  # HoneycombMetrics to send all metrics to a Honeycomb Dataset. If you are using a
-  # different metrics service (eg prometheus) you can leave all this
-  # commented out.
-  # HoneycombMetrics:
-
-    # MetricsHoneycombAPI is the URL for the upstream Honeycomb API.
-    # MetricsHoneycombAPI: https://api.honeycomb.io
-
-    # MetricsAPIKey is the API key to use to send log events to the Honeycomb logging dataset.
-    # MetricsAPIKey: YOUR_API_KEY
-
-    # MetricsDataset is the name of the dataset to which to send Refinery metrics
-    # MetricsDataset: refinery-metrics
-
-    # MetricsReportingInterval is the frequency (in seconds) to send metric events
-    # to Honeycomb. Between 1 and 60 is recommended.
-    # MetricsReportingInterval: 10
-
+    SizeCheckInterval: "10s"
 
   PrometheusMetrics:
+    Enabled: true
     # MetricsListenAddr determines the interface and port on which Prometheus will
     # listen for requests for /metrics.
     MetricsListenAddr: 0.0.0.0:9090
 
-  # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
-  # When blank, refinery is configured using the a ConfigMap based on the rules below.
-  # When set, refinery is configured using the rules defined in the provided ConfigMap. The ConfigMap must use rules.yaml as the key but the value can be templated.
-  RulesConfigMapName: ""
+  LegacyMetrics:
+    enabled: false
+
+# RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
+# When blank, refinery is configured using the a ConfigMap based on the rules below.
+# When set, refinery is configured using the rules defined in the provided ConfigMap. The ConfigMap must use rules.yaml as the key but the value can be templated.
+RulesConfigMapName: ""
 
 # Values used to build rules.yaml
 # See the example in sample-configs/rules_complete.yaml for full details on all properties
 rules:
 
-  # DryRun - If enabled, marks traces that would be dropped given current sampling rules,
-  # and sends all traces regardless
-  # DryRun: false
-  # lb:
-  # This is the default sampler used.
-  # Any traces received that are not for a defined dataset will use this sampler.
-  # Deterministic Sampler implementation. This is the simplest sampling algorithm
-  # - it is a static sample rate, choosing traces randomly to either keep or send
-  # (at the appropriate rate). It is not influenced by the contents of the trace.
-  Sampler: DeterministicSampler
-
-  # SampleRate is the rate at which to sample. It indicates a ratio, where one
-  # sample trace is kept for every n traces seen. For example, a SampleRate of 30
-  # will keep 1 out of every 30 traces.
-  SampleRate: 1
+  Samplers:
+    # The default sampler is used when no other sampler matches.
+    # It is required to have a default sampler.
+    # The name consists of two underscores on either side of the word "default".
+    __default__:
+        DeterministicSampler:
+            SampleRate: 1
 
   ## Dataset sampling rules ##
   # Specify dataset rules by creating an object for each dataset
@@ -462,9 +388,9 @@ rules:
   #    - http.target
   #    - response.status_code
 
-  # LiveReload - If disabled, triggers a rolling restart of the cluster whenever
-  # the Rules configmap changes
-  LiveReload: true
+# LiveReload - If disabled, triggers a rolling restart of the cluster whenever
+# the Rules configmap changes
+LiveReload: true
 
 # Redis configuration
 redis:
@@ -495,6 +421,7 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
   annotations: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

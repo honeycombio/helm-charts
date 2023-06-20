@@ -26,7 +26,7 @@ spec:
         prometheus.io/port: "9090"
         prometheus.io/scrape: "true"
         {{- end }}
-        {{- if hasKey .Values.rules "LiveReload" | ternary (not .Values.rules.LiveReload) false }}
+        {{- if not .Values.LiveReloade }}
         checksum/rules: {{ include (print $.Template.BasePath "/configmap-rules.yaml") . | sha256sum }}
         {{- end }}
       labels:
@@ -113,8 +113,8 @@ spec:
                     - key: config.yaml
                       path: config.yaml
               - configMap:
-                {{- if .Values.config.RulesConfigMapName }}
-                  name: {{ .Values.config.RulesConfigMapName }}
+                {{- if .Values.RulesConfigMapName }}
+                  name: {{ .Values.RulesConfigMapName }}
                 {{- else }}
                   name: {{ include "refinery.fullname" . }}-rules
                 {{- end }}
