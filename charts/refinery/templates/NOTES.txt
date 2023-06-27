@@ -1,13 +1,17 @@
-{{- if eq .Values.config.PeerManagement.Strategy "legacy" }}
-[INFO] We recommend setting "config.PeerManagement.Strategy" to "hash". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
-{{ end }}
-
 {{- if eq .Values.config.StressRelief.Mode "never" }}
 [INFO] We recommend setting "config.StressRelief.Mode" to "monitor". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
 {{ end }}
 
-{{- if eq .Values.config.SampleCacheConfig.Type "legacy" }}
-[INFO] We recommend setting "config.SampleCacheConfig.Type" to "cuckoo". See https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-1200 for more details
+{{- if or ( (not (eq .Values.config.General.ConfigurationVersion 2)) (not (eq .Values.rules.RulesVersion 2)) ) }}
+[ERROR] Version 2.x of Refinery requires updated configuration and rules data. See https://github.com/honeycombio/refinery/blob/main/tools/convert/README.md for information on conversion.
+{{ end }}
+
+{{- if .Values.config.LiveReload }}
+[ERROR] The LiveReload value is no longer part of the config within the values file; it has been moved to the root level.
+{{ end }}
+
+{{- if .Values.rules.RulesConfigMapName }}
+[ERROR] The RulesConfigMapName value is no longer part of the rules within the values file; it has been moved to the root level.
 {{ end }}
 
 Honeycomb refinery is setup and configured to refine events that are sent through it. You should see data flowing
