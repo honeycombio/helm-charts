@@ -3,10 +3,11 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# Values used to build the Refinery config.yaml.
-# All Refinery configuration values may be supplied even if not included in this default values.yaml.
-# See https://github.com/honeycombio/refinery/blob/main/config_complete.yaml for full details
-# on all fields that may be configured here.
+# The Refinery configuration.
+# This section allows setting all Refinery configuration options.
+# Configuration values set here by default have been set based on the requirements of the chart and Kubernetes.
+# See INSERT DOCS SITE URL for full details on all fields that may be configured.
+#
 # Supports templating. To escape existing instances of {{ }}, use {{` <original content> `}}.
 # For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
 config:
@@ -14,158 +15,19 @@ config:
     ConfigurationVersion: 2
     MinRefineryVersion: v2.0
 
-  Network:
-    # ListenAddr is the address where Refinery listens for incoming requests.
-    ListenAddr: 0.0.0.0:8080
-    
-    # PeerListenAddr is the IP and port on which to listen for traffic being rerouted from a peer.
-    PeerListenAddr: 0.0.0.0:8081
-
-    # HoneycombAPI is the URL of the upstream Honeycomb API where the data  will be sent.
-    HoneycombAPI: https://api.honeycomb.io
-
-  GRPCServerParameters:
-    # Enabled specifies whether the gRPC server is enabled.
-    Enabled: true
-
-    # ListenAddr is the address Refinery listens to for incoming GRPC OpenTelemetry events.
-    ListenAddr: 0.0.0.0:4317
-
-    # MaxConnectionAge is the maximum amount of time a gRPC connection may exist.
-    MaxConnectionAge: 3m
-
-  Logger:
-    # Type is the type of logger to use.
-    Type: stdout
-
-    # Level is the logging level above which Refinery should send a log to the logger.
-    Level: warn
-
-  Traces:
-    # SendDelay is the duration to wait before sending a trace.
-    SendDelay: 2s
-
-    # BatchTimeout is how frequently Refinery sends unfulfilled batches.
-    BatchTimeout: 500ms
-
-    # TraceTimeout is the duration to wait before making the trace decision on an incomplete trace.
-    TraceTimeout: 60s
-
-    # MaxBatchSize is the maximum number of events to be included in each batch for sending.
-    MaxBatchSize: 500
-
-    # SendTicker is the interval between checks for traces to send.
-    SendTicker: 100ms
-
-  BufferSizes:
-    # UpstreamBufferSize is the size of the queue used to buffer spans to send to the upstream Collector.
-    UpstreamBufferSize: 10000
-    
-    # PeerBufferSize is the size of the queue used to buffer spans to send to peer nodes.
-    PeerBufferSize: 10000
-
-  Specialized:
-    # EnvironmentCacheTTL is the duration for which environment information is cached.
-    EnvironmentCacheTTL: "1h"
-
-    # AdditionalAttributes is a map that can be used for injecting user-defined attributes into every span.
-    # AdditionalAttributes:
-      # ClusterName: MyCluster
-      # environment: production
-
-  Debugging:
-      # AdditionalErrorFields is a list of span fields to include when logging errors happen during the ingestion of events.
-      AdditionalErrorFields:
-        - trace.span_id
-
-    # QueryAuthToken is the token that must be specified to access the `/query` endpoint.
-    # QueryAuthToken: "some-private-value"
-
-  RefineryTelemetry:
-    # AddRuleReasonToTrace controls whether to decorate traces with Refinery  rule evaluation results.
-    AddRuleReasonToTrace: true
-
-    # AddSpanCountToRoot controls whether to add a metadata field to root spans that indicates the number of child spans.
-    AddSpanCountToRoot: true
-
-  IDFields:
-    # TraceNames is the list of field names to use for the trace ID.
-    TraceNames:
-      - "trace.trace_id"
-      - "traceId"
-
-    # ParentNames is the list of field names to use for the parent ID.
-    ParentNames:
-      - "trace.parent_id"
-      - "parentId"
-
   PeerManagement:
-    # Type is the type of peer management to use.
-    Type: "redis"
-
-    # IdentifierInterfaceName specifies a network interface to use when
+    # IdentifierInterfaceName specifies a network interface to use when finding a local hostname.
+    # Due to the nature of DNS in Kubernetes, it is recommended to set this value to the 'eth0' interface name.
+    # When configured the pod's IP will be used in the peer list
     IdentifierInterfaceName: eth0
-
-    # UseIPV6Identifier specifies that Refinery should use an IPV6 address as its identifier.
-    UseIPV6Identifier: false
 
   RedisPeerManagement:
     # Host is the host and port of the Redis instance to use for peer cluster membership management.
     Host: '{{include "refinery.redis.fullname" .}}:6379'
 
-    # Username is the username used to connect to Redis for peer cluster membership management.
-    Username: ""
-
-    # Password is the password used to connect to Redis for peer cluster membership management.
-    Password: ""
-
-    # Prefix is a string used as a prefix for the keys in Redis while storing the peer membership.
-    Prefix: "refinery"
-
-    # Database is the database number to use for the Redis instance storing the peer membership.
-    Database: 0
-
-    # UseTLS enables TLS when connecting to Redis for peer cluster membership management.
-    UseTLS: false
-
   Collection:
-    # CacheCapacity is the number of traces to keep in the cache's circular buffer.
-    CacheCapacity: 10000
-
     # AvailableMemory is the amount of system memory available to the Refinery process.
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
-
-    # MaxMemoryPercentage is the maximum percentage of memory that should be allocated by the span collector.
-    MaxMemoryPercentage: 75
-
-  StressRelief:
-    # Mode is a string indicating how to use Stress Relief.
-    Mode: "monitor"
-
-    # ActivationLevel is the `stress_level` (from 0-100) at which Stress Relief is triggered.
-    ActivationLevel: 90
-
-    # DeactivationLevel is the `stress_level` (from 0-100) at which Stress Relief is turned off.
-    DeactivationLevel: 70
-
-    # SamplingRate is the sampling rate to use when Stress Relief is activated.
-    SamplingRate: 100
-
-    # MinimumActivationDuration is the minimum time that Stress Relief will stay enabled once activated.
-    MinimumActivationDuration: 10s
-
-    # MinimumStartupDuration is the minimum time that Stress Relief will stay enabled.
-    MinimumStartupDuration: 3s
-
-  SampleCache:
-    # KeptSize is the number of traces preserved in the cuckoo kept traces cache.
-    KeptSize: 10000
-
-    # DroppedSize is the size of the cuckoo dropped traces cache.
-    DroppedSize: 1000000
-
-    # SizeCheckInterval controls how often the cuckoo cache re-evaluates its remaining capacity.
-    SizeCheckInterval: "10s"
 
   PrometheusMetrics:
     # Enabled controls whether to expose Refinery metrics over the `PrometheusListenAddr` port.
@@ -174,18 +36,11 @@ config:
     # ListenAddr is the IP and port the Prometheus Metrics server will run on.
     ListenAddr: 0.0.0.0:9090
 
-  # OTelMetrics `OTelMetrics` contains configuration for Refinery's
-  # OpenTelemetry (OTel) metrics. This is the preferred way to send
-  # metrics to Honeycomb. New installations should prefer `OTelMetrics`.
-  OTelMetrics:
-    # Enabled controls whether to send metrics via OpenTelemetry.
-    enabled: false
-
-    # APIKey is the API key used to send Honeycomb metrics via OpenTelemetry.
-    APIKey: ""
-
-# Values used to build rules.yaml
-# See the example in sample-configs/rules_complete.yaml for full details on all properties
+# Refinery rules.
+# This section allows configuring Refinery rules.
+# The default value is the bare minimum Refinery requires in order to run.
+# It is highly recommend to set your own rules.
+# See INSERT DOCS URL for how to configure Refinery rules.
 rules:
   RulesVersion: 2
   Samplers:
@@ -195,20 +50,6 @@ rules:
     __default__:
         DeterministicSampler:
             SampleRate: 1
-
-  ## Dataset sampling rules ##
-  # Specify dataset rules by creating an object for each dataset
-  # Note: If your dataset name contains a space, you will have to escape the dataset name
-  # using single quotes, such as "dataset 1":
-  #
-  # This example creates a sampling definition for a dataset called: test-dataset
-  # test-dataset:
-  #   Sampler: EMADynamicSampler
-  #   GoalSampleRate: 5
-  #   FieldList:
-  #    - request.method
-  #    - http.target
-  #    - response.status_code
 
 # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
 # When blank, refinery is configured using the a ConfigMap based on the rules below.
@@ -305,10 +146,6 @@ redis:
   # For production, it is recommended to set this to false and provide
   # a highly available Redis configuration using redis.existingHost
   enabled: true
-
-  # If redis.enabled is false this needs to be specified.
-  # This needs to be the name:port of a Redis configuration
-  # existingHost:
 
   # If redis.enabled is true, this the image that will be used to create
   # the Redis deployment
