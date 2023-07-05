@@ -32,6 +32,7 @@ If no configuration file is passed in, Refinery will deploy with the default con
 ## Configuration
 
 The repository's [values.yaml](./values.yaml) file contains information about all configuration options for this chart.
+For details on Refinery-specific configuration see INSERT URL.
 
 **NOTE**: Configuration does not hot-reload and changes will recycle pods when upgrading via `helm upgrade` operations.
 

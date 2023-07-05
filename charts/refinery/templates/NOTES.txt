@@ -1,4 +1,4 @@
-{{- if or ( (not (eq .Values.config.General.ConfigurationVersion 2)) (not (eq .Values.rules.RulesVersion 2)) ) }}
+{{- if or (not (eq (.Values.config.General.ConfigurationVersion | int) 2)) (not (eq (.Values.rules.RulesVersion | int) 2)) }}
 {{- fail "[ERROR] Version 2.x of Refinery requires updated configuration and rules data. See https://github.com/honeycombio/refinery/blob/main/tools/convert/README.md for information on conversion." }}
 {{ end }}
 
