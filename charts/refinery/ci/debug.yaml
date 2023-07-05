@@ -1,0 +1,11 @@
+resources:
+  limits:
+    cpu: 100m
+    memory: 200M
+  requests:
+    cpu: 100m
+    memory: 200M
+
+debug:
+  enabled: true
+  port: 6062

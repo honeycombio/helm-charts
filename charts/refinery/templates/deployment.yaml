@@ -50,19 +50,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - "refinery"
-            - "-d"
             - "-c"
             - "/etc/refinery/config.yaml"
             - "-r"
             - "/etc/refinery/rules.yaml"
+            {{- if .Values.debug.enabled }}
+            - "-d"
+            {{- end }}
           {{- with .Values.environment }}
           env:
           {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: debug
-              containerPort: 6060
-              protocol: TCP
             - name: data
               containerPort: 8080
               protocol: TCP
@@ -75,6 +74,11 @@ spec:
             {{- if eq .Values.config.Metrics "prometheus" }}
             - name: metrics
               containerPort: 9090
+              protocol: TCP
+            {{- end }}
+            {{- if .Values.debug.enabled }}
+            - name: debug
+              containerPort: {{ .Values.debug.port }}
               protocol: TCP
             {{- end }}
           volumeMounts:

@@ -7,4 +7,4 @@ metadata:
   {{- include "refinery.labels" . | nindent 4 }}
 data:
   config.yaml: |
-{{- tpl (toYaml .Values.config) . | nindent 4 }}
+  {{- include "refinery.config" . | nindent 4 -}}
