@@ -604,3 +604,11 @@ secretProvider:
   create: false
   name: refinery
   spec: {}
+
+# When enabled, adds the -d flag to Refinery's arguments which enables the debug service.
+debug: 
+  enabled: true
+  # The port on which Refinery exposes the debug service.
+  # Only used if debug is enabled.
+  # This value will be used to set config.DebugServiceAddr if it is not already set.
+  port: 6060

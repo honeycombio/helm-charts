@@ -50,8 +50,6 @@ app.kubernetes.io/name: {{ include "refinery.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-
-
 {{/*
 Create a default fully qualified app name for the redis component.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -60,7 +58,6 @@ If release name contains chart name it will be used as a full name.
 {{- define "refinery.redis.fullname" -}}
 {{ include "refinery.fullname" . }}-redis
 {{- end }}
-
 
 {{/*
 Common labels for redis
@@ -82,13 +79,6 @@ app.kubernetes.io/name: {{ include "refinery.name" . }}-redis
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-
-
-
-
-
-
-
 {{/*
 Create the name of the service account to use
 */}}
@@ -98,4 +88,18 @@ Create the name of the service account to use
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+Build config file for Refinery
+*/}}
+{{- define "refinery.config" -}}
+{{- $config := deepCopy .Values.config }}
+{{- if .Values.debug.enabled }}
+{{-   $debugServiceAddr := get $config "DebugServiceAddr" }}
+{{-   if not $debugServiceAddr }}
+{{-      $_ := set $config "DebugServiceAddr" (printf "localhost:%v" .Values.debug.port ) }}
+{{-   end }}
+{{- end }}
+{{- tpl (toYaml $config) . }}
 {{- end }}

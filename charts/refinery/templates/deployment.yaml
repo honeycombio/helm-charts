@@ -54,6 +54,9 @@ spec:
             - "/etc/refinery/config.yaml"
             - "-r"
             - "/etc/refinery/rules.yaml"
+            {{- if .Values.debug.enabled }}
+            - "-d"
+            {{- end }}
           {{- with .Values.environment }}
           env:
           {{- toYaml . | nindent 12 }}
@@ -71,6 +74,11 @@ spec:
             {{- if eq .Values.config.Metrics "prometheus" }}
             - name: metrics
               containerPort: 9090
+              protocol: TCP
+            {{- end }}
+            {{- if .Values.debug.enabled }}
+            - name: debug
+              containerPort: {{ .Values.debug.port }}
               protocol: TCP
             {{- end }}
           volumeMounts:
