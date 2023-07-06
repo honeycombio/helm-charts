@@ -1,5 +1,12 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v2.0.0
+
+- maint: Bump default refinery version to 2.0.0 (#257) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- fix: disable debug by default (#258) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- feat: enable debug service by default (#255) | [@lizthegrey](https://github.com/lizthegrey)
+- docs: [refinery] Add MaxConnectionAge default to values.yaml (#254) | [@mterhar](https://github.com/mterhar)
+
 ## Refinery v1.19.1
   - feat: Add the ability to create your own Secret Provider (#243) | @RainofTerra
   - chore: Allow users to add annotations for refinery and collector deployments (#236) | @suryapandian

@@ -120,6 +120,8 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `autoscaling.targetCPUUtilizationPercentage` | Set the target CPU utilization percentage for scaling | `75` | 
 | `autoscaling.targetMemoryUtilizationPercentage` | Set the target Memory utilization percentage for scaling | `nil` |
 | `config` | Refinery Configuration | see [Refinery Configuration](#configuration) |
+| `debug.enabled` | whether or not the `-d` flag should be used in the Refinery arguments to enable the debug service  | `false` |
+| `debug.port` | the port on which the debug service will be exposed  | `6060` |
 | `fullnameOverride` | String to fully override refinery.fullname template with a string | `nil` |
 | `grpcIngress.annotations` | gRPC Ingress annotations | `{}` |
 | `grpcIngress.enabled` | Enable ingress controller resource for gRPC traffic | `false` |
