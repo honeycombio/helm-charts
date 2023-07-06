@@ -66,6 +66,7 @@ update_index() {
   git config user.name "$GIT_USERNAME"
   git config --global --unset url.ssh://git@github.com.insteadof
   git remote add origin-https "https://github.com/$GIT_REPOSITORY_OWNER/$GIT_REPOSITORY_NAME.git"
+  git fetch --all
 
   mkdir .cr-index
   cr index --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN" --remote "origin-https" --push
