@@ -1,14 +1,2 @@
-{{- if or (not (eq (.Values.config.General.ConfigurationVersion | int) 2)) (not (eq (.Values.rules.RulesVersion | int) 2)) }}
-{{- fail "[ERROR] Version 2.x of Refinery requires updated configuration and rules data. See https://github.com/honeycombio/refinery/blob/main/tools/convert/README.md for information on conversion." }}
-{{ end }}
-
-{{- if .Values.config.LiveReload }}
-{{- fail "[ERROR] The LiveReload value is no longer part of the config within the values file; it has been moved to the root level. See https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#upgrading for 2.0 upgrade details." }}
-{{ end }}
-
-{{- if .Values.rules.RulesConfigMapName }}
-{{- fail "[ERROR] The RulesConfigMapName value is no longer part of the rules within the values file; it has been moved to the root level. See https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#upgrading for 2.0 upgrade details." }}
-{{ end }}
-
 Honeycomb refinery is setup and configured to refine events that are sent through it. You should see data flowing
 within a few minutes at https://ui.honeycomb.io
