@@ -6,7 +6,7 @@ fullnameOverride: ""
 # The Refinery configuration.
 # This section allows setting all Refinery configuration options.
 # Configuration values set here by default have been set based on the requirements of the chart and Kubernetes.
-# See INSERT DOCS SITE URL for full details on all fields that may be configured.
+# See https://docs.honeycomb.io/manage-data-volume/refinery/configuration/ for full details on all fields that may be configured.
 #
 # Supports templating. To escape existing instances of {{ }}, use {{` <original content> `}}.
 # For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
@@ -28,19 +28,22 @@ config:
   Collection:
     # AvailableMemory is the amount of system memory available to the Refinery process.
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
+    MaxMemoryPercentage: 75
+
 
   PrometheusMetrics:
     # Enabled controls whether to expose Refinery metrics over the `PrometheusListenAddr` port.
     Enabled: true
 
     # ListenAddr is the IP and port the Prometheus Metrics server will run on.
+    # Currently this helm chart expects port 9090 to be used for Refinery Prometheus metrics.
     ListenAddr: 0.0.0.0:9090
 
 # Refinery rules.
 # This section allows configuring Refinery rules.
 # The default value is the bare minimum Refinery requires in order to run.
 # It is highly recommend to set your own rules.
-# See INSERT DOCS URL for how to configure Refinery rules.
+# See https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/ for how to configure Refinery rules.
 rules:
   RulesVersion: 2
   Samplers:
