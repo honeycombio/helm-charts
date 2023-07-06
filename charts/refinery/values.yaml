@@ -1,8 +1,5 @@
 # Default values for refinery.
 
-nameOverride: ""
-fullnameOverride: ""
-
 # The Refinery configuration.
 # This section allows setting all Refinery configuration options.
 # Configuration values set here by default have been set based on the requirements of the chart and Kubernetes.
@@ -83,26 +80,6 @@ resources:
     cpu: 500m
     memory: 500Mi
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-# Setup autoscaling for refinery
-# When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
-# sent to Honeycomb, for a small period of time (approximately config.Traces.TraceTimeout * 2).
-# Because of this, scaleDown is disabled by default to avoid unnecessary broken traces should traffic go up and down rapidly.
-autoscaling:
-  enabled: false
-  minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 75
-  # targetMemoryUtilizationPercentage: 80
-  behavior:
-    scaleDown:
-      selectPolicy: Disabled
-
 image:
   repository: honeycombio/refinery
   pullPolicy: IfNotPresent
@@ -110,6 +87,8 @@ image:
   tag: ""
 
 imagePullSecrets: [ ]
+nameOverride: ""
+fullnameOverride: ""
 
 # Use to pass in additional environment variables into Refinery
 # Refinery supports environment variables for some configuration options such as:
@@ -228,6 +207,26 @@ grpcIngress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+
+# Setup autoscaling for refinery
+# When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
+# sent to Honeycomb, for a small period of time (approximately config.Traces.TraceTimeout * 2).
+# Because of this, scaleDown is disabled by default to avoid unnecessary broken traces should traffic go up and down rapidly.
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 75
+  # targetMemoryUtilizationPercentage: 80
+  behavior:
+    scaleDown:
+      selectPolicy: Disabled
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
 
 # If you need to create a secret provider, such as for using AWS SSM, you can do so here.
 # secretProvider functionality requires the Secret Store CSI Driver:
