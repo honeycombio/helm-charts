@@ -96,10 +96,19 @@ Build config file for Refinery
 {{- define "refinery.config" -}}
 {{- $config := deepCopy .Values.config }}
 {{- if .Values.debug.enabled }}
-{{-   $debugServiceAddr := get $config "DebugServiceAddr" }}
-{{-   if not $debugServiceAddr }}
-{{-      $_ := set $config "DebugServiceAddr" (printf "localhost:%v" .Values.debug.port ) }}
-{{-   end }}
+{{-   $debugging := get $config "Debugging" }}
+{{-   if not $debugging }}
+{{-     $_ := set $config "Debugging" (dict "DebugServiceAddr" (include "refinery.DebugServiceAddr" .)) }}
+{{-   else }}
+{{-     $debugServiceAddr := get $debugging "DebugServiceAddr" }}
+{{-     if not $debugServiceAddr }}
+{{-       $_ := set $debugging "DebugServiceAddr" (include "refinery.DebugServiceAddr" .) }}
+{{-     end }}
+{{-   end }}   
 {{- end }}
 {{- tpl (toYaml $config) . }}
 {{- end }}
+
+{{- define "refinery.DebugServiceAddr" -}}
+{{- printf "localhost:%v" .Values.debug.port }}
+{{- end}}
