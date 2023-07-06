@@ -174,8 +174,8 @@ The following table lists the configurable parameters of the Refinery chart, and
 ### Upgrading from 1.19.1 or earlier
 
 [Refinery had a 2.0 release!](link to release notes).  It contains many important, but breaking, changes.  As a result, the chart
-has also had a 2.0 release! All the breaking changes to the chart affect `config`.  In order to help convert your existing values.yaml 
-to the new 2.0 configuration options you can use the [Refinery Converter tool](LINK to Converter tool). This tool is able to convert 
+has also had a 2.0 release! All the breaking changes to the chart affect `config` and `rules`.  In order to help convert your existing values.yaml 
+to the new 2.0 configuration options you can use the [Refinery Converter tool](https://github.com/honeycombio/refinery/tree/main/tools/convert). This tool is able to convert 
 your existing values.yaml to the new 2.0 style, keeping all your custom configuration intact.
 
 ### Upgrading from 1.3.1 or earlier
