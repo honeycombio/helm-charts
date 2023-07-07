@@ -27,6 +27,9 @@ config:
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
     MaxMemoryPercentage: 75
 
+  GRPCServerParameters:
+    Enabled: true
+    ListenAddr: 0.0.0.0:4317
 
   PrometheusMetrics:
     # Enabled controls whether to expose Refinery metrics over the `PrometheusListenAddr` port.
