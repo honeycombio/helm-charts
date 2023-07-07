@@ -1,5 +1,9 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v2.0.1
+
+- fix: [refinery] Add default GRPCServerParameters.ListenAddr (#262) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
 ## Refinery v2.0.0
 
 - maint: Bump default refinery version to 2.0.0 (#257) | [@TylerHelmuth](https://github.com/TylerHelmuth)
