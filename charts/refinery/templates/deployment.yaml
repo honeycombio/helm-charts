@@ -49,13 +49,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - "refinery"
-            - "-c"
-            - "/etc/refinery/config.yaml"
-            - "-r"
-            - "/etc/refinery/rules.yaml"
+            - refinery
+            - -c
+            - /etc/refinery/config.yaml
+            - -r
+            - /etc/refinery/rules.yaml
             {{- if .Values.debug.enabled }}
-            - "-d"
+            - -d
+            {{- end }}
+            {{- range .Values.extraCommandArgs }}
+            - {{ . }}
             {{- end }}
           {{- with .Values.environment }}
           env:
