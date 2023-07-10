@@ -122,6 +122,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `config` | Refinery Configuration | see [Refinery Configuration](#configuration) |
 | `debug.enabled` | whether or not the `-d` flag should be used in the Refinery arguments to enable the debug service  | `false` |
 | `debug.port` | the port on which the debug service will be exposed  | `6060` |
+| `extraCommandArgs` | List of extra string args to pass to refinery start command | `[]` |
 | `fullnameOverride` | String to fully override refinery.fullname template with a string | `nil` |
 | `grpcIngress.annotations` | gRPC Ingress annotations | `{}` |
 | `grpcIngress.enabled` | Enable ingress controller resource for gRPC traffic | `false` |
