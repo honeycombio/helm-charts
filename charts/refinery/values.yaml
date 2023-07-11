@@ -57,7 +57,7 @@ rules:
   Samplers: {}
     # The default sampler is used when no other sampler matches.
     # It is required to have a default sampler.
-    # If you do not supplie a default sampler the helm chart will inject
+    # If you do not supply a default sampler the helm chart will inject
     # the DeterministicSampler show below.
     # __default__:
     #     DeterministicSampler:
