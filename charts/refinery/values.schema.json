@@ -93,15 +93,7 @@
           "type": "integer"
         },
         "Samplers": {
-          "type": "object",
-          "properties": {
-            "__default__": {
-              "type": "object"
-            }
-          },
-          "required": [
-            "__default__"
-          ]
+          "type": "object"
         }
       },
       "required": [
