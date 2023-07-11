@@ -1,5 +1,19 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v2.1.0
+
+### Features
+- feat: Add ability to specify extra refinery commands (#265) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
+### Fixes
+- fix: Fix issue where default rule was always present unless explicitly disabled. (#269) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- fix: Add back addrulereasontotrace (#268) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- fix: Update peer management to use redis (#267) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- fix: Fix typo with `LiveReload` (#264) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
+### Maintenance
+- bump refinery version | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
 ## Refinery v2.0.1
 
 - fix: [refinery] Add default GRPCServerParameters.ListenAddr (#262) | [@TylerHelmuth](https://github.com/TylerHelmuth)
