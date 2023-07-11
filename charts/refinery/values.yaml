@@ -40,6 +40,13 @@ config:
     # Currently this helm chart expects port 9090 to be used for Refinery Prometheus metrics.
     ListenAddr: 0.0.0.0:9090
 
+  RefineryTelemetry:
+    AddRuleReasonToTrace: true
+
+  Debugging:
+    AdditionalErrorFields:
+      - trace.span_id
+
 # Refinery rules.
 # This section allows configuring Refinery rules.
 # The default value is the bare minimum Refinery requires in order to run.
