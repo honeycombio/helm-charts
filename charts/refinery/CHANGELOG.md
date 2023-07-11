@@ -3,7 +3,7 @@
 ## Refinery v2.1.0
 
 ### Features
-- feat: Add ability to specific extra refinery commands (#265) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+- feat: Add ability to specify extra refinery commands (#265) | [@TylerHelmuth](https://github.com/TylerHelmuth)
 
 ### Fixes
 - fix: Fix issue where default rule was always present unless explicitly disabled. (#269) | [@TylerHelmuth](https://github.com/TylerHelmuth)
