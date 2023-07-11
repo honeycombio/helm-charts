@@ -35,7 +35,6 @@ config:
   PrometheusMetrics:
     # Enabled controls whether to expose Refinery metrics over the `PrometheusListenAddr` port.
     Enabled: true
-
     # ListenAddr is the IP and port the Prometheus Metrics server will run on.
     # Currently this helm chart expects port 9090 to be used for Refinery Prometheus metrics.
     ListenAddr: 0.0.0.0:9090
