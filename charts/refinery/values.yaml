@@ -89,6 +89,11 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+# Use this field to pass in extra arguments to the refinery command
+# such as --no-validate.  The chart already applies
+# -c and -r so those should not be included.
+extraCommandArgs: []
+
 imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: ""
