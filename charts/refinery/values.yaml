@@ -41,7 +41,6 @@ config:
 
   RefineryTelemetry:
     AddRuleReasonToTrace: true
-    AddSpanCountToRoot: false
 
   Debugging:
     AdditionalErrorFields:
