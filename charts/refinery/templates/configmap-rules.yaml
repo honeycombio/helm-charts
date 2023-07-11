@@ -9,6 +9,6 @@ metadata:
   {{- include "refinery.labels" . | nindent 4 }}
 data:
   rules.yaml: |
-{{- toYaml .Values.rules | nindent 4 }}
+  {{- include "refinery.rules" . | nindent 4 -}}
 
 {{ end }}

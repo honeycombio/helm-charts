@@ -112,3 +112,20 @@ Build config file for Refinery
 {{- define "refinery.DebugServiceAddr" -}}
 {{- printf "localhost:%v" .Values.debug.port }}
 {{- end}}
+
+{{/*
+Build rules file for Refinery
+*/}}
+{{- define "refinery.rules" -}}
+{{- $rules := deepCopy .Values.rules }}
+{{- $default := get $rules.Samplers "__default__" }}
+{{- if not $default }}
+{{-   $_ := set $rules.Samplers "__default__" (include "refinery.defaultRules" . | fromYaml) }}
+{{- end }} 
+{{- tpl (toYaml $rules) . }}
+{{- end }}
+
+{{- define "refinery.defaultRules" -}}
+DeterministicSampler:
+  SampleRate: 1
+{{- end}}

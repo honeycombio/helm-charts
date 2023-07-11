@@ -1,0 +1,17 @@
+resources:
+  limits:
+    cpu: 100m
+    memory: 200M
+  requests:
+    cpu: 100m
+    memory: 200M
+
+rules:
+  RulesVersion: 2
+  Samplers:
+    __default__:
+      DeterministicSampler:
+        SampleRate: 100
+    test:
+      DeterministicSampler:
+        SampleRate: 1

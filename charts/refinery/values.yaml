@@ -54,13 +54,14 @@ config:
 # See https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/ for how to configure Refinery rules.
 rules:
   RulesVersion: 2
-  Samplers:
+  Samplers: {}
     # The default sampler is used when no other sampler matches.
     # It is required to have a default sampler.
-    # The name consists of two underscores on either side of the word "default".
-    __default__:
-        DeterministicSampler:
-            SampleRate: 1
+    # If you do not supplie a default sampler the helm chart will inject
+    # the DeterministicSampler show below.
+    # __default__:
+    #     DeterministicSampler:
+    #         SampleRate: 1
 
 # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
 # When blank, refinery is configured using the a ConfigMap based on the rules below.
