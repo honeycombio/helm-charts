@@ -1,5 +1,9 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v2.1.1
+
+- fix: [refinery] Fix issue where Prometheus ports are not enabled when PrometheusMetrics is enabled (#274) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
 ## Refinery v2.1.0
 
 ### Features
