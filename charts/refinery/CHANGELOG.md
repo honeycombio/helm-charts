@@ -1,5 +1,10 @@
 # Refinery Helm Chart Changelog
 
+## Refinery v2.1.2
+
+- maint: bump refinery version (#277) | [@TylerHelmuth](https://github.com/TylerHelmuth)
+
+
 ## Refinery v2.1.1
 
 - fix: [refinery] Fix issue where Prometheus ports are not enabled when PrometheusMetrics is enabled (#274) | [@TylerHelmuth](https://github.com/TylerHelmuth)
