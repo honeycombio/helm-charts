@@ -1,2 +1,6 @@
+{{- if .Values.ingressClassName }}
+{{- fail "value for .Values.ingressClassName cannot be set" }}
+{{ end }}
+
 Honeycomb refinery is setup and configured to refine events that are sent through it. You should see data flowing
 within a few minutes at https://ui.honeycomb.io
