@@ -1,7 +1,6 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
 ## Honeycomb Kubernetes Agent v1.8.0
- - maint: bump honeycomb chart appVersion (#285) | @fchikwekwe
  - feat: Added support for additional env variable settings (#242)
 
 ## Honeycomb Kubernetes Agent v1.7.1
