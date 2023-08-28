@@ -73,7 +73,7 @@ LiveReload: true
 
 ## Scaling Refinery ##
 #
-# Since Refinery is a stateful service we recommend provisioning refinery 
+# Since Refinery is a stateful service we recommend provisioning refinery
 # for your anticipated peak load and using Stress Relief to minimize impact
 # from changes in cluster membership.
 #
@@ -149,7 +149,7 @@ redis:
   # the Redis deployment
   image:
     repository: redis
-    tag: 6.2.5
+    tag: 7.2
     pullPolicy: IfNotPresent
 
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
@@ -270,7 +270,7 @@ secretProvider:
   spec: {}
 
 # When enabled, adds the -d flag to Refinery's arguments which enables the debug service.
-debug: 
+debug:
   enabled: false
   # The port on which Refinery exposes the debug service.
   # Only used if debug is enabled.
