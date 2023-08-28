@@ -55,7 +55,7 @@ config:
 
 ## Configuring sampling rules
 
-Use [the Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) to learn how to configure your sampling rules.
+Use [the Refinery documentation](https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/) to learn how to configure your sampling rules. When using the operators `>`, `>=` or `!=` make sure you denote they are strings by using single quotes (`''`).
 
 **NOTE**: Sampling rules are hot-reloaded and do not require pods to restart to take effect when upgrading via `helm upgrade` operations.
 
