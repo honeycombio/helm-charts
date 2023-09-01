@@ -93,7 +93,42 @@
           "type": "integer"
         },
         "Samplers": {
-          "type": "object"
+          "type": "object",
+          "patternProperties": {
+            ".+": {
+              "type": "object",
+              "properties": {
+                "RulesBasedSampler": {
+                  "type": "object",
+                  "properties": {
+                    "Rules": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Conditions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Operator": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "Operator"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "required": [
