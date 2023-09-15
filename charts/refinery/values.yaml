@@ -163,6 +163,9 @@ redis:
   affinity: {}
   annotations: {}
 
+  # Pod annotations specific to installed Redis configuration. Requires redis.enabled to be true
+  podAnnotations: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
