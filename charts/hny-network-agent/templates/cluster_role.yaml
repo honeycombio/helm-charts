@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "hny-network-agent.fullname" . }}
+rules:
+  - apiGroups: ["", "metrics.k8s.io","apps"]
+    resources: ["*"]
+    verbs: ["get","watch","list"]
