@@ -1,10 +1,10 @@
 honeycomb:
-  # Honeycomb API key used to send events
+  # Honeycomb API key used to send events. This creates a secret containing the API key which will be removed when the chart is uninstalled.
   apiKey: ""
   # The name of an existing secret containing the Honeycomb API key
   existingSecret: ""
-  # The name of the key in the existing secret containing the Honeycomb API key (defaults to 'apikey')
-  existingSecretKey: "apikey"
+  # The name of the key in the existing secret containing the Honeycomb API key (defaults to 'apiKey')
+  existingSecretKey: "apiKey"
   # Honeycomb API endpoint events are sent to (defaults to 'https://api.honeycomb.io')
   endpoint: "https://api.honeycomb.io"
   # Honeycomb destination dataset for events (defaults to 'hny-network-agent')
@@ -14,5 +14,6 @@ honeycomb:
 
 image:
   repository: ghcr.io/honeycombio/network-agent
-  version: ""
   pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""

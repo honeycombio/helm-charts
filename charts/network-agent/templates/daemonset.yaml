@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ include "hny-network-agent.fullname" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/version: {{ .Values.image.version | quote }}
+    app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
 spec:
   selector:
     matchLabels:
@@ -17,24 +17,25 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "hny-network-agent.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/version: {{ .Values.image.version | quote }}
+        app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
     spec:
       serviceAccountName: {{ include "hny-network-agent.fullname" . }}
       hostNetwork: true
       containers:
         - name: hny-network-agent
-          image: "{{ .Values.image.repository }}:{{ .Values.image.version | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: HONEYCOMB_API_KEY
-            {{- if .Values.honeycomb.apiKey }}
-              value: {{ .Values.honeycomb.apiKey }}
-            {{- else }}
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.honeycomb.existingSecret }}
                   name: {{ .Values.honeycomb.existingSecret }}
                   key: {{ .Values.honeycomb.existingSecretKey }}
-            {{- end }}
+                  {{- else }}
+                  name: {{ include "hny-network-agent.fullname" . }}
+                  key: apiKey
+                  {{- end }}
             - name: HONEYCOMB_API_ENDPOINT
               value: {{ .Values.honeycomb.endpoint }}
             - name: HONEYCOMB_DATASET
