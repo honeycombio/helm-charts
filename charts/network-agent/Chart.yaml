@@ -2,7 +2,7 @@ apiVersion: v2
 name: hny-network-agent
 description: Honeycomb Network Agent
 version: 0.0.1
-appVersion: v0.0.17-alpha
+appVersion: v0.0.19-alpha
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/honeycomb-network-agent
