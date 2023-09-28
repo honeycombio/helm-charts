@@ -2,6 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "hny-network-agent.fullname" . }}
+  labels:
+    {{- include "hny-network-agent.labels" . | nindent 4 }}
 rules:
   - apiGroups: ["", "metrics.k8s.io","apps"]
     resources: ["*"]
