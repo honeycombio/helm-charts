@@ -2,9 +2,9 @@
 
 The Helm chart install the [Honeycomb Network Agent](https://github.com/honeycombio/honeycomb-network-agent) in a Kubernetes cluster.
 
-## TL;DR;
+## TL;DR
 
-```bash
+```console
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 helm install hny-network-agent honeycomb/network-agent --set honeycomb.apiKey=YOUR_API_KEY
 ```
