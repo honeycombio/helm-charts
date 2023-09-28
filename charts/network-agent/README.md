@@ -1,6 +1,6 @@
 # Honeycomb Network Agent
 
-The Helm chart install the [Honeycomb Network Agent](https://github.com/honeycombio/honeycomb-network-agent) in a Kubernetes cluster.
+The Helm chart installs the [Honeycomb Network Agent](https://github.com/honeycombio/honeycomb-network-agent) in a Kubernetes cluster.
 
 ## TL;DR
 
@@ -20,14 +20,14 @@ helm install hny-network-agent honeycomb/network-agent --set honeycomb.apiKey=$H
 
 ### Setting a Honeycomb API Key
 
-You easiest way to install the chart is by setting the Honeycomb API key directly:
+The easiest way to install the chart is by setting the Honeycomb API key directly:
 
 ```console
 export HONEYCOMB_API_KEY=YOUR_API_KEY
 helm install hny-network-agent honeycomb/network-agent --set honeycomb.apiKey=$HONEYCOMB_API_KEY
 ```
 
-**NOTE**: A secret to hold your Honeycomb API key is automatically created for you when the chart is installed and will be removed when you uninstall the chart.
+**NOTE**: A secret to hold your Honeycomb API key is automatically created when the chart is installed and will be removed when the chart is uninstalled.
 
 If you prefer to manage your secrets separately, you can set the name of an existing secret that will be used instead of creating one:
 
@@ -37,11 +37,11 @@ kubectl create secret generic hny-secrets --from-literal=apiKey=$HONEYCOMB_API_K
 helm install hny-network-agent honeycomb/network-agent --set honeycomb.existingSecret=hny-secrets
 ```
 
-The default secret key used to retrieve the API key is `apiKey`. You can provide an alternative secret key by setting the `existingSecretKey` value.
+The default key used to retrieve the API from the secret key is `apiKey`. You can provide an alternative key by setting the `existingSecretKey` value.
 
 ### Using a values.yaml
 
-If you prefer to manage your helm charts by providing your own values.yaml, it is recommened to use an existing secret to avoid storing your Honeycomb API key as plain text. 
+If you prefer to manage your helm charts by providing your own values.yaml, it is recommened to use an existing secret to avoid storing your Honeycomb API key as plain text.
 
 ```console
 export HONEYCOMB_API_KEY=YOUR_API_KEY
