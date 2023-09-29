@@ -29,7 +29,8 @@ helm install hny-network-agent honeycomb/network-agent --set honeycomb.apiKey=$H
 
 **NOTE**: A secret to hold your Honeycomb API key is automatically created when the chart is installed and will be removed when the chart is uninstalled.
 
-If you prefer to manage your secrets separately, you can set the name of an existing secret that will be used instead of creating one:
+
+The best practice is to manage your secret separately. You can set the name of an existing secret that will be used instead of creating one:
 
 ```console
 export HONEYCOMB_API_KEY=YOUR_API_KEY
