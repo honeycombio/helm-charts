@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "hny-network-agent.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "hny-network-agent.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "hny-network-agent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "hny-network-agent.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "hny-network-agent.fullname" . }}
+      hostNetwork: true
+      containers:
+        - name: hny-network-agent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.honeycomb.existingSecret }}
+                  name: {{ .Values.honeycomb.existingSecret }}
+                  key: {{ .Values.honeycomb.existingSecretKey }}
+                  {{- else }}
+                  name: {{ include "hny-network-agent.fullname" . }}
+                  key: apiKey
+                  {{- end }}
+            - name: HONEYCOMB_API_ENDPOINT
+              value: {{ .Values.honeycomb.endpoint }}
+            - name: HONEYCOMB_DATASET
+              value: {{ .Values.honeycomb.dataset }}
+            - name: HONEYCOMB_STATS_DATASET
+              value: {{ .Values.honeycomb.statsDataset }}
+            {{- with .Values.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          securityContext:
+            capabilities:
+              add:
+                - NET_RAW
