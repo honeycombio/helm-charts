@@ -8,8 +8,8 @@ You can use Helm for installing [Honeycomb](https://honeycomb.io) packages in yo
 
 Packages:
 - [Honeycomb Kubernetes Agent](./charts/honeycomb)
-- [Honeycomb Refinery](./charts/refinery)
 - [Honeycomb Network Agent](./charts/network-agent)
+- [Honeycomb Refinery](./charts/refinery)
 - [OpenTelemetry-Collector](./charts/opentelemetry-collector)
 
 ## Installation
