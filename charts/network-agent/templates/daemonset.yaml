@@ -37,6 +37,9 @@ spec:
               value: {{ .Values.honeycomb.dataset }}
             - name: HONEYCOMB_STATS_DATASET
               value: {{ .Values.honeycomb.statsDataset }}
+            {{- with .Values.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           securityContext:
             capabilities:
               add:

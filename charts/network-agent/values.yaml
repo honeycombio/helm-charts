@@ -17,3 +17,8 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+
+# Allows adding extra environment variables to the network agent daemonset.
+extraEnvVars:
+  # - name: ENV_VAR
+  #   value: value
