@@ -504,6 +504,20 @@ entries:
     urls:
     - honeycomb-0.9.1.tgz
     version: 0.9.1
+  network-agent:
+  - apiVersion: v2
+    appVersion: v0.0.20-alpha
+    created: "2023-10-05T19:48:25.245656664Z"
+    description: Honeycomb Network Agent
+    digest: b0e1f38fb7e129c01844f628da7812b9ad38b2bb446dc490da61bcdd5fa205e0
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    name: network-agent
+    sources:
+    - https://github.com/honeycombio/honeycomb-network-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/network-agent-0.0.1/network-agent-0.0.1.tgz
+    version: 0.0.1
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.52.0
@@ -1760,4 +1774,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-22T18:12:22.485383749Z"
+generated: "2023-10-05T19:48:25.245995213Z"
