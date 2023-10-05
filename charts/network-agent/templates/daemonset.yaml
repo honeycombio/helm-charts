@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ include "hny-network-agent.fullname" . }}
+  name: {{ include "network-agent.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "hny-network-agent.labels" . | nindent 4 }}
+    {{- include "network-agent.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "hny-network-agent.selectorLabels" . | nindent 6 }}
+      {{- include "network-agent.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "hny-network-agent.selectorLabels" . | nindent 8 }}
+        {{- include "network-agent.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ include "hny-network-agent.fullname" . }}
+      serviceAccountName: {{ include "network-agent.fullname" . }}
       hostNetwork: true
       containers:
         - name: hny-network-agent
@@ -28,7 +28,7 @@ spec:
                   name: {{ .Values.honeycomb.existingSecret }}
                   key: {{ .Values.honeycomb.existingSecretKey }}
                   {{- else }}
-                  name: {{ include "hny-network-agent.fullname" . }}
+                  name: {{ include "network-agent.fullname" . }}
                   key: apiKey
                   {{- end }}
             - name: HONEYCOMB_API_ENDPOINT

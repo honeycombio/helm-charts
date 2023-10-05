@@ -1,5 +1,5 @@
 apiVersion: v2
-name: hny-network-agent
+name: network-agent
 description: Honeycomb Network Agent
 version: 0.0.1
 appVersion: v0.0.20-alpha
