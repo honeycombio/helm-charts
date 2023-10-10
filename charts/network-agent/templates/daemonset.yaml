@@ -37,9 +37,6 @@ spec:
               value: {{ .Values.honeycomb.dataset }}
             - name: HONEYCOMB_STATS_DATASET
               value: {{ .Values.honeycomb.statsDataset }}
-            {{- with .Values.extraEnvVars }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
             # https://kubernetes.io/docs/concepts/workloads/pods/downward-api/
             - name: AGENT_NODE_IP
               valueFrom:
@@ -61,6 +58,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            {{- with .Values.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- if .Values.resources }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
           securityContext:
             capabilities:
               add:
