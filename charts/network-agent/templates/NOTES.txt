@@ -20,3 +20,7 @@ You should see data flowing within a few minutes at https://ui.honeycomb.io.
 {{- if and (.Values.honeycomb.existingSecret) (not .Values.honeycomb.existingSecretKey) }}
 {{ fail "[ERROR] You must set a valid value for 'honeycomb.existingSecretKey' when using 'honeycomb.existingSecret' to provide your Honeycomb API key." }}
 {{- end }}
+
+{{- if not .Values.resources }}
+[WARNING] No resource limits or requests were set. Consider setter resource requests and limits for the Network Agent via the `resources` field.
+{{ end }}
