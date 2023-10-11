@@ -27,3 +27,6 @@ resources: {}
 extraEnvVars:
   # - name: ENV_VAR
   #   value: value
+  # Configures the network agent to extract additional HTTP headers from request/response.
+  # - name: ADDITIONAL_HTTP_HEADERS  
+  #   value: header1,header2
