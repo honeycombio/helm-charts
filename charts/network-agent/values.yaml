@@ -27,3 +27,6 @@ resources: {}
 extraEnvVars:
   # - name: ENV_VAR
   #   value: value
+  # Configures the list of HTTP headers to be recorded from requests/responses.
+  # - name: HTTP_HEADERS  
+  #   value: header1,header2
