@@ -27,6 +27,12 @@ resources: {}
 extraEnvVars:
   # - name: ENV_VAR
   #   value: value
+  # Add extra attributes to all events
+  # - name: ADDITIONAL_ATTRIBUTES
+  #   value: "key1=value1,key2=value2"
+  # Disable including the request URL in events
+  # - name: INCLUDE_REQUEST_URL
+  #   value: "false"
   # Configures the list of HTTP headers to be recorded from requests/responses.
-  # - name: HTTP_HEADERS  
+  # - name: HTTP_HEADERS
   #   value: header1,header2
