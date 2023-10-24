@@ -59,10 +59,9 @@ You can obtain your API Key by going to your Account profile page inside of your
 
 ## Deployment Privileges
 
-The network agent uses the following Kubernetes cluster resources and permissions to enrich generated events with kubernetes metadata.
+The network agent requires the following permissions to enrich generated events with kubernetes metadata.
 
-Resources:
-- Pods, Services & Nodes
-
-Verbs:
-- Get, List & Watch
+```yaml
+-  apiGroups: ["", "metrics.k8s.io","apps"]
+    resources: ["nodes", "pods", "services"]
+    verbs: ["get","watch","list"]
