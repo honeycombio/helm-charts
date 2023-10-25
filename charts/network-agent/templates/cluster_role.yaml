@@ -6,5 +6,5 @@ metadata:
     {{- include "network-agent.labels" . | nindent 4 }}
 rules:
   - apiGroups: ["", "metrics.k8s.io","apps"]
-    resources: ["*"]
+    resources: ["nodes", "pods", "services"]
     verbs: ["get","watch","list"]

@@ -56,3 +56,12 @@ The [values.yaml](./values.yaml) file contains information for all configuration
 The only requirement is a Honeycomb API Key. This can be provided either by setting `honeycomb.apiKey` or by setting `honeycomb.existingSecret` to the name of an existing opaque secret resource.
 
 You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
+
+## Deployment Privileges
+
+The network agent requires the following permissions to enrich generated events with kubernetes metadata.
+
+```yaml
+-  apiGroups: ["", "metrics.k8s.io","apps"]
+    resources: ["nodes", "pods", "services"]
+    verbs: ["get","watch","list"]
