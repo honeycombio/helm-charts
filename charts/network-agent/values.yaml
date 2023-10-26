@@ -34,5 +34,7 @@ extraEnvVars:
   # - name: INCLUDE_REQUEST_URL
   #   value: "false"
   # Configures the list of HTTP headers to be recorded from requests/responses.
+  # Headers will appear as attributes with names normalized to lower- and snake-case.
+  # For example: http.request.header.user_agent, http.response.header.x_custom_header
   # - name: HTTP_HEADERS
   #   value: "User-Agent,X-Custom-Header"
