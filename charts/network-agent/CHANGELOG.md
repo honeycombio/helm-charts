@@ -1,5 +1,10 @@
 # Honeycomb Network Agent Helm Chart Changelog
 
+## Honeycomb Network Agent v0.0.3
+
+- maint: Bump app to v0.0.23-alpha (#303) | @robbkidd
+- maint: Update and document Network Agent cluster privileges (#302) | @MikeGoldsmith
+
 ## Honeycomb Network Agent v0.0.2
 
 - feat: Add resource limits (#297) | @JamieDanielson
