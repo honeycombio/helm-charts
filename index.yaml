@@ -506,6 +506,19 @@ entries:
     version: 0.9.1
   network-agent:
   - apiVersion: v2
+    appVersion: v0.0.23-alpha
+    created: "2023-10-27T15:41:51.284924444Z"
+    description: Honeycomb Network Agent
+    digest: c43a13961f69f56ecf2720096516d028e37c365e8476742f3d570494f3afdc0b
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    name: network-agent
+    sources:
+    - https://github.com/honeycombio/honeycomb-network-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/network-agent-0.0.3/network-agent-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
     appVersion: v0.0.22-alpha
     created: "2023-10-18T15:58:07.675172937Z"
     description: Honeycomb Network Agent
@@ -1787,4 +1800,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-18T15:58:07.675303553Z"
+generated: "2023-10-27T15:41:51.285050095Z"
