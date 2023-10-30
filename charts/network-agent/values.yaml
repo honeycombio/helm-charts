@@ -28,7 +28,7 @@ extraEnvVars:
   # - name: ENV_VAR
   #   value: value
   # Add extra attributes to all events
-  # - name: ADDITIONAL_ATTRIBUTES
+  # - name: OTEL_RESOURCE_ATTRIBUTES
   #   value: "key1=value1,key2=value2"
   # Disable including the request URL in events
   # - name: INCLUDE_REQUEST_URL
@@ -37,4 +37,7 @@ extraEnvVars:
   # Headers will appear as attributes with names normalized to lower- and snake-case.
   # For example: http.request.header.user_agent, http.response.header.x_custom_header
   # - name: HTTP_HEADERS
-  #   value: "User-Agent,X-Custom-Header"
+  #   value: "User-Agent,Traceparent,X-Custom-Header"
+  # Set to true if sending telemetry to an insecure endpoint
+  # - name: OTEL_EXPORTER_OTLP_INSECURE
+  #   value: "true"
