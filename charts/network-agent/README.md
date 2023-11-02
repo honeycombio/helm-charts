@@ -62,7 +62,7 @@ You can obtain your API Key by going to your Account profile page inside of your
 The network agent requires the following permissions to enrich generated events with kubernetes metadata.
 
 ```yaml
-  - apiGroups: ["", "metrics.k8s.io","apps"]
+  - apiGroups: [""]
     resources: ["nodes", "pods", "services"]
     verbs: ["get","watch","list"]
 ```
