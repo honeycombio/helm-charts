@@ -177,6 +177,8 @@ podLabels: {}
 
 podAnnotations: {}
 
+deploymentLabels: {}
+
 deploymentAnnotations: {}
 
 podSecurityContext: {}
