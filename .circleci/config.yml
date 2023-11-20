@@ -50,7 +50,5 @@ workflows:
       - release-charts:
           context: Honeycomb Secrets for Public Repos
           filters:
-            tags:
-              only: /^v[0-9].+-.*/
             branches:
-              ignore: /.*/
+              only: main

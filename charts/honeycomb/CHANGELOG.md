@@ -1,5 +1,7 @@
 # Honeycomb Kubernetes Agent Helm Chart Changelog
 
+**This changelog is now deprecated. See Releases for the up-to-date list of changes.**
+
 ## Honeycomb Kubernetes Agent v1.8.0
  - feat: Added support for additional env variable settings (#242) | [@anux-linux](https://github.com/anux-linux)
 

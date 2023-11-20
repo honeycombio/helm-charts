@@ -1,5 +1,7 @@
 # Refinery Helm Chart Changelog
 
+**This changelog is now deprecated. See Releases for the up-to-date list of changes.**
+
 ## Refinery v2.2.0
 
 - maint: Bump refinery version (#282) | [@TylerHelmuth](https://github.com/TylerHelmuth)
