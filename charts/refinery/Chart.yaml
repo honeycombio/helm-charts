@@ -15,5 +15,11 @@ sources:
   - https://github.com/honeycombio/refinery
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
-  - name: puckpuck
-    email: pierre@honeycomb.io
+  - name: fchikwekwe
+    email: faithchikwekwe@honeycomb.io
+  - name: kentquirk
+    email: kentquirk@honeycomb.io
+  - name: TylerHelmuth
+    email: tylerhelmuth@honeycomb.io
+  - name: VinozzZ
+    email: yingrongzhao@honeycomb.io
