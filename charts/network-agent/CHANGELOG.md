@@ -1,5 +1,9 @@
 # Honeycomb Network Agent Helm Chart Changelog
 
+## Honeycomb Network Agent v0.05
+
+- maint: update network agent to v0.0.25-alpha (#311) | @MikeGoldsmith
+
 ## Honeycomb Network Agent v0.0.4
 
 - maint: update network agent to 0.0.24-alpha (#305) | @JamieDanielson
