@@ -41,3 +41,6 @@ extraEnvVars:
   # Set to true if sending telemetry to an insecure endpoint
   # - name: OTEL_EXPORTER_OTLP_INSECURE
   #   value: "true"
+
+# Allows adding custom pod annotations to the network agent daemonset.
+podAnnotations: {}
