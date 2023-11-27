@@ -13,11 +13,5 @@ sources:
   - https://github.com/honeycombio/honeycomb-kubernetes-agent
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
-  - name: fchikwekwe
-    email: faithchikwekwe@honeycomb.io
-  - name: kentquirk
-    email: kentquirk@honeycomb.io
-  - name: TylerHelmuth
-    email: tylerhelmuth@honeycomb.io
-  - name: VinozzZ
-    email: yingrongzhao@honeycomb.io
+  - name: Honeycomb
+    email: collection-team@honeycomb.io
