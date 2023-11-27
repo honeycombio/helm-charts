@@ -7,3 +7,8 @@ home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/honeycomb-network-agent
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+maintainers:
+  - name: Honeycomb
+    email: collection-team@honeycomb.io
+  - name: Honeycomb
+    email: telemetry-team@honeycomb.io

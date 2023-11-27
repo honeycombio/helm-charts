@@ -103,7 +103,7 @@ image:
 # -c and -r so those should not be included.
 extraCommandArgs: []
 
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -114,7 +114,7 @@ fullnameOverride: ""
 # - Redis Host: REFINERY_REDIS_HOST
 # - Redis Username: REFINERY_REDIS_USERNAME
 # - Redis Password: REFINERY_REDIS_PASSWORD
-environment: [ ]
+environment: []
   # - name: REFINERY_HONEYCOMB_API_KEY
   #   valueFrom:
   #     secretKeyRef:
@@ -123,13 +123,13 @@ environment: [ ]
 
 # Use to map additional volumes into the Refinery pods
 # Useful for volume-based secrets
-extraVolumeMounts: [ ]
+extraVolumeMounts: []
   # - name: honeycomb-secrets
   #   mountPath: "/mnt/secrets-store"
   #   readOnly: true
 
 # Use to map additional volumes into the Refinery pods
-extraVolumes: [ ]
+extraVolumes: []
   # - name: honeycomb-secrets
   #   csi:
   #     driver: secrets-store.csi.k8s.io
