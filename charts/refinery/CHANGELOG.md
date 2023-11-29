@@ -1,6 +1,6 @@
 # Refinery Helm Chart Changelog
 
-**This changelog is now deprecated. See Releases for the up-to-date list of changes.**
+**This changelog is now deprecated. See [Releases](https://github.com/honeycombio/helm-charts/releases) for the up-to-date list of changes.**
 
 ## Refinery v2.2.0
 
