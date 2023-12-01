@@ -17,6 +17,9 @@ jobs:
           command: |
             minikube start --driver=none --kubernetes-version=${K8S_VERSION}
       - run:
+          name: Lint charts
+          command: ct lint --config ./ct.yaml
+      - run:
           name: Test charts
           command: ct install --config ./ct.yaml
 
@@ -47,7 +50,5 @@ workflows:
       - release-charts:
           context: Honeycomb Secrets for Public Repos
           filters:
-            tags:
-              only: /^v[0-9].+-.*/
             branches:
-              ignore: /.*/
+              only: main

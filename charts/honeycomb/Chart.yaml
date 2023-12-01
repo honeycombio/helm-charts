@@ -1,7 +1,7 @@
 apiVersion: v2
 name: honeycomb
 description: Honeycomb Kubernetes Agent
-version: 1.8.0
+version: 1.8.1
 appVersion: 2.7.1
 keywords:
   - observability
@@ -13,5 +13,5 @@ sources:
   - https://github.com/honeycombio/honeycomb-kubernetes-agent
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
-  - name: puckpuck
-    email: pierre@honeycomb.io
+  - name: Honeycomb
+    email: collection-team@honeycomb.io
