@@ -5,6 +5,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
   {{- include "refinery.labels" . | nindent 4 }}
+  {{- with .Values.deploymentLabels }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- with .Values.deploymentAnnotations }}
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}

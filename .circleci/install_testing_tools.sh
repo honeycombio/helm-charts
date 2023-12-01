@@ -4,6 +4,8 @@ set -o errexit
 
 readonly HELM_VERSION=3.5.2
 readonly CHART_TESTING_VERSION=3.7.1
+readonly YAMLLINT_VERSION=1.27.1
+readonly YAMALE_VERSION=3.0.4
 readonly MINIKUBE_VERSION=v1.27.1
 
 echo "Installing Helm..."
@@ -19,6 +21,8 @@ sudo mkdir -p "/usr/local/chart-testing-v$CHART_TESTING_VERSION"
 sudo tar -xzf "chart-testing_${CHART_TESTING_VERSION}_linux_amd64.tar.gz" -C "/usr/local/chart-testing-v$CHART_TESTING_VERSION"
 sudo ln -s "/usr/local/chart-testing-v$CHART_TESTING_VERSION/ct" /usr/local/bin/ct
 rm -f "chart-testing_${CHART_TESTING_VERSION}_linux_amd64.tar.gz"
+pip3 install "yamllint==${YAMLLINT_VERSION}"
+pip3 install "yamale==${YAMALE_VERSION}"
 
 echo "Installing Kubectl..."
 curl -Lo kubectl "https://storage.googleapis.com/kubernetes-release/release/${K8S_VERSION}/bin/linux/amd64/kubectl"

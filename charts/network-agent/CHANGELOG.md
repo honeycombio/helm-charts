@@ -1,5 +1,15 @@
 # Honeycomb Network Agent Helm Chart Changelog
 
+**This changelog is now deprecated. See [Releases](https://github.com/honeycombio/helm-charts/releases) for the up-to-date list of changes.**
+
+## Honeycomb Network Agent v0.0.6
+
+- feat: Add support for custom pod annotations (#313) | @MikeGoldsmith
+
+## Honeycomb Network Agent v0.0.5
+
+- maint: update network agent to v0.0.25-alpha (#311) | @MikeGoldsmith
+
 ## Honeycomb Network Agent v0.0.4
 
 - maint: update network agent to 0.0.24-alpha (#305) | @JamieDanielson
