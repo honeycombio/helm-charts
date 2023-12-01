@@ -5,4 +5,3 @@ chart-dirs:
   - charts
 helm-extra-args: --timeout 120s
 exclude-deprecated: true
-check-version-increment: false
