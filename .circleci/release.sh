@@ -103,7 +103,7 @@ package_chart() {
 
 release_charts() {
   echo 'Releasing charts...'
-  cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN"
+  cr upload --git-repo "$GIT_REPOSITORY_NAME" --owner "$GIT_REPOSITORY_OWNER" --token "$GITHUB_TOKEN" --generate-release-notes
 }
 
 update_index() {
