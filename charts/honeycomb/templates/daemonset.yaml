@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ include "honeycomb.agent.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "honeycomb.agent.labels" . | nindent 4 }}
 spec:

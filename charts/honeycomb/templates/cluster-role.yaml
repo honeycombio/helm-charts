@@ -3,6 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "honeycomb.agent.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "honeycomb.agent.labels" . | nindent 4 }}
   annotations:
