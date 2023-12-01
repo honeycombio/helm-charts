@@ -3,6 +3,27 @@ entries:
   honeycomb:
   - apiVersion: v2
     appVersion: 2.7.1
+    created: "2023-12-01T16:15:27.897769551Z"
+    description: Honeycomb Kubernetes Agent
+    digest: 21f129a9dd5165d8ce90b7b94969f425dfd892e7ef198ea3ccd4e965911813e5
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - observability
+    - tracing
+    - logs
+    - events
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: honeycomb
+    sources:
+    - https://github.com/honeycombio/honeycomb-kubernetes-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/honeycomb-1.8.1/honeycomb-1.8.1.tgz
+    version: 1.8.1
+  - apiVersion: v2
+    appVersion: 2.7.1
     created: "2023-08-22T18:12:22.485186693Z"
     description: Honeycomb Kubernetes Agent
     digest: f0be1cfef71c0eb180fe5f78a22552b9cbd329ac17d698858c127769da6fc7b7
@@ -507,6 +528,24 @@ entries:
   network-agent:
   - apiVersion: v2
     appVersion: v0.0.25-alpha
+    created: "2023-12-01T16:15:28.014656731Z"
+    description: Honeycomb Network Agent
+    digest: c5f8779f491a882bb0007d81673eea01629c536be0cf7d0bdfb4c89b0268f321
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    - email: telemetry-team@honeycomb.io
+      name: Honeycomb
+    name: network-agent
+    sources:
+    - https://github.com/honeycombio/honeycomb-network-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/network-agent-0.0.7/network-agent-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
+    appVersion: v0.0.25-alpha
     created: "2023-11-27T15:44:46.925336067Z"
     description: Honeycomb Network Agent
     digest: d8af633b0e6fff86e726572b143922b81b10142bf7c1cfe77ab4b636e5b8a283
@@ -877,6 +916,29 @@ entries:
     - opentelemetry-collector-0.1.0.tgz
     version: 0.1.0
   refinery:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2023-12-01T16:15:28.135930347Z"
+    description: Chart to deploy Honeycomb Refinery
+    digest: fae63721088f78cfd76e2bec4a270924ef627f27a45a323871704704cffc545f
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: refinery
+    sources:
+    - https://github.com/honeycombio/refinery
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/refinery-2.3.0/refinery-2.3.0.tgz
+    version: 2.3.0
   - apiVersion: v2
     appVersion: 2.1.0
     created: "2023-08-04T19:13:59.343605001Z"
@@ -1839,4 +1901,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2023-11-27T15:44:46.925631729Z"
+generated: "2023-12-01T16:15:28.136291174Z"
