@@ -12,6 +12,9 @@ spec:
   template:
     metadata:
       annotations:
+        {{- if not .Values.honeycomb.existingSecret }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
         {{- with .Values.podAnnotations }}
             {{- toYaml . | nindent 8 }}
         {{- end }}
