@@ -39,6 +39,8 @@ helm install network-agent honeycomb/network-agent --set honeycomb.existingSecre
 
 The default key used to retrieve the API from the secret key is `apiKey`. You can provide an alternative key by setting the `existingSecretKey` value.
 
+**NOTE**: If you use a separate secret key to manage your API keys, you should also define a custom pod annotation (for example, a hash of the secret) that can be used to trigger a redeployment of pods when the secret changes.
+
 ### Using a values.yaml
 
 If you prefer to manage your helm charts by providing your own values.yaml, it is recommended to use an existing secret to avoid storing your Honeycomb API key as plain text.
