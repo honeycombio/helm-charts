@@ -2,14 +2,6 @@
 
 **This changelog is now deprecated. See [Releases](https://github.com/honeycombio/helm-charts/releases) for the up-to-date list of changes.**
 
-## Honeycomb Network Agent v0.2.0
-
-- feat(network-agent): Add pod annotation for secret checksum (#324) | @MikeGoldsmith
-
-## Honeycomb Network Agent v0.1.0
-
-Published the v0.1.0 of the chart to reflect it's maturity. No other changes.
-
 ## Honeycomb Network Agent v0.0.6
 
 - feat: Add support for custom pod annotations (#313) | @MikeGoldsmith
