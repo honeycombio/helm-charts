@@ -1,8 +1,8 @@
 apiVersion: v2
 name: network-agent
 description: Honeycomb Network Agent
-version: 0.2.0
-appVersion: v0.1.0-beta
+version: 0.3.0
+appVersion: v0.2.0-beta
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/honeycomb-network-agent
