@@ -1,0 +1,19 @@
+{{- if eq .Values.mode "statefulset" -}}
+# Governing service to provide stable network ID for StatefulSet pods:
+#   https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#stable-network-id
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "refinery.fullname" . }}-cluster
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "refinery.labels" . | nindent 4 }}
+    {{- with .Values.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    {{- include "refinery.selectorLabels" . | nindent 4 }}
+{{- end }}

@@ -1,0 +1,33 @@
+{{- if eq .Values.mode "statefulset" -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "refinery.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- include "refinery.labels" . | nindent 4 }}
+{{- with .Values.deploymentAnnotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  # Governing service to provide stable network ID for StatefulSet pods:
+  #   https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#stable-network-id
+  serviceName: {{ include "refinery.fullname" . }}-cluster
+  # Refinery doesn't really have any state, so in theory there's no
+  # need for the controlled scale-up / scale-down of the default
+  # OrderedReady policy. However if all the pods come up at once while
+  # the redis peer list exists, most pods will crash loop because
+  # they're unable to reach some of the peers. The OrderedReady delay
+  # gives time for membership to expire, and makes it quicker overall
+  # unless you also take care to blow away the redis peer list when
+  # scaling.
+  podManagementPolicy: OrderedReady
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+  {{- include "refinery.selectorLabels" . | nindent 6 }}
+  template:
+  {{- include "refinery.pod" . | nindent 4 }}
+{{- end }}

@@ -3,6 +3,11 @@
   "type": "object",
   "title": "Values",
   "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["deployment", "statefulset"],
+      "description": "Deployment mode"
+    },
     "config": {
       "type": "object",
       "additionalProperties": false,
