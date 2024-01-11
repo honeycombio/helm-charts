@@ -255,6 +255,13 @@ tolerations: []
 
 affinity: {}
 
+podDisruptionBudget:
+  enabled: false
+  labels: {}
+  annotations: {}
+  minAvailable:
+  maxUnavailable: 1
+
 # If you need to create a secret provider, such as for using AWS SSM, you can do so here.
 # secretProvider functionality requires the Secret Store CSI Driver:
 # https://secrets-store-csi-driver.sigs.k8s.io/
