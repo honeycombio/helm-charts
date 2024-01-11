@@ -153,6 +153,14 @@ redis:
     tag: 7.2
     pullPolicy: IfNotPresent
 
+  resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 50Mi
+
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
   nodeSelector: {}
 
