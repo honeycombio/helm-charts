@@ -38,6 +38,10 @@ spec:
             - name: redis
               containerPort: 6379
               protocol: TCP
+          {{- with .Values.redis.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.redis.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
