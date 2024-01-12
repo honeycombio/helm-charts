@@ -1,0 +1,37 @@
+{{- if .Values.headlessService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ with .Values.headlessService.name }}{{ . }}{{ else }}{{ include "refinery.fullname" . }}-headless{{ end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "refinery.labels" . | nindent 4 }}
+    {{- with .Values.headlessService.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.headlessService.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: "ClusterIP"
+  clusterIP: "None"
+  ports:
+    - port: {{ .Values.headlessService.port }}
+      targetPort: data
+      protocol: TCP
+      name: data
+    - port: {{ .Values.headlessService.grpcPort }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+    {{- if .Values.config.PrometheusMetrics.Enabled }}
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+    {{- end }}
+
+  selector:
+    {{- include "refinery.selectorLabels" . | nindent 4 }}
+{{- end }}
