@@ -72,6 +72,18 @@ RulesConfigMapName: ""
 # the Rules configmap changes
 LiveReload: true
 
+configMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
+rulesConfigMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
 ## Scaling Refinery ##
 #
 # Since Refinery is a stateful service we recommend provisioning refinery
@@ -137,6 +149,10 @@ extraVolumes: []
   #     volumeAttributes:
   #       secretProviderClass: "honeycomb-secrets"
 
+# Extra labels applied to all resources (except Redis resources).
+extraLabels: {}
+  # my-label: some value
+
 # Redis configuration
 redis:
 
@@ -170,6 +186,12 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
   annotations: {}
+  podAnnotations: {}
+  podLabels: {}
+
+  # Extra labels applied to all Redis resources
+  extraLabels: {}
+    # my-label: some value
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -248,6 +270,10 @@ autoscaling:
   behavior:
     scaleDown:
       selectPolicy: Disabled
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
 
 nodeSelector: {}
 
@@ -278,6 +304,10 @@ affinity: {}
 secretProvider:
   create: false
   name: refinery
+  # Labels to add to the secret provider
+  labels: {}
+  # Annotations to add to the secret provider
+  annotations: {}
   spec: {}
 
 # When enabled, adds the -d flag to Refinery's arguments which enables the debug service.

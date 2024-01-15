@@ -5,8 +5,15 @@ kind: ConfigMap
 metadata:
   name: {{ include "refinery.fullname" . }}-rules
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.rulesConfigMap.annotations }}
+  annotations:
+    {{ toYaml . | nindent 4  }}
+  {{- end }}
   labels:
   {{- include "refinery.labels" . | nindent 4 }}
+  {{- with .Values.rulesConfigMap.labels }}
+    {{ toYaml . | nindent 4  }}
+  {{- end }}
 data:
   rules.yaml: |
   {{- include "refinery.rules" . | nindent 4 -}}
