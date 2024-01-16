@@ -206,18 +206,9 @@ service:
   grpcPort: 4317
   labels: {}
   annotations: {}
-
-## Headless service configuration.
-#
-# Using a headless can help with client side load balancing of gRPC connections.
-# See https://kubernetes.io/blog/2018/11/07/grpc-load-balancing-on-kubernetes-without-tears/ for reference.
-headlessService:
-  enabled: false
-  name: ""
-  port: 80
-  grpcPort: 4317
-  labels: {}
-  annotations: {}
+  # Set cluster IP to "None" to create a headless service.
+  # this can help with client side load balancing of gRPC connections.
+  # clusterIP: None
 
 ingress:
   enabled: false
