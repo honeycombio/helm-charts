@@ -1,19 +1,6 @@
 Honeycomb refinery is setup and configured to refine events that are sent through it. You should see data flowing
 within a few minutes at https://ui.honeycomb.io
 
-## Configuration
-
-### PodDisruptionBudget
-
-PDB can be enabled and configured through chart values. E.g.
-
-```yaml
-podDisruptionBudget:
-  enabled: true
-  # minAvailable and maxUnavailable cannot be both specified at the same time.
-  # minAvailable:
-  maxUnavailable: 1
-```
 {{- if and .Values.podDisruptionBudget.minAvailable .Values.podDisruptionBudget.maxUnavailable }}
   {{- fail "podDisruptionBudget.minAvailable and podDisruptionBudget.maxUnavailable cannot be both specified at the same time." }}
 {{- end }}
