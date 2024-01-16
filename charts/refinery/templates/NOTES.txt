@@ -14,6 +14,6 @@ podDisruptionBudget:
   # minAvailable:
   maxUnavailable: 1
 ```
-{{- if and .Value.podDisruptionBudget.minAvailable .Value.podDisruptionBudget.maxUnavailable }}
+{{- if and .Values.podDisruptionBudget.minAvailable .Values.podDisruptionBudget.maxUnavailable }}
   {{- fail "PDB minAvailable and maxUnavailable cannot be both specified at the same time." }}
 {{- end }}
