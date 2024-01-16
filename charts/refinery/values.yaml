@@ -277,7 +277,7 @@ podDisruptionBudget:
   # "selector" are unavailable after the eviction, i.e. even in absence of the
   # evicted pod. For example, one can prevent all voluntary evictions by
   # specifying 0. This is a mutually exclusive setting with "minAvailable".
-  # maxUnavailable: 1
+  maxUnavailable: 1
 
 # If you need to create a secret provider, such as for using AWS SSM, you can do so here.
 # secretProvider functionality requires the Secret Store CSI Driver:
