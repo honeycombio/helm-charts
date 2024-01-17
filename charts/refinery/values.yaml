@@ -214,6 +214,9 @@ service:
   grpcPort: 4317
   labels: {}
   annotations: {}
+  # Set cluster IP to "None" to create a headless service.
+  # this can help with client side load balancing of gRPC connections.
+  # clusterIP: None
 
 ingress:
   enabled: false
