@@ -37,7 +37,7 @@ spec:
       {{- with .Values.podLabels }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.redis.commonLabels}}
+      {{- with .Values.commonLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
