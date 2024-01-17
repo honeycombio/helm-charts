@@ -149,8 +149,8 @@ extraVolumes: []
   #     volumeAttributes:
   #       secretProviderClass: "honeycomb-secrets"
 
-# Extra labels applied to all resources (except Redis resources).
-extraLabels: {}
+# Common labels applied to all resources (except Redis resources).
+commonLabels: {}
   # my-label: some value
 
 # Redis configuration
@@ -189,8 +189,12 @@ redis:
   podAnnotations: {}
   podLabels: {}
 
-  # Extra labels applied to all Redis resources
-  extraLabels: {}
+  # Common labels applied to all Redis resources
+  commonLabels: {}
+    # my-label: some value
+
+  # Common labels applied to all Redis resources
+  commonLabels: {}
     # my-label: some value
 
 serviceAccount:
@@ -228,6 +232,9 @@ service:
   grpcPort: 4317
   labels: {}
   annotations: {}
+  # Set cluster IP to "None" to create a headless service.
+  # this can help with client side load balancing of gRPC connections.
+  # clusterIP: None
 
 ingress:
   enabled: false

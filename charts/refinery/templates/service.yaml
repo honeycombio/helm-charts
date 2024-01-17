@@ -14,6 +14,9 @@ metadata:
   {{- end }}
 spec:
   type: {{ .Values.service.type }}
+  {{- with .Values.service.clusterIP }}
+  clusterIP: "{{ . }}"
+  {{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: data
