@@ -4,8 +4,15 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "refinery.fullname" . }}
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.autoscaling.annotations}}
+  annotations:
+    {{ toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "refinery.labels" . | nindent 4 }}
+    {{- with .Values.autoscaling.labels}}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

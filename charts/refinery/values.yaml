@@ -72,6 +72,18 @@ RulesConfigMapName: ""
 # the Rules configmap changes
 LiveReload: true
 
+configMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
+rulesConfigMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
 ## Scaling Refinery ##
 #
 # Since Refinery is a stateful service we recommend provisioning refinery
@@ -174,10 +186,17 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
   annotations: {}
+  podAnnotations: {}
+  podLabels: {}
 
   # Common labels applied to all Redis resources
   commonLabels: {}
     # my-label: some value
+
+  # Redis service configuration
+  service:
+    labels: {}
+    annotations: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -259,6 +278,10 @@ autoscaling:
   behavior:
     scaleDown:
       selectPolicy: Disabled
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
 
 nodeSelector: {}
 
@@ -313,6 +336,10 @@ podDisruptionBudget:
 secretProvider:
   create: false
   name: refinery
+  # Labels to add to the secret provider
+  labels: {}
+  # Annotations to add to the secret provider
+  annotations: {}
   spec: {}
 
 # When enabled, adds the -d flag to Refinery's arguments which enables the debug service.

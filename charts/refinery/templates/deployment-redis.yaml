@@ -16,13 +16,25 @@ spec:
   {{- include "refinery.redis.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- /*
+       .Values.podAnnotations is used here to maintain backwards compatibility.
+       It should be removed eventually.
+      */}}
+      {{- if or .Values.podAnnotations .Values.redis.podAnnotations }}
       annotations:
+      {{- with .Values.podAnnotations }}
       {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.redis.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
       labels:
     {{- include "refinery.redis.selectorLabels" . | nindent 8 }}
     {{- with .Values.redis.commonLabels}}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.redis.podLabels}}
       {{- toYaml . | nindent 8 }}
     {{- end }}
     spec:
