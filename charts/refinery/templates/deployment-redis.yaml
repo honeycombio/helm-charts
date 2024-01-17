@@ -17,8 +17,8 @@ spec:
   template:
     metadata:
       {{- /*
-        FIXME .Values.podAnnotations should not be used at all here.
-        Keeping it for backward compatibiltiy but should eventually be removed.
+       .Values.podAnnotations is used here to maintain backwards compatibility.
+       It should be removed eventually.
       */}}
       {{- if or .Values.podAnnotations .Values.redis.podAnnotations }}
       annotations:
