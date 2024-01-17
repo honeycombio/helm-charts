@@ -40,6 +40,9 @@ helm.sh/chart: {{ include "refinery.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.commonLabels}}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -69,6 +72,9 @@ helm.sh/chart: {{ include "refinery.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.redis.commonLabels}}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
