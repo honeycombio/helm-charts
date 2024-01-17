@@ -314,3 +314,8 @@ debug:
   # Only used if debug is enabled.
   # This value will be used to set config.DebugServiceAddr if it is not already set.
   port: 6060
+
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
