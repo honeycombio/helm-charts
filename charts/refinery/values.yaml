@@ -193,10 +193,6 @@ redis:
   commonLabels: {}
     # my-label: some value
 
-  # Common labels applied to all Redis resources
-  commonLabels: {}
-    # my-label: some value
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
