@@ -193,6 +193,11 @@ redis:
   commonLabels: {}
     # my-label: some value
 
+  # Redis service configuration
+  service:
+    labels: {}
+    annotations: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
