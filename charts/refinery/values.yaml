@@ -137,6 +137,10 @@ extraVolumes: []
   #     volumeAttributes:
   #       secretProviderClass: "honeycomb-secrets"
 
+# Common labels applied to all resources (except Redis resources).
+commonLabels: {}
+  # my-label: some value
+
 # Redis configuration
 redis:
 
@@ -170,6 +174,10 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
   annotations: {}
+
+  # Common labels applied to all Redis resources
+  commonLabels: {}
+    # my-label: some value
 
 serviceAccount:
   # Specifies whether a service account should be created
