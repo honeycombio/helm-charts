@@ -16,7 +16,8 @@ spec:
   {{- include "refinery.redis.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- $annotationsMerged := merge .Values.redis.podAnnotations .Values.podAnnotations }}
+      {{- with $annotationsMerged }}
       annotations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
