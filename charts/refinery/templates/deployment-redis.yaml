@@ -6,9 +6,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
   {{- include "refinery.redis.labels" . | nindent 4 }}
-  {{- with .Values.redis.annotations }}
-    annotations: {{ toYaml . | nindent 4 }}
-  {{- end }}
 {{- with .Values.redis.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
@@ -19,6 +16,10 @@ spec:
   {{- include "refinery.redis.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- /*
+        FIXME .Values.podAnnotations should not be used at all here.
+        Keeping it for backward compatibiltiy but should eventually be removed.
+      */}}
       {{- if or .Values.podAnnotations .Values.redis.podAnnotations }}
       annotations:
       {{- with .Values.podAnnotations }}
