@@ -134,14 +134,7 @@ environment: []
   #       key: api-key
 
 # Configure container lifecycle hooks.
-# This can be used to add a prestop hook to make rolling restarts more robust for instance.
 lifecycle: {}
-  # preStop:
-  #   exec:
-  #     command:
-  #       - "sh"
-  #       - "-c"
-  #       - "sleep 10"
 
 # Use to map additional volumes into the Refinery pods
 # Useful for volume-based secrets
