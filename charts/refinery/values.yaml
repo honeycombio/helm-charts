@@ -133,6 +133,9 @@ environment: []
   #       name: honeycomb
   #       key: api-key
 
+# Configure container lifecycle hooks.
+lifecycle: {}
+
 # Use to map additional volumes into the Refinery pods
 # Useful for volume-based secrets
 extraVolumeMounts: []
@@ -176,6 +179,9 @@ redis:
     # requests:
     #   cpu: 100m
     #   memory: 50Mi
+
+  # Configure container lifecycle hooks.
+  lifecycle: {}
 
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
   nodeSelector: {}
