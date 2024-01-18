@@ -12,11 +12,6 @@ metadata:
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
 spec:
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
-      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
@@ -43,6 +38,11 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
+          maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
