@@ -182,7 +182,7 @@ redis:
 
   # Configure container lifecycle hooks.
   lifecycle: {}
-  
+
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
   nodeSelector: {}
 
