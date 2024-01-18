@@ -188,15 +188,8 @@ redis:
     #   memory: 50Mi
 
   # Configure container lifecycle hooks.
-  # This can be used to add a prestop hook to make rolling restarts more robust for instance.
   lifecycle: {}
-    # preStop:
-    #   exec:
-    #     command:
-    #       - "sh"
-    #       - "-c"
-    #       - "sleep 10"
-
+  
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
   nodeSelector: {}
 
