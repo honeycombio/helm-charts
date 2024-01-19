@@ -18,6 +18,11 @@ spec:
   selector:
     matchLabels:
   {{- include "refinery.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
   template:
     metadata:
       annotations:
@@ -41,11 +46,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      updateStrategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
-          maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
