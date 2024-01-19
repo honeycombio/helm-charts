@@ -72,6 +72,18 @@ RulesConfigMapName: ""
 # the Rules configmap changes
 LiveReload: true
 
+configMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
+rulesConfigMap:
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
+
 ## Scaling Refinery ##
 #
 # Since Refinery is a stateful service we recommend provisioning refinery
@@ -121,6 +133,9 @@ environment: []
   #       name: honeycomb
   #       key: api-key
 
+# Configure container lifecycle hooks.
+lifecycle: {}
+
 # Use to map additional volumes into the Refinery pods
 # Useful for volume-based secrets
 extraVolumeMounts: []
@@ -136,6 +151,10 @@ extraVolumes: []
   #     readOnly: true
   #     volumeAttributes:
   #       secretProviderClass: "honeycomb-secrets"
+
+# Common labels applied to all resources (except Redis resources).
+commonLabels: {}
+  # my-label: some value
 
 # Redis configuration
 redis:
@@ -161,6 +180,9 @@ redis:
     #   cpu: 100m
     #   memory: 50Mi
 
+  # Configure container lifecycle hooks.
+  lifecycle: {}
+
   # Node selector specific to installed Redis configuration. Requires redis.enabled to be true
   nodeSelector: {}
 
@@ -170,6 +192,17 @@ redis:
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
   annotations: {}
+  podAnnotations: {}
+  podLabels: {}
+
+  # Common labels applied to all Redis resources
+  commonLabels: {}
+    # my-label: some value
+
+  # Redis service configuration
+  service:
+    labels: {}
+    annotations: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -251,6 +284,10 @@ autoscaling:
   behavior:
     scaleDown:
       selectPolicy: Disabled
+  labels: {}
+    # my-label: some value
+  annotations: {}
+    # my-annotation: some value
 
 nodeSelector: {}
 
@@ -305,6 +342,10 @@ podDisruptionBudget:
 secretProvider:
   create: false
   name: refinery
+  # Labels to add to the secret provider
+  labels: {}
+  # Annotations to add to the secret provider
+  annotations: {}
   spec: {}
 
 # When enabled, adds the -d flag to Refinery's arguments which enables the debug service.

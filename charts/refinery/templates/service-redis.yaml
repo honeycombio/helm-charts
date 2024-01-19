@@ -4,8 +4,15 @@ kind: Service
 metadata:
   name: {{ include "refinery.redis.fullname" . }}
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.redis.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "refinery.redis.labels" . | nindent 4 }}
+    {{- with .Values.redis.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   type: ClusterIP
   ports:

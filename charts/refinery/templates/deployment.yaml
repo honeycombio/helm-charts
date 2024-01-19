@@ -37,6 +37,9 @@ spec:
       {{- with .Values.podLabels }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.commonLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       updateStrategy:
         type: RollingUpdate
@@ -71,6 +74,10 @@ spec:
           {{- with .Values.environment }}
           env:
           {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
             - name: data
