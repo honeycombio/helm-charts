@@ -290,10 +290,11 @@ autoscaling:
     # my-annotation: some value
 
 rollout:
-  # Disable with `rollingUpdate: {}` if using a different `strategy``:
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
+  rollingUpdate: {}
+  # For a slower rollout, additional parameters can be set:
+  # rollingUpdate:
+  #   maxUnavailable: 1
+  #   maxSurge: 1
   strategy: RollingUpdate
 
 nodeSelector: {}
