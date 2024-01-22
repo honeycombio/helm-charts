@@ -19,10 +19,13 @@ spec:
     matchLabels:
   {{- include "refinery.selectorLabels" . | nindent 6 }}
   strategy:
-    type: RollingUpdate
+    {{- if eq .Values.rollout.strategy "RollingUpdate" }}
+    {{- with .Values.rollout.rollingUpdate }}
     rollingUpdate:
-      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- end }}
+    type: {{ .Values.rollout.strategy }}
   template:
     metadata:
       annotations:

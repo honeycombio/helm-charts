@@ -289,6 +289,13 @@ autoscaling:
   annotations: {}
     # my-annotation: some value
 
+rollout:
+  # Disable with `rollingUpdate: {}` if using a different `strategy``:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+  strategy: RollingUpdate
+
 nodeSelector: {}
 
 tolerations: []
@@ -355,8 +362,3 @@ debug:
   # Only used if debug is enabled.
   # This value will be used to set config.DebugServiceAddr if it is not already set.
   port: 6060
-
-updateStrategy:
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
