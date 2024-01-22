@@ -289,6 +289,14 @@ autoscaling:
   annotations: {}
     # my-annotation: some value
 
+rollout:
+  rollingUpdate: {}
+  # For a slower rollout, additional parameters can be set:
+  # rollingUpdate:
+  #   maxUnavailable: 1
+  #   maxSurge: 1
+  strategy: RollingUpdate
+
 nodeSelector: {}
 
 tolerations: []
