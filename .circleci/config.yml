@@ -25,7 +25,8 @@ jobs:
 
 
   release-charts:
-    runs-on: ubuntu-latest
+    machine:
+      image: ubuntu-2204:2024.01.1
     steps:
       - checkout
       - run:
