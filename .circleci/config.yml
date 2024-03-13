@@ -1,8 +1,7 @@
 version: 2
 jobs:
   test-modified-charts:
-    machine:
-      image: ubuntu-2004:202201-02
+    runs-on: ubuntu-latest
     environment:
       K8S_VERSION: v1.23.13
     steps:
@@ -25,8 +24,7 @@ jobs:
 
 
   release-charts:
-    machine:
-      image: ubuntu-2004:202201-02
+    runs-on: ubuntu-latest
     steps:
       - checkout
       - run:
