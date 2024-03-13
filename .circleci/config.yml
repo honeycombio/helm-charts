@@ -1,7 +1,8 @@
 version: 2
 jobs:
   test-modified-charts:
-    runs-on: ubuntu-latest
+    machine:
+      image: ubuntu-2204:2024.01.1
     environment:
       K8S_VERSION: v1.23.13
     steps:
