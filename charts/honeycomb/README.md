@@ -68,7 +68,7 @@ See [docs](https://github.com/honeycombio/honeycomb-kubernetes-agent/blob/master
 The [values.yaml](./values.yaml) file contains information about all configuration
 options for this chart.
 
-The only requirement is a Honeycomb API Key. This can be provided either by setting `honeycomb.apiKey` or by setting `honeycomb.existingSecret` to the name of an existing opaque secret resource with your API Key specified in the `api-key` field. 
+The only requirement is a Honeycomb API Key. This can be provided either by setting `honeycomb.apiKey` or by setting `honeycomb.existingSecret` to the name of an existing opaque secret resource with your API Key specified in the `honeycomb.existingSecretKey` value.
 
 You can obtain your API Key by going to your Account profile page inside of your Honeycomb instance.
 
