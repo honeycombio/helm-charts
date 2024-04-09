@@ -5,6 +5,8 @@ honeycomb:
   apiHost: https://api.honeycomb.io/
   # Specify the name of an existing secret resource containing your Honeycomb API KEY instead of having a secret resource created
   existingSecret: ""
+  # The key in the existing secret containing the Honeycomb API key (defaults to 'api-key').
+  existingSecretKey: ""
 
 watchers:
   - dataset: kubernetes-logs
@@ -130,3 +132,7 @@ serviceAccount:
   name: ""
   # Annotations to add to the service account
   annotations: {}
+
+extraVolumes: []
+
+extraVolumeMounts: []
