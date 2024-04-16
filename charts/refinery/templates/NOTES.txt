@@ -4,3 +4,7 @@ within a few minutes at https://ui.honeycomb.io
 {{- if and .Values.podDisruptionBudget.minAvailable .Values.podDisruptionBudget.maxUnavailable }}
   {{- fail "podDisruptionBudget.minAvailable and podDisruptionBudget.maxUnavailable cannot be both specified at the same time." }}
 {{- end }}
+
+{{- if .Values.ingress.className }}
+  {{- fail "ingress.className" has been removed. Use "ingress.ingressClassName" or "grpcIngress.ingressClassName" instead. }}
+{{- end }}

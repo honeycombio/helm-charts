@@ -9,8 +9,11 @@
 # For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
 config:
   General:
-    ConfigurationVersion: 2
-    MinRefineryVersion: v2.0
+    ConfigurationVersion: 3
+    MinRefineryVersion: v3.0
+
+  CentralStore:
+    Type: redis
 
   PeerManagement:
     Type: redis
@@ -169,7 +172,7 @@ redis:
   # the Redis deployment
   image:
     repository: redis
-    tag: 7.2
+    tag: 7.4
     pullPolicy: IfNotPresent
 
   resources: {}
@@ -249,6 +252,7 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  # ingressClassName: nginx
   hosts:
     - host: refinery.local
       path: /
@@ -266,15 +270,13 @@ grpcIngress:
   hosts:
     - host: refinery.local
       path: /
+  # ingressClassName: nginx
   tls: []
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
 
 # Setup autoscaling for refinery
-# When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
-# sent to Honeycomb, for a small period of time (approximately config.Traces.TraceTimeout * 2).
-# Because of this, scaleDown is disabled by default to avoid unnecessary broken traces should traffic go up and down rapidly.
 autoscaling:
   enabled: false
   minReplicas: 3
