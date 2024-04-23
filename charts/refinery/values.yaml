@@ -259,6 +259,7 @@ ingress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+  className: ""
 
 grpcIngress:
   enabled: false
@@ -274,6 +275,7 @@ grpcIngress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+  className: ""
 
 # Setup autoscaling for refinery
 autoscaling:
