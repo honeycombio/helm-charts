@@ -82,6 +82,9 @@
         },
         "StressRelief": {
           "type": "object"
+        },
+        "CentralStore": {
+          "type": "object"
         }
       }
     },
