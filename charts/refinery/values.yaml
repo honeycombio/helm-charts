@@ -204,21 +204,11 @@ redis:
     labels: {}
     annotations: {}
 
-  volumeMounts:
-    - name: refinery-redis-data
-      mountPath: /data
-
-  volumeClaimTemplates:
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: refinery-redis-data
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "8Gi"
+  persistentVolumeClaim:
+    name: refinery-redis-data
+    accessModes:
+      - "ReadWriteOnce"
+    storageSize: "8Gi"
 
   persistentVolumeClaimRetentionPolicy:
     enabled: false

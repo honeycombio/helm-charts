@@ -67,10 +67,9 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.redis.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}          
+            - name: {{ .Values.redis.persistentVolumeClaim.name }}
+              mountPath: /data                
       {{- with .Values.redis.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -83,8 +82,15 @@ spec:
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- with .Values.redis.volumeClaimTemplates }}
   volumeClaimTemplates:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: {{ .Values.redis.persistentVolumeClaim.name }}
+      spec:
+        accessModes:
+          {{- toYaml .Values.redis.persistentVolumeClaim.accessModes | nindent 10}}
+        resources:
+          requests:
+            storage: {{ .Values.redis.persistentVolumeClaim.storageSize }}
 {{- end }}
