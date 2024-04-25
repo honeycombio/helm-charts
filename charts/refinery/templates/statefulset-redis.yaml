@@ -1,6 +1,6 @@
 {{- if .Values.redis.enabled }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "refinery.redis.fullname" . }}
   namespace: {{ .Release.Namespace }}
@@ -11,6 +11,12 @@ metadata:
 {{- end }}
 spec:
   replicas: 1
+  serviceName: {{ include "refinery.redis.fullname" . }}
+  {{- if .Values.redis.persistentVolumeClaimRetentionPolicy.enabled }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: {{ .Values.redis.persistentVolumeClaimRetentionPolicy.whenDeleted }}
+    whenScaled: {{ .Values.redis.persistentVolumeClaimRetentionPolicy.whenScaled }}
+  {{- end }}
   selector:
     matchLabels:
   {{- include "refinery.redis.selectorLabels" . | nindent 6 }}
@@ -61,6 +67,10 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.redis.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}          
       {{- with .Values.redis.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -73,4 +83,8 @@ spec:
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- with .Values.redis.volumeClaimTemplates }}
+  volumeClaimTemplates:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end }}

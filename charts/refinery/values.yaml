@@ -161,17 +161,15 @@ commonLabels: {}
 
 # Redis configuration
 redis:
-  # To install a simple single pod Redis deployment set this to true.
+  # To install a simple single pod Redis statefulset set this to true.
   # If false, you must specify a value for config.RedisPeerManagement.Host.
   # For production, it is recommended to set this to false and provide
-  # a highly available Redis configuration using config.RedisPeerManagement.Host.
+  # an existing highly available Redis instance via using config.RedisPeerManagement.Host.
   enabled: true
 
-  # If redis.enabled is true, this the image that will be used to create
-  # the Redis deployment
   image:
     repository: redis
-    tag: 7.4
+    tag: 7.2
     pullPolicy: IfNotPresent
 
   resources:
@@ -205,6 +203,27 @@ redis:
   service:
     labels: {}
     annotations: {}
+
+  volumeMounts:
+    - name: refinery-redis-data
+      mountPath: /data
+
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: refinery-redis-data
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+
+  persistentVolumeClaimRetentionPolicy:
+    enabled: false
+    whenDeleted: Retain
+    whenScaled: Retain
 
 serviceAccount:
   # Specifies whether a service account should be created
