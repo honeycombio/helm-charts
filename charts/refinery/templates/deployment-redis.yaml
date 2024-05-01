@@ -1,6 +1,6 @@
-{{- if and .Values.redis.enabled (eq .Values.redis.mode "statefulset") }}
+{{- if and .Values.redis.enabled (eq .Values.redis.mode "deployment") }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ include "refinery.redis.fullname" . }}
   namespace: {{ .Release.Namespace }}
@@ -11,12 +11,6 @@ metadata:
 {{- end }}
 spec:
   replicas: 1
-  serviceName: {{ include "refinery.redis.fullname" . }}
-  {{- if .Values.redis.persistentVolumeClaimRetentionPolicy.enabled }}
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: {{ .Values.redis.persistentVolumeClaimRetentionPolicy.whenDeleted }}
-    whenScaled: {{ .Values.redis.persistentVolumeClaimRetentionPolicy.whenScaled }}
-  {{- end }}
   selector:
     matchLabels:
   {{- include "refinery.redis.selectorLabels" . | nindent 6 }}
@@ -67,9 +61,6 @@ spec:
           lifecycle:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          volumeMounts:
-            - name: {{ .Values.redis.persistentVolumeClaim.name }}
-              mountPath: /data                
       {{- with .Values.redis.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -82,15 +73,4 @@ spec:
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-  volumeClaimTemplates:
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: {{ .Values.redis.persistentVolumeClaim.name }}
-      spec:
-        accessModes:
-          {{- toYaml .Values.redis.persistentVolumeClaim.accessModes | nindent 10}}
-        resources:
-          requests:
-            storage: {{ .Values.redis.persistentVolumeClaim.storageSize }}
-{{- end }}
+  {{- end }}
