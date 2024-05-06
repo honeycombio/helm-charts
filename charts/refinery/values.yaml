@@ -19,20 +19,17 @@ config:
   RedisPeerManagement:
     # Host is the host and port of the Redis instance to use for peer cluster membership management.
     Host: '{{include "refinery.redis.fullname" .}}:6379'
-    MaxIdle: 30
+    MaxIdle: 100
     MaxActive: 100
 
   Collection:
     # AvailableMemory is the amount of system memory available to the Refinery process.
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
     MaxMemoryPercentage: 75
-    SenderBatchSize: 1000
-    DeciderBatchSize: 1000
 
   GRPCServerParameters:
     Enabled: true
     ListenAddr: 0.0.0.0:4317
-    MaxConnectionAge: 10s
 
   PrometheusMetrics:
     # Enabled controls whether to expose Refinery metrics over the `PrometheusListenAddr` port.
@@ -96,7 +93,7 @@ rulesConfigMap:
 # per your anticipated peak load. Refinery now performs better with many smaller
 # instances instead of a few big instances.
 # replicaCount is ignored if autoscaling is enabled
-replicaCount: 6
+replicaCount: 3
 
 resources:
   limits:
@@ -104,7 +101,7 @@ resources:
     # This value is used by default for config.Collection.AvailableMemory
     memory: 2Gi
   requests:
-    cpu: 1
+    cpu: 2
     memory: 500Mi
 
 image:
@@ -179,7 +176,7 @@ redis:
       cpu: 2
       memory: 2Gi
     requests:
-      cpu: 100m
+      cpu: 1
       memory: 500Mi
 
   # Configure container lifecycle hooks.
