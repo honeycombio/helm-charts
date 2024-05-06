@@ -11,3 +11,12 @@ ingress:
 
 grpcIngress:
   enabled: true
+
+redis:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200M
+    requests:
+      cpu: 100m
+      memory: 200M
