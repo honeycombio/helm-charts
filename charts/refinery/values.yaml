@@ -94,7 +94,7 @@ rulesConfigMap:
 #
 # Use replicaCount and resource limits to set the size of your Refinery cluster
 # per your anticipated peak load. Refinery now performs better with many smaller
-# instances instead of a few big instances. 
+# instances instead of a few big instances.
 # replicaCount is ignored if autoscaling is enabled
 replicaCount: 6
 
