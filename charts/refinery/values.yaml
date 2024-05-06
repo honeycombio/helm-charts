@@ -29,12 +29,8 @@ config:
 
   Collection:
     # AvailableMemory is the amount of system memory available to the Refinery process.
-    MaxAlloc: '{{ .Values.resources.limits.memory }}'
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
     MaxMemoryPercentage: 75
-    # TraceFetcherConcurrency: 2
-    # ProcessTracesBatchSize: 1000
-    # DeciderBatchSize: 1000
 
   GRPCServerParameters:
     Enabled: true
@@ -55,14 +51,6 @@ config:
     AdditionalErrorFields:
       - trace.span_id
 
-  OTelMetrics:
-    Enabled: true
-    ReportingInterval: 1s
-
-  OTelTracing:
-    Type: otel
-    Dataset: refinery_traces
-
 # Refinery rules.
 # This section allows configuring Refinery rules.
 # The default value is the bare minimum Refinery requires in order to run.
@@ -71,10 +59,7 @@ config:
 # See https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/ for how to configure Refinery rules.
 rules:
   RulesVersion: 2
-  Samplers:
-    __default__:
-        DeterministicSampler:
-            SampleRate: 2
+  Samplers: {}
     # The default sampler is used when no other sampler matches.
     # It is required to have a default sampler.
     # If you do not supply a default sampler the helm chart will inject
@@ -82,35 +67,6 @@ rules:
     # __default__:
     #     DeterministicSampler:
     #         SampleRate: 1
-    test:
-      RulesBasedSampler:
-        Rules:
-          - Name: keep a quarter of clock/other
-            Conditions:
-              - Fields:
-                  - url
-                  - http.target
-                Operator: matches
-                Value: '/c\w+/other'
-            SampleRate: 4
-          - Name: keep half of anything mentioning clocks
-            Conditions:
-              - Field: url
-                Operator: matches
-                Value: '/clock'
-            SampleRate: 2
-          - Name: keep a third of drawer/anything
-            Conditions:
-              - Field: url
-                Operator: matches
-                Value: '^https://example.com/drawer.*$'
-            SampleRate: 3
-          - Name: drop really big traces
-            Conditions:
-              - Field: ?.NUM_DESCENDANTS
-                Operator: '>'
-                Value: 1000
-            Drop: true
 
 # RulesConfigMapName is used to override the default ConfigMap that defines the rules yaml.
 # When blank, refinery is configured using the a ConfigMap based on the rules below.
@@ -150,11 +106,11 @@ resources:
     # This value is used by default for config.Collection.AvailableMemory
     memory: 4Gi
   requests:
-    cpu: 500m
+    cpu: 2
     memory: 500Mi
 
 image:
-  repository: honeycombio/refinery
+  repository: tylerhelmuthhc/refinery
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
