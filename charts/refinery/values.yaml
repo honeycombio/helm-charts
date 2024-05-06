@@ -9,7 +9,7 @@
 # For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
 config:
   General:
-    ConfigurationVersion: 3
+    ConfigurationVersion: 2
     MinRefineryVersion: v3.0
 
   CentralStore:
