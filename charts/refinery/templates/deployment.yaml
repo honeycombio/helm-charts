@@ -113,6 +113,7 @@ spec:
               path: /alive
               port: data
             initialDelaySeconds: 10
+            periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /ready
