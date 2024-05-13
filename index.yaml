@@ -1071,6 +1071,29 @@ entries:
   refinery:
   - apiVersion: v2
     appVersion: 3.0.0
+    created: "2024-05-13T15:39:43.410337868Z"
+    description: Chart to deploy Honeycomb Refinery
+    digest: 0617d8c7dbb211b48fdb684c0325cb8051a9fc5765e4d35e0e984034b7e97b22
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: refinery
+    sources:
+    - https://github.com/honeycombio/refinery
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/refinery-3.0.0-hnyinternal.2/refinery-3.0.0-hnyinternal.2.tgz
+    version: 3.0.0-hnyinternal.2
+  - apiVersion: v2
+    appVersion: 3.0.0
     created: "2024-05-07T21:31:18.101632285Z"
     description: Chart to deploy Honeycomb Refinery
     digest: 33ab55db2297e5a4670a0859a8f58ddfa98ed7a6583329b389b7f0e617edeb1a
@@ -2399,4 +2422,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-07T21:31:18.103384814Z"
+generated: "2024-05-13T15:39:43.411120664Z"
