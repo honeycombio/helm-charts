@@ -18,10 +18,10 @@ jobs:
             minikube start --driver=none --kubernetes-version=${K8S_VERSION}
       - run:
           name: Lint charts
-          command: ct lint --config ./ct.yaml
+          command: ct lint --config ./ct.yaml --target-branch refinery-2.X-work-branch
       - run:
           name: Test charts
-          command: ct install --config ./ct.yaml
+          command: ct install --config ./ct.yaml --target-branch refinery-2.X-work-branch
 
 
   release-charts:

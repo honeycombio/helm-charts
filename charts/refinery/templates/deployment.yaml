@@ -49,7 +49,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
@@ -113,16 +112,16 @@ spec:
             httpGet:
               path: /alive
               port: data
-            {{- with .Values.livenessProbe }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
           readinessProbe:
             httpGet:
-              path: /ready
+              path: /alive
               port: data
-            {{- with .Values.readinessProbe }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            initialDelaySeconds: 0
+            periodSeconds: 3
+            failureThreshold: 5
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       volumes:

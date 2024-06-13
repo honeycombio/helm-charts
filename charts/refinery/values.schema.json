@@ -82,12 +82,6 @@
         },
         "StressRelief": {
           "type": "object"
-        },
-        "CentralStore": {
-          "type": "object"
-        },
-        "OTelTracing": {
-          "type": "object"
         }
       }
     },
