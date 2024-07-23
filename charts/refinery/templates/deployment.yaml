@@ -112,16 +112,16 @@ spec:
             httpGet:
               path: /alive
               port: data
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            failureThreshold: 3
+          {{- with .Values.livenessProbe }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           readinessProbe:
             httpGet:
-              path: /alive
+              path: /ready
               port: data
-            initialDelaySeconds: 0
-            periodSeconds: 3
-            failureThreshold: 5
+          {{- with .Values.readinessProbe }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       volumes:

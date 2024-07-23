@@ -104,6 +104,22 @@ resources:
     cpu: 500m
     memory: 500Mi
 
+# liveness probe configuration
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 3
+  timeoutSeconds: 1
+  failureThreshold: 3
+
+# readiness probe configuration
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+readinessProbe:
+  initialDelaySeconds: 0
+  periodSeconds: 1
+  timeoutSeconds: 1
+  failureThreshold: 3
+
 image:
   repository: honeycombio/refinery
   pullPolicy: IfNotPresent
