@@ -3,7 +3,7 @@ name: refinery
 description: Chart to deploy Honeycomb Refinery
 type: application
 version: 2.11.0
-appVersion: 2.7.0
+appVersion: 2.7.0-dev
 keywords:
   - refinery
   - honeycomb

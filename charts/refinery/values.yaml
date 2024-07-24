@@ -107,7 +107,7 @@ resources:
 # liveness probe configuration
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  initialDelaySeconds: 10
+  initialDelaySeconds: 5
   periodSeconds: 3
   timeoutSeconds: 1
   failureThreshold: 3
@@ -115,10 +115,10 @@ livenessProbe:
 # readiness probe configuration
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 readinessProbe:
-  initialDelaySeconds: 0
+  initialDelaySeconds: 5
   periodSeconds: 1
   timeoutSeconds: 1
-  failureThreshold: 3
+  failureThreshold: 1
 
 image:
   repository: honeycombio/refinery
