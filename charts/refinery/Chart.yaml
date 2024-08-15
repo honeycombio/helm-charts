@@ -2,8 +2,8 @@ apiVersion: v2
 name: refinery
 description: Chart to deploy Honeycomb Refinery
 type: application
-version: 2.11.0
-appVersion: 2.7.0
+version: 2.11.1
+appVersion: 2.7.1
 keywords:
   - refinery
   - honeycomb
