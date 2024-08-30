@@ -1,12 +1,40 @@
+name: honeycomb-straws
+
 refinery:
+  replicaCount: 1
   config:
     PrometheusMetrics:
       Enabled: false
+  rules:
+    Samplers: {}
+  ingress:
+    enabled: true
 
 opentelemetry-collector:
-  mode: "daemonset"
+  mode: "deployment"
   image:
     repository: otel/opentelemetry-collector-contrib
   config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: ${env:MY_POD_IP}:4317
+          http:
+            endpoint: ${env:MY_POD_IP}:4318
     exporters:
-    extensions:
+      otlp/honeycomb:
+        endpoint: api.honeycomb.io:443
+        headers:
+          "x-honeycomb-team": ${env:HONEYCOMB_API_KEY}
+      otlp/refinery:
+        endpoint: refinery.local:4317 
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [otlp/refinery]
+        logs:
+          receivers: [otlp]
+          exporters: [otlp/honeycomb]
+        metrics: null
