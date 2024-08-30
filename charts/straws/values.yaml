@@ -1,0 +1,12 @@
+refinery:
+  config:
+    PrometheusMetrics:
+      Enabled: false
+
+opentelemetry-collector:
+  mode: "daemonset"
+  image:
+    repository: otel/opentelemetry-collector-contrib
+  config:
+    exporters:
+    extensions:
