@@ -7,13 +7,11 @@ refinery:
       Enabled: false
   rules:
     Samplers: {}
-  ingress:
-    enabled: true
 
 opentelemetry-collector:
   mode: "deployment"
   image:
-    repository: otel/opentelemetry-collector-contrib
+    repository: otel/opentelemetry-collector-k8s
   config:
     receivers:
       otlp:
@@ -28,7 +26,7 @@ opentelemetry-collector:
         headers:
           "x-honeycomb-team": ${env:HONEYCOMB_API_KEY}
       otlp/refinery:
-        endpoint: refinery.local:4317 
+        endpoint: '{{ include "honeycomb-straws.name" . }}-refinery:4317'
     service:
       pipelines:
         traces:
