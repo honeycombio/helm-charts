@@ -24,6 +24,7 @@ config:
     Host: '{{include "refinery.redis.fullname" .}}:6379'
 
   Collection:
+    ShutdownDelay: '{{ sub .Values.terminationGracePeriodSeconds 5 }}s'
     # AvailableMemory is the amount of system memory available to the Refinery process.
     AvailableMemory: '{{ .Values.resources.limits.memory }}'
     MaxMemoryPercentage: 75
@@ -318,6 +319,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+terminationGracePeriodSeconds: 35
 
 # PodDisruptionBudget:
 #
