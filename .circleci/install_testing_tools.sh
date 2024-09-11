@@ -2,11 +2,11 @@
 
 set -o errexit
 
-readonly HELM_VERSION=3.5.2
-readonly CHART_TESTING_VERSION=3.7.1
-readonly YAMLLINT_VERSION=1.27.1
-readonly YAMALE_VERSION=3.0.4
-readonly MINIKUBE_VERSION=v1.27.1
+readonly HELM_VERSION=3.15.4
+readonly CHART_TESTING_VERSION=3.11.0
+readonly YAMLLINT_VERSION=1.35.1
+readonly YAMALE_VERSION=5
+readonly MINIKUBE_VERSION=v1.34.0
 
 echo "Installing Helm..."
 curl -LO "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz"
