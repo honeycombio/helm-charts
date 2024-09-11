@@ -23,7 +23,7 @@ maintainers:
 dependencies:
 - name: refinery
   version: 2.11.2
-  repository: "https://honeycombio.github.io/helm-charts"
+  repository: "file://../refinery/"
 - name: opentelemetry-collector
   version: 0.104.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
