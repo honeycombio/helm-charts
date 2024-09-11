@@ -10,8 +10,6 @@ refinery:
 
 otelcol-deployment:
   mode: "deployment"
-  service:
-    enabled: true
   image:
     repository: otel/opentelemetry-collector-k8s
   config:
@@ -43,8 +41,6 @@ otelcol-deployment:
 
 otelcol-daemonset:
   mode: "daemonset"
-  service:
-    enabled: false
   image:
     repository: otel/opentelemetry-collector-k8s
   config:
