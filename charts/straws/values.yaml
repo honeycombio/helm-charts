@@ -34,7 +34,7 @@ otelcol-deployment:
           exporters: [otlp/refinery]
         logs:
           receivers: [otlp]
-          exporters: [otlp/honeycomb]
+          exporters: [otlp/refinery]
         metrics:
           receivers: [otlp]
           exporters: [otlp/honeycomb]
@@ -65,7 +65,7 @@ otelcol-daemonset:
           exporters: [otlp/refinery]
         logs:
           receivers: [otlp]
-          exporters: [otlp/honeycomb]
+          exporters: [otlp/refinery]
         metrics:
           receivers: [otlp]
           exporters: [otlp/honeycomb]
