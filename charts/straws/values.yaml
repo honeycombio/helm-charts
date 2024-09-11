@@ -35,7 +35,9 @@ otelcol-deployment:
         logs:
           receivers: [otlp]
           exporters: [otlp/honeycomb]
-        metrics: null
+        metrics:
+          receivers: [otlp]
+          exporters: [otlp/honeycomb]
 
 otelcol-daemonset:
   mode: "daemonset"
@@ -64,4 +66,6 @@ otelcol-daemonset:
         logs:
           receivers: [otlp]
           exporters: [otlp/honeycomb]
-        metrics: null
+        metrics:
+          receivers: [otlp]
+          exporters: [otlp/honeycomb]
