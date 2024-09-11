@@ -8,8 +8,37 @@ refinery:
   rules:
     Samplers: {}
 
-opentelemetry-collector:
+otelcol-deployment:
   mode: "deployment"
+  image:
+    repository: otel/opentelemetry-collector-k8s
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: ${env:MY_POD_IP}:4317
+          http:
+            endpoint: ${env:MY_POD_IP}:4318
+    exporters:
+      otlp/honeycomb:
+        endpoint: api.honeycomb.io:443
+        headers:
+          "x-honeycomb-team": ${env:HONEYCOMB_API_KEY}
+      otlp/refinery:
+        endpoint: '{{ include "honeycomb-straws.name" . }}-refinery:4317'
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [otlp/refinery]
+        logs:
+          receivers: [otlp]
+          exporters: [otlp/honeycomb]
+        metrics: null
+
+otelcol-daemonset:
+  mode: "daemonset"
   image:
     repository: otel/opentelemetry-collector-k8s
   config:

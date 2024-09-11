@@ -27,3 +27,8 @@ dependencies:
 - name: opentelemetry-collector
   version: 0.103.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  alias: otelcol-daemonset
+- name: opentelemetry-collector
+  version: 0.103.0
+  repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  alias: otelcol-deployment
