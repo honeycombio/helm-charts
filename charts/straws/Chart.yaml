@@ -22,13 +22,13 @@ maintainers:
 
 dependencies:
 - name: refinery
-  version: 2.11.1
+  version: 2.11.2
   repository: "https://honeycombio.github.io/helm-charts"
 - name: opentelemetry-collector
-  version: 0.103.0
+  version: 0.104.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-daemonset
 - name: opentelemetry-collector
-  version: 0.103.0
+  version: 0.104.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-deployment
