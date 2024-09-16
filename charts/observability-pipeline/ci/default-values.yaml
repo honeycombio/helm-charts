@@ -36,7 +36,6 @@ otelcol-deployment:
                     endpoint: https://api.honeycomb.io:443
                     headers:
                       "x-honeycomb-team": TEST
-          
 
 otelcol-daemonset:
   extraEnvs: []
