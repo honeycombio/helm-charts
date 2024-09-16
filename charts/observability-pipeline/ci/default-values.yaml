@@ -8,6 +8,7 @@ refinery:
       memory: 200M
 
 otelcol-deployment:
+  extraEnvs: []
   resources:
     limits:
       cpu: 100m
@@ -15,8 +16,30 @@ otelcol-deployment:
     requests:
       cpu: 100m
       memory: 200M
+  config:
+    exporters:
+      otlp/k8s-metrics:
+        headers:
+          "x-honeycomb-team": "TEST"
+      otlp/k8s-events:
+        headers:
+          "x-honeycomb-team": "TEST"
+    service:
+      telemetry:
+        metrics:
+          address: ""
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: https://api.honeycomb.io:443
+                    headers:
+                      "x-honeycomb-team": TEST
+          
 
 otelcol-daemonset:
+  extraEnvs: []
   resources:
     limits:
       cpu: 100m
@@ -24,3 +47,29 @@ otelcol-daemonset:
     requests:
       cpu: 100m
       memory: 200M
+  config:
+    exporters:
+      otlp:
+        headers:
+          "x-honeycomb-team": "TEST"
+      otlp/refinery:
+        headers:
+          "x-honeycomb-team": "TEST"
+      otlp/k8s-metrics:
+        headers:
+          "x-honeycomb-team": "TEST"
+      otlp/k8s-logs:
+        headers:
+          "x-honeycomb-team": "TEST"
+    service:
+      telemetry:
+        metrics:
+          address: ""
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: https://api.honeycomb.io:443
+                    headers:
+                      "x-honeycomb-team": TEST
