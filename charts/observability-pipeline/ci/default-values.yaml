@@ -1,0 +1,26 @@
+refinery:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200M
+    requests:
+      cpu: 100m
+      memory: 200M
+
+otelcol-deployment:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200M
+    requests:
+      cpu: 100m
+      memory: 200M
+
+otelcol-daemonset:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 200M
+    requests:
+      cpu: 100m
+      memory: 200M
