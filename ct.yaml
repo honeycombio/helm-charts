@@ -2,7 +2,7 @@
 remote: origin
 target-branch: main
 chart-repos:
-  - honeycomb= https://honeycombio.github.io/helm-charts
+  - honeycomb=https://honeycombio.github.io/helm-charts
   - opentelemetry-collector=https://open-telemetry.github.io/opentelemetry-helm-charts
 chart-dirs:
   - charts
