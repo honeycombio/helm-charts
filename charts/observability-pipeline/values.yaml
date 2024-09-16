@@ -2,7 +2,7 @@ name: honeycomb-straws
 
 refinery:
   enabled: true
-  config: 
+  config:
     PrometheusMetrics:
       Enabled: false
     OTelMetrics:
@@ -71,14 +71,14 @@ otelcol-deployment:
               - set(severity_number, SEVERITY_NUMBER_WARN) where attributes["type"] == "Warning"
     exporters:
       otlp/k8s-metrics:
-        endpoint: "api.honeycomb.io:443" # US instance
-        #endpoint: "api.eu1.honeycomb.io:443" # EU instance
+        endpoint: "api.honeycomb.io:443"
+        # endpoint: "api.eu1.honeycomb.io:443" # EU instance
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
           "x-honeycomb-dataset": "k8s-metrics"
       otlp/k8s-events:
-        endpoint: "api.honeycomb.io:443" # US instance
-        #endpoint: "api.eu1.honeycomb.io:443" # EU instance
+        endpoint: "api.honeycomb.io:443"
+        # endpoint: "api.eu1.honeycomb.io:443" # EU instance
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
           "x-honeycomb-dataset": "k8s-events"
@@ -97,12 +97,12 @@ otelcol-deployment:
       pipelines:
         traces: null
         metrics:
-          receivers: [ k8s_cluster ]
-          exporters: [ otlp/k8s-metrics ]
+          receivers: [k8s_cluster]
+          exporters: [otlp/k8s-metrics]
         logs:
-          receivers: [ k8sobjects ]
-          processors: [ memory_limiter, transform/events, batch ]
-          exporters: [ otlp/k8s-events ] 
+          receivers: [k8sobjects]
+          processors: [memory_limiter, transform/events, batch]
+          exporters: [otlp/k8s-events]
   ports:
     jaeger-compact:
       enabled: false
@@ -122,7 +122,7 @@ otelcol-daemonset:
   clusterRole:
     create: true
     rules:
-      - apiGroups: 
+      - apiGroups:
           - ""
         resources:
           - nodes/proxy
@@ -164,7 +164,8 @@ otelcol-daemonset:
           http:
             include_metadata: true
       kubeletstats:
-        insecure_skip_verify: true # required as most clusters use self-signed certificates
+        # required as most clusters use self-signed certificates
+        insecure_skip_verify: true
         collection_interval: 30s
         metric_groups:
           - node
@@ -200,8 +201,8 @@ otelcol-daemonset:
           - x-honeycomb-dataset
     exporters:
       otlp:
-        endpoint: "api.honeycomb.io:443" # US instance
-        #endpoint: "api.eu1.honeycomb.io:443" # EU instance
+        endpoint: "api.honeycomb.io:443"
+        # endpoint: "api.eu1.honeycomb.io:443" # EU instance
         auth:
           authenticator: headers_setter
         headers:
@@ -213,14 +214,14 @@ otelcol-daemonset:
         tls:
           insecure: true
       otlp/k8s-metrics:
-        endpoint: "api.honeycomb.io:443" # US instance
-        #endpoint: "api.eu1.honeycomb.io:443" # EU instance
+        endpoint: "api.honeycomb.io:443"
+        # endpoint: "api.eu1.honeycomb.io:443" # EU instance
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
           "x-honeycomb-dataset": "k8s-metrics"
       otlp/k8s-logs:
-        endpoint: "api.honeycomb.io:443" # US instance
-        #endpoint: "api.eu1.honeycomb.io:443" # EU instance
+        endpoint: "api.honeycomb.io:443"
+        # endpoint: "api.eu1.honeycomb.io:443" # EU instance
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
           "x-honeycomb-dataset": "k8s-logs"
@@ -236,7 +237,7 @@ otelcol-daemonset:
                     endpoint: https://api.honeycomb.io:443
                     headers:
                       "x-honeycomb-team": ${env:HONEYCOMB_API_KEY}
-      extensions: [ health_check, headers_setter ]
+      extensions: [health_check, headers_setter]
       pipelines:
         traces:
           receivers: [otlp]
