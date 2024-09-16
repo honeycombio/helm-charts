@@ -2,7 +2,7 @@
 remote: origin
 target-branch: main
 chart-repos:
-  - otelcol=https://open-telemetry.github.io/opentelemetry-helm-charts
+  - opentelemetry-collector=https://open-telemetry.github.io/opentelemetry-helm-charts
 chart-dirs:
   - charts
 helm-extra-args: --timeout 120s
