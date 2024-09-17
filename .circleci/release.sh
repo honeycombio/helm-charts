@@ -40,6 +40,8 @@ main() {
   readarray -t changed_charts <<<"$(lookup_changed_charts "$latest_tag")"
 
   if [[ -n "${changed_charts[*]}" ]]; then
+    add_dependencies
+
     rm -rf .cr-release-packages
     mkdir -p .cr-release-packages
 
@@ -93,6 +95,12 @@ lookup_changed_charts() {
   local fields="1-${depth}"
 
   cut -d '/' -f "$fields" <<<"$changed_files" | uniq | filter_charts
+}
+
+add_dependencies() {
+  echo "Adding chart dependencies"
+  helm repo add honeycomb https://honeycombio.github.io/helm-charts
+  helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 }
 
 package_chart() {
