@@ -2,7 +2,7 @@
 
 set -o errexit
 
-readonly HELM_VERSION=3.12.0
+readonly HELM_VERSION=3.15.4
 readonly CHART_RELEASER_VERSION=1.6.1
 
 echo "Installing Helm..."
