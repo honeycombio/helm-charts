@@ -1,4 +1,4 @@
-name: honeycomb-straws
+name: honeycomb-observability-pipeline
 
 refinery:
   enabled: true
@@ -208,7 +208,7 @@ otelcol-daemonset:
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
       otlp/refinery:
-        endpoint: '{{ include "honeycomb-straws.name" . }}-refinery:4317'
+        endpoint: '{{ include "honeycomb-observability-pipeline.name" . }}-refinery:4317'
         headers:
           "x-honeycomb-team": "${env:HONEYCOMB_API_KEY}"
         tls:
