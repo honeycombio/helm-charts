@@ -69,11 +69,11 @@ spec:
       affinity:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.redis.tolerations }}
+      {{- with .Values.redis.topologySpreadConstraints }}
       topologySpreadConstraints:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.topologySpreadConstraints }}
+      {{- with .Values.redis.tolerations }}
       tolerations:
       {{- toYaml . | nindent 8 }}
       {{- end }}
