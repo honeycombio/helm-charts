@@ -152,6 +152,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `redis.image.tag` | Redis image tag | `6.0.2` |
 | `redis.nodeSelector` | Node labels for pod assignment specific to the installed Redis deployment | `{}` |
 | `redis.tolerations` | Tolerations for pod assignment specific to the installed Redis deployment | `[]`|
+| `redis.topologySpreadConstraints` | TopologySpreadConstraints for pod assignment specific to the installed Redis deployment | `[]`|
 | `replicaCount` | Number of Refinery replicas | `3` |
 | `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
 | `rules` | Refinery sampling rules | see [Configuring sampling rules](#configuring-sampling-rules) |
@@ -169,6 +170,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `serviceAccount.labels` | Labels to be applied to ServiceAccount | `{}` |
 | `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
 | `tolerations` | Tolerations for pod assignment | `[]`|
+| `topologySpreadConstraints` | TopologySpreadConstraints for pod assignment | `[]`|
 
 1. secretProvider functionality requires the [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
 

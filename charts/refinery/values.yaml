@@ -208,6 +208,7 @@ redis:
 
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
+  topologySpreadConstraints: []
   annotations: {}
   podAnnotations: {}
   podLabels: {}
@@ -317,6 +318,7 @@ rollout:
 nodeSelector: {}
 
 tolerations: []
+topologySpreadConstraints: []
 
 affinity: {}
 
