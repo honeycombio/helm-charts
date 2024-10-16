@@ -82,6 +82,9 @@
         },
         "StressRelief": {
           "type": "object"
+        },
+        "OTelTracing": {
+          "type": "object"
         }
       }
     },
