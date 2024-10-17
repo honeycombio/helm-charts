@@ -274,6 +274,7 @@ ingress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+  className: ""
 
 grpcIngress:
   enabled: false
@@ -288,6 +289,7 @@ grpcIngress:
   #  - secretName: refinery-tls
   #    hosts:
   #      - refinery.local
+  className: ""
 
 # Setup autoscaling for refinery
 # When autoscaling events occur, trace sharding will be recomputed. This will result in traces with missing spans being
