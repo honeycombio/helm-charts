@@ -1,0 +1,22 @@
+apiVersion: v2
+name: htp
+description: Honeycomb Telemetry Pipeline
+
+type: application
+
+# HTP parent chart version
+version: 0.1.0
+
+# Version of honeycombio tagged image
+# this is also set in values.yaml as image override
+appVersion: "1.77.1"
+home: https://www.honeycomb.io/
+icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+maintainers:
+  - name: Honeycomb
+    email: pipeline-team@honeycomb.io
+dependencies:
+  - name: bindplane
+    version: "1.20.4"
+    repository: "https://observiq.github.io/bindplane-op-helm"
+    alias: htp

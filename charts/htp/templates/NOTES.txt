@@ -1,0 +1,21 @@
+>>=====================<<
+||   _     _           ||
+||  | |__ | |_ _ __    ||
+||  | '_ \| __| '_ \   ||
+||  | | | | |_| |_) |  ||
+||  |_| |_|\__| .__/   ||
+||            |_|      ||
+>>=====================<<
+
+
+{{- if and (not .Values.htp.config.license) (not .Values.htp.config.licenseUseSecret) }}
+{{ fail "[ERROR] You must either set the value for 'htp.config.license' to your License Key or set the value for 'htp.config.licenseUseSecret' to true" }}
+{{- end }}
+
+{{- if and (.Values.htp.config.licenseUseSecret) (not .Values.htp.config.secret) }}
+{{ fail "[ERROR] If 'htp.config.licenseUseSecret' is true, `htp.config.secret` must be set." }}
+{{- end }}
+
+{{- if not .Values.htp.resources.limits }}
+[WARNING] No resource limits were set. Consider setting resource limits for the Honeycomb Telemetry Pipeline via the `htp.resources` field.
+{{ end }}

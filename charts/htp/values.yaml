@@ -1,0 +1,33 @@
+# honeycomb parent chart for htp
+htp:
+  config:
+    # Basic auth username to use for the default admin user
+    username: 'admin'
+    # Basic auth password to use for the default admin user
+    password: 'admin'
+    # Random UUIDv4 used to derive web interface session tokens
+    sessions_secret: ''
+    # Honeycomb HTP License Key
+    license: ''
+    # set to true to use secret for license
+    licenseUseSecret: 'true'
+    # name of secret containing license, username, password, sessions_secret
+    secret: 'hny-secrets'
+
+  image:
+    name: honeycombio/htp
+    tag: 1.77.1
+
+  # Resources allocated to OP Server.
+  resources: {}
+    # requests:
+    #   memory: 4Gi
+    #   cpu: 2
+    # limits:
+    #   memory: 4Gi
+    #   cpu: 2
+
+  # Allows adding extra environment variables.
+  extraEnvVars:
+    # - name: ENV_VAR
+    #   value: value
