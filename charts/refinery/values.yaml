@@ -402,7 +402,5 @@ deployMarker:
   #     secretKeyRef:
   #       name: honeycombmarker
   #       key: api-key
-
   volumes: []
   volumeMounts: []
-
