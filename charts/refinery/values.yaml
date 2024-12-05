@@ -395,7 +395,14 @@ deployMarker:
     tag: "latest"
   honeycombAPI: ""
   honeycombDataset: ""
+  # make sure to set REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY for sending markers to honeycomb
   environment: {}
+  # - name: REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: honeycombmarker
+  #       key: api-key
+
   volumes: []
   volumeMounts: []
 
