@@ -384,3 +384,15 @@ debug:
   # Only used if debug is enabled.
   # This value will be used to set config.DebugServiceAddr if it is not already set.
   port: 6060
+
+
+deployMarker:
+  enabled: false
+  image:
+    repository: honeycombio/honeymarker
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  honeycombAPI: ""
+  honeycombDataset: ""
+
