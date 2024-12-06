@@ -385,7 +385,10 @@ debug:
   # This value will be used to set config.DebugServiceAddr if it is not already set.
   port: 6060
 
-
+# This feature is EXPERIMENTAL and subject to breaking changes
+#
+# When enabled, the chart will use a post-install job to create a honeycomb marker
+# in the specified dataset to mark the install of the chart.
 deployMarker:
   enabled: false
   image:
