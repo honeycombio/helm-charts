@@ -396,6 +396,7 @@ deployMarker:
   honeycombAPI: ""
   honeycombDataset: ""
   # make sure to set REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY for sending markers to honeycomb
+  # For now we require an env var name `REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY` to contain the api key
   environment: {}
   # - name: REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY
   #   valueFrom:
