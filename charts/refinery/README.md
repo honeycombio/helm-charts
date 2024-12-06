@@ -98,79 +98,117 @@ for more details on how to properly scale Refinery.
 ### Using Autoscaling
 
 Refinery can be configured to auto-scale with load. During auto-scale events, trace sharding is recomputed, which will
-result in traces with missing spans being sent to Honeycomb. Traces with missing spans can happen for upto the 
+result in traces with missing spans being sent to Honeycomb. Traces with missing spans can happen for upto the
 `config.TraceTimeout * 2`. In order to avoid auto-scale events, it is recommended to disable scaleDown which will limit
 broken traces should traffic rapidly go up and down.
 
 Autoscaling of refinery is configured using the `autoscaling` setting.
 
+### Deploy Marker
+
+It is helpful to track when a Refinery deployment occurred while viewing Refinery metrics in Honeycomb. This Helm chart supports sending a deploy marker to Honeycomb that includes the deployed Refinery version and the chart version.
+
+To enable the deploy marker, configure the following options in the chart:
+
+```yaml
+deployMarker:
+    enabled: true
+    image:
+        repository: honeycombio/honeymarker
+        pullPolicy: IfNotPresent
+        # Overrides the image tag whose default is latest
+        tag: "latest"
+    honeycombAPI: "https://api.honeycomb.io" #US instance
+    honeycombDataset: "dataset-to-add-the-marker"
+    environment:
+        - name: REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY
+              ...
+    volumes:
+        - name: your-secret-store
+              ...
+    volumeMounts:
+        - name: your-secret-store-mount
+              ...
+```
+
+NOTE: Ensure that the API key used for the deploy marker has permission to create markers in Honeycomb.
+
 ## Parameters
 
 The following table lists the configurable parameters of the Refinery chart, and their default values, as defined in [`values.yaml`](./values.yaml).
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| `LiveReload` | If disabled, triggers a rolling restart of the cluster whenever the Rules configmap changes | `true` |
-| `RulesConfigMapName` | Name of ConfigMap containing Refinery Rules | `""` |
-| `affinity` | Map of node/pod affinities | `{}` |
-| `autoscaling.behavior` | Set the autoscaling behavior | scaleDown.selectPolicy: disabled |
-| `autoscaling.enabled` | Enabled autoscaling for Refinery | `false` |
-| `autoscaling.maxReplicas` | Set maximum number of replicas for Refinery | `10` |
-| `autoscaling.minReplicas` | Set minimum number of replicas for Refinery | `3` |
-| `autoscaling.targetCPUUtilizationPercentage` | Set the target CPU utilization percentage for scaling | `75` | 
-| `autoscaling.targetMemoryUtilizationPercentage` | Set the target Memory utilization percentage for scaling | `nil` |
-| `config` | Refinery Configuration | see [Refinery Configuration](#configuration) |
-| `debug.enabled` | whether or not the `-d` flag should be used in the Refinery arguments to enable the debug service  | `false` |
-| `debug.port` | the port on which the debug service will be exposed  | `6060` |
-| `extraCommandArgs` | List of extra string args to pass to refinery start command | `[]` |
-| `fullnameOverride` | String to fully override refinery.fullname template with a string | `nil` |
-| `grpcIngress.annotations` | gRPC Ingress annotations | `{}` |
-| `grpcIngress.enabled` | Enable ingress controller resource for gRPC traffic | `false` |
-| `grpcIngress.hosts[0].host` | Hostname to use for gRPC Ingress | `refinery.local` |
-| `grpcIngress.hosts[0].path` | Path prefix that will be used for the host | `/` |
-| `grpcIngress.labels` | gRPC Ingress labels | `{}` |
-| `grpcIngress.tls` | TLS hosts	for gRPC Ingress | `[]` |
-| `image.pullPolicy` | Refinery image pull policy | `IfNotPresent` |
-| `image.repository` | Refinery image name | `honeycombio/refinery` |
-| `image.tag` | Refinery image tag (leave blank to use app version) | `nil` |
-| `imagePullSecrets` | Specify docker-registry secret names as an array | `[]` |
-| `ingress.annotations` | HTTP Ingress annotations | `{}` |
-| `ingress.enabled` | Enable Ingress controller resource for HTTP traffic | `false` |
-| `ingress.hosts[0].host` | Hostname to use for HTTP Ingress | `refinery.local` |
-| `ingress.hosts[0].path` | Path prefix that will be used for the host | `/` |
-| `ingress.labels` | HTTP Ingress labels | `{}` |
-| `ingress.tls` | TLS hosts for HTTP Ingress	| `[]` |
-| `nameOverride` | String to partially override refinery.fullname template with a string (will append the release name) | `nil` |
-| `nodeSelector` | Node labels for pod assignment | `{}` |
-| `podAnnotations` | Pod annotations | `{}` |
-| `podLabels` | Pod labels | `{}` |
-| `podSecurityContext` | Security context for pod | `{}` |
-| `redis.affinity` | Map of node/pod affinities specific to the installed Redis deployment | `{}` |
-| `redis.enabled` | When true, a Redis instance will be installed | `true` |
-| `redis.image.pullPolicy` | Redis image pull policy | `IfNotPresent` |
-| `redis.image.repository` | Redis image name | `redis` |
-| `redis.image.tag` | Redis image tag | `6.0.2` |
-| `redis.nodeSelector` | Node labels for pod assignment specific to the installed Redis deployment | `{}` |
-| `redis.tolerations` | Tolerations for pod assignment specific to the installed Redis deployment | `[]`|
-| `redis.topologySpreadConstraints` | TopologySpreadConstraints for pod assignment specific to the installed Redis deployment | `[]`|
-| `replicaCount` | Number of Refinery replicas | `3` |
-| `resources` | CPU/Memory resource requests/limits | limit: 2000m/2Gi, request: 500m/500Mi |
-| `rules` | Refinery sampling rules | see [Configuring sampling rules](#configuring-sampling-rules) |
-| `secretProvider.create`<sup>1</sup> | Specify whether a SecretProvider should be created | `false` |
-| `secretProvider.name` <sup>1</sup> | Specify the name of your SecretProvider | `nil` |
-| `secretProvider.spec` <sup>1</sup> | Specify the spec of your SecretProvider | `nil` |
-| `securityContext` | Security context for container | `{}` |
-| `service.annotations` | Service annotations | `{}` |
-| `service.grpcPort` | Service port for data in OTLP format over gRPC | `4317` |
-| `service.labels` | Service labels | `{}` |
-| `service.port` | Service port for data in Honeycomb format | `80` |
-| `service.type` | Kubernetes Service type | `ClusterIP` |
-| `serviceAccount.annotations` | Annotations to be applied to ServiceAccount | `{}` |
-| `serviceAccount.create` | Specify whether a ServiceAccount should be created | `true` |
-| `serviceAccount.labels` | Labels to be applied to ServiceAccount | `{}` |
-| `serviceAccount.name` | The name of the ServiceAccount to create | Generated using the `refinery.fullname` template |
-| `tolerations` | Tolerations for pod assignment | `[]`|
-| `topologySpreadConstraints` | TopologySpreadConstraints for pod assignment | `[]`|
+| Parameter                                       | Description                                                                                          | Default                                                       |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `LiveReload`                                    | If disabled, triggers a rolling restart of the cluster whenever the Rules configmap changes          | `true`                                                        |
+| `RulesConfigMapName`                            | Name of ConfigMap containing Refinery Rules                                                          | `""`                                                          |
+| `affinity`                                      | Map of node/pod affinities                                                                           | `{}`                                                          |
+| `autoscaling.behavior`                          | Set the autoscaling behavior                                                                         | scaleDown.selectPolicy: disabled                              |
+| `autoscaling.enabled`                           | Enabled autoscaling for Refinery                                                                     | `false`                                                       |
+| `autoscaling.maxReplicas`                       | Set maximum number of replicas for Refinery                                                          | `10`                                                          |
+| `autoscaling.minReplicas`                       | Set minimum number of replicas for Refinery                                                          | `3`                                                           |
+| `autoscaling.targetCPUUtilizationPercentage`    | Set the target CPU utilization percentage for scaling                                                | `75`                                                          |
+| `autoscaling.targetMemoryUtilizationPercentage` | Set the target Memory utilization percentage for scaling                                             | `nil`                                                         |
+| `config`                                        | Refinery Configuration                                                                               | see [Refinery Configuration](#configuration)                  |
+| `debug.enabled`                                 | whether or not the `-d` flag should be used in the Refinery arguments to enable the debug service    | `false`                                                       |
+| `debug.port`                                    | the port on which the debug service will be exposed                                                  | `6060`                                                        |
+| `extraCommandArgs`                              | List of extra string args to pass to refinery start command                                          | `[]`                                                          |
+| `fullnameOverride`                              | String to fully override refinery.fullname template with a string                                    | `nil`                                                         |
+| `grpcIngress.annotations`                       | gRPC Ingress annotations                                                                             | `{}`                                                          |
+| `grpcIngress.enabled`                           | Enable ingress controller resource for gRPC traffic                                                  | `false`                                                       |
+| `grpcIngress.hosts[0].host`                     | Hostname to use for gRPC Ingress                                                                     | `refinery.local`                                              |
+| `grpcIngress.hosts[0].path`                     | Path prefix that will be used for the host                                                           | `/`                                                           |
+| `grpcIngress.labels`                            | gRPC Ingress labels                                                                                  | `{}`                                                          |
+| `grpcIngress.tls`                               | TLS hosts for gRPC Ingress                                                                           | `[]`                                                          |
+| `image.pullPolicy`                              | Refinery image pull policy                                                                           | `IfNotPresent`                                                |
+| `image.repository`                              | Refinery image name                                                                                  | `honeycombio/refinery`                                        |
+| `image.tag`                                     | Refinery image tag (leave blank to use app version)                                                  | `nil`                                                         |
+| `imagePullSecrets`                              | Specify docker-registry secret names as an array                                                     | `[]`                                                          |
+| `ingress.annotations`                           | HTTP Ingress annotations                                                                             | `{}`                                                          |
+| `ingress.enabled`                               | Enable Ingress controller resource for HTTP traffic                                                  | `false`                                                       |
+| `ingress.hosts[0].host`                         | Hostname to use for HTTP Ingress                                                                     | `refinery.local`                                              |
+| `ingress.hosts[0].path`                         | Path prefix that will be used for the host                                                           | `/`                                                           |
+| `ingress.labels`                                | HTTP Ingress labels                                                                                  | `{}`                                                          |
+| `ingress.tls`                                   | TLS hosts for HTTP Ingress                                                                           | `[]`                                                          |
+| `nameOverride`                                  | String to partially override refinery.fullname template with a string (will append the release name) | `nil`                                                         |
+| `nodeSelector`                                  | Node labels for pod assignment                                                                       | `{}`                                                          |
+| `podAnnotations`                                | Pod annotations                                                                                      | `{}`                                                          |
+| `podLabels`                                     | Pod labels                                                                                           | `{}`                                                          |
+| `podSecurityContext`                            | Security context for pod                                                                             | `{}`                                                          |
+| `redis.affinity`                                | Map of node/pod affinities specific to the installed Redis deployment                                | `{}`                                                          |
+| `redis.enabled`                                 | When true, a Redis instance will be installed                                                        | `true`                                                        |
+| `redis.image.pullPolicy`                        | Redis image pull policy                                                                              | `IfNotPresent`                                                |
+| `redis.image.repository`                        | Redis image name                                                                                     | `redis`                                                       |
+| `redis.image.tag`                               | Redis image tag                                                                                      | `6.0.2`                                                       |
+| `redis.nodeSelector`                            | Node labels for pod assignment specific to the installed Redis deployment                            | `{}`                                                          |
+| `redis.tolerations`                             | Tolerations for pod assignment specific to the installed Redis deployment                            | `[]`                                                          |
+| `redis.topologySpreadConstraints`               | TopologySpreadConstraints for pod assignment specific to the installed Redis deployment              | `[]`                                                          |
+| `replicaCount`                                  | Number of Refinery replicas                                                                          | `3`                                                           |
+| `resources`                                     | CPU/Memory resource requests/limits                                                                  | limit: 2000m/2Gi, request: 500m/500Mi                         |
+| `rules`                                         | Refinery sampling rules                                                                              | see [Configuring sampling rules](#configuring-sampling-rules) |
+| `secretProvider.create`<sup>1</sup>             | Specify whether a SecretProvider should be created                                                   | `false`                                                       |
+| `secretProvider.name` <sup>1</sup>              | Specify the name of your SecretProvider                                                              | `nil`                                                         |
+| `secretProvider.spec` <sup>1</sup>              | Specify the spec of your SecretProvider                                                              | `nil`                                                         |
+| `securityContext`                               | Security context for container                                                                       | `{}`                                                          |
+| `service.annotations`                           | Service annotations                                                                                  | `{}`                                                          |
+| `service.grpcPort`                              | Service port for data in OTLP format over gRPC                                                       | `4317`                                                        |
+| `service.labels`                                | Service labels                                                                                       | `{}`                                                          |
+| `service.port`                                  | Service port for data in Honeycomb format                                                            | `80`                                                          |
+| `service.type`                                  | Kubernetes Service type                                                                              | `ClusterIP`                                                   |
+| `serviceAccount.annotations`                    | Annotations to be applied to ServiceAccount                                                          | `{}`                                                          |
+| `serviceAccount.create`                         | Specify whether a ServiceAccount should be created                                                   | `true`                                                        |
+| `serviceAccount.labels`                         | Labels to be applied to ServiceAccount                                                               | `{}`                                                          |
+| `serviceAccount.name`                           | The name of the ServiceAccount to create                                                             | Generated using the `refinery.fullname` template              |
+| `tolerations`                                   | Tolerations for pod assignment                                                                       | `[]`                                                          |
+| `topologySpreadConstraints`                     | TopologySpreadConstraints for pod assignment                                                         | `[]`                                                          |
+| `deployMarker.enabled`                          | Enable sending deploy markers to Honeycomb                                                           | `false`                                                       |
+| `deployMarker.image.repository`                 | Honeymarker image repository                                                                         | `honeycombio/honeymarker`                                     |
+| `deployMarker.image.pullPolicy`                 | Honeymarker image pull policy                                                                        | `IfNotPresent`                                                |
+| `deployMarker.image.tag`                        | Honeymarker image tag (overrides default tag which is the chart version)                             | `latest`                                                      |
+| `deployMarker.honeycombAPI`                     | Honeycomb API endpoint                                                                               | `""`                                                          |
+| `deployMarker.honeycombDataset`                 | Honeycomb Dataset name                                                                               | `""`                                                          |
+| `deployMarker.environment`                      | Environment variables for Honeymarker (API Key, etc.)                                                | `{}`                                                          |
+| `deployMarker.volumes`                          | Volumes for Honeymarker                                                                              | `[]`                                                          |
+| `deployMarker.volumeMounts`                     | Volume mounts for Honeymarker                                                                        | `[]`                                                          |
 
 1. secretProvider functionality requires the [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
 

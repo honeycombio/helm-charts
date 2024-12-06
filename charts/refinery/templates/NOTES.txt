@@ -4,3 +4,7 @@ within a few minutes at https://ui.honeycomb.io
 {{- if and .Values.podDisruptionBudget.minAvailable .Values.podDisruptionBudget.maxUnavailable }}
   {{- fail "podDisruptionBudget.minAvailable and podDisruptionBudget.maxUnavailable cannot be both specified at the same time." }}
 {{- end }}
+
+{{- if and .Values.deployMarker.enabled (or (not .Values.deployMarker.honeycombAPI) (not .Values.deployMarker.honeycombDataset)) }}
+{{- fail "To enable deployMarker, you must set both deployMarker.honeycombAPI and deployMarker.honeycombDataset." }}
+{{- end }}

@@ -1,0 +1,48 @@
+{{- if .Values.deployMarker.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "refinery.fullname" . }}-deploy-marker
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "refinery.labels" . | nindent 4 }}
+
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ include "refinery.serviceAccountName" . }}
+      restartPolicy: Never
+      {{- with .Values.deployMarker.volumes }}
+      volumes:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-deploy-marker
+          image: "{{ .Values.deployMarker.image.repository }}:{{ .Values.deployMarker.image.tag }}"
+          imagePullPolicy: {{ .Values.deployMarker.image.pullPolicy }}
+
+          {{- with .Values.deployMarker.environment }}
+          env:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- with .Values.deployMarker.volumeMounts }}
+          volumeMounts:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          args:
+            - -k
+            - "$(REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY)"
+            - -d
+            - {{ .Values.deployMarker.honeycombDataset }}
+            - --api_host
+            - {{ .Values.deployMarker.honeycombAPI | quote }}
+            - add
+            - -m
+            - "Refinery {{ .Values.image.tag | default .Chart.AppVersion }}, Chart {{ .Chart.Version }}"
+            - -t
+            - deploy
+{{- end }}
