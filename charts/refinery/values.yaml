@@ -384,3 +384,27 @@ debug:
   # Only used if debug is enabled.
   # This value will be used to set config.DebugServiceAddr if it is not already set.
   port: 6060
+
+# This feature is EXPERIMENTAL and subject to breaking changes
+#
+# When enabled, the chart will use a post-install job to create a honeycomb marker
+# in the specified dataset to mark the install of the chart.
+deployMarker:
+  enabled: false
+  image:
+    repository: honeycombio/honeymarker
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is latest
+    tag: "latest"
+  honeycombAPI: ""
+  honeycombDataset: ""
+  # make sure to set REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY for sending markers to honeycomb
+  # For now we require an env var name `REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY` to contain the api key
+  environment: {}
+  # - name: REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: honeycombmarker
+  #       key: api-key
+  volumes: []
+  volumeMounts: []
