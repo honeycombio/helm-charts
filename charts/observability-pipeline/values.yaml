@@ -7,10 +7,32 @@ refinery:
       Enabled: false
     OTelMetrics:
       Enabled: true
-      APIHost: http://testing-otelcol-daemonset:4318
+  extraCommandArgs:
+    - "-c"
+    - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4321/config?kind=refinery_config'
+    - "-r"
+    - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4321/config?kind=refinery_rules'
+
+controlPlane:
+  image:
+    repository: ""
+    pullPolicy: IfNotPresent
+    tag: ""
+  endpoint: https://api.honeycomb.io:443
+  pipelineInstallationID: ""
+  team: ""
+  publicMgmtKey: ""
+  environment:
+    - name: HONEYCOMB_MGMT_API_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: honeycomb-observability-pipeline
+          key: management-api-secret
+  volumes: []
+  volumeMounts: []
 
 otelcol-deployment:
-  enabled: true
+  enabled: false
   mode: deployment
   image:
     repository: otel/opentelemetry-collector-k8s
@@ -114,7 +136,7 @@ otelcol-deployment:
       enabled: false
 
 otelcol-daemonset:
-  enabled: true
+  enabled: false
   mode: daemonset
   image:
     repository: otel/opentelemetry-collector-k8s

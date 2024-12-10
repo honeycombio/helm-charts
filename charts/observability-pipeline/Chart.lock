@@ -1,12 +1,12 @@
 dependencies:
 - name: refinery
   repository: https://honeycombio.github.io/helm-charts
-  version: 2.11.3
+  version: 2.15.0
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.105.0
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.105.0
-digest: sha256:02906726888b8b8ee186b7f125221a4094c434fa926aedbc4be3340e82d6c685
-generated: "2024-09-16T13:48:52.31186-06:00"
+digest: sha256:fbd9dea83b95f65a4885ebc999de77bc919b122bc17985e53c5656da5230b12a
+generated: "2024-12-12T14:37:51.931622-07:00"

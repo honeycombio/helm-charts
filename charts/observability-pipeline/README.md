@@ -13,7 +13,8 @@ Create a Kubernetes secret to store your API Key
 
 ```shell
 export HONEYCOMB_API_KEY=mykey
-kubectl create secret generic honeycomb --from-literal=api-key=$HONEYCOMB_API_KEY
+export HONEYCOMB_MGMT_API_SECRET=mymanagementkey
+kubectl create secret generic honeycomb-observability-pipeline --from-literal=api-key=$HONEYCOMB_API_KEY --from-literal=management-api-secret=$HONEYCOMB_MGMT_API_SECRET
 ```
 
 Add the Honeycomb Helm repository:
