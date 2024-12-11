@@ -73,7 +73,7 @@ spec:
             - -d
             {{- end }}
             {{- range .Values.extraCommandArgs }}
-            - {{ . }}
+            - {{ tpl . $ }}
             {{- end }}
           {{- with .Values.environment }}
           env:
