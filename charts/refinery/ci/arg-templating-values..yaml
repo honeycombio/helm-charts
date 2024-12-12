@@ -1,0 +1,11 @@
+resources:
+  limits:
+    cpu: 100m
+    memory: 200M
+  requests:
+    cpu: 100m
+    memory: 200M
+
+extraCommandArgs:
+  - "--logger-api-key"
+  - "{{ .Release.Name }}"

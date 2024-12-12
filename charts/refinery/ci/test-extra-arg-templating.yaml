@@ -1,3 +1,0 @@
-extraCommandArgs:
-  - "--logger-api-key"
-  - "{{ .Release.Name }}"
