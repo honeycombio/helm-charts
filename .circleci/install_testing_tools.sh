@@ -2,7 +2,7 @@
 
 set -o errexit
 
-readonly HELM_VERSION=3.9.4
+readonly HELM_VERSION=3.15.4
 readonly CHART_TESTING_VERSION=3.11.0
 readonly YAMLLINT_VERSION=1.35.1
 readonly YAMALE_VERSION=5
