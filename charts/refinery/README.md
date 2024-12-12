@@ -104,9 +104,16 @@ broken traces should traffic rapidly go up and down.
 
 Autoscaling of refinery is configured using the `autoscaling` setting.
 
-### Deploy Marker
+### Create Markers on Deploy
 
-It is helpful to track when a Refinery deployment occurred while viewing Refinery metrics in Honeycomb. This Helm chart supports sending a deploy marker to Honeycomb that includes the deployed Refinery version and the chart version.
+⚠️ **Experimental:** this feature is under development.
+The shape of the configuration and the deploy marker behavior may change or disappear without being reflected as a breaking change in the chart's version number.
+
+This chart can create markers in a Honeycomb dataset when `helm install` or `helm upgrade` are run.
+The marker created includes the time the chart was run, chart version, and the deployed Refinery version.
+Note: currently, a marker will be created whenever the chart is installed or upgraded, regardless of whether there are state changes in the cluster as a result.
+
+If you have [Refinery metrics](#refinery-metrics) enabled and sending to Honeycomb, to see deploy markers along with those metrics, enable this feature and give the `honeycombDataset:` option below the same name as the dataset receiving metrics.
 
 To enable the deploy marker, configure the following options in the chart:
 
