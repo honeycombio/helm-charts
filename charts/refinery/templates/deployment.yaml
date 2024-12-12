@@ -72,8 +72,8 @@ spec:
             {{- if .Values.debug.enabled }}
             - -d
             {{- end }}
-            {{- range .Values.extraCommandArgs }}
-            - {{ . }}
+            {{- with .Values.extraCommandArgs }}
+              {{- tpl (. | toYaml) $ | nindent 12 }}
             {{- end }}
           {{- with .Values.environment }}
           env:
