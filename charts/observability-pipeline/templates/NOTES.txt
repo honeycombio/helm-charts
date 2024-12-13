@@ -1,0 +1,33 @@
+Honeycomb Observability Pipeline is setup and configured.
+
+{{- if .Values.refinery.enabled }}
+
+  {{- if (not .Values.controlPlane.image.repository) }}
+    {{- fail "controlPlane.image.repository must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.image.tag) }}
+    {{- fail "controlPlane.image.tag must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.endpoint) }}
+    {{- fail "controlPlane.endpoint must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.pipelineInstallationID) }}
+    {{- fail "controlPlane.pipelineInstallationID must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.team) }}
+    {{- fail "controlPlane.team must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.publicMgmtKey) }}
+    {{- fail "controlPlane.publicMgmtKey must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.controlPlane.environment) }}
+    {{- fail "controlPlane.environment must be set to supply the HONEYCOMB_AUTH_HEADER environment variable" }}
+  {{- end }}
+
+{{- end }}

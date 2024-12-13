@@ -1,0 +1,51 @@
+{{- if .Values.refinery.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "honeycomb-observability-pipeline.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: control-plane
+    spec:
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
+          imagePullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
+          env:
+            - name: HONEYCOMB_API
+              value: {{ .Values.controlPlane.endpoint }}
+            - name: HONEYCOMB_TEAM
+              value: {{ .Values.controlPlane.team }}
+            - name: HONEYCOMB_CONFIGURATION_ID
+              value: {{ .Values.controlPlane.pipelineInstallationID }}
+            - name: HONEYCOMB_MGMT_API_KEY
+              value: {{ .Values.controlPlane.publicMgmtKey }}
+            {{- with .Values.controlPlane.environment }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- with .Values.controlPlane.volumeMounts }}
+          volumeMounts:
+          {{- toYaml . | nindent 12 }}
+          {{- end }}        
+          ports:
+            - name: config
+              containerPort: 4321
+              protocol: TCP
+      {{- with .Values.controlPlane.volumes }}
+      volumes:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
