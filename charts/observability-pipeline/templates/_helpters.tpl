@@ -58,3 +58,14 @@ Selector labels
 app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-control-plane
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Create the name of the service account to use for the control plane
+*/}}
+{{- define "honeycomb-observability-pipeline.serviceAccountName" -}}
+{{- if .Values.controlPlane.serviceAccount.create }}
+{{- default (printf "%s-control-plane" (include "honeycomb-observability-pipeline.fullname" .)) .Values.controlPlane.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.controlPlane.serviceAccount.name }}
+{{- end }}
+{{- end }}

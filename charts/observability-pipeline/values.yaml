@@ -14,6 +14,9 @@ refinery:
     - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4321/config?kind=refinery_rules'
 
 controlPlane:
+  serviceAccount:
+    create: true
+    name: ""
   image:
     repository: ""
     pullPolicy: IfNotPresent

@@ -19,7 +19,7 @@ spec:
         {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: control-plane
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
