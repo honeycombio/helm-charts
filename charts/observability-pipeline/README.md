@@ -1,5 +1,8 @@
 # Honeycomb Observability Pipeline
 
+> [!WARNING]  
+> This is an experimental helm chart that is still under development. Breaking changes may be made without warning.
+
 This is a WIP helm chart that can install both the OpenTelemetry Collector and Honeycomb Refinery.
 
 ## Prerequisites
