@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "honeycomb-observability-pipeline.labels" . | nindent 4 }}
+    app.kubernetes.io/component: control-plane
 spec:
   replicas: 1
   selector:
@@ -24,6 +25,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
           imagePullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
+          {{- if .Values.controlPlane.telemetry.enabled }}
+          args:
+            - -otel-config
+            - /etc/straws-control-plane/otel-config.yaml
+          {{- end }}
           env:
             - name: HONEYCOMB_API
               value: {{ .Values.controlPlane.endpoint }}
@@ -36,16 +42,32 @@ spec:
             {{- with .Values.controlPlane.environment }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- with .Values.controlPlane.volumeMounts }}
+          {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
           volumeMounts:
-          {{- toYaml . | nindent 12 }}
-          {{- end }}        
+          {{- if .Values.controlPlane.telemetry.enabled }}
+            - name: otel-config
+              mountPath: /etc/straws-control-plane
+          {{- end }}  
+          {{- with .Values.controlPlane.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}            
           ports:
             - name: config
               containerPort: 4321
               protocol: TCP
-      {{- with .Values.controlPlane.volumes }}
+      {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
       volumes:
-      {{- toYaml . | nindent 8 }}
+      {{- if .Values.controlPlane.telemetry.enabled }}
+        - name: otel-config
+          configMap:
+            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+            items:
+              - key: otel-config
+                path: otel-config.yaml
+      {{- end }}  
+      {{- with .Values.controlPlane.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
 {{- end }}

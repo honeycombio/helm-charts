@@ -69,3 +69,11 @@ Create the name of the service account to use for the control plane
 {{- default "default" .Values.controlPlane.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Build otel config file for Control Plane
+*/}}
+{{- define "honeycomb-observability-pipeline.controlPlaneOTelConfig" -}}
+{{- tpl (toYaml .Values.controlPlane.telemetry.config) . }}
+{{- end }}
+
