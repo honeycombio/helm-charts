@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "refinery.fullname" . }}-deploy-marker
+  name: {{ include "refinery.fullname" . }}-deploy-marker-{{ randAlphaNum 5 | lower }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "refinery.labels" . | nindent 4 }}
@@ -15,6 +15,10 @@ spec:
     spec:
       serviceAccountName: {{ include "refinery.serviceAccountName" . }}
       restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.deployMarker.volumes }}
       volumes:
       {{- toYaml . | nindent 8 }}
