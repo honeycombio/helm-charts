@@ -31,8 +31,35 @@ controlPlane:
         secretKeyRef:
           name: honeycomb-observability-pipeline
           key: management-api-secret
+    - name: HONEYCOMB_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: honeycomb-observability-pipeline
+          key: api-key
   volumes: []
   volumeMounts: []
+  telemetry:
+    enabled: false
+    config:
+      file_format: "0.3"
+      resource:
+        schema_url: https://opentelemetry.io/schemas/1.26.0
+        attributes:
+          - name: service.name
+            value: "straws-control-plane"
+          - name: service.version
+            value: "0.0.1"
+      propagator:
+        composite:
+          - tracecontext
+          - baggage
+      tracer_provider:
+        processors:
+          - batch:
+              exporter:
+                otlp:
+                  protocol: http/protobuf
+                  endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
 
 otelcol-deployment:
   enabled: false
@@ -43,7 +70,7 @@ otelcol-deployment:
     - name: HONEYCOMB_API_KEY
       valueFrom:
         secretKeyRef:
-          name: honeycomb
+          name: honeycomb-observability-pipeline
           key: api-key
   # We only want one of these collectors - any more and we'd produce duplicate data
   replicaCount: 1

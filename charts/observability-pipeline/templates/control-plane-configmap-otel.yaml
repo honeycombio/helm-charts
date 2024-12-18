@@ -1,0 +1,13 @@
+{{- if and .Values.refinery.enabled .Values.controlPlane.telemetry.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "honeycomb-observability-pipeline.labels" . | nindent 4 }}
+    app.kubernetes.io/component: control-plane
+data:
+  otel-config: |
+  {{- include "honeycomb-observability-pipeline.controlPlaneOTelConfig" . | nindent 4 -}}
+{{- end }}
