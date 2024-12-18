@@ -42,6 +42,10 @@ spec:
             {{- with .Values.controlPlane.environment }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- with .Values.controlPlane.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
           volumeMounts:
           {{- if .Values.controlPlane.telemetry.enabled }}
