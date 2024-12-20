@@ -7,6 +7,12 @@ refinery:
       Enabled: false
     OTelMetrics:
       Enabled: true
+  environment:
+    - name: REFINERY_HONEYCOMB_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: honeycomb-observability-pipeline
+          key: api-key
   extraCommandArgs:
     - "-c"
     - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4321/config?kind=refinery_config'
