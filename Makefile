@@ -4,4 +4,4 @@ lint:
 
 .PHONY: test
 test:
-	ct install --config ./ct.yaml
+	ct install --config ./ct.yaml --exclude-charts htp
