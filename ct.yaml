@@ -4,6 +4,7 @@ target-branch: main
 chart-repos:
   - honeycomb=https://honeycombio.github.io/helm-charts
   - open-telemetry=https://open-telemetry.github.io/opentelemetry-helm-charts
+  - bindplane=https://observiq.github.io/bindplane-op-helm
 chart-dirs:
   - charts
 helm-extra-args: --timeout 120s
