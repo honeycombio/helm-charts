@@ -1,4 +1,11 @@
 htp:
+  config:
+    # Basic auth username to use for the default admin user
+    username: 'admin'
+    # Basic auth password to use for the default admin user
+    password: 'admin'
+    # Honeycomb HTP License Key
+    license: 'FAKE'
   resources:
     requests:
       memory: 100Mi
