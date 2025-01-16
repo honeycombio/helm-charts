@@ -1,0 +1,25 @@
+# See https://github.com/observIQ/bindplane-op-helm/blob/main/charts/bindplane/values.yaml
+# for all available values.
+htp:
+  config:
+    # Basic auth username to use for the default admin user
+    username: ''
+    # Basic auth password to use for the default admin user
+    password: ''
+    # Random UUIDv4 used to derive web interface session tokens
+    sessions_secret: ''
+    # Honeycomb HTP License Key
+    license: ''
+    # set to true to use secret for license
+    licenseUseSecret: 'true'
+    # name of secret containing license, username, password, sessions_secret
+    secret: 'hny-secrets'
+
+  # Resources allocated to OP Server.
+  resources: {}
+    # requests:
+    #   memory: 4Gi
+    #   cpu: 2
+    # limits:
+    #   memory: 4Gi
+    #   cpu: 2
