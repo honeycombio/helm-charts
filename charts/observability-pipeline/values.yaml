@@ -67,6 +67,13 @@ controlPlane:
                 otlp:
                   protocol: http/protobuf
                   endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
+      logger_provider:
+        processors:
+          - batch:
+              exporter:
+                otlp:
+                  protocol: http/protobuf
+                  endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
 
 otelcol-deployment:
   enabled: false
