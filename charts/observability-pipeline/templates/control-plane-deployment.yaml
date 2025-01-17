@@ -35,7 +35,7 @@ spec:
               value: {{ .Values.controlPlane.endpoint }}
             - name: HONEYCOMB_TEAM
               value: {{ .Values.controlPlane.team }}
-            - name: HONEYCOMB_CONFIGURATION_ID
+            - name: HONEYCOMB_INSTALLATION_ID
               value: {{ .Values.controlPlane.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
               value: {{ .Values.controlPlane.publicMgmtKey }}
