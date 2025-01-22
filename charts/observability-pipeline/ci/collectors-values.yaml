@@ -1,6 +1,9 @@
 refinery:
   enabled: false
 
+collector:
+  enabled: false
+
 otelcol-deployment:
   enabled: true
   extraEnvs: []
