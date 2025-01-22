@@ -75,6 +75,31 @@ controlPlane:
                   protocol: http/protobuf
                   endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
 
+collector:
+  enabled: true
+  serviceAccount:
+    create: true
+    name: ""
+  service:
+    enabled: true
+    ports:
+      - name: otlp
+        port: 4317
+        targetPort: 4317
+        protocol: TCP
+        appProtocol: grpc
+      - name: otlp-http
+        port: 4318
+        targetPort: 4318
+        protocol: TCP
+  resources: {}
+  replicaCount: 2
+  image:
+    repository: ""
+    pullPolicy: IfNotPresent
+    tag: ""
+
+
 otelcol-deployment:
   enabled: false
   mode: deployment

@@ -5,22 +5,22 @@ metadata:
   name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.labels" . | nindent 4 }}
+    {{- include "honeycomb-observability-pipeline.controlPlane.labels" . | nindent 4 }}
     app.kubernetes.io/component: control-plane
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 6 }}
+      {{- include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 8 }}
+        {{- include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: control-plane
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.serviceAccountName" . }}
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.controlPlane.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
@@ -59,6 +59,9 @@ spec:
           ports:
             - name: config
               containerPort: 4321
+              protocol: TCP
+            - name: opamp
+              containerPort: 4320
               protocol: TCP
       {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
       volumes:

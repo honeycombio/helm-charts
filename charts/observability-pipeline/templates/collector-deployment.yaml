@@ -1,0 +1,45 @@
+{{- if .Values.collector.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-collector
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "honeycomb-observability-pipeline.collector.labels" . | nindent 4 }}
+    app.kubernetes.io/component: collector
+spec:
+  replicas: {{ .Values.collector.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "honeycomb-observability-pipeline.collector.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "honeycomb-observability-pipeline.collector.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: collector
+    spec:
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.collector.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.collector.image.repository }}:{{ .Values.collector.image.tag }}"
+          imagePullPolicy: {{ .Values.collector.image.pullPolicy }}
+          args:
+            - --config
+            - /etc/opampsupervisor/config.yaml
+          {{- with .Values.collector.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/opampsupervisor
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-collector
+            items:
+              - key: config
+                path: config.yaml
+{{- end }}

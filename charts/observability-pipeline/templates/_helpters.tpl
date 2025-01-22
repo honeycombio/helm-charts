@@ -40,11 +40,11 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Common labels
+Common control plane labels
 */}}
-{{- define "honeycomb-observability-pipeline.labels" -}}
+{{- define "honeycomb-observability-pipeline.controlPlane.labels" -}}
 helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipeline.selectorLabels" . }}
+{{ include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -52,9 +52,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels
+Control Plane Selector labels
 */}}
-{{- define "honeycomb-observability-pipeline.selectorLabels" -}}
+{{- define "honeycomb-observability-pipeline.controlPlane.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-control-plane
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
@@ -62,7 +62,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Create the name of the service account to use for the control plane
 */}}
-{{- define "honeycomb-observability-pipeline.serviceAccountName" -}}
+{{- define "honeycomb-observability-pipeline.controlPlane.serviceAccountName" -}}
 {{- if .Values.controlPlane.serviceAccount.create }}
 {{- default (printf "%s-control-plane" (include "honeycomb-observability-pipeline.fullname" .)) .Values.controlPlane.serviceAccount.name }}
 {{- else }}
@@ -77,3 +77,59 @@ Build otel config file for Control Plane
 {{- tpl (toYaml .Values.controlPlane.telemetry.config) . }}
 {{- end }}
 
+{{/*
+Build config file for collector
+*/}}
+{{- define "honeycomb-observability-pipeline.collectorConfig" -}}
+server:
+  endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4320/v1/opamp
+  tls:
+    # Disable verification to test locally.
+    # Don't do this in production.
+    insecure_skip_verify: true
+    # For more TLS settings see config/configtls.ClientConfig
+
+capabilities:
+  reports_effective_config: true
+  reports_own_metrics: false
+  reports_health: true
+  accepts_remote_config: true
+  reports_remote_config: true
+
+agent:
+  executable: /otelcol-contrib
+
+storage:
+  directory: /var/lib/otelcol/supervisor
+{{- end }}
+
+{{/*
+Create the name of the service account to use for the collector
+*/}}
+{{- define "honeycomb-observability-pipeline.collector.serviceAccountName" -}}
+{{- if .Values.collector.serviceAccount.create }}
+{{- default (printf "%s-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.collector.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.collector.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Common collector labels
+*/}}
+{{- define "honeycomb-observability-pipeline.collector.labels" -}}
+helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
+{{ include "honeycomb-observability-pipeline.collector.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Collector Selector labels
+*/}}
+{{- define "honeycomb-observability-pipeline.collector.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-collector
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
