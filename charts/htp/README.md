@@ -16,21 +16,6 @@ Kubernetes 1.24+
 helm repo add honeycomb https://honeycombio.github.io/helm-charts
 ```
 
-### Install helm chart with hard-coded secrets
-
-The easiest way to install the chart is by setting the license key directly:
-
-```sh
-export LICENSE_KEY='your-license-key'
-
-helm install htp honeycomb/htp \
-  --set htp.config.licenseUseSecret=false \
-  --set htp.config.license=$LICENSE_KEY \
-  --set htp.config.username='admin' \
-  --set htp.config.password='admin' \
-  --set htp.config.sessions_secret=$(uuidgen)
-```
-
 ### Install helm chart with secret
 
 The best practice is to manage your secret separately.
@@ -41,11 +26,22 @@ export LICENSE_KEY='your-license-key'
 
 kubectl create secret generic hny-secrets \
   --from-literal=license=$LICENSE_KEY \
-  --from-literal=username=admin \
-  --from-literal=password=admin \
   --from-literal=sessions_secret=$(uuidgen)
 
 helm install htp honeycomb/htp
+```
+
+### Install helm chart with hard-coded secrets
+
+If you cannot use secrets you can set the license key directly when installing the chart:
+
+```sh
+export LICENSE_KEY='your-license-key'
+
+helm install htp honeycomb/htp \
+  --set htp.config.licenseUseSecret=false \
+  --set htp.config.license=$LICENSE_KEY \
+  --set htp.config.sessions_secret=$(uuidgen)
 ```
 
 ### Port-forward to view in UI
@@ -53,6 +49,8 @@ helm install htp honeycomb/htp
 ```sh
 kubectl port-forward svc/htp 3001
 ```
+
+By default the helm chart sets the username to `admin` and the password to `admin`.
 
 ## Values
 
