@@ -18,7 +18,6 @@ helm repo add honeycomb https://honeycombio.github.io/helm-charts
 
 ### Install helm chart with secret
 
-The best practice is to manage your secret separately.
 The chart is set up to look for a secret called `hny-secrets`.
 
 ```sh
