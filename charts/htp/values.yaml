@@ -12,7 +12,7 @@ htp:
     license: ''
     # set to true to use secret for license
     licenseUseSecret: 'true'
-    # name of secret containing license, username, password, sessions_secret
+    # name of secret containing license, sessions_secret
     secret: 'hny-secrets'
 
   # Resources allocated to OP Server.
