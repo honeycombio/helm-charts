@@ -3,16 +3,16 @@
 htp:
   config:
     # Basic auth username to use for the default admin user
-    username: ''
+    username: 'admin'
     # Basic auth password to use for the default admin user
-    password: ''
+    password: 'admin'
     # Random UUIDv4 used to derive web interface session tokens
     sessions_secret: ''
     # Honeycomb HTP License Key
     license: ''
     # set to true to use secret for license
     licenseUseSecret: 'true'
-    # name of secret containing license, username, password, sessions_secret
+    # name of secret containing license, sessions_secret
     secret: 'hny-secrets'
 
   # Resources allocated to OP Server.
