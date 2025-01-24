@@ -28,6 +28,10 @@ spec:
           args:
             - --config
             - /etc/opampsupervisor/config.yaml
+          {{- with .Values.collector.environment }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.collector.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -35,6 +39,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/opampsupervisor
+          {{- with .Values.controlPlane.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -42,4 +49,7 @@ spec:
             items:
               - key: config
                 path: config.yaml
+      {{- with .Values.collector.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

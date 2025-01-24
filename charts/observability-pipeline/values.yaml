@@ -98,6 +98,14 @@ collector:
     repository: ""
     pullPolicy: IfNotPresent
     tag: ""
+  environment:
+    - name: HONEYCOMB_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: honeycomb-observability-pipeline
+          key: api-key
+  volumes: []
+  volumeMounts: []
 
 
 otelcol-deployment:
