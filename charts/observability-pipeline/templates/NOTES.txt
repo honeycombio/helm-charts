@@ -31,3 +31,15 @@ Honeycomb Observability Pipeline is setup and configured.
   {{- end }}
 
 {{- end }}
+
+{{- if .Values.collector.enabled }}
+
+  {{- if (not .Values.collector.image.repository) }}
+    {{- fail "collector.image.repository must be set" }}
+  {{- end }}
+
+  {{- if (not .Values.collector.image.tag) }}
+    {{- fail "collector.image.tag must be set" }}
+  {{- end }}
+
+{{- end }}

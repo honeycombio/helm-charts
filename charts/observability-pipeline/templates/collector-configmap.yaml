@@ -1,0 +1,13 @@
+{{- if and .Values.collector.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-collector
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "honeycomb-observability-pipeline.collector.labels" . | nindent 4 }}
+    app.kubernetes.io/component: collector
+data:
+  config: |
+  {{- include "honeycomb-observability-pipeline.collectorConfig" . | nindent 4 -}}
+{{- end }}

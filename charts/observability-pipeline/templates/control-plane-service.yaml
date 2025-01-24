@@ -5,7 +5,7 @@ metadata:
   name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.labels" . | nindent 4 }}
+    {{- include "honeycomb-observability-pipeline.controlPlane.labels" . | nindent 4 }}
     app.kubernetes.io/component: control-plane
 spec:
   type: ClusterIP
@@ -14,6 +14,10 @@ spec:
       targetPort: "config"
       protocol: TCP
       name: config
+    - port: 4320
+      targetPort: "opamp"
+      protocol: TCP
+      name: opamp
   selector:
-    {{- include "honeycomb-observability-pipeline.selectorLabels" . | nindent 4 }}
+    {{- include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . | nindent 4 }}
 {{- end }}
