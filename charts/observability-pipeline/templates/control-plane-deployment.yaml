@@ -25,10 +25,14 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
           imagePullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
-          {{- if .Values.controlPlane.telemetry.enabled }}
           args:
+          {{- if .Values.controlPlane.telemetry.enabled }}
             - -otel-config
             - /etc/straws-control-plane/otel-config.yaml
+          {{- end }}
+          {{- if .Values.controlPlane.persistentVolumeClaimName }}
+            - -config-cache-path
+            - /app/straws-control-plane/cache
           {{- end }}
           env:
             - name: HONEYCOMB_API
@@ -52,6 +56,11 @@ spec:
             - name: otel-config
               mountPath: /etc/straws-control-plane
           {{- end }}  
+          {{- if .Values.controlPlane.persistentVolumeClaimName }}
+            - name: latest-config-cache
+              mountPath: /app/straws-control-plane/cache
+              readonly: false
+          {{- end }}
           {{- with .Values.controlPlane.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -73,6 +82,10 @@ spec:
               - key: otel-config
                 path: otel-config.yaml
       {{- end }}  
+      {{- if .Values.controlPlane.persistentVolumeClaimName }}
+        - name: latest-config-cache
+          persistentVolumeClaimName: {{ .Values.controlPlane.persistentVolumeClaimName }}
+      {{- end }}
       {{- with .Values.controlPlane.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
