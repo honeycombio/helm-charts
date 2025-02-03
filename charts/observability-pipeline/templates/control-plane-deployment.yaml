@@ -50,7 +50,7 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
+          {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
           volumeMounts:
           {{- if .Values.controlPlane.telemetry.enabled }}
             - name: otel-config
@@ -72,7 +72,7 @@ spec:
             - name: opamp
               containerPort: 4320
               protocol: TCP
-      {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled }}
+      {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
       volumes:
       {{- if .Values.controlPlane.telemetry.enabled }}
         - name: otel-config
