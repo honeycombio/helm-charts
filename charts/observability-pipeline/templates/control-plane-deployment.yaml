@@ -25,6 +25,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
           imagePullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
+          {{- if or .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
           args:
           {{- if .Values.controlPlane.telemetry.enabled }}
             - -otel-config
@@ -33,6 +34,7 @@ spec:
           {{- if .Values.controlPlane.persistentVolumeClaimName }}
             - -config-cache-path
             - /app/straws-control-plane/cache
+          {{- end }}
           {{- end }}
           env:
             - name: HONEYCOMB_API
