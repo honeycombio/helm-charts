@@ -32,6 +32,7 @@ controlPlane:
   pipelineInstallationID: ""
   team: ""
   publicMgmtKey: ""
+  persistentVolumeClaimName: ""
   environment:
     - name: HONEYCOMB_MGMT_API_SECRET
       valueFrom:
