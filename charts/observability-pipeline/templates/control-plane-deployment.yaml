@@ -2,68 +2,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-beekeeper
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.controlPlane.labels" . | nindent 4 }}
-    app.kubernetes.io/component: control-plane
+    {{- include "honeycomb-observability-pipeline.beekeeper.labels" . | nindent 4 }}
+    app.kubernetes.io/component: beekeeper
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . | nindent 6 }}
+      {{- include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{- include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: control-plane
+        {{- include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: beekeeper
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.controlPlane.serviceAccountName" . }}
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.beekeeper.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.controlPlane.image.repository }}:{{ .Values.controlPlane.image.tag }}"
-          imagePullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
-          {{- if or .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
+          image: "{{ .Values.beekeeper.image.repository }}:{{ .Values.beekeeper.image.tag }}"
+          imagePullPolicy: {{ .Values.beekeeper.image.pullPolicy }}
+          {{- if or .Values.beekeeper.telemetry.enabled .Values.beekeeper.persistentVolumeClaimName }}
           args:
-          {{- if .Values.controlPlane.telemetry.enabled }}
+          {{- if .Values.beekeeper.telemetry.enabled }}
             - -otel-config
-            - /etc/straws-control-plane/otel-config.yaml
+            - /etc/beekeeper/otel-config.yaml
           {{- end }}
-          {{- if .Values.controlPlane.persistentVolumeClaimName }}
+          {{- if .Values.beekeeper.persistentVolumeClaimName }}
             - -config-cache-path
-            - /app/straws-control-plane/cache
+            - /app/beekeeper/cache
           {{- end }}
           {{- end }}
           env:
             - name: HONEYCOMB_API
-              value: {{ .Values.controlPlane.endpoint }}
+              value: {{ .Values.beekeeper.endpoint }}
             - name: HONEYCOMB_TEAM
-              value: {{ .Values.controlPlane.team }}
+              value: {{ .Values.beekeeper.team }}
             - name: HONEYCOMB_INSTALLATION_ID
-              value: {{ .Values.controlPlane.pipelineInstallationID }}
+              value: {{ .Values.beekeeper.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
-              value: {{ .Values.controlPlane.publicMgmtKey }}
-            {{- with .Values.controlPlane.environment }}
+              value: {{ .Values.beekeeper.publicMgmtKey }}
+            {{- with .Values.beekeeper.environment }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- with .Values.controlPlane.resources }}
+          {{- with .Values.beekeeper.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
+          {{- if or .Values.beekeeper.volumeMounts .Values.beekeeper.telemetry.enabled .Values.beekeeper.persistentVolumeClaimName }}
           volumeMounts:
-          {{- if .Values.controlPlane.telemetry.enabled }}
+          {{- if .Values.beekeeper.telemetry.enabled }}
             - name: otel-config
-              mountPath: /etc/straws-control-plane
+              mountPath: /etc/beekeeper
           {{- end }}  
-          {{- if .Values.controlPlane.persistentVolumeClaimName }}
+          {{- if .Values.beekeeper.persistentVolumeClaimName }}
             - name: latest-config-cache
-              mountPath: /app/straws-control-plane/cache
+              mountPath: /app/beekeeper/cache
               readonly: false
           {{- end }}
-          {{- with .Values.controlPlane.volumeMounts }}
+          {{- with .Values.beekeeper.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- end }}
@@ -74,21 +74,21 @@ spec:
             - name: opamp
               containerPort: 4320
               protocol: TCP
-      {{- if or .Values.controlPlane.volumeMounts .Values.controlPlane.telemetry.enabled .Values.controlPlane.persistentVolumeClaimName }}
+      {{- if or .Values.beekeeper.volumeMounts .Values.beekeeper.telemetry.enabled .Values.beekeeper.persistentVolumeClaimName }}
       volumes:
-      {{- if .Values.controlPlane.telemetry.enabled }}
+      {{- if .Values.beekeeper.telemetry.enabled }}
         - name: otel-config
           configMap:
-            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-beekeeper
             items:
               - key: otel-config
                 path: otel-config.yaml
       {{- end }}  
-      {{- if .Values.controlPlane.persistentVolumeClaimName }}
+      {{- if .Values.beekeeper.persistentVolumeClaimName }}
         - name: latest-config-cache
-          persistentVolumeClaimName: {{ .Values.controlPlane.persistentVolumeClaimName }}
+          persistentVolumeClaimName: {{ .Values.beekeeper.persistentVolumeClaimName }}
       {{- end }}
-      {{- with .Values.controlPlane.volumes }}
+      {{- with .Values.beekeeper.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}

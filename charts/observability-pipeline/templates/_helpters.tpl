@@ -40,11 +40,11 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Common control plane labels
+Common beekeeper labels
 */}}
-{{- define "honeycomb-observability-pipeline.controlPlane.labels" -}}
+{{- define "honeycomb-observability-pipeline.beekeeper.labels" -}}
 helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipeline.controlPlane.selectorLabels" . }}
+{{ include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -52,29 +52,29 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Control Plane Selector labels
+Beekeeper Selector labels
 */}}
-{{- define "honeycomb-observability-pipeline.controlPlane.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-control-plane
+{{- define "honeycomb-observability-pipeline.beekeeper.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-beekeeper
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use for the control plane
+Create the name of the service account to use for beekeeper
 */}}
-{{- define "honeycomb-observability-pipeline.controlPlane.serviceAccountName" -}}
-{{- if .Values.controlPlane.serviceAccount.create }}
-{{- default (printf "%s-control-plane" (include "honeycomb-observability-pipeline.fullname" .)) .Values.controlPlane.serviceAccount.name }}
+{{- define "honeycomb-observability-pipeline.beekeeper.serviceAccountName" -}}
+{{- if .Values.beekeeper.serviceAccount.create }}
+{{- default (printf "%s-beekeeper" (include "honeycomb-observability-pipeline.fullname" .)) .Values.beekeeper.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.controlPlane.serviceAccount.name }}
+{{- default "default" .Values.beekeeper.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
 {{/*
-Build otel config file for Control Plane
+Build otel config file for beekeeper
 */}}
-{{- define "honeycomb-observability-pipeline.controlPlaneOTelConfig" -}}
-{{- tpl (toYaml .Values.controlPlane.telemetry.config) . }}
+{{- define "honeycomb-observability-pipeline.beekeeperOTelConfig" -}}
+{{- tpl (toYaml .Values.beekeeper.telemetry.config) . }}
 {{- end }}
 
 {{/*
@@ -82,7 +82,7 @@ Build config file for collector
 */}}
 {{- define "honeycomb-observability-pipeline.collectorConfig" -}}
 server:
-  endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-control-plane:4320/v1/opamp
+  endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4320/v1/opamp
   tls:
     # Disable verification to test locally.
     # Don't do this in production.
