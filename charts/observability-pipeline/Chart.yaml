@@ -26,12 +26,12 @@ dependencies:
   repository: "https://honeycombio.github.io/helm-charts"
   condition: refinery.enabled
 - name: opentelemetry-collector
-  version: 0.118.0
+  version: 0.111.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-deployment
   condition: otelcol-deployment.enabled
 - name: opentelemetry-collector
-  version: 0.118.0
+  version: 0.111.0
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-daemonset
   condition: otelcol-daemonset.enabled
