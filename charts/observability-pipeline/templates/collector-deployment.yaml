@@ -39,7 +39,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/opampsupervisor
-          {{- with .Values.controlPlane.volumeMounts }}
+          {{- with .Values.beekeeper.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:

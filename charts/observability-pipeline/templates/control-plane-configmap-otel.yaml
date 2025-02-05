@@ -1,13 +1,13 @@
-{{- if and .Values.refinery.enabled .Values.controlPlane.telemetry.enabled }}
+{{- if and .Values.refinery.enabled .Values.beekeeper.telemetry.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-control-plane
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-beekeeper
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.controlPlane.labels" . | nindent 4 }}
-    app.kubernetes.io/component: control-plane
+    {{- include "honeycomb-observability-pipeline.beekeeper.labels" . | nindent 4 }}
+    app.kubernetes.io/component: beekeeper
 data:
   otel-config: |
-  {{- include "honeycomb-observability-pipeline.controlPlaneOTelConfig" . | nindent 4 -}}
+  {{- include "honeycomb-observability-pipeline.beekeeperOTelConfig" . | nindent 4 -}}
 {{- end }}
