@@ -27,7 +27,7 @@ kubectl create secret generic hny-secrets \
   --from-literal=license=$LICENSE_KEY \
   --from-literal=sessions_secret=$(uuidgen) \
   --from-literal=username=admin \
-  --from-literal=password=admin \
+  --from-literal=password=admin
 
 helm install htp honeycomb/htp
 ```
@@ -44,7 +44,7 @@ helm install htp honeycomb/htp \
   --set htp.config.license=$LICENSE_KEY \
   --set htp.config.sessions_secret=$(uuidgen) \
   --set htp.config.username='admin' \
-  --set htp.config.password='admin' \
+  --set htp.config.password='admin'
 ```
 
 ### Port-forward to view in UI
