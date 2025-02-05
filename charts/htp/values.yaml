@@ -3,9 +3,9 @@
 htp:
   config:
     # Basic auth username to use for the default admin user
-    username: 'admin'
+    username: ''
     # Basic auth password to use for the default admin user
-    password: 'admin'
+    password: ''
     # Random UUIDv4 used to derive web interface session tokens
     sessions_secret: ''
     # Honeycomb HTP License Key
