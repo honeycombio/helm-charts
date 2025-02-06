@@ -45,6 +45,10 @@ spec:
               value: {{ .Values.beekeeper.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
               value: {{ .Values.beekeeper.publicMgmtKey }}
+            {{- if .Values.beekeeper.telemetry.enabled }}
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: pipelineInstallationID={{ .Values.beekeeper.pipelineInstallationID }}
+            {{- end }}
             {{- with .Values.beekeeper.environment }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
