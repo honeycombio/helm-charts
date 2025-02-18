@@ -98,6 +98,10 @@ capabilities:
 
 agent:
   executable: /otelcol-contrib
+  description:
+    identifying_attributes:
+      service.name: collector
+
 
 storage:
   directory: /var/lib/otelcol/supervisor
