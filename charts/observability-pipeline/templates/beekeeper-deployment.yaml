@@ -16,6 +16,8 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      annotations:
+        {{- include "honeycomb-observability-pipeline.beekeeper.configTemplateChecksumAnnotation" . | nindent 8 }}
       labels:
         {{- include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: beekeeper
