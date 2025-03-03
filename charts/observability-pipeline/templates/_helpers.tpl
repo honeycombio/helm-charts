@@ -78,6 +78,13 @@ Build otel config file for beekeeper
 {{- end }}
 
 {{/*
+Create ConfigMap checksum annotation if configMap.existingPath is defined, otherwise use default templates
+*/}}
+{{- define "honeycomb-observability-pipeline.beekeeper.configTemplateChecksumAnnotation" -}}
+  checksum/config: {{ include (print $.Template.BasePath "/beekeeper-configmap-otel.yaml") . | sha256sum }}
+{{- end }}
+
+{{/*
 Build config file for collector
 */}}
 {{- define "honeycomb-observability-pipeline.collectorConfig" -}}
@@ -136,4 +143,11 @@ Collector Selector labels
 {{- define "honeycomb-observability-pipeline.collector.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-collector
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create ConfigMap checksum annotation if configMap.existingPath is defined, otherwise use default templates
+*/}}
+{{- define "honeycomb-observability-pipeline.collector.configTemplateChecksumAnnotation" -}}
+  checksum/config: {{ include (print $.Template.BasePath "/collector-configmap.yaml") . | sha256sum }}
 {{- end }}

@@ -2,7 +2,7 @@ apiVersion: v2
 name: observability-pipeline
 description: Chart to deploy both OpenTelemetry Collector and Honeycomb Refinery
 type: application
-version: 0.0.14-alpha
+version: 0.0.15-alpha
 appVersion: 0.0.1-alpha
 keywords:
   - refinery
@@ -22,16 +22,16 @@ maintainers:
     email: pipeline-team@honeycomb.io
 dependencies:
 - name: refinery
-  version: 2.15.1
+  version: 2.15.3
   repository: "https://honeycombio.github.io/helm-charts"
   condition: refinery.enabled
 - name: opentelemetry-collector
-  version: 0.111.0
+  version: 0.117.1
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-deployment
   condition: otelcol-deployment.enabled
 - name: opentelemetry-collector
-  version: 0.111.0
+  version: 0.117.1
   repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
   alias: otelcol-daemonset
   condition: otelcol-daemonset.enabled
