@@ -65,9 +65,6 @@ spec:
               value: {{ .Values.beekeeper.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
               value: {{ .Values.beekeeper.publicMgmtKey }}
-            {{- if .Values.beekeeper.telemetry.enabled }}
-            
-            {{- end }}
             {{- with .Values.beekeeper.environment }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
