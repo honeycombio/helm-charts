@@ -2,7 +2,13 @@ name: honeycomb-observability-pipeline
 
 refinery:
   enabled: true
+  image:
+    repository: "honeycombio/refinery"
+    tag: "2.9.3-htp-dev"
   config:
+    Network:
+      OpAMPEnabled: true
+      OpAMPEndpoint: "ws://{{ include \"honeycomb-observability-pipeline.name\" . }}-observability-pipeline-beekeeper:4320/v1/opamp"
     PrometheusMetrics:
       Enabled: false
     OTelMetrics:
@@ -13,11 +19,6 @@ refinery:
         secretKeyRef:
           name: honeycomb-observability-pipeline
           key: api-key
-  extraCommandArgs:
-    - "-c"
-    - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4321/config?kind=refinery_config'
-    - "-r"
-    - 'http://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4321/config?kind=refinery_rules'
 
 beekeeper:
   resources: {}
