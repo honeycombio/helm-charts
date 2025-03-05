@@ -888,6 +888,47 @@ entries:
   observability-pipeline:
   - apiVersion: v2
     appVersion: 0.0.1-alpha
+    created: "2025-03-05T21:57:51.103885855Z"
+    dependencies:
+    - condition: refinery.enabled
+      name: refinery
+      repository: https://honeycombio.github.io/helm-charts
+      version: 2.15.3
+    - alias: otelcol-deployment
+      condition: otelcol-deployment.enabled
+      name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.117.1
+    - alias: otelcol-daemonset
+      condition: otelcol-daemonset.enabled
+      name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.117.1
+    description: Chart to deploy both OpenTelemetry Collector and Honeycomb Refinery
+    digest: fe8aeaf97be98455925a03d8cdb2655ed8b7c73cfbbc73e16550df13af69566c
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: observability-pipeline
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/observability-pipeline-0.0.18-alpha/observability-pipeline-0.0.18-alpha.tgz
+    version: 0.0.18-alpha
+  - apiVersion: v2
+    appVersion: 0.0.1-alpha
     created: "2025-03-05T21:48:40.960916078Z"
     dependencies:
     - condition: refinery.enabled
@@ -3759,4 +3800,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-05T21:48:40.96126265Z"
+generated: "2025-03-05T21:57:51.104172038Z"
