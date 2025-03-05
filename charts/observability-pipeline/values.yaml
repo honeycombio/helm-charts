@@ -26,9 +26,9 @@ beekeeper:
     create: true
     name: ""
   image:
-    repository: ""
+    repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "0.0.1"
   endpoint: https://api.honeycomb.io:443
   pipelineInstallationID: ""
   team: ""
@@ -45,6 +45,10 @@ beekeeper:
         secretKeyRef:
           name: honeycomb-observability-pipeline
           key: api-key
+    - name: TELEMETRY_ENDPOINT
+      value: https://api.honeycomb.io:443
+    - name: TELEMETRY_KEY
+      value: "${env:HONEYCOMB_API_KEY}"
   volumes: []
   volumeMounts: []
   telemetry:
