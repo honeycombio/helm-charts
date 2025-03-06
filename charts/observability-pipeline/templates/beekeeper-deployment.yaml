@@ -65,14 +65,10 @@ spec:
               value: {{ .Values.beekeeper.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
               value: {{ .Values.beekeeper.publicMgmtKey }}
-            {{- if .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.enabled }}
             - name: HONEYCOMB_MGMT_API_SECRET
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content | nindent 14 }}  
-            {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.enabled }}
             - name: HONEYCOMB_API_KEY
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
-            {{- end }}
             {{- if .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.enabled }}
             - name: TELEMETRY_ENDPOINT
               {{- toYaml .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.content | nindent 14 }}  

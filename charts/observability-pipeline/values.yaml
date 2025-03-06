@@ -36,14 +36,12 @@ beekeeper:
   persistentVolumeClaimName: ""
   defaultEnv:
     HONEYCOMB_MGMT_API_SECRET:
-      enabled: true
       content:
         valueFrom:
           secretKeyRef:
             name: honeycomb-observability-pipeline
             key: management-api-secret
     HONEYCOMB_API_KEY:
-      enabled: true
       content:
         valueFrom:
           secretKeyRef:
