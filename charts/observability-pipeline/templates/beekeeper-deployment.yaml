@@ -77,6 +77,10 @@ spec:
             - name: TELEMETRY_KEY
               {{- toYaml .Values.beekeeper.defaultEnv.TELEMETRY_KEY.content | nindent 14 }}  
             {{- end }}
+            {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}
+            - name: LOG_LEVEL
+              {{- toYaml .Values.beekeeper.defaultEnv.LOG_LEVEL.content | nindent 14 }}  
+            {{- end }}
             {{- with .Values.beekeeper.extraEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}

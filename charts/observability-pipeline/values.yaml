@@ -55,6 +55,10 @@ beekeeper:
       enabled: true
       content:
         value: "${env:HONEYCOMB_API_KEY}"
+    LOG_LEVEL:
+      enabled: true
+      content:
+        value: "info"
   extraEnvs: []
   volumes: []
   volumeMounts: []
