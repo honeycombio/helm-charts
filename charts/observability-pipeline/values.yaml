@@ -28,7 +28,7 @@ beekeeper:
   image:
     repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "latest"
   endpoint: https://api.honeycomb.io:443
   pipelineInstallationID: ""
   team: ""
