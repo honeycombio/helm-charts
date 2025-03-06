@@ -34,21 +34,32 @@ beekeeper:
   team: ""
   publicMgmtKey: ""
   persistentVolumeClaimName: ""
-  environment:
-    - name: HONEYCOMB_MGMT_API_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: honeycomb-observability-pipeline
-          key: management-api-secret
-    - name: HONEYCOMB_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: honeycomb-observability-pipeline
-          key: api-key
-    - name: TELEMETRY_ENDPOINT
-      value: https://api.honeycomb.io:443
-    - name: TELEMETRY_KEY
-      value: "${env:HONEYCOMB_API_KEY}"
+  defaultEnv:
+    HONEYCOMB_MGMT_API_SECRET:
+      content:
+        valueFrom:
+          secretKeyRef:
+            name: honeycomb-observability-pipeline
+            key: management-api-secret
+    HONEYCOMB_API_KEY:
+      content:
+        valueFrom:
+          secretKeyRef:
+            name: honeycomb-observability-pipeline
+            key: api-key
+    TELEMETRY_ENDPOINT:
+      enabled: true
+      content:
+        value: https://api.honeycomb.io:443
+    TELEMETRY_KEY:
+      enabled: true
+      content:
+        value: "${env:HONEYCOMB_API_KEY}"
+    LOG_LEVEL:
+      enabled: true
+      content:
+        value: "info"
+  extraEnvs: []
   volumes: []
   volumeMounts: []
   telemetry:
@@ -104,12 +115,15 @@ collector:
     repository: ""
     pullPolicy: IfNotPresent
     tag: ""
-  environment:
-    - name: HONEYCOMB_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: honeycomb-observability-pipeline
-          key: api-key
+  defaultEnv:
+    HONEYCOMB_API_KEY:
+      enabled: true
+      content:
+        valueFrom:
+          secretKeyRef:
+            name: honeycomb-observability-pipeline
+            key: api-key
+  extraEnvs: []
   volumes: []
   volumeMounts: []
 
