@@ -29,7 +29,7 @@ beekeeper:
   image:
     repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
-    tag: "0.0.1"
+    tag: "latest"
   endpoint: https://api.honeycomb.io:443
   pipelineInstallationID: ""
   team: ""
@@ -56,6 +56,10 @@ beekeeper:
       enabled: true
       content:
         value: "${env:HONEYCOMB_API_KEY}"
+    TELEMETRY_METRICS_DATASET:
+      enabled: true
+      content:
+        value: collector-metrics
     LOG_LEVEL:
       enabled: true
       content:
