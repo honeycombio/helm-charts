@@ -109,7 +109,7 @@ agent:
   executable: /otelcol-contrib
   description:
     identifying_attributes:
-      service.name: {{ .Values.collector.serviceName }}
+      service.name: collector
 
 
 storage:

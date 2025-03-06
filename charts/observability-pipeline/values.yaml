@@ -58,7 +58,7 @@ beekeeper:
     TELEMETRY_METRICS_DATASET:
       enabled: true
       content:
-        value: "{{ .Values.collector.serviceName }}-metrics"
+        value: collector-metrics
     LOG_LEVEL:
       enabled: true
       content:
@@ -98,8 +98,6 @@ beekeeper:
 
 collector:
   enabled: true
-  # The service.name resource attribute value for this collector
-  serviceName: "collector"
   serviceAccount:
     create: true
     name: ""
