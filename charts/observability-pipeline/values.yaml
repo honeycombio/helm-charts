@@ -55,6 +55,10 @@ beekeeper:
       enabled: true
       content:
         value: "${env:HONEYCOMB_API_KEY}"
+    TELEMETRY_METRICS_DATASET:
+      enabled: true
+      content:
+        value: "{{ .Values.collector.serviceName }}-metrics"
     LOG_LEVEL:
       enabled: true
       content:
@@ -94,6 +98,8 @@ beekeeper:
 
 collector:
   enabled: true
+  # The service.name resource attribute value for this collector
+  serviceName: "collector"
   serviceAccount:
     create: true
     name: ""
