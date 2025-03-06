@@ -28,10 +28,6 @@
     {{- fail "beekeeper.publicMgmtKey must be set" }}
   {{- end }}
 
-  {{- if (not .Values.beekeeper.environment) }}
-    {{- fail "beekeeper.environment must be set to supply the HONEYCOMB_AUTH_HEADER environment variable" }}
-  {{- end }}
-
 {{- end }}
 
 {{- if .Values.collector.enabled }}
