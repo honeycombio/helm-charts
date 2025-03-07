@@ -107,10 +107,10 @@ capabilities:
 
 agent:
   executable: /otelcol-contrib
+  config_apply_timeout: 10s
   description:
     identifying_attributes:
       service.name: collector
-
 
 storage:
   directory: /var/lib/otelcol/supervisor
