@@ -88,14 +88,21 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
+                  endpoint: https://api.honeycomb.io:443
+                  headers:
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
       logger_provider:
         processors:
           - batch:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: http://{{ include "honeycomb-observability-pipeline.name" . }}-otelcol-deployment:4318
+                  endpoint: https://api.honeycomb.io:443
+                  headers:
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
+
 
 collector:
   enabled: true
@@ -131,6 +138,36 @@ collector:
   extraEnvs: []
   volumes: []
   volumeMounts: []
+  opampsupervisor:
+    telemetry:
+      enabled: true
+      config:
+        traces:
+          propagators:
+            - tracecontext
+            - baggage
+          processors:
+            - batch:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: https://api.honeycomb.io:443
+                    headers:
+                    - name: "x-honeycomb-team"
+                      value: ${HONEYCOMB_API_KEY}
+        metrics:
+          level: detailed
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: https://api.honeycomb.io:443
+                    headers:
+                      - name: "x-honeycomb-team"
+                        value: ${HONEYCOMB_API_KEY}
+        logs:
+          level: info
 
 
 otelcol-deployment:
