@@ -116,7 +116,7 @@ storage:
   directory: /var/lib/otelcol/supervisor
 {{ if .Values.collector.opampsupervisor.telemetry.enabled }}
 telemetry:
-  {{- toYaml .Values.collector.opampsupervisor.telemetry.config | nindent 2}}
+  {{- tpl (toYaml .Values.collector.opampsupervisor.telemetry.config) . | nindent 2}}
 {{- end }}
 {{- end }}
 

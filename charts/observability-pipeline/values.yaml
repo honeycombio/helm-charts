@@ -141,7 +141,11 @@ collector:
   opampsupervisor:
     telemetry:
       enabled: true
+      defaultEndpoint: https://api.honeycomb.io:443
+      defaultServiceName: opamp-supervisor
       config:
+        resources:
+          - 'service.name': '{{ .Values.collector.opampsupervisor.telemetry.defaultServiceName }}'
         traces:
           propagators:
             - tracecontext
@@ -151,7 +155,7 @@ collector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: https://api.honeycomb.io:443
+                    endpoint: '{{ .Values.collector.opampsupervisor.telemetry.defaultEndpoint }}'
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}
@@ -162,12 +166,23 @@ collector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: https://api.honeycomb.io:443
+                    endpoint: '{{ .Values.collector.opampsupervisor.telemetry.defaultEndpoint }}'
                     headers:
                       - name: "x-honeycomb-team"
                         value: ${HONEYCOMB_API_KEY}
+                      - name: "x-honeycomb-dataset"
+                        value: '{{ .Values.collector.opampsupervisor.telemetry.defaultServiceName }}-metrics'
         logs:
           level: info
+          processors:
+            - batch:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: '{{ .Values.collector.opampsupervisor.telemetry.defaultEndpoint }}'
+                    headers:
+                    - name: "x-honeycomb-team"
+                      value: ${HONEYCOMB_API_KEY}
 
 
 otelcol-deployment:
