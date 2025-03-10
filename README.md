@@ -10,6 +10,8 @@ Packages:
 - [Honeycomb Kubernetes Agent](./charts/honeycomb)
 - [Honeycomb Network Agent](./charts/network-agent)
 - [Honeycomb Refinery](./charts/refinery)
+- [Honeycomb Telemetry Pipeline](./charts/htp) (based on Bindplane)
+- [Honeycomb Observability Pipeline](./charts/observability-pipeline) (experimental)
 - [OpenTelemetry-Collector](./charts/opentelemetry-collector)
 
 ## Installation
