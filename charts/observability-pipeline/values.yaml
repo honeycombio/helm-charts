@@ -144,8 +144,8 @@ collector:
       defaultEndpoint: https://api.honeycomb.io:443
       defaultServiceName: opamp-supervisor
       config:
-        resources:
-          - 'service.name': '{{ .Values.collector.opampsupervisor.telemetry.defaultServiceName }}'
+        resource:
+          'service.name': '{{ .Values.collector.opampsupervisor.telemetry.defaultServiceName }}'
         traces:
           propagators:
             - tracecontext
