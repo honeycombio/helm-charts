@@ -611,6 +611,28 @@ entries:
     version: 0.9.1
   htp:
   - apiVersion: v2
+    appVersion: 1.88.1
+    created: "2025-03-11T15:28:05.365670821Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.27.1
+    description: Honeycomb Telemetry Pipeline
+    digest: 94af21c1fe9e2fe4a6c2b6febc8e949434349555f6e03e2997d3e2e824527a81
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-0.1.2/htp-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 1.85.0
     created: "2025-02-05T18:06:56.949890738Z"
     dependencies:
@@ -4005,4 +4027,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-07T23:03:27.72001579Z"
+generated: "2025-03-11T15:28:05.365922364Z"
