@@ -114,6 +114,10 @@ agent:
 
 storage:
   directory: /var/lib/otelcol/supervisor
+{{ if .Values.collector.opampsupervisor.telemetry.enabled }}
+telemetry:
+  {{- tpl (toYaml .Values.collector.opampsupervisor.telemetry.config) . | nindent 2}}
+{{- end }}
 {{- end }}
 
 {{/*
