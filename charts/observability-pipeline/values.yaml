@@ -88,7 +88,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: https://api.honeycomb.io:443
+                  endpoint: ${TELEMETRY_ENDPOINT}
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -98,7 +98,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: https://api.honeycomb.io:443
+                  endpoint: ${TELEMETRY_ENDPOINT}
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
