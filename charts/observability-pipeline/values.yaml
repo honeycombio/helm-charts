@@ -14,6 +14,8 @@ refinery:
       Enabled: false
     OTelMetrics:
       Enabled: true
+    Logger:
+      Type: honeycomb
   environment:
     - name: REFINERY_HONEYCOMB_API_KEY
       valueFrom:
@@ -68,7 +70,7 @@ beekeeper:
   volumes: []
   volumeMounts: []
   telemetry:
-    enabled: false
+    enabled: true
     config:
       file_format: "0.3"
       resource:
