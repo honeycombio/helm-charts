@@ -1,6 +1,6 @@
 pipelineInstallationID: ""
 team: ""
-publicMgmtKey: ""
+publicMgmtAPIKey: ""
 
 refinery:
   image:

@@ -32,7 +32,7 @@ To install the chart with the release name `my-pipeline`, run the following comm
 helm install my-pipeline honeycomb/observability-pipeline \
     --set team="my-team" \
     --set pipelineInstallationID="pipeline-intallation-id" \
-    --set publicMgmtKey="public-management-key-id"
+    --set publicMgmtAPIKey="public-management-key-id"
 ```
 
 To uninstall the chart:

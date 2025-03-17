@@ -22,8 +22,8 @@
   {{- fail "team must be set" }}
 {{- end }}
 
-{{- if (not .Values.publicMgmtKey) }}
-  {{- fail "publicMgmtKey must be set" }}
+{{- if (not .Values.publicMgmtAPIKey) }}
+  {{- fail "publicMgmtAPIKey must be set" }}
 {{- end }}
 
 {{- if (not .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content) }}
