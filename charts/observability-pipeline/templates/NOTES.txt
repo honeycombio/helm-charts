@@ -14,16 +14,16 @@
   {{- fail "beekeeper.endpoint must be set" }}
 {{- end }}
 
-{{- if (not .Values.beekeeper.pipelineInstallationID) }}
-  {{- fail "beekeeper.pipelineInstallationID must be set" }}
+{{- if (not .Values.pipelineInstallationID) }}
+  {{- fail "pipelineInstallationID must be set" }}
 {{- end }}
 
-{{- if (not .Values.beekeeper.team) }}
-  {{- fail "beekeeper.team must be set" }}
+{{- if (not .Values.team) }}
+  {{- fail "team must be set" }}
 {{- end }}
 
-{{- if (not .Values.beekeeper.publicMgmtKey) }}
-  {{- fail "beekeeper.publicMgmtKey must be set" }}
+{{- if (not .Values.publicMgmtKey) }}
+  {{- fail "publicMgmtKey must be set" }}
 {{- end }}
 
 {{- if (not .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content) }}

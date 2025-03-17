@@ -55,15 +55,15 @@ spec:
                 fieldRef:
                   fieldPath: metadata.uid
             - name: OTEL_RESOURCE_ATTRIBUTES
-              value: pipelineInstallationID={{ .Values.beekeeper.pipelineInstallationID }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
+              value: pipelineInstallationID={{ .Values.pipelineInstallationID }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: HONEYCOMB_API
               value: {{ .Values.beekeeper.endpoint }}
             - name: HONEYCOMB_TEAM
-              value: {{ .Values.beekeeper.team }}
+              value: {{ .Values.team }}
             - name: HONEYCOMB_INSTALLATION_ID
-              value: {{ .Values.beekeeper.pipelineInstallationID }}
+              value: {{ .Values.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY
-              value: {{ .Values.beekeeper.publicMgmtKey }}
+              value: {{ .Values.publicMgmtKey }}
             - name: HONEYCOMB_MGMT_API_SECRET
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content | nindent 14 }}  
             - name: HONEYCOMB_API_KEY

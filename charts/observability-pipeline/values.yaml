@@ -1,4 +1,6 @@
-name: honeycomb-observability-pipeline
+pipelineInstallationID: ""
+team: ""
+publicMgmtKey: ""
 
 refinery:
   image:
@@ -32,9 +34,6 @@ beekeeper:
     pullPolicy: IfNotPresent
     tag: "latest"
   endpoint: https://api.honeycomb.io:443
-  pipelineInstallationID: ""
-  team: ""
-  publicMgmtKey: ""
   persistentVolumeClaimName: ""
   defaultEnv:
     HONEYCOMB_MGMT_API_SECRET:
