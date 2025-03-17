@@ -1,4 +1,3 @@
-{{- if and .Values.collector.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,4 +9,3 @@ metadata:
 data:
   config: |
   {{- include "honeycomb-observability-pipeline.collectorConfig" . | nindent 4 -}}
-{{- end }}

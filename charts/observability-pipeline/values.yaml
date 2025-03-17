@@ -1,7 +1,6 @@
 name: honeycomb-observability-pipeline
 
 refinery:
-  enabled: true
   image:
     repository: "honeycombio/refinery"
     tag: "2.9.3-htp-dev.1"
@@ -107,7 +106,6 @@ beekeeper:
 
 
 collector:
-  enabled: true
   serviceAccount:
     create: true
     name: ""
