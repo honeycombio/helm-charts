@@ -111,6 +111,7 @@ agent:
   description:
     identifying_attributes:
       service.name: collector
+      service.namespace: htp.collector
 
 storage:
   directory: /var/lib/otelcol/supervisor
