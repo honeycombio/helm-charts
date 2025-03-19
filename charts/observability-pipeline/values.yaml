@@ -123,9 +123,9 @@ collector:
   resources: {}
   replicaCount: 2
   image:
-    repository: ""
+    repository: "honeycombio/supervised-collector"
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "latest"
   defaultEnv:
     HONEYCOMB_API_KEY:
       enabled: true
