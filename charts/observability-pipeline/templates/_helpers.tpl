@@ -87,7 +87,7 @@ Create ConfigMap checksum annotation for beekeeper
 {{/*
 Build config file for collector
 */}}
-{{- define "honeycomb-observability-pipeline.collectorConfig" -}}
+{{- define "honeycomb-observability-pipelineprimaryCollectorConfig" -}}
 server:
   endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4320/v1/opamp
   tls:
@@ -111,33 +111,33 @@ agent:
   description:
     identifying_attributes:
       service.name: collector
-      service.namespace: htp.collector
+      service.namespace: htpprimaryCollector
 
 storage:
   directory: /var/lib/otelcol/supervisor
-{{ if .Values.collector.opampsupervisor.telemetry.enabled }}
+{{ if .Values.primaryCollector.opampsupervisor.telemetry.enabled }}
 telemetry:
-  {{- tpl (toYaml .Values.collector.opampsupervisor.telemetry.config) . | nindent 2}}
+  {{- tpl (toYaml .Values.primaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
 {{- end }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use for the collector
 */}}
-{{- define "honeycomb-observability-pipeline.collector.serviceAccountName" -}}
-{{- if .Values.collector.serviceAccount.create }}
-{{- default (printf "%s-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.collector.serviceAccount.name }}
+{{- define "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" -}}
+{{- if .Values.primaryCollector.serviceAccount.create }}
+{{- default (printf "%s-primary-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.primaryCollector.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.collector.serviceAccount.name }}
+{{- default "default" .Values.primaryCollector.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
 {{/*
 Common collector labels
 */}}
-{{- define "honeycomb-observability-pipeline.collector.labels" -}}
+{{- define "honeycomb-observability-pipelineprimaryCollector.labels" -}}
 helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipeline.collector.selectorLabels" . }}
+{{ include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -147,14 +147,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Collector Selector labels
 */}}
-{{- define "honeycomb-observability-pipeline.collector.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-collector
+{{- define "honeycomb-observability-pipelineprimaryCollector.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-primary-collector
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create ConfigMap checksum annotation for collector
 */}}
-{{- define "honeycomb-observability-pipeline.collector.configTemplateChecksumAnnotation" -}}
-  checksum/config: {{ include (print $.Template.BasePath "/collector-configmap.yaml") . | sha256sum }}
+{{- define "honeycomb-observability-pipelineprimaryCollector.configTemplateChecksumAnnotation" -}}
+  checksum/config: {{ include (print $.Template.BasePath "/primary-collector-configmap.yaml") . | sha256sum }}
 {{- end }}
