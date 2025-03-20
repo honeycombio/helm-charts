@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-collector
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.collector.labels" . | nindent 4 }}
+    {{- include "honeycomb-observability-pipelineprimaryCollector.labels" . | nindent 4 }}
     app.kubernetes.io/component: collector
 spec:
-  replicas: {{ .Values.collector.replicaCount }}
+  replicas: {{ .ValuesprimaryCollector.replicaCount }}
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipeline.collector.selectorLabels" . | nindent 6 }}
+      {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       annotations:
-        {{- include "honeycomb-observability-pipeline.collector.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- include "honeycomb-observability-pipelineprimaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
       labels:
-        {{- include "honeycomb-observability-pipeline.collector.selectorLabels" . | nindent 8 }}
+        {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: collector
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.collector.serviceAccountName" . }}
+      serviceAccountName: {{ include "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.collector.image.repository }}:{{ .Values.collector.image.tag }}"
-          imagePullPolicy: {{ .Values.collector.image.pullPolicy }}
+          image: "{{ .ValuesprimaryCollector.image.repository }}:{{ .ValuesprimaryCollector.image.tag }}"
+          imagePullPolicy: {{ .ValuesprimaryCollector.image.pullPolicy }}
           args:
             - --config
             - /etc/opampsupervisor/config.yaml
@@ -52,14 +52,14 @@ spec:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipelineInstallationID={{ .Values.pipelineInstallationID }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            {{- if .Values.collector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
+            {{- if .ValuesprimaryCollector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
             - name: HONEYCOMB_API_KEY
-              {{- toYaml .Values.collector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
+              {{- toYaml .ValuesprimaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
             {{- end }}
-            {{- with .Values.collector.extraEnvs }}
+            {{- with .ValuesprimaryCollector.extraEnvs }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- with .Values.collector.resources }}
+          {{- with .ValuesprimaryCollector.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -72,10 +72,10 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-collector
+            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
             items:
               - key: config
                 path: config.yaml
-      {{- with .Values.collector.volumes }}
+      {{- with .ValuesprimaryCollector.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

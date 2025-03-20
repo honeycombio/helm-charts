@@ -35,11 +35,11 @@
 {{- end }}
 
 
-{{- if (not .Values.collector.image.repository) }}
+{{- if (not .ValuesprimaryCollector.image.repository) }}
   {{- fail "collector.image.repository must be set" }}
 {{- end }}
 
-{{- if (not .Values.collector.image.tag) }}
+{{- if (not .ValuesprimaryCollector.image.tag) }}
   {{- fail "collector.image.tag must be set" }}
 {{- end }}
 
@@ -47,4 +47,4 @@
 Your Honeycomb Observability Pipeline is ready.
 
 Start sending OTLP data to your pipeline via:
-  HTTP: http://{{ include "honeycomb-observability-pipeline.fullname" . }}-collector:4318
+  HTTP: http://{{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector:4318

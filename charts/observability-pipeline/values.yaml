@@ -104,7 +104,7 @@ beekeeper:
                     value: ${HONEYCOMB_API_KEY}
 
 
-collector:
+primaryCollector:
   serviceAccount:
     create: true
     name: ""
@@ -144,7 +144,7 @@ collector:
       defaultServiceName: opamp-supervisor
       config:
         resource:
-          'service.name': '{{ .Values.collector.opampsupervisor.telemetry.defaultServiceName }}'
+          'service.name': '{{ .ValuesprimaryCollector.opampsupervisor.telemetry.defaultServiceName }}'
         logs:
           level: info
           processors:
@@ -152,7 +152,7 @@ collector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: '{{ .Values.collector.opampsupervisor.telemetry.defaultEndpoint }}'
+                    endpoint: '{{ .ValuesprimaryCollector.opampsupervisor.telemetry.defaultEndpoint }}'
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}
