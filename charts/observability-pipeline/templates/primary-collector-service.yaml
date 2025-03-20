@@ -1,4 +1,4 @@
-{{- if .ValuesprimaryCollector.service.enabled }}
+{{- if .Values.primaryCollector.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,7 +10,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    {{- toYaml .ValuesprimaryCollector.service.ports | nindent 4 }}
+    {{- toYaml .Values.primaryCollector.service.ports | nindent 4 }}
   selector:
     {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 4 }}
 {{- end }}

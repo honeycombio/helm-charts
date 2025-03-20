@@ -115,9 +115,9 @@ agent:
 
 storage:
   directory: /var/lib/otelcol/supervisor
-{{ if .ValuesprimaryCollector.opampsupervisor.telemetry.enabled }}
+{{ if .Values.primaryCollector.opampsupervisor.telemetry.enabled }}
 telemetry:
-  {{- tpl (toYaml .ValuesprimaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
+  {{- tpl (toYaml .Values.primaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
 {{- end }}
 {{- end }}
 
@@ -125,10 +125,10 @@ telemetry:
 Create the name of the service account to use for the collector
 */}}
 {{- define "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" -}}
-{{- if .ValuesprimaryCollector.serviceAccount.create }}
-{{- default (printf "%s-primary-collector" (include "honeycomb-observability-pipeline.fullname" .)) .ValuesprimaryCollector.serviceAccount.name }}
+{{- if .Values.primaryCollector.serviceAccount.create }}
+{{- default (printf "%s-primary-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.primaryCollector.serviceAccount.name }}
 {{- else }}
-{{- default "default" .ValuesprimaryCollector.serviceAccount.name }}
+{{- default "default" .Values.primaryCollector.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
@@ -156,5 +156,5 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create ConfigMap checksum annotation for collector
 */}}
 {{- define "honeycomb-observability-pipelineprimaryCollector.configTemplateChecksumAnnotation" -}}
-  checksum/config: {{ include (print $.Template.BasePath "/collector-configmap.yaml") . | sha256sum }}
+  checksum/config: {{ include (print $.Template.BasePath "/primary-collector-configmap.yaml") . | sha256sum }}
 {{- end }}

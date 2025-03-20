@@ -144,7 +144,7 @@ primaryCollector:
       defaultServiceName: opamp-supervisor
       config:
         resource:
-          'service.name': '{{ .ValuesprimaryCollector.opampsupervisor.telemetry.defaultServiceName }}'
+          'service.name': '{{ .Values.primaryCollector.opampsupervisor.telemetry.defaultServiceName }}'
         logs:
           level: info
           processors:
@@ -152,7 +152,7 @@ primaryCollector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: '{{ .ValuesprimaryCollector.opampsupervisor.telemetry.defaultEndpoint }}'
+                    endpoint: '{{ .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}'
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}

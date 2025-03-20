@@ -7,7 +7,7 @@ metadata:
     {{- include "honeycomb-observability-pipelineprimaryCollector.labels" . | nindent 4 }}
     app.kubernetes.io/component: collector
 spec:
-  replicas: {{ .ValuesprimaryCollector.replicaCount }}
+  replicas: {{ .Values.primaryCollector.replicaCount }}
   selector:
     matchLabels:
       {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 6 }}
@@ -24,8 +24,8 @@ spec:
       serviceAccountName: {{ include "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .ValuesprimaryCollector.image.repository }}:{{ .ValuesprimaryCollector.image.tag }}"
-          imagePullPolicy: {{ .ValuesprimaryCollector.image.pullPolicy }}
+          image: "{{ .Values.primaryCollector.image.repository }}:{{ .Values.primaryCollector.image.tag }}"
+          imagePullPolicy: {{ .Values.primaryCollector.image.pullPolicy }}
           args:
             - --config
             - /etc/opampsupervisor/config.yaml
@@ -52,14 +52,14 @@ spec:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipelineInstallationID={{ .Values.pipelineInstallationID }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            {{- if .ValuesprimaryCollector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
+            {{- if .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
             - name: HONEYCOMB_API_KEY
-              {{- toYaml .ValuesprimaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
+              {{- toYaml .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
             {{- end }}
-            {{- with .ValuesprimaryCollector.extraEnvs }}
+            {{- with .Values.primaryCollector.extraEnvs }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
-          {{- with .ValuesprimaryCollector.resources }}
+          {{- with .Values.primaryCollector.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -76,6 +76,6 @@ spec:
             items:
               - key: config
                 path: config.yaml
-      {{- with .ValuesprimaryCollector.volumes }}
+      {{- with .Values.primaryCollector.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
