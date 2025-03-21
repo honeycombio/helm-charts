@@ -78,7 +78,7 @@ spec:
             {{- end }}
             {{- if .Values.beekeeper.defaultEnv.TELEMETRY_METRICS_DATASET.enabled }}
             - name: TELEMETRY_METRICS_DATASET
-              {{- toYaml .Values.beekeeper.defaultEnv.TELEMETRY_METRICS_DATASET.content | nindent 14 }}  
+              {{- tpl (toYaml .Values.beekeeper.defaultEnv.TELEMETRY_METRICS_DATASET.content) . | nindent 14 }}  
             {{- end }}
             {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}
             - name: LOG_LEVEL

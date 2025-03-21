@@ -110,7 +110,7 @@ agent:
   config_apply_timeout: 10s
   description:
     identifying_attributes:
-      service.name: primary-collector
+      service.name: {{ .Values.primaryCollector.serviceName }}
       service.namespace: htp.collector
 
 storage:
