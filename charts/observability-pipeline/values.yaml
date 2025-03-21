@@ -64,6 +64,13 @@ beekeeper:
       enabled: true
       content:
         value: "info"
+    HONEYCOMB_CONFIGURATION_KEY:
+      enabled: false
+      content:
+        valueFrom:
+          secretKeyRef:
+            name: honeycomb-observability-pipeline
+            key: configuration-key
   extraEnvs: []
   volumes: []
   volumeMounts: []
