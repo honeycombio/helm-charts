@@ -910,6 +910,36 @@ entries:
   observability-pipeline:
   - apiVersion: v2
     appVersion: 0.0.1-alpha
+    created: "2025-03-21T18:17:24.178037677Z"
+    dependencies:
+    - name: refinery
+      repository: https://honeycombio.github.io/helm-charts
+      version: 2.15.3
+    description: Chart to deploy both OpenTelemetry Collector and Honeycomb Refinery
+    digest: 79ab655b1335a0e9acbe6e17ed0e4a6d19382088c0b2bbc1452dc9ce980e6e32
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: observability-pipeline
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/observability-pipeline-0.0.34-alpha/observability-pipeline-0.0.34-alpha.tgz
+    version: 0.0.34-alpha
+  - apiVersion: v2
+    appVersion: 0.0.1-alpha
     created: "2025-03-21T14:06:55.159984106Z"
     dependencies:
     - name: refinery
@@ -4350,4 +4380,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-21T14:06:55.160456338Z"
+generated: "2025-03-21T18:17:24.178510035Z"
