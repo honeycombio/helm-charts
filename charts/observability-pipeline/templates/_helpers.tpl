@@ -110,8 +110,8 @@ agent:
   config_apply_timeout: 10s
   description:
     identifying_attributes:
-      service.name: collector
-      service.namespace: htpprimaryCollector
+      service.name: primary-collector
+      service.namespace: htp.collector
 
 storage:
   directory: /var/lib/otelcol/supervisor
