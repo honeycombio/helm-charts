@@ -59,7 +59,7 @@ beekeeper:
     TELEMETRY_METRICS_DATASET:
       enabled: true
       content:
-        value: collector-metrics
+        value: "{{ .Values.primaryCollector.serviceName }}-metrics"
     LOG_LEVEL:
       enabled: true
       content:
@@ -112,6 +112,7 @@ beekeeper:
 
 
 primaryCollector:
+  serviceName: "primary-collector"
   serviceAccount:
     create: true
     name: ""
