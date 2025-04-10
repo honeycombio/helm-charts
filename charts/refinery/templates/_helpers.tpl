@@ -204,15 +204,15 @@ OTelTracing:
 
 {{- define "refinery.localConfig" -}}
 Network:
-  HoneycombAPI: http://localhost:8081
+  HoneycombAPI: http://host.docker.internal:8081
 HoneycombLogger:
-  APIHost: http://localhost:8081
+  APIHost: http://host.docker.internal:8081
 LegacyMetrics:
-  APIHost: http://localhost:8081
+  APIHost: http://host.docker.internal:8081
 OTelMetrics:
-  APIHost: http://localhost:8081
+  APIHost: http://host.docker.internal:8081
 OTelTracing:
-  APIHost: http://localhost:8081
+  APIHost: http://host.docker.internal:8081
 {{- end }}
 
 {{/*
