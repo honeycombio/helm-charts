@@ -4,11 +4,6 @@
 # The default value is ''. When unset, Refinery's default values will be used for any unconfigured endpoints.
 # Other valid values are:
 #  - production-eu
-#  - dogfood
-#  - dogfood-eu
-#  - kibble
-#  - kibble-eu
-#  - local
 #
 # When `production-eu` is set, the refinery config is updated to include:
 #   Network:
