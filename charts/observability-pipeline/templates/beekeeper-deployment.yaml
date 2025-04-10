@@ -58,8 +58,6 @@ spec:
               value: pipelineInstallationID={{ .Values.pipelineInstallationID }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: HONEYCOMB_API
               value: {{ .Values.beekeeper.endpoint }}
-            - name: HONEYCOMB_TEAM
-              value: {{ .Values.team }}
             - name: HONEYCOMB_INSTALLATION_ID
               value: {{ .Values.pipelineInstallationID }}
             - name: HONEYCOMB_MGMT_API_KEY

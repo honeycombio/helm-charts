@@ -30,7 +30,6 @@ To install the chart with the release name `my-pipeline`, run the following comm
 
 ```shell
 helm install my-pipeline honeycomb/observability-pipeline \
-    --set team="my-team" \
     --set pipelineInstallationID="pipeline-intallation-id" \
     --set publicMgmtAPIKey="public-management-key-id"
 ```

@@ -18,10 +18,6 @@
   {{- fail "pipelineInstallationID must be set" }}
 {{- end }}
 
-{{- if (not .Values.team) }}
-  {{- fail "team must be set" }}
-{{- end }}
-
 {{- if (not .Values.publicMgmtAPIKey) }}
   {{- fail "publicMgmtAPIKey must be set" }}
 {{- end }}
