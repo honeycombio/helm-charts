@@ -9,7 +9,7 @@
 #  - kibble
 #  - kibble-eu
 #  - local
-# 
+#
 # When `production-eu` is set, the refinery config is updated to include:
 #   Network:
 #     HoneycombAPI: https://api.eu1.honeycomb.io
