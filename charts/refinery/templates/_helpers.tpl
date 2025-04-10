@@ -110,7 +110,7 @@ Build config file for Refinery
 {{-     if not $debugServiceAddr }}
 {{-       $_ := set $debugging "DebugServiceAddr" (include "refinery.DebugServiceAddr" .) }}
 {{-     end }}
-{{-   end }}   
+{{-   end }}
 {{- end }}
 {{- if eq .Values.region "production-eu" }}
 {{- $config = mustMergeOverwrite (include "refinery.productionEUConfig" .Values | fromYaml) $config }}
