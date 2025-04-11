@@ -4,6 +4,7 @@
 # The default value is ''. When unset, Refinery's default values will be used for any unconfigured endpoints.
 # Other valid values are:
 #  - production-eu
+#  - custom
 #
 # When `production-eu` is set, the refinery config is updated to include:
 #   Network:
@@ -20,6 +21,8 @@
 # Any values you've configured will take precedence.
 # Reminder that LegacyMetrics, OTelMetrics, and OTelTracing still need to be enabled to be used.
 region: ""
+# When region=custom this field's value will be used to set Refinery's various endpoints
+customEndpoint: ""
 
 # The Refinery configuration.
 # This section allows setting all Refinery configuration options.

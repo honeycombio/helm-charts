@@ -115,20 +115,8 @@ Build config file for Refinery
 {{- if eq .Values.region "production-eu" }}
 {{- $config = mustMergeOverwrite (include "refinery.productionEUConfig" .Values | fromYaml) $config }}
 {{- end }}
-{{- if eq .Values.region "dogfood-eu" }}
-{{- $config = mustMergeOverwrite (include "refinery.dogfoodEUConfig" .Values | fromYaml) $config }}
-{{- end }}
-{{- if eq .Values.region "kibble-eu" }}
-{{- $config = mustMergeOverwrite (include "refinery.kibbleEUConfig" .Values | fromYaml) $config }}
-{{- end }}
-{{- if eq .Values.region "dogfood" }}
-{{- $config = mustMergeOverwrite (include "refinery.dogfoodConfig" .Values | fromYaml) $config }}
-{{- end }}
-{{- if eq .Values.region "kibble" }}
-{{- $config = mustMergeOverwrite (include "refinery.kibbleConfig" .Values | fromYaml) $config }}
-{{- end }}
-{{- if eq .Values.region "local" }}
-{{- $config = mustMergeOverwrite (include "refinery.localConfig" .Values | fromYaml) $config }}
+{{- if eq .Values.region "custom" }}
+{{- $config = mustMergeOverwrite (include "refinery.customConfig" .Values | fromYaml) $config }}
 {{- end }}
 {{- tpl (toYaml $config) . }}
 {{- end }}
@@ -150,69 +138,17 @@ OTelTracing:
   APIHost: https://api.eu1.honeycomb.io
 {{- end }}
 
-{{- define "refinery.dogfoodEUConfig" -}}
+{{- define "refinery.customConfig" -}}
 Network:
-  HoneycombAPI: https://api.dogfood-eu1.honeycomb.io
+  HoneycombAPI: {{ .Values.customEndpoint }}
 HoneycombLogger:
-  APIHost: https://api.dogfood-eu1.honeycomb.io
+  APIHost: {{ .Values.customEndpoint }}
 LegacyMetrics:
-  APIHost: https://api.dogfood-eu1.honeycomb.io
+  APIHost: {{ .Values.customEndpoint }}
 OTelMetrics:
-  APIHost: https://api.dogfood-eu1.honeycomb.io
+  APIHost: {{ .Values.customEndpoint }}
 OTelTracing:
-  APIHost: https://api.dogfood-eu1.honeycomb.io
-{{- end }}
-
-{{- define "refinery.kibbleEUConfig" -}}
-Network:
-  HoneycombAPI: https://api.kibble-eu1.honeycomb.io
-HoneycombLogger:
-  APIHost: https://api.kibble-eu1.honeycomb.io
-LegacyMetrics:
-  APIHost: https://api.kibble-eu1.honeycomb.io
-OTelMetrics:
-  APIHost: https://api.kibble-eu1.honeycomb.io
-OTelTracing:
-  APIHost: https://api.kibble-eu1.honeycomb.io
-{{- end }}
-
-{{- define "refinery.dogfoodConfig" -}}
-Network:
-  HoneycombAPI: https://api-dogfood.honeycomb.io
-HoneycombLogger:
-  APIHost: https://api-dogfood.honeycomb.io
-LegacyMetrics:
-  APIHost: https://api-dogfood.honeycomb.io
-OTelMetrics:
-  APIHost: https://api-dogfood.honeycomb.io
-OTelTracing:
-  APIHost: https://api-dogfood.honeycomb.io
-{{- end }}
-
-{{- define "refinery.kibbleConfig" -}}
-Network:
-  HoneycombAPI: https://api-kibble.honeycomb.io
-HoneycombLogger:
-  APIHost: https://api-kibble.honeycomb.io
-LegacyMetrics:
-  APIHost: https://api-kibble.honeycomb.io
-OTelMetrics:
-  APIHost: https://api-kibble.honeycomb.io
-OTelTracing:
-  APIHost: https://api-kibble.honeycomb.io
-{{- end }}
-
-{{- define "refinery.localConfig" -}}
-Network:
-  HoneycombAPI: http://host.docker.internal:8081
-HoneycombLogger:
-  APIHost: http://host.docker.internal:8081
-LegacyMetrics:
-  APIHost: http://host.docker.internal:8081
-OTelMetrics:
-  APIHost: http://host.docker.internal:8081
-OTelTracing:
-  APIHost: http://host.docker.internal:8081
+  APIHost: {{ .Values.customEndpoint }}
 {{- end }}
 
 {{/*
