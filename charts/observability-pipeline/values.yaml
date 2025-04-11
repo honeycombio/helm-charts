@@ -1,6 +1,9 @@
 pipelineInstallationID: ""
 publicMgmtAPIKey: ""
 
+global:
+  region: ""
+
 refinery:
   image:
     repository: "honeycombio/refinery"
@@ -32,7 +35,7 @@ beekeeper:
     repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
     tag: "latest"
-  endpoint: https://api.honeycomb.io:443
+  endpoint: ""
   persistentVolumeClaimName: ""
   defaultEnv:
     HONEYCOMB_MGMT_API_SECRET:
@@ -49,8 +52,6 @@ beekeeper:
             key: api-key
     TELEMETRY_ENDPOINT:
       enabled: true
-      content:
-        value: https://api.honeycomb.io:443
     TELEMETRY_KEY:
       enabled: true
       content:
@@ -147,7 +148,7 @@ primaryCollector:
   opampsupervisor:
     telemetry:
       enabled: true
-      defaultEndpoint: https://api.honeycomb.io:443
+      defaultEndpoint: ""
       defaultServiceName: opamp-supervisor
       config:
         resource:
@@ -159,7 +160,7 @@ primaryCollector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: '{{ .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}'
+                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" . }}'
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}
