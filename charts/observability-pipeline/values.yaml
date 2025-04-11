@@ -4,7 +4,7 @@ publicMgmtAPIKey: ""
 refinery:
   image:
     repository: "honeycombio/refinery"
-    tag: "2.9.3-htp-dev.1"
+    tag: "2.9.4-htp-dev.1"
   config:
     Network:
       OpAMPEnabled: true
