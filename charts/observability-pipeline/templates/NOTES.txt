@@ -10,8 +10,8 @@
   {{- fail "beekeeper.image.tag must be set" }}
 {{- end }}
 
-{{- if (not .Values.beekeeper.endpoint) }}
-  {{- fail "beekeeper.endpoint must be set" }}
+{{- if and (not .Values.global.region) (not .Values.beekeeper.endpoint) }}
+  {{- fail "global.region or beekeeper.endpoint must be set" }}
 {{- end }}
 
 {{- if (not .Values.pipelineInstallationID) }}
