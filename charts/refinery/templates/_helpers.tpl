@@ -110,7 +110,13 @@ Build config file for Refinery
 {{-     if not $debugServiceAddr }}
 {{-       $_ := set $debugging "DebugServiceAddr" (include "refinery.DebugServiceAddr" .) }}
 {{-     end }}
-{{-   end }}   
+{{-   end }}
+{{- end }}
+{{- if eq .Values.region "production-eu" }}
+{{- $config = mustMergeOverwrite (include "refinery.productionEUConfig" .Values | fromYaml) $config }}
+{{- end }}
+{{- if eq .Values.region "custom" }}
+{{- $config = mustMergeOverwrite (include "refinery.customConfig" .Values | fromYaml) $config }}
 {{- end }}
 {{- tpl (toYaml $config) . }}
 {{- end }}
@@ -118,6 +124,32 @@ Build config file for Refinery
 {{- define "refinery.DebugServiceAddr" -}}
 {{- printf "localhost:%v" .Values.debug.port }}
 {{- end}}
+
+{{- define "refinery.productionEUConfig" -}}
+Network:
+  HoneycombAPI: https://api.eu1.honeycomb.io
+HoneycombLogger:
+  APIHost: https://api.eu1.honeycomb.io
+LegacyMetrics:
+  APIHost: https://api.eu1.honeycomb.io
+OTelMetrics:
+  APIHost: https://api.eu1.honeycomb.io
+OTelTracing:
+  APIHost: https://api.eu1.honeycomb.io
+{{- end }}
+
+{{- define "refinery.customConfig" -}}
+Network:
+  HoneycombAPI: {{ .Values.customEndpoint }}
+HoneycombLogger:
+  APIHost: {{ .Values.customEndpoint }}
+LegacyMetrics:
+  APIHost: {{ .Values.customEndpoint }}
+OTelMetrics:
+  APIHost: {{ .Values.customEndpoint }}
+OTelTracing:
+  APIHost: {{ .Values.customEndpoint }}
+{{- end }}
 
 {{/*
 Build rules file for Refinery

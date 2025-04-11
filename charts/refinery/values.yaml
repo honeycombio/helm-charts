@@ -1,5 +1,29 @@
 # Default values for refinery.
 
+# This setting configures the default endpoints. All configuration endpoints can still be set and will take precedence.
+# The default value is ''. When unset, Refinery's default values will be used for any unconfigured endpoints.
+# Other valid values are:
+#  - production-eu
+#  - custom
+#
+# When `production-eu` is set, the refinery config is updated to include:
+#   Network:
+#     HoneycombAPI: https://api.eu1.honeycomb.io
+#   HoneycombLogger:
+#     APIHost: https://api.eu1.honeycomb.io
+#   LegacyMetrics:
+#     APIHost: https://api.eu1.honeycomb.io
+#   OTelMetrics:
+#     APIHost: https://api.eu1.honeycomb.io
+#   OTelTracing:
+#     APIHost: https://api.eu1.honeycomb.io
+#
+# Any values you've configured will take precedence.
+# Reminder that LegacyMetrics, OTelMetrics, and OTelTracing still need to be enabled to be used.
+region: ""
+# When region=custom this field's value will be used to set Refinery's various endpoints
+customEndpoint: ""
+
 # The Refinery configuration.
 # This section allows setting all Refinery configuration options.
 # Configuration values set here by default have been set based on the requirements of the chart and Kubernetes.
