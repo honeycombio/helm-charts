@@ -4,24 +4,24 @@ metadata:
   name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipelineprimaryCollector.labels" . | nindent 4 }}
+    {{- include "honeycomb-observability-pipeline.primaryCollector.labels" . | nindent 4 }}
     app.kubernetes.io/component: collector
 spec:
   replicas: {{ .Values.primaryCollector.replicaCount }}
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 6 }}
+      {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       annotations:
-        {{- include "honeycomb-observability-pipelineprimaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- include "honeycomb-observability-pipeline.primaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
       labels:
-        {{- include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . | nindent 8 }}
+        {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: collector
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" . }}
+      serviceAccountName: {{ include "honeycomb-observability-pipeline.primaryCollector.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.primaryCollector.image.repository }}:{{ .Values.primaryCollector.image.tag }}"

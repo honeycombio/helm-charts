@@ -87,7 +87,7 @@ Create ConfigMap checksum annotation for beekeeper
 {{/*
 Build config file for collector
 */}}
-{{- define "honeycomb-observability-pipelineprimaryCollectorConfig" -}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.config" -}}
 server:
   endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4320/v1/opamp
   tls:
@@ -124,7 +124,7 @@ telemetry:
 {{/*
 Create the name of the service account to use for the collector
 */}}
-{{- define "honeycomb-observability-pipelineprimaryCollector.serviceAccountName" -}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.serviceAccountName" -}}
 {{- if .Values.primaryCollector.serviceAccount.create }}
 {{- default (printf "%s-primary-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.primaryCollector.serviceAccount.name }}
 {{- else }}
@@ -135,9 +135,9 @@ Create the name of the service account to use for the collector
 {{/*
 Common collector labels
 */}}
-{{- define "honeycomb-observability-pipelineprimaryCollector.labels" -}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.labels" -}}
 helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipelineprimaryCollector.selectorLabels" . }}
+{{ include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -147,7 +147,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Collector Selector labels
 */}}
-{{- define "honeycomb-observability-pipelineprimaryCollector.selectorLabels" -}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-primary-collector
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
@@ -155,6 +155,41 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Create ConfigMap checksum annotation for collector
 */}}
-{{- define "honeycomb-observability-pipelineprimaryCollector.configTemplateChecksumAnnotation" -}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.configTemplateChecksumAnnotation" -}}
   checksum/config: {{ include (print $.Template.BasePath "/primary-collector-configmap.yaml") . | sha256sum }}
+{{- end }}
+
+{{/*
+Calculate beekeeper endpoint based on region
+*/}}
+{{- define "honeycomb-observability-pipeline.beekeeper.endpoint" -}}
+{{- if eq .Values.global.region "production-eu" }}
+{{- default "https://api.eu1.honeycomb.io" .Values.beekeeper.endpoint }}
+{{- else }}
+{{- default "https://api.honeycomb.io" .Values.beekeeper.endpoint }}
+{{- end }}
+{{- end }}
+
+{{/*
+Calculate TELEMETRY_ENDPOINT endpoint based on region
+*/}}
+{{- define "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" -}}
+{{- if .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.content }}
+{{ .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.content | toYaml }}
+{{- else if eq .Values.global.region "production-eu" }}
+value: https://api.eu1.honeycomb.io
+{{- else }}
+value: https://api.honeycomb.io
+{{- end }}
+{{- end }}
+
+{{/*
+Calculate primary collector opampsupervisor default endpoint for telemetry
+*/}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" -}}
+{{- if eq .Values.global.region "production-eu" }}
+{{- default "https://api.eu1.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
+{{- else }}
+{{- default "https://api.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
+{{- end }}
 {{- end }}
