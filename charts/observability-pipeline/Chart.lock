@@ -1,6 +1,6 @@
 dependencies:
 - name: refinery
   repository: https://honeycombio.github.io/helm-charts
-  version: 2.16.1
-digest: sha256:a75cc28275edbfe64581f0c1ea9ad3c4a809ad1cb42f01e137fdb3fa87d244c6
-generated: "2025-04-11T12:19:55.20025-06:00"
+  version: 2.16.2
+digest: sha256:a1277b4de3ad0eedbb6cfd926edf7872655e3b3bfd2bba56cb1ec25612dcc367
+generated: "2025-04-16T14:30:56.374375-07:00"
