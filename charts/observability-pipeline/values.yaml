@@ -7,12 +7,13 @@ global:
 refinery:
   image:
     repository: "honeycombio/refinery"
-    tag: "2.9.3-htp-dev.1"
+    tag: "2.9.4-htp-dev.1"
   config:
     Network:
-      OpAMPEnabled: true
-      OpAMPEndpoint: "ws://{{ include \"honeycomb-observability-pipeline.name\" . }}-beekeeper:4320/v1/opamp"
-      OpAMPRecordUsage: false
+    OpAMP:
+      Enabled: true
+      Endpoint: "ws://{{ include \"honeycomb-observability-pipeline.name\" . }}-beekeeper:4320/v1/opamp"
+      RecordUsage: false
     PrometheusMetrics:
       Enabled: false
     OTelMetrics:
