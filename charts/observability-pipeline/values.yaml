@@ -9,7 +9,6 @@ refinery:
     repository: "honeycombio/refinery"
     tag: "2.9.4-htp-dev.1"
   config:
-    Network:
     OpAMP:
       Enabled: true
       Endpoint: "ws://{{ include \"honeycomb-observability-pipeline.name\" . }}-beekeeper:4320/v1/opamp"
