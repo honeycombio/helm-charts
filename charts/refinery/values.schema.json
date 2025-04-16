@@ -26,6 +26,9 @@
         "Network": {
           "type": "object"
         },
+        "OpAMP": {
+          "type": "object"
+        },
         "AccessKeys": {
           "type": "object"
         },
