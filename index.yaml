@@ -954,6 +954,36 @@ entries:
   observability-pipeline:
   - apiVersion: v2
     appVersion: 0.0.1-alpha
+    created: "2025-04-16T21:30:07.848396101Z"
+    dependencies:
+    - name: refinery
+      repository: https://honeycombio.github.io/helm-charts
+      version: 2.16.1
+    description: Chart to deploy both OpenTelemetry Collector and Honeycomb Refinery
+    digest: 2dbccc743a644915527cb4979031dcc954b4884df9bf1d6ec678f79fd67b003c
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: observability-pipeline
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/observability-pipeline-0.0.38-alpha/observability-pipeline-0.0.38-alpha.tgz
+    version: 0.0.38-alpha
+  - apiVersion: v2
+    appVersion: 0.0.1-alpha
     created: "2025-04-10T18:54:27.006253165Z"
     dependencies:
     - name: refinery
@@ -2724,6 +2754,29 @@ entries:
     urls:
     - https://github.com/honeycombio/helm-charts/releases/download/refinery-3.0.0-hnyinternal.0/refinery-3.0.0-hnyinternal.0.tgz
     version: 3.0.0-hnyinternal.0
+  - apiVersion: v2
+    appVersion: 2.9.4
+    created: "2025-04-16T21:30:07.944247191Z"
+    description: Chart to deploy Honeycomb Refinery
+    digest: bc226cbd46fe350e62e957b18485e72ca1b64eb2aa18573a551b30cccd77509f
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: refinery
+    sources:
+    - https://github.com/honeycombio/refinery
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/refinery-2.16.2/refinery-2.16.2.tgz
+    version: 2.16.2
   - apiVersion: v2
     appVersion: 2.9.4
     created: "2025-04-11T18:18:59.288274726Z"
@@ -4583,4 +4636,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-14T23:07:40.838155021Z"
+generated: "2025-04-16T21:30:07.945259869Z"
