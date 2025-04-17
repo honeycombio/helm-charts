@@ -11,7 +11,7 @@ refinery:
   config:
     OpAMP:
       Enabled: true
-      Endpoint: "ws://{{ include \"honeycomb-observability-pipeline.name\" . }}-beekeeper:4320/v1/opamp"
+      Endpoint: "ws://{{ include \"honeycomb-observability-pipeline.beekeeperName\" . }}:4320/v1/opamp"
       RecordUsage: false
     PrometheusMetrics:
       Enabled: false
