@@ -193,3 +193,14 @@ Calculate primary collector opampsupervisor default endpoint for telemetry
 {{- default "https://api.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the name of the beekeeper service for refinery
+*/}}
+{{- define "honeycomb-observability-pipeline.beekeeperName" -}}
+{{- if contains "observability-pipeline" .Release.Name }}
+{{- printf "%s-%s" .Release.Name "beekeeper" | trunc 63 | trimSuffix "-"  }}
+{{- else }}
+{{- printf "%s-%s-%s" .Release.Name "observability-pipeline" "beekeeper" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
