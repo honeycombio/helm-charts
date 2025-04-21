@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Values",
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "global": {
+      "type": "object"
+    },
+    "pipelineInstallationID": {
+      "type": "string"
+    },
+    "publicMgmtAPIKey": {
+      "type": "string"
+    },
+    "refinery": {
+      "type": "object"      
+    },
+    "beekeeper": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resources": {
+          "type": "object"
+        },
+        "serviceAccount": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "create": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "pullPolicy": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "persistentVolumeClaimName": {
+          "type": "string"
+        },
+        "defaultEnv": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "HONEYCOMB_MGMT_API_SECRET": {
+              "type": "object"
+            },
+            "HONEYCOMB_API_KEY": {
+              "type": "object"
+            },
+            "TELEMETRY_ENDPOINT": {
+              "type": "object"
+            },
+            "TELEMETRY_KEY": {
+              "type": "object"
+            },
+            "TELEMETRY_METRICS_DATASET": {
+              "type": "object"
+            },
+            "LOG_LEVEL": {
+              "type": "object"
+            },
+            "HONEYCOMB_CONFIGURATION_KEY": {
+              "type": "object"
+            }
+          }
+        },
+        "extraEnvs": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "volumes": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "volumeMounts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "telemetry": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "config": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "primaryCollector": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "serviceAccount": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "create": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "service": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "ports": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "port": {
+                    "type": "integer"
+                  },
+                  "targetPort": {
+                    "type": "integer"
+                  },
+                  "protocol": {
+                    "type": "string"
+                  },
+                  "appProtocol": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "resources": {
+          "type": "object"
+        },
+        "replicaCount": {
+          "type": "integer"
+        },
+        "image": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "pullPolicy": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "defaultEnv": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "HONEYCOMB_API_KEY": {
+              "type": "object"
+            }
+          }          
+        },
+        "extraEnvs": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "volumes": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "volumeMounts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "opampsupervisor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "telemetry": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "defaultEndpoint": {
+                  "type": "string"
+                },
+                "defaultServiceName": {
+                  "type": "string"
+                },
+                "config": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
