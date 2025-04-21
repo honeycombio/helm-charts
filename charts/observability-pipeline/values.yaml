@@ -25,7 +25,7 @@ global:
   #        APIHost: https://api.eu1.honeycomb.io
   #      OTelTracing:
   #        APIHost: https://api.eu1.honeycomb.io
-  #  beekeeker:
+  #  beekeeper:
   #    endpoint: https://api.eu1.honeycomb.io
   #    defaultEnv:
   #      TELEMETRY_ENDPOINT:
@@ -70,7 +70,7 @@ beekeeper:
     pullPolicy: IfNotPresent
     tag: "latest"
 
-  # The Hnoeycomb API endpoint Beekeeper should use.
+  # The Honeycomb API endpoint Beekeeper should use.
   # When unset (the default), Beekeeper will use https://api.honeycomb.io
   endpoint: ""
 
@@ -221,7 +221,7 @@ primaryCollector:
   # configuration options for the OpAMP Supervisor.
   opampsupervisor:
     telemetry:
-      # Enablesthe OpAMP Supervisor's internal telemetry.
+      # Enables the OpAMP Supervisor's internal telemetry.
       enabled: true
       # Default endpoint for telemetry data.
       # When unset (the default), the endpoint will be set to https://api.honeycomb.io.
