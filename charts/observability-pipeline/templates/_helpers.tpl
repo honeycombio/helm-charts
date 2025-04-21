@@ -85,7 +85,7 @@ Create ConfigMap checksum annotation for beekeeper
 {{- end }}
 
 {{/*
-Build config file for collector
+Build config file for opamp supervisor
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.config" -}}
 server:
@@ -107,6 +107,10 @@ capabilities:
 
 agent:
   executable: /otelcol-contrib
+  {{- if .Values.primaryCollector.agent.telemetry.enabled }}
+  config_files: 
+    - {{ .Values.primaryCollector.agent.telemetry.file }}
+  {{- end }}
   config_apply_timeout: 10s
   description:
     identifying_attributes:
@@ -119,6 +123,15 @@ storage:
 telemetry:
   {{- tpl (toYaml .Values.primaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
 {{- end }}
+{{- end }}
+
+{{/*
+Build config file for collector
+*/}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.agent.config" -}}
+  service:
+    telemetry:
+      {{ tpl (toYaml .Values.primaryCollector.agent.telemetry.config) . | nindent 6 }}
 {{- end }}
 
 {{/*
@@ -160,6 +173,13 @@ Create ConfigMap checksum annotation for collector
 {{- end }}
 
 {{/*
+Create ConfigMap checksum annotation for collector
+*/}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.agent.configTemplateChecksumAnnotation" -}}
+  checksum/agent-config: {{ include (print $.Template.BasePath "/primary-collector-agent-configmap.yaml") . | sha256sum }}
+{{- end }}
+
+{{/*
 Calculate beekeeper endpoint based on region
 */}}
 {{- define "honeycomb-observability-pipeline.beekeeper.endpoint" -}}
@@ -171,15 +191,13 @@ Calculate beekeeper endpoint based on region
 {{- end }}
 
 {{/*
-Calculate TELEMETRY_ENDPOINT endpoint based on region
+Calculate Beekeeper telemetry endpoint based on region
 */}}
 {{- define "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" -}}
-{{- if .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.content }}
-{{ .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.content | toYaml }}
-{{- else if eq .Values.global.region "production-eu" }}
-value: https://api.eu1.honeycomb.io
+{{- if eq .Values.global.region "production-eu" }}
+https://api.eu1.honeycomb.io
 {{- else }}
-value: https://api.honeycomb.io
+https://api.honeycomb.io
 {{- end }}
 {{- end }}
 
@@ -191,6 +209,17 @@ Calculate primary collector opampsupervisor default endpoint for telemetry
 {{- default "https://api.eu1.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
 {{- else }}
 {{- default "https://api.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
+{{- end }}
+{{- end }}
+
+{{/*
+Calculate primary collector agent default endpoint for telemetry
+*/}}
+{{- define "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" -}}
+{{- if eq .Values.global.region "production-eu" }}
+{{- default "https://api.eu1.honeycomb.io" .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
+{{- else }}
+{{- default "https://api.honeycomb.io" .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
 {{- end }}
 {{- end }}
 

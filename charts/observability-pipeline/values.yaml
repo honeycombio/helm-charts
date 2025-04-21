@@ -88,16 +88,6 @@ beekeeper:
           secretKeyRef:
             name: honeycomb-observability-pipeline
             key: api-key
-    TELEMETRY_ENDPOINT:
-      enabled: true
-    TELEMETRY_KEY:
-      enabled: true
-      content:
-        value: "${env:HONEYCOMB_API_KEY}"
-    TELEMETRY_METRICS_DATASET:
-      enabled: true
-      content:
-        value: "{{ .Values.primaryCollector.serviceName }}-metrics"
     LOG_LEVEL:
       enabled: true
       content:
@@ -153,7 +143,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: ${TELEMETRY_ENDPOINT}
+                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -163,7 +153,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: ${TELEMETRY_ENDPOINT}
+                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -218,6 +208,34 @@ primaryCollector:
   volumes: []
   volumeMounts: []
 
+  # configuration options for the agent (a collector) the OpAMP Supervisor manages
+  agent:
+    telemetry:
+      enabled: true
+      defaultEndpoint: ""
+      file: /etc/agent/config.yaml
+      config:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
+                    headers:
+                      x-honeycomb-dataset: primary-collector-metrics
+                      x-honeycomb-team: ${env:HONEYCOMB_API_KEY}
+                    protocol: http/protobuf
+        logs:
+          encoding: json
+          processors:
+            - batch:
+                exporter:
+                  otlp:
+                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
+                    headers:
+                      x-honeycomb-team: ${env:HONEYCOMB_API_KEY}
+                    protocol: http/protobuf
+                    
   # configuration options for the OpAMP Supervisor.
   opampsupervisor:
     telemetry:
