@@ -1,9 +1,46 @@
+# The ID of your pipeline installation.
+# This can be found on the Pipeline Installations page in the Honeycomb UI.
 pipelineInstallationID: ""
+
+# The public ID of your Honeycomb Management API key.
+# See https://docs.honeycomb.io/configure/teams/manage-api-keys/#find-management-api-keys for more details.
 publicMgmtAPIKey: ""
 
 global:
+  # This setting configures the default endpoints. All endpoints can still be configured and will take precedence.
+  # The default value is '' (unset). When unset, U.S. values will be used for any unconfigured endpoints.
+  # Other valid values are:
+  #  - production-eu
+  #
+  # When 'production-eu' is set, the following settings are configured:
+  #  refinery:
+  #    config:
+  #      Network:
+  #        HoneycombAPI: https://api.eu1.honeycomb.io
+  #      HoneycombLogger:
+  #        APIHost: https://api.eu1.honeycomb.io
+  #      LegacyMetrics:
+  #        APIHost: https://api.eu1.honeycomb.io
+  #      OTelMetrics:
+  #        APIHost: https://api.eu1.honeycomb.io
+  #      OTelTracing:
+  #        APIHost: https://api.eu1.honeycomb.io
+  #  beekeeker:
+  #    endpoint: https://api.eu1.honeycomb.io
+  #    defaultEnv:
+  #      TELEMETRY_ENDPOINT:
+  #        content:
+  #          value: https://api.eu1.honeycomb.io
+  #  primaryCollector:
+  #    opampsupervisor
+  #      telemetry:
+  #        defaultEndpoint: https://api.eu1.honeycomb.io
+  #
+  # Any values you've configured will take precedence.
   region: ""
 
+# Configuration options for Refinery.
+# For a complete list of configuration options see https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#configuration.
 refinery:
   image:
     repository: "honeycombio/refinery"
@@ -26,17 +63,18 @@ refinery:
           name: honeycomb-observability-pipeline
           key: api-key
 
+# Configuration options for Beekeeper.
 beekeeper:
-  resources: {}
-  serviceAccount:
-    create: true
-    name: ""
   image:
     repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
     tag: "latest"
+
+  # The Hnoeycomb API endpoint Beekeeper should use.
+  # When unset (the default), Beekeeper will use https://api.honeycomb.io
   endpoint: ""
-  persistentVolumeClaimName: ""
+
+  # Allows configuring Beekeeper environment variables. 
   defaultEnv:
     HONEYCOMB_MGMT_API_SECRET:
       content:
@@ -64,6 +102,7 @@ beekeeper:
       enabled: true
       content:
         value: "info"
+    # Enabled this env var if you want Beekeeper to create markers during rollouts.
     HONEYCOMB_CONFIGURATION_KEY:
       enabled: false
       content:
@@ -72,10 +111,29 @@ beekeeper:
             name: honeycomb-observability-pipeline
             key: configuration-key
   extraEnvs: []
+
+  # Resource limits & requests.
+  # It is HIGHLY recommended to set resource limits.
+  # resources:
+  #   limits:
+  #     cpu: 50m
+  #     memory: 50Mi
+  resources: {}
+
+  serviceAccount:
+    create: true
+    # Name of the service account to use if not creating a new one.
+    name: ""
+
+  persistentVolumeClaimName: ""
   volumes: []
   volumeMounts: []
+
+  # Settings for Beekeeper's internal telemetry.
   telemetry:
     enabled: true
+
+    # Beekeeper's OTel SDK Configuration.
     config:
       file_format: "0.3"
       resource:
@@ -110,12 +168,14 @@ beekeeper:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
 
-
+# Configuration options for the Primary Collector.
 primaryCollector:
-  serviceName: "primary-collector"
   serviceAccount:
     create: true
+    # Name of the service account to use if not creating a new one.
     name: ""
+
+  serviceName: "primary-collector"
   service:
     enabled: true
     ports:
@@ -128,12 +188,23 @@ primaryCollector:
         port: 4318
         targetPort: 4318
         protocol: TCP
+
+  # Resource limits & requests.
+  # It is HIGHLY recommended to set resource limits.
+  # resources:
+  #   limits:
+  #     cpu: 250m
+  #     memory: 512Mi
   resources: {}
+
+  # Number of replicas to deploy
   replicaCount: 2
+
   image:
     repository: "honeycombio/supervised-collector"
     pullPolicy: IfNotPresent
     tag: "latest"
+
   defaultEnv:
     HONEYCOMB_API_KEY:
       enabled: true
@@ -143,13 +214,20 @@ primaryCollector:
             name: honeycomb-observability-pipeline
             key: api-key
   extraEnvs: []
+
   volumes: []
   volumeMounts: []
+
+  # configuration options for the OpAMP Supervisor.
   opampsupervisor:
     telemetry:
+      # Enablesthe OpAMP Supervisor's internal telemetry.
       enabled: true
+      # Default endpoint for telemetry data.
+      # When unset (the default), the endpoint will be set to https://api.honeycomb.io.
       defaultEndpoint: ""
       defaultServiceName: opamp-supervisor
+      # The OpAMP Supervisor's configuration file.
       config:
         resource:
           'service.name': '{{ .Values.primaryCollector.opampsupervisor.telemetry.defaultServiceName }}'
@@ -164,3 +242,4 @@ primaryCollector:
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}
+  
