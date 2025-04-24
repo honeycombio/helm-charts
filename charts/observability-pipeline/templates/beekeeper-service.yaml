@@ -9,10 +9,6 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 4321
-      targetPort: "config"
-      protocol: TCP
-      name: config
     - port: 4320
       targetPort: "opamp"
       protocol: TCP

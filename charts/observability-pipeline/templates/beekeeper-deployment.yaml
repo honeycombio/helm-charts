@@ -109,9 +109,6 @@ spec:
           {{- end }}
           {{- end }}
           ports:
-            - name: config
-              containerPort: 4321
-              protocol: TCP
             - name: opamp
               containerPort: 4320
               protocol: TCP
