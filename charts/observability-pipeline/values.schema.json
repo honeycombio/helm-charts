@@ -69,15 +69,6 @@
             "HONEYCOMB_API_KEY": {
               "type": "object"
             },
-            "TELEMETRY_ENDPOINT": {
-              "type": "object"
-            },
-            "TELEMETRY_KEY": {
-              "type": "object"
-            },
-            "TELEMETRY_METRICS_DATASET": {
-              "type": "object"
-            },
             "LOG_LEVEL": {
               "type": "object"
             },
@@ -122,9 +113,6 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "serviceName": {
-          "type": "string"
-        },
         "serviceAccount": {
           "type": "object",
           "additionalProperties": false,
@@ -216,6 +204,33 @@
           "type": "array",
           "items": {
             "type": "object"
+          }
+        },
+        "agent": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "telemetry": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "defaultEndpoint": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                },
+                "defaultServiceName": {
+                  "type": "string"
+                },
+                "config": {
+                  "type": "object"
+                }
+              }
+            }
           }
         },
         "opampsupervisor": {
