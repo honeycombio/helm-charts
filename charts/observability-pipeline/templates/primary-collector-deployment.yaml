@@ -17,6 +17,9 @@ spec:
     metadata:
       annotations:
         {{- include "honeycomb-observability-pipeline.primaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- if .Values.primaryCollector.agent.telemetry.enabled }}
+        {{- include "honeycomb-observability-pipeline.primaryCollector.agent.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: collector
@@ -66,6 +69,10 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/opampsupervisor
+            {{- if .Values.primaryCollector.agent.telemetry.enabled }}
+            - name: agent-config
+              mountPath: /etc/agent
+            {{- end }}
           {{- with .Values.beekeeper.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -76,6 +83,14 @@ spec:
             items:
               - key: config
                 path: config.yaml
+        {{- if .Values.primaryCollector.agent.telemetry.enabled }}
+        - name: agent-config
+          configMap:
+            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector-agent
+            items:
+              - key: config
+                path: config.yaml
+        {{- end }}
       {{- with .Values.primaryCollector.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

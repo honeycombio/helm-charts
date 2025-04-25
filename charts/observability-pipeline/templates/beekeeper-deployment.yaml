@@ -66,18 +66,6 @@ spec:
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content | nindent 14 }}  
             - name: HONEYCOMB_API_KEY
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
-            {{- if .Values.beekeeper.defaultEnv.TELEMETRY_ENDPOINT.enabled }}
-            - name: TELEMETRY_ENDPOINT
-              {{- include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . | indent 14 }}  
-            {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.TELEMETRY_KEY.enabled }}
-            - name: TELEMETRY_KEY
-              {{- toYaml .Values.beekeeper.defaultEnv.TELEMETRY_KEY.content | nindent 14 }}  
-            {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.TELEMETRY_METRICS_DATASET.enabled }}
-            - name: TELEMETRY_METRICS_DATASET
-              {{- tpl (toYaml .Values.beekeeper.defaultEnv.TELEMETRY_METRICS_DATASET.content) . | nindent 14 }}  
-            {{- end }}
             {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}
             - name: LOG_LEVEL
               {{- toYaml .Values.beekeeper.defaultEnv.LOG_LEVEL.content | nindent 14 }}  
