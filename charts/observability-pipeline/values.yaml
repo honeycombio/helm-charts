@@ -164,8 +164,7 @@ primaryCollector:
     create: true
     # Name of the service account to use if not creating a new one.
     name: ""
-
-  serviceName: "primary-collector"
+  
   service:
     enabled: true
     ports:
@@ -213,6 +212,7 @@ primaryCollector:
     telemetry:
       enabled: true
       defaultEndpoint: ""
+      defaultServiceName: "primary-collector"
       file: /etc/agent/config.yaml
       config:
         metrics:

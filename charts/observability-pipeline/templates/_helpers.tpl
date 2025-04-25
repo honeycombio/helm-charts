@@ -114,7 +114,7 @@ agent:
   config_apply_timeout: 10s
   description:
     identifying_attributes:
-      service.name: {{ .Values.primaryCollector.serviceName }}
+      service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}
       service.namespace: htp.collector
 
 storage:
@@ -129,9 +129,13 @@ telemetry:
 Build config file for collector
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.agent.config" -}}
-  service:
-    telemetry:
-      {{ tpl (toYaml .Values.primaryCollector.agent.telemetry.config) . | nindent 6 }}
+service:
+  telemetry:
+    {{- if .Values.primaryCollector.agent.telemetry.defaultServiceName }}
+    resource:
+      service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}
+    {{- end }}
+    {{- tpl (toYaml .Values.primaryCollector.agent.telemetry.config) . | nindent 4 }}
 {{- end }}
 
 {{/*
