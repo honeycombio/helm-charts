@@ -199,9 +199,9 @@ Calculate Beekeeper telemetry endpoint based on region
 */}}
 {{- define "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" -}}
 {{- if eq .Values.global.region "production-eu" }}
-https://api.eu1.honeycomb.io
+{{- default "https://api.eu1.honeycomb.io" .Values.beekeeper.endpoint }}
 {{- else }}
-https://api.honeycomb.io
+{{- default "https://api.honeycomb.io" .Values.beekeeper.endpoint }}
 {{- end }}
 {{- end }}
 
