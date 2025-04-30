@@ -122,7 +122,6 @@ beekeeper:
   # Settings for Beekeeper's internal telemetry.
   telemetry:
     enabled: true
-
     # Beekeeper's OTel SDK Configuration.
     config:
       file_format: "0.3"
