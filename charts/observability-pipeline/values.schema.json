@@ -194,6 +194,12 @@
             "type": "object"
           }
         },
+        "livenessProbe": {
+          "type": "object"
+        },
+        "readinessProbe": {
+          "type": "object"
+        },
         "volumes": {
           "type": "array",
           "items": {

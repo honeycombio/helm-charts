@@ -203,6 +203,21 @@ primaryCollector:
             key: api-key
   extraEnvs: []
 
+  # liveness probe configuration
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    httpGet:
+      port: 13133
+      path: /
+
+  # readiness probe configuration
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  readinessProbe:
+    httpGet:
+      port: 13133
+      path: /
+
+
   volumes: []
   volumeMounts: []
 

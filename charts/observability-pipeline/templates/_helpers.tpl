@@ -112,6 +112,8 @@ agent:
     - {{ .Values.primaryCollector.agent.telemetry.file }}
   {{- end }}
   config_apply_timeout: 10s
+  health_check_host: 0.0.0.0
+  health_check_port: {{ .Values.primaryCollector.livenessProbe.httpGet.port }}
   description:
     identifying_attributes:
       service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}

@@ -66,6 +66,14 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          livenessProbe:
+          {{- with .Values.primaryCollector.livenessProbe }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
+          readinessProbe:
+          {{- with .Values.primaryCollector.readinessProbe }}
+          {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: config
               mountPath: /etc/opampsupervisor
