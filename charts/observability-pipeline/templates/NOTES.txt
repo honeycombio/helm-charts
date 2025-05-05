@@ -35,6 +35,10 @@
   {{- fail "collector.image.tag must be set" }}
 {{- end }}
 
+{{- if not (eq .Values.primaryCollector.livenessProbe.port .Values.primaryCollector.readinessProbe.port) }}
+  {{- fail "primaryCollector.livenessProbe.port and primaryCollector.readinessProbe.port must be the same" }}
+{{- end }}
+
 
 Your Honeycomb Observability Pipeline is ready.
 
