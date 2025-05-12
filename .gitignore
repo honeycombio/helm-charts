@@ -1,2 +1,6 @@
 ### Helm ###
 **/charts/*.tgz
+
+### VSCode ###
+.vscode/
+*.code-workspace
