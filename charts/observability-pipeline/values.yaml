@@ -57,7 +57,7 @@ refinery:
     Logger:
       Type: honeycomb
   environment:
-    - name: REFINERY_HONEYCOMB_API_KEY
+    - name: HONEYCOMB_EXPORTER_APIKEY
       valueFrom:
         secretKeyRef:
           name: honeycomb-observability-pipeline
