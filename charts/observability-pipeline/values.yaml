@@ -57,7 +57,14 @@ refinery:
     Logger:
       Type: honeycomb
   environment:
+    # Default key for the HPSF Honeycomb Exporter
     - name: HONEYCOMB_EXPORTER_APIKEY
+      valueFrom:
+        secretKeyRef:
+          name: honeycomb-observability-pipeline
+          key: api-key
+    # Env var for exporting refinery internal telemetry
+    - name: REFINERY_HONEYCOMB_API_KEY
       valueFrom:
         secretKeyRef:
           name: honeycomb-observability-pipeline
