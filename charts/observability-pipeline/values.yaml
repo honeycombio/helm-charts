@@ -42,9 +42,6 @@ global:
 # Configuration options for Refinery.
 # For a complete list of configuration options see https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#configuration.
 refinery:
-  image:
-    repository: "honeycombio/refinery"
-    tag: "2.9.4-htp-dev.1"
   config:
     OpAMP:
       Enabled: true
@@ -75,7 +72,7 @@ beekeeper:
   image:
     repository: "honeycombio/beekeeper"
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "v0.0.14-alpha"
 
   # The Honeycomb API endpoint Beekeeper should use.
   # When unset (the default), Beekeeper will use https://api.honeycomb.io
@@ -198,7 +195,7 @@ primaryCollector:
   image:
     repository: "honeycombio/supervised-collector"
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "v0.0.6"
 
   defaultEnv:
     HONEYCOMB_API_KEY:
@@ -228,9 +225,12 @@ primaryCollector:
                   otlp:
                     endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
                     headers:
-                      x-honeycomb-dataset: primary-collector-metrics
-                      x-honeycomb-team: ${env:HONEYCOMB_API_KEY}
+                      - name: x-honeycomb-dataset
+                        value: primary-collector-metrics
+                      - name: x-honeycomb-team
+                        value: ${env:HONEYCOMB_API_KEY}
                     protocol: http/protobuf
+                    temporality_preference: delta
         logs:
           encoding: json
           processors:
@@ -239,7 +239,8 @@ primaryCollector:
                   otlp:
                     endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
                     headers:
-                      x-honeycomb-team: ${env:HONEYCOMB_API_KEY}
+                      - name: x-honeycomb-team
+                        value: ${env:HONEYCOMB_API_KEY}
                     protocol: http/protobuf
                     
   # configuration options for the OpAMP Supervisor.
