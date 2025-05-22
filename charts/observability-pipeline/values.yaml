@@ -78,7 +78,7 @@ beekeeper:
   # When unset (the default), Beekeeper will use https://api.honeycomb.io
   endpoint: ""
 
-  # Allows configuring Beekeeper environment variables. 
+  # Allows configuring Beekeeper environment variables.
   defaultEnv:
     HONEYCOMB_MGMT_API_SECRET:
       content:
@@ -167,7 +167,7 @@ primaryCollector:
     create: true
     # Name of the service account to use if not creating a new one.
     name: ""
-  
+
   service:
     enabled: true
     ports:
@@ -242,7 +242,7 @@ primaryCollector:
                       - name: x-honeycomb-team
                         value: ${env:HONEYCOMB_API_KEY}
                     protocol: http/protobuf
-                    
+
   # configuration options for the OpAMP Supervisor.
   opampsupervisor:
     telemetry:
@@ -267,4 +267,3 @@ primaryCollector:
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}
-  
