@@ -246,6 +246,18 @@ redis:
     labels: {}
     annotations: {}
 
+  # Security context for Redis pods
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
