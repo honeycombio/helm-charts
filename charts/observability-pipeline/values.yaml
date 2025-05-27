@@ -214,6 +214,8 @@ primaryCollector:
     STRAWS_REFINERY_SERVICE:
       enabled: true
       content:
+        # If you change the refinery service name via refinery.nameOverride or refinery.fullnameOverride
+        # you'll need to change this value too.
         value: '{{ include "honeycomb-observability-pipeline.refineryName" . }}'
   extraEnvs: []
 
