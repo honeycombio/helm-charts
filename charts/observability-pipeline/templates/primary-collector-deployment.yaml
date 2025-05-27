@@ -59,6 +59,10 @@ spec:
             - name: HONEYCOMB_API_KEY
               {{- toYaml .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
             {{- end }}
+            {{- if .Values.primaryCollector.defaultEnv.STRAWS_REFINERY_SERVICE.enabled }}
+            - name: STRAWS_REFINERY_SERVICE
+              {{- tpl (toYaml .Values.primaryCollector.defaultEnv.STRAWS_REFINERY_SERVICE.content) . | nindent 14 }}  
+            {{- end }}
             {{- with .Values.primaryCollector.extraEnvs }}
               {{- toYaml . | nindent 12 }}
             {{- end }}

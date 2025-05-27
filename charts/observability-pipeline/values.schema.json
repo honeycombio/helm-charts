@@ -185,6 +185,9 @@
           "properties": {
             "HONEYCOMB_API_KEY": {
               "type": "object"
+            },
+            "STRAWS_REFINERY_SERVICE": {
+              "type": "object"
             }
           }          
         },

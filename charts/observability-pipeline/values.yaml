@@ -211,6 +211,10 @@ primaryCollector:
           secretKeyRef:
             name: honeycomb-observability-pipeline
             key: api-key
+    STRAWS_REFINERY_SERVICE:
+      enabled: true
+      content:
+        value: '{{ include "honeycomb-observability-pipeline.refineryName" . }}'
   extraEnvs: []
 
   volumes: []
