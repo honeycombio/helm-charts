@@ -89,7 +89,7 @@ Build config file for opamp supervisor
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.config" -}}
 server:
-  endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4320/v1/opamp
+  endpoint: ws://{{ include "honeycomb-observability-pipeline.beekeeperName" . }}:4320/v1/opamp
   tls:
     # Disable verification to test locally.
     # Don't do this in production.
