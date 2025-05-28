@@ -237,3 +237,14 @@ Get the name of the beekeeper service for refinery
 {{- printf "%s-%s-%s" .Release.Name "observability-pipeline" "beekeeper" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the name of the refinery service for primary-collector
+*/}}
+{{- define "honeycomb-observability-pipeline.refineryName" -}}
+{{- if contains "refinery" .Release.Name }}
+{{- print "refinery" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "refinery" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
