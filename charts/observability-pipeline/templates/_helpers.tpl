@@ -89,7 +89,7 @@ Build config file for opamp supervisor
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.config" -}}
 server:
-  endpoint: ws://{{ include "honeycomb-observability-pipeline.name" . }}-observability-pipeline-beekeeper:4320/v1/opamp
+  endpoint: ws://{{ include "honeycomb-observability-pipeline.beekeeperName" . }}:4320/v1/opamp
   tls:
     # Disable verification to test locally.
     # Don't do this in production.
@@ -235,5 +235,16 @@ Get the name of the beekeeper service for refinery
 {{- printf "%s-%s" .Release.Name "beekeeper" | trunc 63 | trimSuffix "-"  }}
 {{- else }}
 {{- printf "%s-%s-%s" .Release.Name "observability-pipeline" "beekeeper" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Get the name of the refinery service for primary-collector
+*/}}
+{{- define "honeycomb-observability-pipeline.refineryName" -}}
+{{- if contains "refinery" .Release.Name }}
+{{- print "refinery" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "refinery" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}

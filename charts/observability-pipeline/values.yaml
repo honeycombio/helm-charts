@@ -129,13 +129,6 @@ beekeeper:
     # Beekeeper's OTel SDK Configuration.
     config:
       file_format: "0.3"
-      resource:
-        schema_url: https://opentelemetry.io/schemas/1.26.0
-        attributes:
-          - name: service.name
-            value: "beekeeper"
-          - name: service.version
-            value: "0.0.1"
       propagator:
         composite:
           - tracecontext
@@ -150,6 +143,19 @@ beekeeper:
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
+      meter_provider:
+        readers:
+          - periodic:
+              exporter:
+                otlp:
+                  protocol: http/protobuf
+                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
+                  headers:
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
+                  - name: "x-honeycomb-dataset"
+                    value: "beekeeper-metrics"
+                  temporality_preference: delta
       logger_provider:
         processors:
           - batch:
@@ -205,6 +211,12 @@ primaryCollector:
           secretKeyRef:
             name: honeycomb-observability-pipeline
             key: api-key
+    STRAWS_REFINERY_SERVICE:
+      enabled: true
+      content:
+        # If you change the refinery service name via refinery.nameOverride or refinery.fullnameOverride
+        # you'll need to change this value too.
+        value: '{{ include "honeycomb-observability-pipeline.refineryName" . }}'
   extraEnvs: []
 
   volumes: []
