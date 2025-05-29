@@ -74,6 +74,9 @@
             },
             "HONEYCOMB_CONFIGURATION_KEY": {
               "type": "object"
+            },
+            "DEPLOYMENT_BATCH_SIZE": {
+              "type": "object"
             }
           }
         },

@@ -562,6 +562,8 @@ spec:
                   name: honeycomb-observability-pipeline
             - name: LOG_LEVEL
               value: info
+            - name: DEPLOYMENT_BATCH_SIZE
+              value: "1"
           volumeMounts:
             - name: otel-config
               mountPath: /etc/beekeeper
