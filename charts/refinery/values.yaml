@@ -247,9 +247,6 @@ redis:
     annotations: {}
 
   # Security context for Redis pods
-  podSecurityContext: {}
-    # fsGroup: 2000
-
   securityContext: {}
     # capabilities:
     #   drop:
