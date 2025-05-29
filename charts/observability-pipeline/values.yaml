@@ -104,6 +104,15 @@ beekeeper:
           secretKeyRef:
             name: honeycomb-observability-pipeline
             key: configuration-key
+    # Configures how many agents per type to rollout at a time.
+    # By default Beekeeper will rollout configuration changes to 1
+    # Primary Collector and 1 Refinery at a time.
+    # If you increase the replicaCounts of the Primary Collector or Refinery
+    # Consider increase this value.
+    DEPLOYMENT_BATCH_SIZE:
+      enabled: true
+      content:
+        value: "1"
   extraEnvs: []
 
   # Resource limits & requests.

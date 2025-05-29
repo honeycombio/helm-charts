@@ -74,6 +74,10 @@ spec:
             - name: HONEYCOMB_CONFIGURATION_KEY
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_CONFIGURATION_KEY.content | nindent 14 }}  
             {{- end }}
+            {{- if .Values.beekeeper.defaultEnv.DEPLOYMENT_BATCH_SIZE.enabled }}
+            - name: DEPLOYMENT_BATCH_SIZE
+              {{- toYaml .Values.beekeeper.defaultEnv.DEPLOYMENT_BATCH_SIZE.content | nindent 14 }}  
+            {{- end }}
             {{- with .Values.beekeeper.extraEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
