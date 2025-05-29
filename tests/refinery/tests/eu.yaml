@@ -1,2 +1,1 @@
-global:
-  region: "production-eu"
+region: "production-eu"

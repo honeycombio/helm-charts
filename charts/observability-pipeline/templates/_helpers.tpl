@@ -5,6 +5,19 @@ Expand the name of the chart.
 {{- default .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/* 
+Get the api base URL
+*/}}
+{{- define "honeycomb-observability-pipeline.apiBaseUrl" -}}
+{{- if and (ne .Values.global.customEndpoint "") (.Values.global.customEndpoint) }}
+{{- default .Values.global.customEndpoint }}
+{{- else if or (eq .Values.global.region "production-eu") (eq .Values.global.region "production-eu1") }}
+{{- default "https://api.eu1.honeycomb.io"  }}
+{{- else }}
+{{- default "https://api.honeycomb.io" }}
+{{- end }}
+{{- end }}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -187,44 +200,28 @@ Create ConfigMap checksum annotation for collector
 Calculate beekeeper endpoint based on region
 */}}
 {{- define "honeycomb-observability-pipeline.beekeeper.endpoint" -}}
-{{- if eq .Values.global.region "production-eu" }}
-{{- default "https://api.eu1.honeycomb.io" .Values.beekeeper.endpoint }}
-{{- else }}
-{{- default "https://api.honeycomb.io" .Values.beekeeper.endpoint }}
-{{- end }}
+{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.beekeeper.endpoint }}
 {{- end }}
 
 {{/*
 Calculate Beekeeper telemetry endpoint based on region
 */}}
 {{- define "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" -}}
-{{- if eq .Values.global.region "production-eu" }}
-{{- default "https://api.eu1.honeycomb.io" .Values.beekeeper.endpoint }}
-{{- else }}
-{{- default "https://api.honeycomb.io" .Values.beekeeper.endpoint }}
-{{- end }}
+{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.beekeeper.endpoint }}
 {{- end }}
 
 {{/*
 Calculate primary collector opampsupervisor default endpoint for telemetry
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" -}}
-{{- if eq .Values.global.region "production-eu" }}
-{{- default "https://api.eu1.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
-{{- else }}
-{{- default "https://api.honeycomb.io" .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
-{{- end }}
+{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
 {{- end }}
 
 {{/*
 Calculate primary collector agent default endpoint for telemetry
 */}}
 {{- define "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" -}}
-{{- if eq .Values.global.region "production-eu" }}
-{{- default "https://api.eu1.honeycomb.io" .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
-{{- else }}
-{{- default "https://api.honeycomb.io" .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
-{{- end }}
+{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
 {{- end }}
 
 {{/*
