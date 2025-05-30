@@ -77,7 +77,7 @@ spec:
             {{- end }}
           {{- with .Values.environment }}
           env:
-          {{- toYaml . | nindent 12 }}
+            {{- tpl (. | toYaml) $ | nindent 12 }}
           {{- end }}
           {{- with .Values.lifecycle }}
           lifecycle:
