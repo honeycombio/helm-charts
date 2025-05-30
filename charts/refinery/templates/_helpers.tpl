@@ -112,11 +112,12 @@ Build config file for Refinery
 {{-     end }}
 {{-   end }}
 {{- end }}
-{{- if eq (include "refinery.region" .) "production-eu" }}
+{{- if or (eq (include "refinery.region" .) "production-eu") (eq (include "refinery.region" .) "eu1") }}
 {{- $config = mustMergeOverwrite (include "refinery.productionEUConfig" .Values | fromYaml) $config }}
 {{- end }}
-{{- if eq .Values.region "custom" }}
-{{- $config = mustMergeOverwrite (include "refinery.customConfig" .Values | fromYaml) $config }}
+{{- if eq (include "refinery.region" .) "custom" }}
+{{- $customEndpoint := (default .Values.customEndpoint (.Values.global).customEndpoint) | trimSuffix "/" }}
+{{- $config = mustMergeOverwrite (include "refinery.customConfig" $customEndpoint | fromYaml) $config }}
 {{- end }}
 {{- tpl (toYaml $config) . }}
 {{- end }}
@@ -126,7 +127,7 @@ Build config file for Refinery
 {{- end}}
 
 {{- define "refinery.region" -}}
-{{- default "" (default (.Values.global).region .Values.region) }}
+{{- default "us1" (default (.Values.global).region .Values.region) }}
 {{- end }}
 
 {{- define "refinery.productionEUConfig" -}}
@@ -144,15 +145,15 @@ OTelTracing:
 
 {{- define "refinery.customConfig" -}}
 Network:
-  HoneycombAPI: {{ .Values.customEndpoint }}
+  HoneycombAPI: {{ . }}
 HoneycombLogger:
-  APIHost: {{ .Values.customEndpoint }}
+  APIHost: {{ . }}
 LegacyMetrics:
-  APIHost: {{ .Values.customEndpoint }}
+  APIHost: {{ . }}
 OTelMetrics:
-  APIHost: {{ .Values.customEndpoint }}
+  APIHost: {{ . }}
 OTelTracing:
-  APIHost: {{ .Values.customEndpoint }}
+  APIHost: {{ . }}
 {{- end }}
 
 {{/*
