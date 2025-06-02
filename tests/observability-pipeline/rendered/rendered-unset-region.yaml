@@ -1,0 +1,655 @@
+---
+# Source: observability-pipeline/charts/refinery/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-refinery
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+---
+# Source: observability-pipeline/templates/beekeeper-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-observability-pipeline-beekeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-beekeeper
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: beekeeper
+---
+# Source: observability-pipeline/templates/primary-collector-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-observability-pipeline-primary-collector
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: collector
+---
+# Source: observability-pipeline/charts/refinery/templates/configmap-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-refinery-config
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+data:
+  config.yaml: |
+    Collection:
+      AvailableMemory: '2Gi'
+      MaxMemoryPercentage: 75
+      ShutdownDelay: '30s'
+    Debugging:
+      AdditionalErrorFields:
+      - trace.span_id
+    GRPCServerParameters:
+      Enabled: true
+      ListenAddr: 0.0.0.0:4317
+    General:
+      ConfigurationVersion: 2
+      MinRefineryVersion: v2.0
+    Logger:
+      Type: honeycomb
+    OTelMetrics:
+      Enabled: true
+    OpAMP:
+      Enabled: true
+      Endpoint: ws://test-observability-pipeline-beekeeper:4320/v1/opamp
+      RecordUsage: false
+    PeerManagement:
+      IdentifierInterfaceName: eth0
+      Type: redis
+    PrometheusMetrics:
+      Enabled: false
+      ListenAddr: 0.0.0.0:9090
+    RedisPeerManagement:
+      Host: 'test-refinery-redis:6379'
+    RefineryTelemetry:
+      AddRuleReasonToTrace: true
+---
+# Source: observability-pipeline/charts/refinery/templates/configmap-rules.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-refinery-rules
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+data:
+  rules.yaml: |
+    RulesVersion: 2
+    Samplers:
+      __default__:
+        DeterministicSampler:
+          SampleRate: 1
+---
+# Source: observability-pipeline/templates/beekeeper-configmap-otel.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-observability-pipeline-beekeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-beekeeper
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: beekeeper
+data:
+  otel-config: |
+    file_format: "0.3"
+    logger_provider:
+      processors:
+      - batch:
+          exporter:
+            otlp:
+              endpoint: 'https://api.honeycomb.io'
+              headers:
+              - name: x-honeycomb-team
+                value: ${HONEYCOMB_API_KEY}
+              protocol: http/protobuf
+    meter_provider:
+      readers:
+      - periodic:
+          exporter:
+            otlp:
+              endpoint: 'https://api.honeycomb.io'
+              headers:
+              - name: x-honeycomb-team
+                value: ${HONEYCOMB_API_KEY}
+              - name: x-honeycomb-dataset
+                value: beekeeper-metrics
+              protocol: http/protobuf
+              temporality_preference: delta
+    propagator:
+      composite:
+      - tracecontext
+      - baggage
+    tracer_provider:
+      processors:
+      - batch:
+          exporter:
+            otlp:
+              endpoint: 'https://api.honeycomb.io'
+              headers:
+              - name: x-honeycomb-team
+                value: ${HONEYCOMB_API_KEY}
+              protocol: http/protobuf
+---
+# Source: observability-pipeline/templates/primary-collector-agent-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-observability-pipeline-primary-collector-agent
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: collector
+data:
+  config: |
+    service:
+      telemetry:
+        resource:
+          service.name: primary-collector
+        logs:
+          encoding: json
+          processors:
+          - batch:
+              exporter:
+                otlp:
+                  endpoint: 'https://api.honeycomb.io'
+                  headers:
+                  - name: x-honeycomb-team
+                    value: ${env:HONEYCOMB_API_KEY}
+                  protocol: http/protobuf
+        metrics:
+          readers:
+          - periodic:
+              exporter:
+                otlp:
+                  endpoint: 'https://api.honeycomb.io'
+                  headers:
+                  - name: x-honeycomb-dataset
+                    value: primary-collector-metrics
+                  - name: x-honeycomb-team
+                    value: ${env:HONEYCOMB_API_KEY}
+                  protocol: http/protobuf
+                  temporality_preference: delta
+---
+# Source: observability-pipeline/templates/primary-collector-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-observability-pipeline-primary-collector
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: collector
+data:
+  config: |
+    server:
+      endpoint: ws://test-observability-pipeline-beekeeper:4320/v1/opamp
+      tls:
+        # Disable verification to test locally.
+        # Don't do this in production.
+        insecure_skip_verify: true
+        # For more TLS settings see config/configtls.ClientConfig
+    
+    capabilities:
+      reports_effective_config: true
+      reports_own_metrics: true
+      reports_own_logs: true
+      reports_own_traces: true
+      reports_health: true
+      accepts_remote_config: true
+      reports_remote_config: true
+    
+    agent:
+      executable: /otelcol-contrib
+      config_files: 
+        - /etc/agent/config.yaml
+      config_apply_timeout: 10s
+      description:
+        identifying_attributes:
+          service.name: primary-collector
+          service.namespace: htp.collector
+    
+    storage:
+      directory: /var/lib/otelcol/supervisor
+    
+    telemetry:
+      logs:
+        level: info
+        processors:
+        - batch:
+            exporter:
+              otlp:
+                endpoint: 'https://api.honeycomb.io'
+                headers:
+                - name: x-honeycomb-team
+                  value: ${HONEYCOMB_API_KEY}
+                protocol: http/protobuf
+      resource:
+        service.name: 'opamp-supervisor'
+---
+# Source: observability-pipeline/charts/refinery/templates/service-redis.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-refinery-redis
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery-redis
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-redis
+      port: 6379
+      protocol: TCP
+      targetPort: redis
+  selector:
+    app.kubernetes.io/name: refinery-redis
+    app.kubernetes.io/instance: test
+---
+# Source: observability-pipeline/charts/refinery/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-refinery
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: data
+      protocol: TCP
+      name: data
+    - port: 4317
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+
+  selector:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+---
+# Source: observability-pipeline/templates/beekeeper-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-observability-pipeline-beekeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-beekeeper
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: beekeeper
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4320
+      targetPort: "opamp"
+      protocol: TCP
+      name: opamp
+  selector:
+    app.kubernetes.io/name: test-beekeeper
+    app.kubernetes.io/instance: test
+---
+# Source: observability-pipeline/templates/primary-collector-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-observability-pipeline-primary-collector
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: collector
+spec:
+  type: ClusterIP
+  ports:
+    - appProtocol: grpc
+      name: otlp
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      protocol: TCP
+      targetPort: 4318
+  selector:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+---
+# Source: observability-pipeline/charts/refinery/templates/deployment-redis.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-refinery-redis
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery-redis
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: refinery-redis
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: refinery-redis
+        app.kubernetes.io/instance: test
+    spec:
+      serviceAccountName: test-refinery
+      securityContext:
+        {}
+      containers:
+        - name: redis
+          image: "redis:7.2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+---
+# Source: observability-pipeline/charts/refinery/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-refinery
+  namespace: default
+  labels:
+    app.kubernetes.io/name: refinery
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "2.9.5"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: refinery
+      app.kubernetes.io/instance: test
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: refinery
+        app.kubernetes.io/instance: test
+    spec:
+      terminationGracePeriodSeconds: 35
+      serviceAccountName: test-refinery
+      securityContext:
+        {}
+      containers:
+        - name: refinery
+          securityContext:
+            {}
+          image: "honeycombio/refinery:2.9.5"
+          imagePullPolicy: IfNotPresent
+          command:
+            - refinery
+            - -c
+            - /etc/refinery/config.yaml
+            - -r
+            - /etc/refinery/rules.yaml
+          env:
+            - name: HONEYCOMB_EXPORTER_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: honeycomb-observability-pipeline
+            - name: REFINERY_HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: honeycomb-observability-pipeline
+          ports:
+            - name: data
+              containerPort: 8080
+              protocol: TCP
+            - name: grpc
+              containerPort: 4317
+              protocol: TCP
+            - name: peer
+              containerPort: 8081
+              protocol: TCP
+          volumeMounts:
+            - name: refinery-config
+              mountPath: /etc/refinery/
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: data
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 3
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: data
+            failureThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 500Mi
+      volumes:
+        - name: refinery-config
+          projected:
+            sources:
+              - configMap:
+                  name: test-refinery-config
+                  items:
+                    - key: config.yaml
+                      path: config.yaml
+              - configMap:
+                  name: test-refinery-rules
+                  items:
+                    - key: rules.yaml
+                      path: rules.yaml
+---
+# Source: observability-pipeline/templates/beekeeper-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-observability-pipeline-beekeeper
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-beekeeper
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: beekeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: test-beekeeper
+      app.kubernetes.io/instance: test
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: test-beekeeper
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/component: beekeeper
+    spec:
+      serviceAccountName: test-observability-pipeline-beekeeper
+      containers:
+        - name: observability-pipeline
+          image: "honeycombio/beekeeper:v0.0.14-alpha"
+          imagePullPolicy: IfNotPresent
+          args:
+            - -otel-config
+            - /etc/beekeeper/otel-config.yaml
+          env:
+            - name: K8S_NAMESPACE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: pipelineInstallationID=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
+            - name: HONEYCOMB_API
+              value: https://api.honeycomb.io
+            - name: HONEYCOMB_INSTALLATION_ID
+              value: test-installation-id
+            - name: HONEYCOMB_MGMT_API_KEY
+              value: test-management-key-id
+            - name: HONEYCOMB_MGMT_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: management-api-secret
+                  name: honeycomb-observability-pipeline  
+            - name: HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: honeycomb-observability-pipeline
+            - name: LOG_LEVEL
+              value: info
+            - name: DEPLOYMENT_BATCH_SIZE
+              value: "1"
+          volumeMounts:
+            - name: otel-config
+              mountPath: /etc/beekeeper
+          ports:
+            - name: opamp
+              containerPort: 4320
+              protocol: TCP
+      volumes:
+        - name: otel-config
+          configMap:
+            name: test-observability-pipeline-beekeeper
+            items:
+              - key: otel-config
+                path: otel-config.yaml
+---
+# Source: observability-pipeline/templates/primary-collector-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-observability-pipeline-primary-collector
+  namespace: default
+  labels:
+    app.kubernetes.io/name: test-primary-collector
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/version: "0.0.1-alpha"
+    app.kubernetes.io/component: collector
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: test-primary-collector
+      app.kubernetes.io/instance: test
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: test-primary-collector
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/component: collector
+    spec:
+      serviceAccountName: test-observability-pipeline-primary-collector
+      containers:
+        - name: observability-pipeline
+          image: "honeycombio/supervised-collector:v0.0.6"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - /etc/opampsupervisor/config.yaml
+          env:
+            - name: K8S_NAMESPACE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8S_POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+            - name: STRAWS_COLLECTOR_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: pipelineInstallationID=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
+            - name: HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: honeycomb-observability-pipeline
+            - name: STRAWS_REFINERY_SERVICE
+              value: 'test-refinery'
+          volumeMounts:
+            - name: config
+              mountPath: /etc/opampsupervisor
+            - name: agent-config
+              mountPath: /etc/agent
+      volumes:
+        - name: config
+          configMap:
+            name: test-observability-pipeline-primary-collector
+            items:
+              - key: config
+                path: config.yaml
+        - name: agent-config
+          configMap:
+            name: test-observability-pipeline-primary-collector-agent
+            items:
+              - key: config
+                path: config.yaml

@@ -3,6 +3,13 @@
   "type": "object",
   "title": "Values",
   "properties": {
+    "region": {
+        "type": "string",
+        "enum": ["us1", "eu1", "custom","production-eu", ""]
+    },
+    "customEndpoint": {
+        "type": "string"
+    },
     "config": {
       "type": "object",
       "additionalProperties": false,
