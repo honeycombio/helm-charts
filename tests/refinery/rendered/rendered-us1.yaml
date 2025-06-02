@@ -142,6 +142,8 @@ spec:
         {}
       containers:
         - name: redis
+          securityContext:
+            {}
           image: "redis:7.2"
           imagePullPolicy: IfNotPresent
           ports:
