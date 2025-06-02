@@ -158,7 +158,10 @@ fullnameOverride: ""
 # - Redis Host: REFINERY_REDIS_HOST
 # - Redis Username: REFINERY_REDIS_USERNAME
 # - Redis Password: REFINERY_REDIS_PASSWORD
-environment: []
+#
+# Supports templating. To escape existing instances of {{ }}, use {{` <original content> `}}.
+# For example, {{ REDACTED_EMAIL }} becomes {{` {{ REDACTED_EMAIL }} `}}.
+environment:
   # - name: REFINERY_HONEYCOMB_API_KEY
   #   valueFrom:
   #     secretKeyRef:
