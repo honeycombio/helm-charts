@@ -59,10 +59,19 @@ data:
     General:
       ConfigurationVersion: 2
       MinRefineryVersion: v2.0
+    HoneycombLogger:
+      APIHost: https://this.is.a.test
+    LegacyMetrics:
+      APIHost: https://this.is.a.test
     Logger:
       Type: honeycomb
+    Network:
+      HoneycombAPI: https://this.is.a.test
     OTelMetrics:
+      APIHost: https://this.is.a.test
       Enabled: true
+    OTelTracing:
+      APIHost: https://this.is.a.test
     OpAMP:
       Enabled: true
       Endpoint: ws://test-observability-pipeline-beekeeper:4320/v1/opamp
@@ -115,7 +124,7 @@ data:
       - batch:
           exporter:
             otlp:
-              endpoint: 'https://api.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
@@ -125,7 +134,7 @@ data:
       - periodic:
           exporter:
             otlp:
-              endpoint: 'https://api.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
@@ -142,7 +151,7 @@ data:
       - batch:
           exporter:
             otlp:
-              endpoint: 'https://api.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
@@ -171,7 +180,7 @@ data:
           - batch:
               exporter:
                 otlp:
-                  endpoint: 'https://api.honeycomb.io'
+                  endpoint: 'https://this.is.a.test'
                   headers:
                   - name: x-honeycomb-team
                     value: ${env:HONEYCOMB_API_KEY}
@@ -181,7 +190,7 @@ data:
           - periodic:
               exporter:
                 otlp:
-                  endpoint: 'https://api.honeycomb.io'
+                  endpoint: 'https://this.is.a.test'
                   headers:
                   - name: x-honeycomb-dataset
                     value: primary-collector-metrics
@@ -240,7 +249,7 @@ data:
         - batch:
             exporter:
               otlp:
-                endpoint: 'https://api.honeycomb.io'
+                endpoint: 'https://this.is.a.test'
                 headers:
                 - name: x-honeycomb-team
                   value: ${HONEYCOMB_API_KEY}
@@ -538,7 +547,7 @@ spec:
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipelineInstallationID=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: HONEYCOMB_API
-              value: https://api.honeycomb.io
+              value: https://this.is.a.test
             - name: HONEYCOMB_INSTALLATION_ID
               value: test-installation-id
             - name: HONEYCOMB_MGMT_API_KEY
