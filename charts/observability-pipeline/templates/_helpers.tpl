@@ -124,7 +124,7 @@ agent:
   config_files: 
     - {{ .Values.primaryCollector.agent.telemetry.file }}
   {{- end }}
-  config_apply_timeout: 10s
+  config_apply_timeout: {{ .Values.primaryCollector.agent.configApplyTimeout }}
   description:
     identifying_attributes:
       service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}
