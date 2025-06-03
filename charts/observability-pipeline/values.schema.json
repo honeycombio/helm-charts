@@ -10,6 +10,15 @@
     "global": {
       "type": "object",
       "properties": {
+        "pipeline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        },
         "region": {
           "type": "string",
           "enum": ["us1", "eu1", "custom"]
@@ -18,9 +27,6 @@
             "type": "string"
         }
       }
-    },
-    "pipelineInstallationID": {
-      "type": "string"
     },
     "publicMgmtAPIKey": {
       "type": "string"
