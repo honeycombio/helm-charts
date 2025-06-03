@@ -8,7 +8,16 @@
       "type": "boolean"
     },
     "global": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "enum": ["us1", "eu1", "custom"]
+        },
+        "customEndpoint": {
+            "type": "string"
+        }
+      }
     },
     "pipelineInstallationID": {
       "type": "string"

@@ -8,36 +8,21 @@ publicMgmtAPIKey: ""
 
 global:
   # This setting configures the default endpoints. All endpoints can still be configured and will take precedence.
-  # The default value is '' (unset). When unset, U.S. values will be used for any unconfigured endpoints.
+  # The default value is 'us1'.
   # Other valid values are:
-  #  - production-eu
+  #  - eu1
+  #  - custom
   #
-  # When 'production-eu' is set, the following settings are configured:
-  #  refinery:
-  #    config:
-  #      Network:
-  #        HoneycombAPI: https://api.eu1.honeycomb.io
-  #      HoneycombLogger:
-  #        APIHost: https://api.eu1.honeycomb.io
-  #      LegacyMetrics:
-  #        APIHost: https://api.eu1.honeycomb.io
-  #      OTelMetrics:
-  #        APIHost: https://api.eu1.honeycomb.io
-  #      OTelTracing:
-  #        APIHost: https://api.eu1.honeycomb.io
-  #  beekeeper:
-  #    endpoint: https://api.eu1.honeycomb.io
-  #    defaultEnv:
-  #      TELEMETRY_ENDPOINT:
-  #        content:
-  #          value: https://api.eu1.honeycomb.io
-  #  primaryCollector:
-  #    opampsupervisor
-  #      telemetry:
-  #        defaultEndpoint: https://api.eu1.honeycomb.io
+  # When 'us1' is selected, the endpoints for all services are set to https://api.honeycomb.io.
+  # When 'eu1' is selected, the endpoints for all services are set to https://api.eu1.honeycomb.io.
   #
   # Any values you've configured will take precedence.
-  region: ""
+  region: "us1"
+
+  # This setting will override any regional setting applied.
+  # You must not include the trailing slash, this must only be a domain and protocol (e.g. https://api.honeycomb.io).
+  # Note: in order to use this setting, region must be set to "custom"
+  customEndpoint: ""
 
 # Configuration options for Refinery.
 # For a complete list of configuration options see https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#configuration.
