@@ -219,6 +219,7 @@ primaryCollector:
 
   # configuration options for the agent (a collector) the OpAMP Supervisor manages
   agent:
+    configApplyTimeout: 30s
     telemetry:
       enabled: true
       defaultEndpoint: ""

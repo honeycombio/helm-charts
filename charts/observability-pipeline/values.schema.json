@@ -231,6 +231,9 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "configApplyTimeout": {
+              "type": "string"
+            },
             "telemetry": {
               "type": "object",
               "additionalProperties": false,
@@ -252,7 +255,10 @@
                 }
               }
             }
-          }
+          },
+          "required": [
+            "configApplyTimeout"
+          ]
         },
         "opampsupervisor": {
           "type": "object",

@@ -224,7 +224,7 @@ data:
       executable: /otelcol-contrib
       config_files: 
         - /etc/agent/config.yaml
-      config_apply_timeout: 10s
+      config_apply_timeout: 30s
       description:
         identifying_attributes:
           service.name: primary-collector
