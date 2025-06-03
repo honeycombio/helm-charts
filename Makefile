@@ -13,3 +13,7 @@ render-templates:
 .PHONY: test-render
 test-render:
 	cd tests && ./render-all-test-templates.sh -b -d rendered-compare && ./compare-rendered-templates.sh 
+
+.PHONY: render-base-templates
+render-base-templates:
+	cd tests && ./render-all-test-templates.sh -b -d rendered
