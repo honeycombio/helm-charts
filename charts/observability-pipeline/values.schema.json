@@ -19,6 +19,19 @@
         }
       }
     },
+    "pipeline": {
+      "type": "object",
+      "properties":{
+        "telemetry": {
+          "type": "object",
+          "properties": {
+            "generateIngestKeys": {
+                "type": "boolean"
+            }
+          }
+        }
+      }
+    },
     "pipelineInstallationID": {
       "type": "string"
     },

@@ -1,0 +1,128 @@
+{{- if .Values.pipeline.telemetry.generateIngestKeys }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-6"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-6"
+    "helm.sh/hook-delete-policy":  before-hook-creation,hook-succeeded,hook-failed
+rules:
+- apiGroups:      ['']
+  resources:      ['secrets']
+  verbs:          ["get", "watch", "list", "create", "update", "patch"]
+---
+# role binding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-6"
+    "helm.sh/hook-delete-policy":  before-hook-creation,hook-succeeded,hook-failed
+subjects:
+- kind: ServiceAccount
+  name: create-secrets-sa
+roleRef:
+  kind: Role
+  name: create-secrets-role
+  apiGroup: rbac.authorization.k8s.io
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-6"
+    "helm.sh/hook-delete-policy":  before-hook-creation,hook-succeeded,hook-failed
+data:
+  {{- (.Files.Glob "scripts/*").AsConfig | nindent 2 }}
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: create-secrets
+        image: "bitnami/kubectl:latest"
+        imagePullPolicy: "Always"
+        command: ["sh", "-c"]
+        args: ["/scripts/generate-ingest-keys.sh"]
+        env:
+          - name: HONEYCOMB_MGMT_API_KEY
+            value: {{ .Values.publicMgmtAPIKey }}
+          - name: HONEYCOMB_MGMT_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: honeycomb-observability-pipeline
+                key: management-api-secret
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      volumes:
+      - name: scripts
+        configMap:
+          name: {{ include "honeycomb-observability-pipeline.fullname" . }}-ingest-key-creator
+{{ end }}

@@ -6,6 +6,10 @@ pipelineInstallationID: ""
 # See https://docs.honeycomb.io/configure/teams/manage-api-keys/#find-management-api-keys for more details.
 publicMgmtAPIKey: ""
 
+pipeline:
+  telemetry:
+    generateIngestKeys: true
+
 global:
   # This setting configures the default endpoints. All endpoints can still be configured and will take precedence.
   # The default value is 'us1'.
