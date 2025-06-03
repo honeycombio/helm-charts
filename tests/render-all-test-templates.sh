@@ -21,14 +21,12 @@ chart_dirs=($(ls -d */))
 for chart_dir in "${chart_dirs[@]}"; do
 
     if [ $BUILD_DEPENDENCIES = true ]; then
-        echo "Building dependencies"
-        for chart_dir in */; do
-            helm repo add honeycomb https://honeycombio.github.io/helm-charts
-            helm dependency build ../charts/${chart_dir}
-        done
+        echo "Building dependencies for ${chart_dir}"
+        helm repo add honeycomb https://honeycombio.github.io/helm-charts
+        helm dependency build ../charts/${chart_dir}
     fi
 
-    rendered_dir=./${chart_dir}/${RENDERED_DIR}
+    rendered_dir=./${chart_dir}${RENDERED_DIR}
 
     # create the rendered directory if it doesn't exist
     mkdir -p ${rendered_dir}
