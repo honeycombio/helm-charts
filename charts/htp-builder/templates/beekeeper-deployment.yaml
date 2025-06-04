@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-beekeeper
+  name: {{ include "htp-builder.fullname" . }}-beekeeper
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.beekeeper.labels" . | nindent 4 }}
+    {{- include "htp-builder.beekeeper.labels" . | nindent 4 }}
     app.kubernetes.io/component: beekeeper
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . | nindent 6 }}
+      {{- include "htp-builder.beekeeper.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       annotations:
-        {{- include "honeycomb-observability-pipeline.beekeeper.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- include "htp-builder.beekeeper.configTemplateChecksumAnnotation" . | nindent 8 }}
       labels:
-        {{- include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . | nindent 8 }}
+        {{- include "htp-builder.beekeeper.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: beekeeper
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.beekeeper.serviceAccountName" . }}
+      serviceAccountName: {{ include "htp-builder.beekeeper.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.beekeeper.image.repository }}:{{ .Values.beekeeper.image.tag }}"
@@ -57,7 +57,7 @@ spec:
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipelineInstallationID={{ .Values.global.pipeline.id }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: HONEYCOMB_API
-              value: {{ include "honeycomb-observability-pipeline.beekeeper.endpoint" . }}
+              value: {{ include "htp-builder.beekeeper.endpoint" . }}
             - name: HONEYCOMB_INSTALLATION_ID
               value: {{ .Values.global.pipeline.id }}
             - name: HONEYCOMB_MGMT_API_KEY
@@ -109,7 +109,7 @@ spec:
       {{- if .Values.beekeeper.telemetry.enabled }}
         - name: otel-config
           configMap:
-            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-beekeeper
+            name: {{ include "htp-builder.fullname" . }}-beekeeper
             items:
               - key: otel-config
                 path: otel-config.yaml

@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
+  name: {{ include "htp-builder.fullname" . }}-primary-collector
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.primaryCollector.labels" . | nindent 4 }}
+    {{- include "htp-builder.primaryCollector.labels" . | nindent 4 }}
     app.kubernetes.io/component: collector
 spec:
   type: ClusterIP
   ports:
     {{- toYaml .Values.primaryCollector.service.ports | nindent 4 }}
   selector:
-    {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 4 }}
+    {{- include "htp-builder.primaryCollector.selectorLabels" . | nindent 4 }}
 {{- end }}

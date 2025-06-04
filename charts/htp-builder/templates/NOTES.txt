@@ -39,4 +39,4 @@
 Your Honeycomb Observability Pipeline is ready.
 
 Start sending OTLP data to your pipeline via:
-  HTTP: http://{{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector:4318
+  HTTP: http://{{ include "htp-builder.fullname" . }}-primary-collector:4318
