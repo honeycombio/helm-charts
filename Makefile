@@ -4,7 +4,7 @@ lint:
 
 .PHONY: test
 test:
-	ct install --config ./ct.yaml --excluded-charts htp --excluded-charts observability-pipeline
+	ct install --config ./ct.yaml --excluded-charts htp --excluded-charts htp-builder
 
 .PHONY: render-templates
 render-templates:
