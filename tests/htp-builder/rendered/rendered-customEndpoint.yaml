@@ -1,5 +1,5 @@
 ---
-# Source: observability-pipeline/charts/refinery/templates/serviceaccount.yaml
+# Source: htp-builder/charts/refinery/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -10,11 +10,11 @@ metadata:
     app.kubernetes.io/instance: test
     app.kubernetes.io/version: "2.9.5"
 ---
-# Source: observability-pipeline/templates/beekeeper-serviceaccount.yaml
+# Source: htp-builder/templates/beekeeper-serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: test-observability-pipeline-beekeeper
+  name: test-htp-builder-beekeeper
   namespace: default
   labels:
     app.kubernetes.io/name: test-beekeeper
@@ -22,11 +22,11 @@ metadata:
     app.kubernetes.io/version: "0.0.1-alpha"
     app.kubernetes.io/component: beekeeper
 ---
-# Source: observability-pipeline/templates/primary-collector-serviceaccount.yaml
+# Source: htp-builder/templates/primary-collector-serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: test-observability-pipeline-primary-collector
+  name: test-htp-builder-primary-collector
   namespace: default
   labels:
     app.kubernetes.io/name: test-primary-collector
@@ -34,7 +34,7 @@ metadata:
     app.kubernetes.io/version: "0.0.1-alpha"
     app.kubernetes.io/component: collector
 ---
-# Source: observability-pipeline/charts/refinery/templates/configmap-config.yaml
+# Source: htp-builder/charts/refinery/templates/configmap-config.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -60,21 +60,21 @@ data:
       ConfigurationVersion: 2
       MinRefineryVersion: v2.0
     HoneycombLogger:
-      APIHost: https://api.eu1.honeycomb.io
+      APIHost: https://this.is.a.test
     LegacyMetrics:
-      APIHost: https://api.eu1.honeycomb.io
+      APIHost: https://this.is.a.test
     Logger:
       Type: honeycomb
     Network:
-      HoneycombAPI: https://api.eu1.honeycomb.io
+      HoneycombAPI: https://this.is.a.test
     OTelMetrics:
-      APIHost: https://api.eu1.honeycomb.io
+      APIHost: https://this.is.a.test
       Enabled: true
     OTelTracing:
-      APIHost: https://api.eu1.honeycomb.io
+      APIHost: https://this.is.a.test
     OpAMP:
       Enabled: true
-      Endpoint: ws://test-observability-pipeline-beekeeper:4320/v1/opamp
+      Endpoint: ws://test-htp-builder-beekeeper:4320/v1/opamp
       RecordUsage: false
     PeerManagement:
       IdentifierInterfaceName: eth0
@@ -87,7 +87,7 @@ data:
     RefineryTelemetry:
       AddRuleReasonToTrace: true
 ---
-# Source: observability-pipeline/charts/refinery/templates/configmap-rules.yaml
+# Source: htp-builder/charts/refinery/templates/configmap-rules.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -105,11 +105,11 @@ data:
         DeterministicSampler:
           SampleRate: 1
 ---
-# Source: observability-pipeline/templates/beekeeper-configmap-otel.yaml
+# Source: htp-builder/templates/beekeeper-configmap-otel.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-observability-pipeline-beekeeper
+  name: test-htp-builder-beekeeper
   namespace: default
   labels:
     app.kubernetes.io/name: test-beekeeper
@@ -124,7 +124,7 @@ data:
       - batch:
           exporter:
             otlp:
-              endpoint: 'https://api.eu1.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
@@ -134,7 +134,7 @@ data:
       - periodic:
           exporter:
             otlp:
-              endpoint: 'https://api.eu1.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
@@ -151,17 +151,17 @@ data:
       - batch:
           exporter:
             otlp:
-              endpoint: 'https://api.eu1.honeycomb.io'
+              endpoint: 'https://this.is.a.test'
               headers:
               - name: x-honeycomb-team
                 value: ${HONEYCOMB_API_KEY}
               protocol: http/protobuf
 ---
-# Source: observability-pipeline/templates/primary-collector-agent-configmap.yaml
+# Source: htp-builder/templates/primary-collector-agent-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-observability-pipeline-primary-collector-agent
+  name: test-htp-builder-primary-collector-agent
   namespace: default
   labels:
     app.kubernetes.io/name: test-primary-collector
@@ -180,7 +180,7 @@ data:
           - batch:
               exporter:
                 otlp:
-                  endpoint: 'https://api.eu1.honeycomb.io'
+                  endpoint: 'https://this.is.a.test'
                   headers:
                   - name: x-honeycomb-team
                     value: ${env:HONEYCOMB_API_KEY}
@@ -190,7 +190,7 @@ data:
           - periodic:
               exporter:
                 otlp:
-                  endpoint: 'https://api.eu1.honeycomb.io'
+                  endpoint: 'https://this.is.a.test'
                   headers:
                   - name: x-honeycomb-dataset
                     value: primary-collector-metrics
@@ -199,11 +199,11 @@ data:
                   protocol: http/protobuf
                   temporality_preference: delta
 ---
-# Source: observability-pipeline/templates/primary-collector-configmap.yaml
+# Source: htp-builder/templates/primary-collector-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-observability-pipeline-primary-collector
+  name: test-htp-builder-primary-collector
   namespace: default
   labels:
     app.kubernetes.io/name: test-primary-collector
@@ -213,7 +213,7 @@ metadata:
 data:
   config: |
     server:
-      endpoint: ws://test-observability-pipeline-beekeeper:4320/v1/opamp
+      endpoint: ws://test-htp-builder-beekeeper:4320/v1/opamp
       tls:
         # Disable verification to test locally.
         # Don't do this in production.
@@ -233,6 +233,7 @@ data:
       executable: /otelcol-contrib
       config_files: 
         - /etc/agent/config.yaml
+      passthrough_logs: true
       config_apply_timeout: 30s
       description:
         identifying_attributes:
@@ -249,7 +250,7 @@ data:
         - batch:
             exporter:
               otlp:
-                endpoint: 'https://api.eu1.honeycomb.io'
+                endpoint: 'https://this.is.a.test'
                 headers:
                 - name: x-honeycomb-team
                   value: ${HONEYCOMB_API_KEY}
@@ -257,7 +258,7 @@ data:
       resource:
         service.name: 'opamp-supervisor'
 ---
-# Source: observability-pipeline/charts/refinery/templates/service-redis.yaml
+# Source: htp-builder/charts/refinery/templates/service-redis.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -278,7 +279,7 @@ spec:
     app.kubernetes.io/name: refinery-redis
     app.kubernetes.io/instance: test
 ---
-# Source: observability-pipeline/charts/refinery/templates/service.yaml
+# Source: htp-builder/charts/refinery/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -304,11 +305,11 @@ spec:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
 ---
-# Source: observability-pipeline/templates/beekeeper-service.yaml
+# Source: htp-builder/templates/beekeeper-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-observability-pipeline-beekeeper
+  name: test-htp-builder-beekeeper
   namespace: default
   labels:
     app.kubernetes.io/name: test-beekeeper
@@ -326,11 +327,11 @@ spec:
     app.kubernetes.io/name: test-beekeeper
     app.kubernetes.io/instance: test
 ---
-# Source: observability-pipeline/templates/primary-collector-service.yaml
+# Source: htp-builder/templates/primary-collector-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-observability-pipeline-primary-collector
+  name: test-htp-builder-primary-collector
   namespace: default
   labels:
     app.kubernetes.io/name: test-primary-collector
@@ -353,7 +354,7 @@ spec:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
 ---
-# Source: observability-pipeline/charts/refinery/templates/deployment-redis.yaml
+# Source: htp-builder/charts/refinery/templates/deployment-redis.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -389,7 +390,7 @@ spec:
               containerPort: 6379
               protocol: TCP
 ---
-# Source: observability-pipeline/charts/refinery/templates/deployment.yaml
+# Source: htp-builder/charts/refinery/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -435,12 +436,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: api-key
-                  name: honeycomb-observability-pipeline
+                  name: htp-builder
             - name: REFINERY_HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
                   key: api-key
-                  name: honeycomb-observability-pipeline
+                  name: htp-builder
           ports:
             - name: data
               containerPort: 8080
@@ -492,11 +493,11 @@ spec:
                     - key: rules.yaml
                       path: rules.yaml
 ---
-# Source: observability-pipeline/templates/beekeeper-deployment.yaml
+# Source: htp-builder/templates/beekeeper-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-observability-pipeline-beekeeper
+  name: test-htp-builder-beekeeper
   namespace: default
   labels:
     app.kubernetes.io/name: test-beekeeper
@@ -519,9 +520,9 @@ spec:
         app.kubernetes.io/instance: test
         app.kubernetes.io/component: beekeeper
     spec:
-      serviceAccountName: test-observability-pipeline-beekeeper
+      serviceAccountName: test-htp-builder-beekeeper
       containers:
-        - name: observability-pipeline
+        - name: htp-builder
           image: "honeycombio/beekeeper:v0.0.14-alpha"
           imagePullPolicy: IfNotPresent
           args:
@@ -547,7 +548,7 @@ spec:
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipelineInstallationID=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: HONEYCOMB_API
-              value: https://api.eu1.honeycomb.io
+              value: https://this.is.a.test
             - name: HONEYCOMB_INSTALLATION_ID
               value: test-installation-id
             - name: HONEYCOMB_MGMT_API_KEY
@@ -556,12 +557,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: management-api-secret
-                  name: honeycomb-observability-pipeline  
+                  name: htp-builder  
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
                   key: api-key
-                  name: honeycomb-observability-pipeline
+                  name: htp-builder
             - name: LOG_LEVEL
               value: info
             - name: DEPLOYMENT_BATCH_SIZE
@@ -576,16 +577,16 @@ spec:
       volumes:
         - name: otel-config
           configMap:
-            name: test-observability-pipeline-beekeeper
+            name: test-htp-builder-beekeeper
             items:
               - key: otel-config
                 path: otel-config.yaml
 ---
-# Source: observability-pipeline/templates/primary-collector-deployment.yaml
+# Source: htp-builder/templates/primary-collector-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-observability-pipeline-primary-collector
+  name: test-htp-builder-primary-collector
   namespace: default
   labels:
     app.kubernetes.io/name: test-primary-collector
@@ -608,9 +609,9 @@ spec:
         app.kubernetes.io/instance: test
         app.kubernetes.io/component: collector
     spec:
-      serviceAccountName: test-observability-pipeline-primary-collector
+      serviceAccountName: test-htp-builder-primary-collector
       containers:
-        - name: observability-pipeline
+        - name: htp-builder
           image: "honeycombio/supervised-collector:v0.0.6"
           imagePullPolicy: IfNotPresent
           args:
@@ -643,7 +644,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: api-key
-                  name: honeycomb-observability-pipeline
+                  name: htp-builder
             - name: STRAWS_REFINERY_SERVICE
               value: 'test-refinery'
           volumeMounts:
@@ -654,13 +655,13 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: test-observability-pipeline-primary-collector
+            name: test-htp-builder-primary-collector
             items:
               - key: config
                 path: config.yaml
         - name: agent-config
           configMap:
-            name: test-observability-pipeline-primary-collector-agent
+            name: test-htp-builder-primary-collector-agent
             items:
               - key: config
                 path: config.yaml
