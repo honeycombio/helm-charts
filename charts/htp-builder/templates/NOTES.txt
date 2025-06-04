@@ -1,6 +1,6 @@
-╔═╗┌┐ ┌─┐┌─┐┬─┐┬  ┬┌─┐┌┐ ┬┬  ┬┌┬┐┬ ┬  ╔═╗┬┌─┐┌─┐┬  ┬┌┐┌┌─┐
-║ ║├┴┐└─┐├┤ ├┬┘└┐┌┘├─┤├┴┐││  │ │ └┬┘  ╠═╝│├─┘├┤ │  ││││├┤ 
-╚═╝└─┘└─┘└─┘┴└─ └┘ ┴ ┴└─┘┴┴─┘┴ ┴  ┴   ╩  ┴┴  └─┘┴─┘┴┘└┘└─┘
+┬ ┬┌┬┐┌─┐  ┌┐ ┬ ┬┬┬  ┌┬┐┌─┐┬─┐
+├─┤ │ ├─┘  ├┴┐│ │││   ││├┤ ├┬┘
+┴ ┴ ┴ ┴    └─┘└─┘┴┴─┘─┴┘└─┘┴└─
 
 {{- if (not .Values.beekeeper.image.repository) }}
   {{- fail "beekeeper.image.repository must be set" }}
@@ -36,7 +36,7 @@
 {{- end }}
 
 
-Your Honeycomb Observability Pipeline is ready.
+Your Honeycomb Telemetry Pipeline Builder is ready.
 
 Start sending OTLP data to your pipeline via:
   HTTP: http://{{ include "htp-builder.fullname" . }}-primary-collector:4318
