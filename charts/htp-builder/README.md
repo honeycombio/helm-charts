@@ -1,4 +1,4 @@
-# Honeycomb Observability Pipeline
+# Honeycomb Telemetry Pipeline Builder
 
 > [!WARNING]  
 > This is an experimental helm chart that is still under development. Breaking changes may be made without warning.
@@ -15,7 +15,7 @@ Create a Kubernetes secret to store your API Key
 ```shell
 export HONEYCOMB_API_KEY=mykey
 export HONEYCOMB_MGMT_API_SECRET=mymanagementsecret
-kubectl create secret generic honeycomb-observability-pipeline \
+kubectl create secret generic htp-builder \
     --from-literal=api-key=$HONEYCOMB_API_KEY \
     --from-literal=management-api-secret=$HONEYCOMB_MGMT_API_SECRET
 ```
@@ -29,7 +29,7 @@ helm repo add honeycomb https://honeycombio.github.io/helm-charts
 To install the chart with the release name `my-pipeline`, run the following command:
 
 ```shell
-helm install my-pipeline honeycomb/observability-pipeline \
+helm install my-pipeline honeycomb/htp-builder \
     --set global.pipeline.id="pipeline-intallation-id" \
     --set publicMgmtAPIKey="public-management-key-id"
 ```

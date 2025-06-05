@@ -31,7 +31,7 @@ refinery:
   config:
     OpAMP:
       Enabled: true
-      Endpoint: "ws://{{ include \"honeycomb-observability-pipeline.beekeeperName\" . }}:4320/v1/opamp"
+      Endpoint: "ws://{{ include \"htp-builder.beekeeperName\" . }}:4320/v1/opamp"
       RecordUsage: false
     PrometheusMetrics:
       Enabled: false
@@ -44,13 +44,13 @@ refinery:
     - name: HONEYCOMB_EXPORTER_APIKEY
       valueFrom:
         secretKeyRef:
-          name: honeycomb-observability-pipeline
+          name: htp-builder
           key: api-key
     # Env var for exporting refinery internal telemetry
     - name: REFINERY_HONEYCOMB_API_KEY
       valueFrom:
         secretKeyRef:
-          name: honeycomb-observability-pipeline
+          name: htp-builder
           key: api-key
 
 # Configuration options for Beekeeper.
@@ -70,13 +70,13 @@ beekeeper:
       content:
         valueFrom:
           secretKeyRef:
-            name: honeycomb-observability-pipeline
+            name: htp-builder
             key: management-api-secret
     HONEYCOMB_API_KEY:
       content:
         valueFrom:
           secretKeyRef:
-            name: honeycomb-observability-pipeline
+            name: htp-builder
             key: api-key
     LOG_LEVEL:
       enabled: true
@@ -88,7 +88,7 @@ beekeeper:
       content:
         valueFrom:
           secretKeyRef:
-            name: honeycomb-observability-pipeline
+            name: htp-builder
             key: configuration-key
     # Configures how many agents per type to rollout at a time.
     # By default Beekeeper will rollout configuration changes to 1
@@ -134,7 +134,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
+                  endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -144,7 +144,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
+                  endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -157,7 +157,7 @@ beekeeper:
               exporter:
                 otlp:
                   protocol: http/protobuf
-                  endpoint: '{{ include "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" . }}'
+                  endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
                   headers:
                   - name: "x-honeycomb-team"
                     value: ${HONEYCOMB_API_KEY}
@@ -204,14 +204,14 @@ primaryCollector:
       content:
         valueFrom:
           secretKeyRef:
-            name: honeycomb-observability-pipeline
+            name: htp-builder
             key: api-key
     STRAWS_REFINERY_SERVICE:
       enabled: true
       content:
         # If you change the refinery service name via refinery.nameOverride or refinery.fullnameOverride
         # you'll need to change this value too.
-        value: '{{ include "honeycomb-observability-pipeline.refineryName" . }}'
+        value: '{{ include "htp-builder.refineryName" . }}'
   extraEnvs: []
 
   volumes: []
@@ -231,7 +231,7 @@ primaryCollector:
             - periodic:
                 exporter:
                   otlp:
-                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
+                    endpoint: '{{ include "htp-builder.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
                     headers:
                       - name: x-honeycomb-dataset
                         value: primary-collector-metrics
@@ -245,7 +245,7 @@ primaryCollector:
             - batch:
                 exporter:
                   otlp:
-                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
+                    endpoint: '{{ include "htp-builder.primaryCollector.agent.telemetry.defaultEndpoint" . }}'
                     headers:
                       - name: x-honeycomb-team
                         value: ${env:HONEYCOMB_API_KEY}
@@ -271,7 +271,7 @@ primaryCollector:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: '{{ include "honeycomb-observability-pipeline.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" . }}'
+                    endpoint: '{{ include "htp-builder.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" . }}'
                     headers:
                     - name: "x-honeycomb-team"
                       value: ${HONEYCOMB_API_KEY}

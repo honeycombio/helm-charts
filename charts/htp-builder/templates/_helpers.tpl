@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "honeycomb-observability-pipeline.name" -}}
+{{- define "htp-builder.name" -}}
 {{- default .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/* 
 Get the api base URL
 */}}
-{{- define "honeycomb-observability-pipeline.apiBaseUrl" -}}
+{{- define "htp-builder.apiBaseUrl" -}}
 {{- if and (ne .Values.global.customEndpoint "") (.Values.global.customEndpoint) }}
 {{- default .Values.global.customEndpoint }}
 {{- else if or (eq .Values.global.region "production-eu") (eq .Values.global.region "eu1") }}
@@ -23,7 +23,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "honeycomb-observability-pipeline.fullname" -}}
+{{- define "htp-builder.fullname" -}}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
@@ -32,7 +32,7 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
-{{- define "honeycomb-observability-pipeline.serviceName" -}}
+{{- define "htp-builder.serviceName" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -48,16 +48,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "honeycomb-observability-pipeline.chart" -}}
+{{- define "htp-builder.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common beekeeper labels
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.labels" -}}
-helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipeline.beekeeper.selectorLabels" . }}
+{{- define "htp-builder.beekeeper.labels" -}}
+helm.sh/chart: {{ include "htp-builder.chart" . }}
+{{ include "htp-builder.beekeeper.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -67,17 +67,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Beekeeper Selector labels
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-beekeeper
+{{- define "htp-builder.beekeeper.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "htp-builder.name" . }}-beekeeper
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use for beekeeper
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.serviceAccountName" -}}
+{{- define "htp-builder.beekeeper.serviceAccountName" -}}
 {{- if .Values.beekeeper.serviceAccount.create }}
-{{- default (printf "%s-beekeeper" (include "honeycomb-observability-pipeline.fullname" .)) .Values.beekeeper.serviceAccount.name }}
+{{- default (printf "%s-beekeeper" (include "htp-builder.fullname" .)) .Values.beekeeper.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.beekeeper.serviceAccount.name }}
 {{- end }}
@@ -86,23 +86,23 @@ Create the name of the service account to use for beekeeper
 {{/*
 Build otel config file for beekeeper
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeperOTelConfig" -}}
+{{- define "htp-builder.beekeeperOTelConfig" -}}
 {{- tpl (toYaml .Values.beekeeper.telemetry.config) . }}
 {{- end }}
 
 {{/*
 Create ConfigMap checksum annotation for beekeeper
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.configTemplateChecksumAnnotation" -}}
+{{- define "htp-builder.beekeeper.configTemplateChecksumAnnotation" -}}
   checksum/config: {{ include (print $.Template.BasePath "/beekeeper-configmap-otel.yaml") . | sha256sum }}
 {{- end }}
 
 {{/*
 Build config file for opamp supervisor
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.config" -}}
+{{- define "htp-builder.primaryCollector.config" -}}
 server:
-  endpoint: ws://{{ include "honeycomb-observability-pipeline.beekeeperName" . }}:4320/v1/opamp
+  endpoint: ws://{{ include "htp-builder.beekeeperName" . }}:4320/v1/opamp
   tls:
     # Disable verification to test locally.
     # Don't do this in production.
@@ -142,7 +142,7 @@ telemetry:
 {{/*
 Build config file for collector
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.agent.config" -}}
+{{- define "htp-builder.primaryCollector.agent.config" -}}
 service:
   telemetry:
     {{- if .Values.primaryCollector.agent.telemetry.defaultServiceName }}
@@ -155,9 +155,9 @@ service:
 {{/*
 Create the name of the service account to use for the collector
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.serviceAccountName" -}}
+{{- define "htp-builder.primaryCollector.serviceAccountName" -}}
 {{- if .Values.primaryCollector.serviceAccount.create }}
-{{- default (printf "%s-primary-collector" (include "honeycomb-observability-pipeline.fullname" .)) .Values.primaryCollector.serviceAccount.name }}
+{{- default (printf "%s-primary-collector" (include "htp-builder.fullname" .)) .Values.primaryCollector.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.primaryCollector.serviceAccount.name }}
 {{- end }}
@@ -166,9 +166,9 @@ Create the name of the service account to use for the collector
 {{/*
 Common collector labels
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.labels" -}}
-helm.sh/chart: {{ include "honeycomb-observability-pipeline.chart" . }}
-{{ include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . }}
+{{- define "htp-builder.primaryCollector.labels" -}}
+helm.sh/chart: {{ include "htp-builder.chart" . }}
+{{ include "htp-builder.primaryCollector.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -178,68 +178,68 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Collector Selector labels
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "honeycomb-observability-pipeline.name" . }}-primary-collector
+{{- define "htp-builder.primaryCollector.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "htp-builder.name" . }}-primary-collector
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create ConfigMap checksum annotation for collector
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.configTemplateChecksumAnnotation" -}}
+{{- define "htp-builder.primaryCollector.configTemplateChecksumAnnotation" -}}
   checksum/config: {{ include (print $.Template.BasePath "/primary-collector-configmap.yaml") . | sha256sum }}
 {{- end }}
 
 {{/*
 Create ConfigMap checksum annotation for collector
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.agent.configTemplateChecksumAnnotation" -}}
+{{- define "htp-builder.primaryCollector.agent.configTemplateChecksumAnnotation" -}}
   checksum/agent-config: {{ include (print $.Template.BasePath "/primary-collector-agent-configmap.yaml") . | sha256sum }}
 {{- end }}
 
 {{/*
 Calculate beekeeper endpoint based on region
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.endpoint" -}}
-{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.beekeeper.endpoint }}
+{{- define "htp-builder.beekeeper.endpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) .Values.beekeeper.endpoint }}
 {{- end }}
 
 {{/*
 Calculate Beekeeper telemetry endpoint based on region
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeper.telemetryEndpoint" -}}
-{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.beekeeper.endpoint }}
+{{- define "htp-builder.beekeeper.telemetryEndpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) .Values.beekeeper.endpoint }}
 {{- end }}
 
 {{/*
 Calculate primary collector opampsupervisor default endpoint for telemetry
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" -}}
-{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
+{{- define "htp-builder.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
 {{- end }}
 
 {{/*
 Calculate primary collector agent default endpoint for telemetry
 */}}
-{{- define "honeycomb-observability-pipeline.primaryCollector.agent.telemetry.defaultEndpoint" -}}
-{{- default (include "honeycomb-observability-pipeline.apiBaseUrl" .) .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
+{{- define "htp-builder.primaryCollector.agent.telemetry.defaultEndpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
 {{- end }}
 
 {{/*
 Get the name of the beekeeper service for refinery
 */}}
-{{- define "honeycomb-observability-pipeline.beekeeperName" -}}
-{{- if contains "observability-pipeline" .Release.Name }}
+{{- define "htp-builder.beekeeperName" -}}
+{{- if contains "htp-builder" .Release.Name }}
 {{- printf "%s-%s" .Release.Name "beekeeper" | trunc 63 | trimSuffix "-"  }}
 {{- else }}
-{{- printf "%s-%s-%s" .Release.Name "observability-pipeline" "beekeeper" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s-%s" .Release.Name "htp-builder" "beekeeper" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
 {{/*
 Get the name of the refinery service for primary-collector
 */}}
-{{- define "honeycomb-observability-pipeline.refineryName" -}}
+{{- define "htp-builder.refineryName" -}}
 {{- if contains "refinery" .Release.Name }}
 {{- print "refinery" }}
 {{- else }}

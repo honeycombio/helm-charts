@@ -1,6 +1,6 @@
 apiVersion: v2
-name: observability-pipeline
-description: Chart to deploy both OpenTelemetry Collector and Honeycomb Refinery
+name: htp-builder
+description: Chart to deploy Honeycomb Telemetry Pipeline Builder
 type: application
 version: 0.0.60-alpha
 appVersion: 0.0.1-alpha
@@ -12,6 +12,7 @@ keywords:
   - sampling
   - tracing
   - collector
+  - htp
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/refinery

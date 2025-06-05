@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
+  name: {{ include "htp-builder.fullname" . }}-primary-collector
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "honeycomb-observability-pipeline.primaryCollector.labels" . | nindent 4 }}
+    {{- include "htp-builder.primaryCollector.labels" . | nindent 4 }}
     app.kubernetes.io/component: collector
 spec:
   replicas: {{ .Values.primaryCollector.replicaCount }}
   selector:
     matchLabels:
-      {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 6 }}
+      {{- include "htp-builder.primaryCollector.selectorLabels" . | nindent 6 }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       annotations:
-        {{- include "honeycomb-observability-pipeline.primaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- include "htp-builder.primaryCollector.configTemplateChecksumAnnotation" . | nindent 8 }}
         {{- if .Values.primaryCollector.agent.telemetry.enabled }}
-        {{- include "honeycomb-observability-pipeline.primaryCollector.agent.configTemplateChecksumAnnotation" . | nindent 8 }}
+        {{- include "htp-builder.primaryCollector.agent.configTemplateChecksumAnnotation" . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "honeycomb-observability-pipeline.primaryCollector.selectorLabels" . | nindent 8 }}
+        {{- include "htp-builder.primaryCollector.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: collector
     spec:
-      serviceAccountName: {{ include "honeycomb-observability-pipeline.primaryCollector.serviceAccountName" . }}
+      serviceAccountName: {{ include "htp-builder.primaryCollector.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.primaryCollector.image.repository }}:{{ .Values.primaryCollector.image.tag }}"
@@ -83,14 +83,14 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector
+            name: {{ include "htp-builder.fullname" . }}-primary-collector
             items:
               - key: config
                 path: config.yaml
         {{- if .Values.primaryCollector.agent.telemetry.enabled }}
         - name: agent-config
           configMap:
-            name: {{ include "honeycomb-observability-pipeline.fullname" . }}-primary-collector-agent
+            name: {{ include "htp-builder.fullname" . }}-primary-collector-agent
             items:
               - key: config
                 path: config.yaml
