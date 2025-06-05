@@ -1,0 +1,13 @@
+{{- if .Values.beekeeper.telemetry.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-beekeeper
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.beekeeper.labels" . | nindent 4 }}
+    app.kubernetes.io/component: beekeeper
+data:
+  otel-config: |
+  {{- include "htp-builder.beekeeperOTelConfig" . | nindent 4 -}}
+{{- end }}

@@ -3,4 +3,4 @@ dependencies:
   repository: https://honeycombio.github.io/helm-charts
   version: 2.17.0
 digest: sha256:13978ebf7edcd1c49266c9c1597442ce2a4a85774702048efd16ecd5738c333d
-generated: "2025-06-03T12:15:20.299260152+01:00"
+generated: "2025-06-04T11:54:30.458257-06:00"
