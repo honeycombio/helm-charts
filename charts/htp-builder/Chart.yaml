@@ -13,7 +13,6 @@ keywords:
   - tracing
   - collector
   - htp
-  - builder
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/refinery
