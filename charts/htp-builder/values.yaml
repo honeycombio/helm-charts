@@ -3,11 +3,11 @@
 managementApiKey:
   # The public ID of you mangement API key.
   id: ""
-  # The kubernetes secret used to provide secret the part of your management API key. 
+  # The kubernetes secret used to provide secret the part of your management API key.
   secret:
     # The name of the kubernetes secret
     name: "htp-builder"
-    # The key in the kubernetes secret that stores the secret the part of your management API key. 
+    # The key in the kubernetes secret that stores the secret the part of your management API key.
     key: "management-api-secret"
 
 global:
