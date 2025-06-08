@@ -14,12 +14,16 @@
   {{- fail ".global.pipeline.id must be set" }}
 {{- end }}
 
-{{- if (not .Values.publicMgmtAPIKey) }}
-  {{- fail "publicMgmtAPIKey must be set" }}
+{{- if (not .Values.managementApiKey.id) }}
+  {{- fail "managementApiKey.id must be set" }}
 {{- end }}
 
-{{- if (not .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content) }}
-  {{- fail "beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content must be set" }}
+{{- if (not .Values.managementApiKey.secret.name) }}
+  {{- fail "managementApiKey.secret.name must be set" }}
+{{- end }}
+
+{{- if (not .Values.managementApiKey.secret.key) }}
+  {{- fail "managementApiKey.secret.key must be set" }}
 {{- end }}
 
 {{- if (not .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.content) }}

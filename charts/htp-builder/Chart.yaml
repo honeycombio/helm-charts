@@ -2,7 +2,7 @@ apiVersion: v2
 name: htp-builder
 description: Chart to deploy Honeycomb Telemetry Pipeline Builder
 type: application
-version: 0.0.60-alpha
+version: 0.0.61-alpha
 appVersion: 0.0.1-alpha
 keywords:
   - refinery
