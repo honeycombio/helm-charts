@@ -189,7 +189,7 @@ refinery:
   service:
     port: 80
     grpcPort: 4317
-  
+
   terminationGracePeriodSeconds: 35
 
 # Configuration options for Beekeeper.
