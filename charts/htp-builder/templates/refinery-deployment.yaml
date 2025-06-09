@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-refinery
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.refinery.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refinery
+spec:
+  replicas: {{ .Values.refinery.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "htp-builder.refinery.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/refinery-configmap-config.yaml") . | sha256sum }}
+        checksum/rules: {{ include (print $.Template.BasePath "/refinery-configmap-rules.yaml") . | sha256sum }}
+      labels:
+        {{- include "htp-builder.refinery.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "htp-builder.refinery.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.refinery.image.repository }}:{{ .Values.refinery.image.tag }}"
+          imagePullPolicy: {{ .Values.refinery.image.pullPolicy }}
+          command:
+            - refinery
+            - -c
+            - /etc/refinery/config.yaml
+            - -r
+            - /etc/refinery/rules.yaml
+          {{- with .Values.refinery.extraEnvs }}
+          env:
+            {{- tpl (. | toYaml) $ | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: data
+              containerPort: 8080
+              protocol: TCP
+            - name: grpc
+              containerPort: 4317
+              protocol: TCP
+            - name: peer
+              containerPort: 8081
+              protocol: TCP
+          volumeMounts:
+            - name: refinery-config
+              mountPath: /etc/refinery/
+            {{- with .Values.refinery.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: data
+            {{- with .Values.refinery.livenessProbe }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: data
+            {{- with .Values.refinery.readinessProbe }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.refinery.resources | nindent 12 }}
+      volumes:
+        - name: refinery-config
+          projected:
+            sources:
+              - configMap:
+                  name: {{ include "htp-builder.fullname" . }}-refinery-config
+                  items:
+                    - key: config.yaml
+                      path: config.yaml
+              - configMap:
+                  name: {{ include "htp-builder.fullname" . }}-refinery-rules
+                  items:
+                    - key: rules.yaml
+                      path: rules.yaml
+        {{- with .Values.refinery.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}

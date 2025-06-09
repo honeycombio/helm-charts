@@ -50,7 +50,148 @@
       }
     },
     "refinery": {
-      "type": "object"      
+      "type": "object",
+      "properties": {
+        "config": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The Refinery configuration",
+          "properties": {
+            "General": {
+              "type": "object",
+              "properties": {
+                "ConfigurationVersion": {
+                  "type": "integer"
+                },
+                "MinRefineryVersion": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "ConfigurationVersion",
+                "MinRefineryVersion"
+              ]
+            },
+            "Network": {
+              "type": "object"
+            },
+            "OpAMP": {
+              "type": "object"
+            },
+            "AccessKeys": {
+              "type": "object"
+            },
+            "RefineryTelemetry": {
+              "type": "object"
+            },
+            "Traces": {
+              "type": "object"
+            },
+            "Debugging": {
+              "type": "object"
+            },
+            "Logger": {
+              "type": "object"
+            },
+            "HoneycombLogger": {
+              "type": "object"
+            },
+            "StdoutLogger": {
+              "type": "object"
+            },
+            "PrometheusMetrics": {
+              "type": "object"
+            },
+            "LegacyMetrics": {
+              "type": "object"
+            },
+            "OTelMetrics": {
+              "type": "object"
+            },
+            "PeerManagement": {
+              "type": "object"
+            },
+            "RedisPeerManagement": {
+              "type": "object"
+            },
+            "Collection": {
+              "type": "object"
+            },
+            "BufferSizes": {
+              "type": "object"
+            },
+            "Specialized": {
+              "type": "object"
+            },
+            "IDFields": {
+              "type": "object"
+            },
+            "GRPCServerParameters": {
+              "type": "object"
+            },
+            "SampleCache": {
+              "type": "object"
+            },
+            "StressRelief": {
+              "type": "object"
+            },
+            "OTelTracing": {
+              "type": "object"
+            }
+          }
+        },
+        "rules": {
+          "type": "object",
+          "description": "The Refinery rules",
+          "properties": {
+            "RulesVersion": {
+              "type": "integer"
+            },
+            "Samplers": {
+              "type": "object",
+              "patternProperties": {
+                ".+": {
+                  "type": "object",
+                  "properties": {
+                    "RulesBasedSampler": {
+                      "type": "object",
+                      "properties": {
+                        "Rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Conditions": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Operator": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "Operator"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "RulesVersion",
+            "Samplers"
+          ]
+        }
+      }
     },
     "beekeeper": {
       "type": "object",

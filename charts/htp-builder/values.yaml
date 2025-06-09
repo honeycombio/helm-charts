@@ -36,18 +36,97 @@ global:
 # Configuration options for Refinery.
 # For a complete list of configuration options see https://github.com/honeycombio/helm-charts/tree/main/charts/refinery#configuration.
 refinery:
+  image:
+    repository: honeycombio/refinery
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "2.9.5"
   config:
+    General:
+      ConfigurationVersion: 2
+      MinRefineryVersion: v2.0
+    PeerManagement:
+      Type: redis
+      # IdentifierInterfaceName specifies a network interface to use when finding a local hostname.
+      # Due to the nature of DNS in Kubernetes, it is recommended to set this value to the 'eth0' interface name.
+      # When configured the pod's IP will be used in the peer list
+      IdentifierInterfaceName: eth0
+    RedisPeerManagement:
+      # Host is the host and port of the Redis instance to use for peer cluster membership management.
+      Host: '{{include "htp-builder.fullname" .}}-refinery-redis:6379'
+    Collection:
+      ShutdownDelay: '{{ sub .Values.refinery.terminationGracePeriodSeconds 5 }}s'
+      # AvailableMemory is the amount of system memory available to the Refinery process.
+      AvailableMemory: '{{ .Values.refinery.resources.limits.memory }}'
+      MaxMemoryPercentage: 75
+    GRPCServerParameters:
+      Enabled: true
+      ListenAddr: 0.0.0.0:4317
+    RefineryTelemetry:
+      AddRuleReasonToTrace: true
     OpAMP:
       Enabled: true
       Endpoint: "ws://{{ include \"htp-builder.beekeeperName\" . }}:4320/v1/opamp"
       RecordUsage: false
-    PrometheusMetrics:
-      Enabled: false
     OTelMetrics:
       Enabled: true
     Logger:
       Type: honeycomb
-  environment:
+
+  # Refinery rules.
+  # This section allows configuring Refinery rules.
+  # The default value is the bare minimum Refinery requires in order to run.
+  # It is highly recommend to set your own rules.
+  # When using the operators `>`, `>=` or `!=`, indicate that they are strings by enclosing them in single quotes, like ('>=').
+  # See https://docs.honeycomb.io/manage-data-volume/refinery/sampling-methods/ for how to configure Refinery rules.
+  rules:
+    RulesVersion: 2
+    Samplers: {}
+      # The default sampler is used when no other sampler matches.
+      # It is required to have a default sampler.
+      # If you do not supply a default sampler the helm chart will inject
+      # the DeterministicSampler shown below.
+      # __default__:
+      #     DeterministicSampler:
+      #         SampleRate: 1
+
+  ## Scaling Refinery ##
+  #
+  # Since Refinery is a stateful service we recommend provisioning refinery
+  # for your anticipated peak load and using Stress Relief to minimize impact
+  # from changes in cluster membership.
+  #
+  # Use replicaCount and resource limits to set the size of your Refinery cluster
+  # per your anticipated peak load.
+  # replicaCount is ignored if autoscaling is enabled
+  replicaCount: 3
+
+  resources:
+    limits:
+      cpu: 2000m
+      # This value is used by default for refinery.config.Collection.AvailableMemory
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 500Mi
+
+  # liveness probe configuration
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 3
+    timeoutSeconds: 1
+    failureThreshold: 3
+
+  # readiness probe configuration
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 1
+    timeoutSeconds: 1
+    failureThreshold: 1
+
+  extraEnvs:
     # Default key for the HPSF Honeycomb Exporter
     - name: HONEYCOMB_EXPORTER_APIKEY
       valueFrom:
@@ -60,6 +139,58 @@ refinery:
         secretKeyRef:
           name: htp-builder
           key: api-key
+
+  # Use to map additional volumes into the Refinery pods
+  # Useful for volume-based secrets
+  extraVolumeMounts: []
+    # - name: honeycomb-secrets
+    #   mountPath: "/mnt/secrets-store"
+    #   readOnly: true
+
+  # Use to map additional volumes into the Refinery pods
+  extraVolumes: []
+    # - name: honeycomb-secrets
+    #   csi:
+    #     driver: secrets-store.csi.k8s.io
+    #     readOnly: true
+    #     volumeAttributes:
+    #       secretProviderClass: "honeycomb-secrets"
+
+  # Redis configuration
+  redis:
+    # To install a simple single pod Redis deployment set this to true.
+    # If false, you must specify a value for existingHost
+    # For production, it is recommended to set this to false and provide
+    # a highly available Redis configuration using redis.existingHost
+    enabled: true
+
+    # If redis.enabled is true, this the image that will be used to create
+    # the Redis deployment
+    image:
+      repository: redis
+      tag: 7.2
+      pullPolicy: IfNotPresent
+
+    resources: {}
+      # limits:
+      #   cpu: 500m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 50Mi
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  service:
+    port: 80
+    grpcPort: 4317
+  
+  terminationGracePeriodSeconds: 35
 
 # Configuration options for Beekeeper.
 beekeeper:
@@ -213,7 +344,7 @@ primaryCollector:
       content:
         # If you change the refinery service name via refinery.nameOverride or refinery.fullnameOverride
         # you'll need to change this value too.
-        value: '{{ include "htp-builder.refineryName" . }}'
+        value: '{{ include "htp-builder.fullname" . }}-refinery'
   extraEnvs: []
 
   volumes: []

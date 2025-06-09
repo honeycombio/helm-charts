@@ -1,0 +1,19 @@
+{{- if .Values.refinery.redis.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-refinery-redis
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.refinery.redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refinery
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp-redis
+      port: 6379
+      protocol: TCP
+      targetPort: redis
+  selector:
+    {{- include "htp-builder.refinery.redis.selectorLabels" . | nindent 6 }}
+{{- end}}

@@ -237,12 +237,110 @@ Get the name of the beekeeper service for refinery
 {{- end }}
 
 {{/*
-Get the name of the refinery service for primary-collector
+Common refinery labels
 */}}
-{{- define "htp-builder.refineryName" -}}
-{{- if contains "refinery" .Release.Name }}
-{{- print "refinery" }}
+{{- define "htp-builder.refinery.labels" -}}
+helm.sh/chart: {{ include "htp-builder.chart" . }}
+{{ include "htp-builder.refinery.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Refinery Selector labels
+*/}}
+{{- define "htp-builder.refinery.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "htp-builder.name" . }}-refinery
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Build config file for Refinery
+*/}}
+{{- define "htp-builder.refinery.config" -}}
+{{- $config := deepCopy .Values.refinery.config }}
+{{- if eq .Values.global.region "eu1" }}
+{{- $config = mustMergeOverwrite (include "htp-builder.refinery.productionEU1Config" .Values | fromYaml) $config }}
+{{- end }}
+{{- if eq .Values.global.region "custom" }}
+{{- $customEndpoint := (.Values.global.customEndpoint | trimSuffix "/") }}
+{{- $config = mustMergeOverwrite (include "htp-builder.refinery.customConfig" $customEndpoint | fromYaml) $config }}
+{{- end }}
+{{- tpl (toYaml $config) . }}
+{{- end }}
+
+{{/*
+Build rules file for Refinery
+*/}}
+{{- define "htp-builder.refinery.rules" -}}
+{{- $rules := deepCopy .Values.refinery.rules }}
+{{- $default := get $rules.Samplers "__default__" }}
+{{- if not $default }}
+{{-   $_ := set $rules.Samplers "__default__" (include "refinery.defaultRules" . | fromYaml) }}
+{{- end }} 
+{{- tpl (toYaml $rules) . }}
+{{- end }}
+
+{{- define "refinery.defaultRules" -}}
+DeterministicSampler:
+  SampleRate: 1
+{{- end}}
+
+{{- define "htp-builder.refinery.productionEU1Config" -}}
+Network:
+  HoneycombAPI: https://api.eu1.honeycomb.io
+HoneycombLogger:
+  APIHost: https://api.eu1.honeycomb.io
+LegacyMetrics:
+  APIHost: https://api.eu1.honeycomb.io
+OTelMetrics:
+  APIHost: https://api.eu1.honeycomb.io
+OTelTracing:
+  APIHost: https://api.eu1.honeycomb.io
+{{- end }}
+
+{{- define "htp-builder.refinery.customConfig" -}}
+Network:
+  HoneycombAPI: {{ . }}
+HoneycombLogger:
+  APIHost: {{ . }}
+LegacyMetrics:
+  APIHost: {{ . }}
+OTelMetrics:
+  APIHost: {{ . }}
+OTelTracing:
+  APIHost: {{ . }}
+{{- end }}
+
+{{/*
+Common refinery redis labels
+*/}}
+{{- define "htp-builder.refinery.redis.labels" -}}
+helm.sh/chart: {{ include "htp-builder.chart" . }}
+{{ include "htp-builder.refinery.redis.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Refinery Selector labels
+*/}}
+{{- define "htp-builder.refinery.redis.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "htp-builder.name" . }}-redis
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use for refinery
+*/}}
+{{- define "htp-builder.refinery.serviceAccountName" -}}
+{{- if .Values.refinery.serviceAccount.create }}
+{{- default (printf "%s-refinery" (include "htp-builder.fullname" .)) .Values.refinery.serviceAccount.name }}
 {{- else }}
-{{- printf "%s-%s" .Release.Name "refinery" | trunc 63 | trimSuffix "-" }}
+{{- default "default" .Values.refinery.serviceAccount.name }}
 {{- end }}
 {{- end }}
