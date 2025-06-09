@@ -28,8 +28,26 @@
         }
       }
     },
-    "publicMgmtAPIKey": {
-      "type": "string"
+    "managementApiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "secret": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "key": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "refinery": {
       "type": "object"      

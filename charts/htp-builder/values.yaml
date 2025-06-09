@@ -1,6 +1,14 @@
-# The public ID of your Honeycomb Management API key.
+# The Honeycomb Management API key used to authenticate and authorize your pipeline's interactions with Honeycomb.
 # See https://docs.honeycomb.io/configure/teams/manage-api-keys/#find-management-api-keys for more details.
-publicMgmtAPIKey: ""
+managementApiKey:
+  # The public ID of you mangement API key.
+  id: ""
+  # The kubernetes secret used to provide secret the part of your management API key.
+  secret:
+    # The name of the kubernetes secret
+    name: "htp-builder"
+    # The key in the kubernetes secret that stores the secret the part of your management API key.
+    key: "management-api-secret"
 
 global:
   # The ID of your pipeline installation.
@@ -66,12 +74,6 @@ beekeeper:
 
   # Allows configuring Beekeeper environment variables.
   defaultEnv:
-    HONEYCOMB_MGMT_API_SECRET:
-      content:
-        valueFrom:
-          secretKeyRef:
-            name: htp-builder
-            key: management-api-secret
     HONEYCOMB_API_KEY:
       content:
         valueFrom:

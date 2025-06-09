@@ -61,9 +61,12 @@ spec:
             - name: HONEYCOMB_INSTALLATION_ID
               value: {{ .Values.global.pipeline.id }}
             - name: HONEYCOMB_MGMT_API_KEY
-              value: {{ .Values.publicMgmtAPIKey }}
+              value: {{ .Values.managementApiKey.id }}
             - name: HONEYCOMB_MGMT_API_SECRET
-              {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_MGMT_API_SECRET.content | nindent 14 }}  
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.managementApiKey.secret.name }}
+                  key: {{ .Values.managementApiKey.secret.key }}
             - name: HONEYCOMB_API_KEY
               {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
             {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}

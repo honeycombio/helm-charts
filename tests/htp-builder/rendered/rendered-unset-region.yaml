@@ -547,8 +547,8 @@ spec:
             - name: HONEYCOMB_MGMT_API_SECRET
               valueFrom:
                 secretKeyRef:
+                  name: htp-builder
                   key: management-api-secret
-                  name: htp-builder  
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
