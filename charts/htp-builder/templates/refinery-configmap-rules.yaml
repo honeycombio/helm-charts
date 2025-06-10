@@ -1,0 +1,15 @@
+{{ if not .Values.RulesConfigMapName }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-refinery-rules
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.refinery.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refinery
+data:
+  rules.yaml: |
+  {{- include "htp-builder.refinery.rules" . | nindent 4 -}}
+
+{{ end }}
