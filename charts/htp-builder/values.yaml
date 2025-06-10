@@ -1,3 +1,8 @@
+# The ID of your pipeline installation.
+# This can be found on the Pipeline Installations page in the Honeycomb UI.
+pipeline:
+  id: ""
+
 # The Honeycomb Management API key used to authenticate and authorize your pipeline's interactions with Honeycomb.
 # See https://docs.honeycomb.io/configure/teams/manage-api-keys/#find-management-api-keys for more details.
 managementApiKey:
@@ -10,23 +15,17 @@ managementApiKey:
     # The key in the kubernetes secret that stores the secret the part of your management API key.
     key: "management-api-secret"
 
-global:
-  # The ID of your pipeline installation.
-  # This can be found on the Pipeline Installations page in the Honeycomb UI.
-  pipeline:
-    id: ""
-
-  # This setting configures the default endpoints. All endpoints can still be configured and will take precedence.
-  # The default value is 'us1'.
+# This setting configures regional configuration (like endpoints) across all artifacts.
+# Artifact-specific configuration is still supported and will take precedence.
+region:
+  # The default id is 'us1'.
   # Other valid values are:
   #  - eu1
   #  - custom
   #
   # When 'us1' is selected, the endpoints for all services are set to https://api.honeycomb.io.
   # When 'eu1' is selected, the endpoints for all services are set to https://api.eu1.honeycomb.io.
-  #
-  # Any values you've configured will take precedence.
-  region: "us1"
+  id: "us1"
 
   # This setting will override any regional setting applied.
   # You must not include the trailing slash, this must only be a domain and protocol (e.g. https://api.honeycomb.io).

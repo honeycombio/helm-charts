@@ -9,9 +9,9 @@ Expand the name of the chart.
 Get the api base URL
 */}}
 {{- define "htp-builder.apiBaseUrl" -}}
-{{- if and (ne .Values.global.customEndpoint "") (.Values.global.customEndpoint) }}
-{{- default .Values.global.customEndpoint }}
-{{- else if or (eq .Values.global.region "production-eu") (eq .Values.global.region "eu1") }}
+{{- if and (ne .Values.region.customEndpoint "") (.Values.region.customEndpoint) }}
+{{- default .Values.region.customEndpoint }}
+{{- else if or (eq .Values.region.id "production-eu") (eq .Values.region.id "eu1") }}
 {{- default "https://api.eu1.honeycomb.io"  }}
 {{- else }}
 {{- default "https://api.honeycomb.io" }}
@@ -261,11 +261,11 @@ Build config file for Refinery
 */}}
 {{- define "htp-builder.refinery.config" -}}
 {{- $config := deepCopy .Values.refinery.config }}
-{{- if eq .Values.global.region "eu1" }}
+{{- if eq .Values.region.id "eu1" }}
 {{- $config = mustMergeOverwrite (include "htp-builder.refinery.productionEU1Config" .Values | fromYaml) $config }}
 {{- end }}
-{{- if eq .Values.global.region "custom" }}
-{{- $customEndpoint := (.Values.global.customEndpoint | trimSuffix "/") }}
+{{- if eq .Values.region.id "custom" }}
+{{- $customEndpoint := (.Values.region.customEndpoint | trimSuffix "/") }}
 {{- $config = mustMergeOverwrite (include "htp-builder.refinery.customConfig" $customEndpoint | fromYaml) $config }}
 {{- end }}
 {{- tpl (toYaml $config) . }}

@@ -10,8 +10,8 @@
   {{- fail "beekeeper.image.tag must be set" }}
 {{- end }}
 
-{{- if (not .Values.global.pipeline.id) }}
-  {{- fail ".global.pipeline.id must be set" }}
+{{- if (not .Values.pipeline.id) }}
+  {{- fail ".pipeline.id must be set" }}
 {{- end }}
 
 {{- if (not .Values.managementApiKey.id) }}
