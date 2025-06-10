@@ -54,7 +54,7 @@ spec:
                 fieldRef:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
-              value: pipelineInstallationID={{ .Values.global.pipeline.id }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
+              value: pipeline.id={{ .Values.global.pipeline.id }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             {{- if .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
             - name: HONEYCOMB_API_KEY
               {{- toYaml .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
