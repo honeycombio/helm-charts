@@ -278,12 +278,12 @@ Build rules file for Refinery
 {{- $rules := deepCopy .Values.refinery.rules }}
 {{- $default := get $rules.Samplers "__default__" }}
 {{- if not $default }}
-{{-   $_ := set $rules.Samplers "__default__" (include "refinery.defaultRules" . | fromYaml) }}
+{{-   $_ := set $rules.Samplers "__default__" (include "htp-builder.refinery.defaultRules" . | fromYaml) }}
 {{- end }} 
 {{- tpl (toYaml $rules) . }}
 {{- end }}
 
-{{- define "refinery.defaultRules" -}}
+{{- define "htp-builder.refinery.defaultRules" -}}
 DeterministicSampler:
   SampleRate: 1
 {{- end}}
