@@ -1,2 +1,2 @@
-global:
-  region: eu1
+region:
+  id: eu1

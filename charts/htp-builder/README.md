@@ -30,7 +30,7 @@ To install the chart with the release name `my-pipeline`, run the following comm
 
 ```shell
 helm install my-pipeline honeycomb/htp-builder \
-    --set global.pipeline.id="pipeline-intallation-id" \
+    --set pipeline.id="pipeline-intallation-id" \
     --set managementApiKey.id="public-management-key-id"
 ```
 
