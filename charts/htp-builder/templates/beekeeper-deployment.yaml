@@ -68,7 +68,14 @@ spec:
                   name: {{ .Values.managementApiKey.secret.name }}
                   key: {{ .Values.managementApiKey.secret.key }}
             - name: HONEYCOMB_API_KEY
-              {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
+              {{- if .Values.telemetry.ingestKey.value }}
+              value: {{ .Values.telemetry.ingestKey.value }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.telemetry.ingestKey.secret.name }}
+                  key: {{ .Values.telemetry.ingestKey.secret.key }}
+              {{- end }}
             {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}
             - name: LOG_LEVEL
               {{- toYaml .Values.beekeeper.defaultEnv.LOG_LEVEL.content | nindent 14 }}  

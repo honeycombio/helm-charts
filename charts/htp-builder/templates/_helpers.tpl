@@ -87,7 +87,48 @@ Create the name of the service account to use for beekeeper
 Build otel config file for beekeeper
 */}}
 {{- define "htp-builder.beekeeperOTelConfig" -}}
+{{- if .Values.beekeeper.telemetry.config }}
 {{- tpl (toYaml .Values.beekeeper.telemetry.config) . }}
+{{- else }}
+file_format: "0.3"
+propagator:
+  composite:
+    - tracecontext
+    - baggage
+tracer_provider:
+  processors:
+    - batch:
+        exporter:
+          otlp:
+            protocol: http/protobuf
+            endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
+            headers:
+            - name: "x-honeycomb-team"
+              value: ${HONEYCOMB_API_KEY}
+meter_provider:
+  readers:
+    - periodic:
+        exporter:
+          otlp:
+            protocol: http/protobuf
+            endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
+            headers:
+            - name: "x-honeycomb-team"
+              value: ${HONEYCOMB_API_KEY}
+            - name: "x-honeycomb-dataset"
+              value: "beekeeper-metrics"
+            temporality_preference: delta
+logger_provider:
+  processors:
+    - batch:
+        exporter:
+          otlp:
+            protocol: http/protobuf
+            endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
+            headers:
+            - name: "x-honeycomb-team"
+              value: ${HONEYCOMB_API_KEY}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -128,14 +169,30 @@ agent:
   config_apply_timeout: {{ .Values.primaryCollector.agent.configApplyTimeout }}
   description:
     identifying_attributes:
-      service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}
+      service.name: {{ .Values.primaryCollector.agent.telemetry.serviceName }}
       service.namespace: htp.collector
 
 storage:
   directory: /var/lib/otelcol/supervisor
 {{ if .Values.primaryCollector.opampsupervisor.telemetry.enabled }}
 telemetry:
-  {{- tpl (toYaml .Values.primaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
+  {{- if .Values.primaryCollector.opampsupervisor.telemetry.config }}
+    {{- tpl (toYaml .Values.primaryCollector.opampsupervisor.telemetry.config) . | nindent 2}}
+  {{- else }}
+  resource:
+    service.name: {{ .Values.primaryCollector.opampsupervisor.telemetry.serviceName }}
+  logs:
+    level: info
+    processors:
+      - batch:
+          exporter:
+            otlp:
+              protocol: http/protobuf
+              endpoint: {{ include "htp-builder.primaryCollector.opampsupervisor.telemetryEndpoint" . }}
+              headers:
+              - name: x-honeycomb-team
+                value: ${HONEYCOMB_API_KEY}
+  {{- end }}
 {{- end }}
 {{- end }}
 
@@ -145,11 +202,36 @@ Build config file for collector
 {{- define "htp-builder.primaryCollector.agent.config" -}}
 service:
   telemetry:
-    {{- if .Values.primaryCollector.agent.telemetry.defaultServiceName }}
+    {{- if .Values.primaryCollector.agent.telemetry.config }}
+      {{- tpl (toYaml .Values.primaryCollector.agent.telemetry.config) . | nindent 4}}
+    {{- else }}
     resource:
-      service.name: {{ .Values.primaryCollector.agent.telemetry.defaultServiceName }}
+      service.name: {{ .Values.primaryCollector.agent.telemetry.serviceName }}
+    metrics:
+      readers:
+        - periodic:
+            exporter:
+              otlp:
+                endpoint: '{{ include "htp-builder.primaryCollector.agent.telemetryEndpoint" . }}'
+                headers:
+                  - name: x-honeycomb-dataset
+                    value: primary-collector-metrics
+                  - name: x-honeycomb-team
+                    value: ${env:HONEYCOMB_API_KEY}
+                protocol: http/protobuf
+                temporality_preference: delta
+    logs:
+      encoding: json
+      processors:
+        - batch:
+            exporter:
+              otlp:
+                endpoint: '{{ include "htp-builder.primaryCollector.agent.telemetryEndpoint" . }}'
+                headers:
+                  - name: x-honeycomb-team
+                    value: ${env:HONEYCOMB_API_KEY}
+                protocol: http/protobuf
     {{- end }}
-    {{- tpl (toYaml .Values.primaryCollector.agent.telemetry.config) . | nindent 4 }}
 {{- end }}
 
 {{/*
@@ -208,21 +290,21 @@ Calculate beekeeper endpoint based on region
 Calculate Beekeeper telemetry endpoint based on region
 */}}
 {{- define "htp-builder.beekeeper.telemetryEndpoint" -}}
-{{- default (include "htp-builder.apiBaseUrl" .) .Values.beekeeper.endpoint }}
+{{- default (include "htp-builder.apiBaseUrl" .) (default .Values.telemetry.endpoint .Values.beekeeper.telemetry.endpoint) }}
 {{- end }}
 
 {{/*
 Calculate primary collector opampsupervisor default endpoint for telemetry
 */}}
-{{- define "htp-builder.primaryCollector.opampsupervisor.telemetry.defaultEndpoint" -}}
-{{- default (include "htp-builder.apiBaseUrl" .) .Values.primaryCollector.opampsupervisor.telemetry.defaultEndpoint }}
+{{- define "htp-builder.primaryCollector.opampsupervisor.telemetryEndpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) (default .Values.telemetry.endpoint .Values.primaryCollector.opampsupervisor.telemetry.endpoint) }}
 {{- end }}
 
 {{/*
 Calculate primary collector agent default endpoint for telemetry
 */}}
-{{- define "htp-builder.primaryCollector.agent.telemetry.defaultEndpoint" -}}
-{{- default (include "htp-builder.apiBaseUrl" .) .Values.primaryCollector.agent.telemetry.defaultEndpoint }}
+{{- define "htp-builder.primaryCollector.agent.telemetryEndpoint" -}}
+{{- default (include "htp-builder.apiBaseUrl" .) (default .Values.telemetry.endpoint .Values.primaryCollector.agent.telemetry.endpoint) }}
 {{- end }}
 
 {{/*
@@ -262,11 +344,11 @@ Build config file for Refinery
 {{- define "htp-builder.refinery.config" -}}
 {{- $config := deepCopy .Values.refinery.config }}
 {{- if eq .Values.region.id "eu1" }}
-{{- $config = mustMergeOverwrite (include "htp-builder.refinery.productionEU1Config" .Values | fromYaml) $config }}
+{{- $config = mustMergeOverwrite (include "htp-builder.refinery.productionEU1Config" . | fromYaml) $config }}
 {{- end }}
 {{- if eq .Values.region.id "custom" }}
 {{- $customEndpoint := (.Values.region.customEndpoint | trimSuffix "/") }}
-{{- $config = mustMergeOverwrite (include "htp-builder.refinery.customConfig" $customEndpoint | fromYaml) $config }}
+{{- $config = mustMergeOverwrite (include "htp-builder.refinery.customConfig" (dict "customEndpoint" $customEndpoint "Values" .Values) | fromYaml) $config }}
 {{- end }}
 {{- tpl (toYaml $config) . }}
 {{- end }}
@@ -292,26 +374,26 @@ DeterministicSampler:
 Network:
   HoneycombAPI: https://api.eu1.honeycomb.io
 HoneycombLogger:
-  APIHost: https://api.eu1.honeycomb.io
+  APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
 LegacyMetrics:
-  APIHost: https://api.eu1.honeycomb.io
+  APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
 OTelMetrics:
-  APIHost: https://api.eu1.honeycomb.io
+  APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
 OTelTracing:
-  APIHost: https://api.eu1.honeycomb.io
+  APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
 {{- end }}
 
 {{- define "htp-builder.refinery.customConfig" -}}
 Network:
-  HoneycombAPI: {{ . }}
+  HoneycombAPI: {{ .customEndpoint }}
 HoneycombLogger:
-  APIHost: {{ . }}
+  APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
 LegacyMetrics:
-  APIHost: {{ . }}
+  APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
 OTelMetrics:
-  APIHost: {{ . }}
+  APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
 OTelTracing:
-  APIHost: {{ . }}
+  APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
 {{- end }}
 
 {{/*

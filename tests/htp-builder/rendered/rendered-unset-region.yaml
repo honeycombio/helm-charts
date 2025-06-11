@@ -48,44 +48,45 @@ metadata:
     app.kubernetes.io/component: beekeeper
 data:
   otel-config: |
+    
     file_format: "0.3"
-    logger_provider:
-      processors:
-      - batch:
-          exporter:
-            otlp:
-              endpoint: 'https://api.honeycomb.io'
-              headers:
-              - name: x-honeycomb-team
-                value: ${HONEYCOMB_API_KEY}
-              protocol: http/protobuf
-    meter_provider:
-      readers:
-      - periodic:
-          exporter:
-            otlp:
-              endpoint: 'https://api.honeycomb.io'
-              headers:
-              - name: x-honeycomb-team
-                value: ${HONEYCOMB_API_KEY}
-              - name: x-honeycomb-dataset
-                value: beekeeper-metrics
-              protocol: http/protobuf
-              temporality_preference: delta
     propagator:
       composite:
-      - tracecontext
-      - baggage
+        - tracecontext
+        - baggage
     tracer_provider:
       processors:
-      - batch:
-          exporter:
-            otlp:
-              endpoint: 'https://api.honeycomb.io'
-              headers:
-              - name: x-honeycomb-team
-                value: ${HONEYCOMB_API_KEY}
-              protocol: http/protobuf
+        - batch:
+            exporter:
+              otlp:
+                protocol: http/protobuf
+                endpoint: 'https://api.honeycomb.io'
+                headers:
+                - name: "x-honeycomb-team"
+                  value: ${HONEYCOMB_API_KEY}
+    meter_provider:
+      readers:
+        - periodic:
+            exporter:
+              otlp:
+                protocol: http/protobuf
+                endpoint: 'https://api.honeycomb.io'
+                headers:
+                - name: "x-honeycomb-team"
+                  value: ${HONEYCOMB_API_KEY}
+                - name: "x-honeycomb-dataset"
+                  value: "beekeeper-metrics"
+                temporality_preference: delta
+    logger_provider:
+      processors:
+        - batch:
+            exporter:
+              otlp:
+                protocol: http/protobuf
+                endpoint: 'https://api.honeycomb.io'
+                headers:
+                - name: "x-honeycomb-team"
+                  value: ${HONEYCOMB_API_KEY}
 ---
 # Source: htp-builder/templates/primary-collector-agent-configmap.yaml
 apiVersion: v1
@@ -104,30 +105,30 @@ data:
       telemetry:
         resource:
           service.name: primary-collector
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    endpoint: 'https://api.honeycomb.io'
+                    headers:
+                      - name: x-honeycomb-dataset
+                        value: primary-collector-metrics
+                      - name: x-honeycomb-team
+                        value: ${env:HONEYCOMB_API_KEY}
+                    protocol: http/protobuf
+                    temporality_preference: delta
         logs:
           encoding: json
           processors:
-          - batch:
-              exporter:
-                otlp:
-                  endpoint: 'https://api.honeycomb.io'
-                  headers:
-                  - name: x-honeycomb-team
-                    value: ${env:HONEYCOMB_API_KEY}
-                  protocol: http/protobuf
-        metrics:
-          readers:
-          - periodic:
-              exporter:
-                otlp:
-                  endpoint: 'https://api.honeycomb.io'
-                  headers:
-                  - name: x-honeycomb-dataset
-                    value: primary-collector-metrics
-                  - name: x-honeycomb-team
-                    value: ${env:HONEYCOMB_API_KEY}
-                  protocol: http/protobuf
-                  temporality_preference: delta
+            - batch:
+                exporter:
+                  otlp:
+                    endpoint: 'https://api.honeycomb.io'
+                    headers:
+                      - name: x-honeycomb-team
+                        value: ${env:HONEYCOMB_API_KEY}
+                    protocol: http/protobuf
 ---
 # Source: htp-builder/templates/primary-collector-configmap.yaml
 apiVersion: v1
@@ -174,19 +175,19 @@ data:
       directory: /var/lib/otelcol/supervisor
     
     telemetry:
+      resource:
+        service.name: opamp-supervisor
       logs:
         level: info
         processors:
-        - batch:
-            exporter:
-              otlp:
-                endpoint: 'https://api.honeycomb.io'
-                headers:
-                - name: x-honeycomb-team
-                  value: ${HONEYCOMB_API_KEY}
-                protocol: http/protobuf
-      resource:
-        service.name: 'opamp-supervisor'
+          - batch:
+              exporter:
+                otlp:
+                  protocol: http/protobuf
+                  endpoint: https://api.honeycomb.io
+                  headers:
+                  - name: x-honeycomb-team
+                    value: ${HONEYCOMB_API_KEY}
 ---
 # Source: htp-builder/templates/refinery-configmap-config.yaml
 apiVersion: v1
@@ -410,8 +411,8 @@ spec:
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
-                  key: api-key
                   name: htp-builder
+                  key: api-key
             - name: LOG_LEVEL
               value: info
             - name: DEPLOYMENT_BATCH_SIZE
@@ -497,8 +498,8 @@ spec:
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
-                  key: api-key
                   name: htp-builder
+                  key: api-key
             - name: STRAWS_REFINERY_SERVICE
               value: 'test-htp-builder-refinery'
           volumeMounts:
@@ -613,16 +614,16 @@ spec:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
+            - name: REFINERY_HONEYCOMB_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: htp-builder
+                  key: api-key
             - name: HONEYCOMB_EXPORTER_APIKEY
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
                   key: api-key
-            - name: REFINERY_HONEYCOMB_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: api-key
-                  name: htp-builder
           ports:
             - name: data
               containerPort: 8080

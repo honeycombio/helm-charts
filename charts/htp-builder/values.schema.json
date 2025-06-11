@@ -16,6 +16,36 @@
         }
       }
     },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "ingestKey": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "secret": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "ingestKey": {
       "type": "object",
       "additionalProperties": false,
@@ -259,12 +289,6 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "HONEYCOMB_MGMT_API_SECRET": {
-              "type": "object"
-            },
-            "HONEYCOMB_API_KEY": {
-              "type": "object"
-            },
             "LOG_LEVEL": {
               "type": "object"
             },
@@ -300,6 +324,9 @@
           "properties": {
             "enabled": {
               "type": "boolean"
+            },
+            "endpoint": {
+              "type": "string"
             },
             "config": {
               "type": "object"
@@ -378,18 +405,6 @@
             }
           }
         },
-        "defaultEnv": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "HONEYCOMB_API_KEY": {
-              "type": "object"
-            },
-            "STRAWS_REFINERY_SERVICE": {
-              "type": "object"
-            }
-          }          
-        },
         "extraEnvs": {
           "type": "array",
           "items": {
@@ -422,13 +437,13 @@
                 "enabled": {
                   "type": "boolean"
                 },
-                "defaultEndpoint": {
+                "endpoint": {
                   "type": "string"
                 },
                 "file": {
                   "type": "string"
                 },
-                "defaultServiceName": {
+                "serviceName": {
                   "type": "string"
                 },
                 "config": {
@@ -452,10 +467,10 @@
                 "enabled": {
                   "type": "boolean"
                 },
-                "defaultEndpoint": {
+                "endpoint": {
                   "type": "string"
                 },
-                "defaultServiceName": {
+                "serviceName": {
                   "type": "string"
                 },
                 "config": {

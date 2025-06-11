@@ -64,14 +64,17 @@ spec:
                   name: {{ .Values.ingestKey.secret.name }}
                   key: {{ .Values.ingestKey.secret.key }}
               {{- end }}
-            {{- if .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.enabled }}
             - name: HONEYCOMB_API_KEY
-              {{- toYaml .Values.primaryCollector.defaultEnv.HONEYCOMB_API_KEY.content | nindent 14 }}  
-            {{- end }}
-            {{- if .Values.primaryCollector.defaultEnv.STRAWS_REFINERY_SERVICE.enabled }}
+              {{- if .Values.telemetry.ingestKey.value }}
+              value: {{ .Values.telemetry.ingestKey.value }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.telemetry.ingestKey.secret.name }}
+                  key: {{ .Values.telemetry.ingestKey.secret.key }}
+              {{- end }}
             - name: STRAWS_REFINERY_SERVICE
-              {{- tpl (toYaml .Values.primaryCollector.defaultEnv.STRAWS_REFINERY_SERVICE.content) . | nindent 14 }}  
-            {{- end }}
+              value: '{{ include "htp-builder.fullname" . }}-refinery'
             {{- with .Values.primaryCollector.extraEnvs }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
