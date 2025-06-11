@@ -62,6 +62,15 @@ spec:
                   name: {{ .Values.telemetry.ingestKey.secret.name }}
                   key: {{ .Values.telemetry.ingestKey.secret.key }}
               {{- end }}
+            - name: HONEYCOMB_EXPORTER_APIKEY
+              {{- if .Values.ingestKey.value }}
+              value: {{ .Values.ingestKey.value }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.ingestKey.secret.name }}
+                  key: {{ .Values.ingestKey.secret.key }}
+              {{- end }}
             {{- with .Values.refinery.extraEnvs }}
               {{- tpl (. | toYaml) $ | nindent 12 }}
             {{- end }}

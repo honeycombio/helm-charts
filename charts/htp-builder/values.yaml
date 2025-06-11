@@ -15,6 +15,17 @@ managementApiKey:
     # The key in the kubernetes secret that stores the secret the part of your management API key.
     key: "management-api-secret"
 
+# The Honeycomb ingest key used to export the received data.
+ingestKey:
+  # The key may be provided directly, although this is not secure and not recommended
+  value: ""
+  # The recommend way to supply the ingest key is via a kubernetes secret
+  secret:
+    # The name of the kubernetes secret providing the ingest key
+    name: "htp-builder"
+    # The name of the field in the secret which stores the ingest key
+    key: "api-key"
+
 # This section configures the ingest key to use for ingesting internal telemetry
 # produced by the installed artifacts.
 telemetry:
@@ -142,13 +153,7 @@ refinery:
     timeoutSeconds: 1
     failureThreshold: 1
 
-  extraEnvs:
-    # Default key for the HPSF Honeycomb Exporter
-    - name: HONEYCOMB_EXPORTER_APIKEY
-      valueFrom:
-        secretKeyRef:
-          name: htp-builder
-          key: api-key
+  extraEnvs: []
 
   # Use to map additional volumes into the Refinery pods
   # Useful for volume-based secrets
