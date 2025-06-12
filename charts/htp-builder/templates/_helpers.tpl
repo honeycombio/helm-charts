@@ -160,7 +160,7 @@ capabilities:
   reports_remote_config: true
 
 agent:
-  executable: /otelcol-contrib
+  executable: /honeycomb-otelcol
   {{- if .Values.primaryCollector.agent.telemetry.enabled }}
   config_files: 
     - {{ .Values.primaryCollector.agent.telemetry.file }}
