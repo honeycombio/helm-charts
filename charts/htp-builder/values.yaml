@@ -305,7 +305,7 @@ primaryCollector:
   image:
     repository: "honeycombio/supervised-collector"
     pullPolicy: IfNotPresent
-    tag: "v0.0.9"
+    tag: "v0.0.10"
 
   extraEnvs: []
 
