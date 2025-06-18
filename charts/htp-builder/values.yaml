@@ -224,7 +224,7 @@ beekeeper:
       enabled: true
       content:
         value: "info"
-    # Enabled this env var if you want Beekeeper to create markers during rollouts.
+    # Enable this env var if you want Beekeeper to create markers during rollouts.
     HONEYCOMB_CONFIGURATION_KEY:
       enabled: false
       content:
