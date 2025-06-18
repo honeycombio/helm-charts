@@ -67,7 +67,7 @@ refinery:
     repository: honeycombio/refinery
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "2.9.5"
+    tag: "2.9.6"
   config:
     General:
       ConfigurationVersion: 2
@@ -224,7 +224,7 @@ beekeeper:
       enabled: true
       content:
         value: "info"
-    # Enabled this env var if you want Beekeeper to create markers during rollouts.
+    # Enable this env var if you want Beekeeper to create markers during rollouts.
     HONEYCOMB_CONFIGURATION_KEY:
       enabled: false
       content:
