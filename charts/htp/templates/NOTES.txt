@@ -7,6 +7,7 @@
 ||            |_|      ||
 >>=====================<<
 
+[WARNING] This chart is sunset. Use the honeycomb/htp-bindplane chart instead.
 
 {{- if and (not .Values.htp.config.license) (not .Values.htp.config.licenseUseSecret) }}
 {{ fail "[ERROR] You must either set the value for 'htp.config.license' to your License Key or set the value for 'htp.config.licenseUseSecret' to true" }}

@@ -11,3 +11,4 @@ helm-extra-args: --timeout 120s
 exclude-deprecated: true
 excluded-charts:
   - htp
+  - htp-bindplane
