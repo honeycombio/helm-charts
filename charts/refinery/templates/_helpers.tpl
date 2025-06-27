@@ -31,6 +31,18 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+Refinery image
+*/}}
+{{- define "refinery.image" -}}
+{{- $tag := .Values.image.tag | default .Chart.AppVersion }}
+{{- $digest := "" }}
+{{- if .Values.image.digest }}
+{{- $digest = printf "@%s" .Values.image.digest }}
+{{- end }}
+{{- printf "%s:%v%s" .Values.image.repository $tag $digest }}
+{{- end }}
+
+{{/*
 Common labels
 */}}
 {{- define "refinery.labels" -}}
@@ -63,6 +75,17 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Redis image
+*/}}
+{{- define "refinery.redis.image" -}}
+{{- $digest := "" }}
+{{- if .Values.redis.image.digest }}
+{{- $digest = printf "@%s" .Values.redis.image.digest }}
+{{- end }}
+{{- printf "%s:%v%s" .Values.redis.image.repository .Values.redis.image.tag $digest }}
+{{- end }}
+
+{{/*
 Common labels for redis
 */}}
 {{- define "refinery.redis.labels" -}}
@@ -83,6 +106,17 @@ Selector labels for redis
 {{- define "refinery.redis.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "refinery.name" . }}-redis
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Deploy marker image
+*/}}
+{{- define "refinery.deploy-marker.image" -}}
+{{- $digest := "" }}
+{{- if .Values.deployMarker.image.digest }}
+{{- $digest = printf "@%s" .Values.deployMarker.image.digest }}
+{{- end }}
+{{- printf "%s:%v%s" .Values.deployMarker.image.repository .Values.deployMarker.image.tag $digest }}
 {{- end }}
 
 {{/*
