@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 ---
 # Source: refinery/templates/configmap-config.yaml
 apiVersion: v1
@@ -19,7 +19,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 data:
   config.yaml: |
     Collection:
@@ -55,7 +55,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 data:
   rules.yaml: |
     RulesVersion: 2
@@ -73,7 +73,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 spec:
   type: ClusterIP
   ports:
@@ -94,7 +94,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 spec:
   type: ClusterIP
   ports:
@@ -124,7 +124,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 spec:
   replicas: 1
   selector:
@@ -144,7 +144,7 @@ spec:
         - name: redis
           securityContext:
             {}
-          image: "redis:7.2"
+          image: redis:7.2
           imagePullPolicy: IfNotPresent
           ports:
             - name: redis
@@ -160,7 +160,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.5"
+    app.kubernetes.io/version: "2.9.6"
 spec:
   replicas: 3
   selector:
@@ -186,7 +186,7 @@ spec:
         - name: refinery
           securityContext:
             {}
-          image: "honeycombio/refinery:2.9.5"
+          image: honeycombio/refinery:2.9.6
           imagePullPolicy: IfNotPresent
           command:
             - refinery
