@@ -67,7 +67,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.managementApiKey.secret.name }}
                   key: {{ .Values.managementApiKey.secret.key }}
-            - name: BEEKEEPER_HONEYCOMB_API_KEY
+            - name: HONEYCOMB_API_KEY
               {{- if .Values.telemetry.ingestKey.value }}
               value: {{ .Values.telemetry.ingestKey.value }}
               {{- else }}

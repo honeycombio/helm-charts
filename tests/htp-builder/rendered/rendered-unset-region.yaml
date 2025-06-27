@@ -63,7 +63,7 @@ data:
                 endpoint: 'https://api.honeycomb.io'
                 headers:
                 - name: "x-honeycomb-team"
-                  value: ${BEEKEEPER_HONEYCOMB_API_KEY}
+                  value: ${HONEYCOMB_API_KEY}
     meter_provider:
       readers:
         - periodic:
@@ -73,7 +73,7 @@ data:
                 endpoint: 'https://api.honeycomb.io'
                 headers:
                 - name: "x-honeycomb-team"
-                  value: ${BEEKEEPER_HONEYCOMB_API_KEY}
+                  value: ${HONEYCOMB_API_KEY}
                 - name: "x-honeycomb-dataset"
                   value: "beekeeper-metrics"
                 temporality_preference: delta
@@ -86,7 +86,7 @@ data:
                 endpoint: 'https://api.honeycomb.io'
                 headers:
                 - name: "x-honeycomb-team"
-                  value: ${BEEKEEPER_HONEYCOMB_API_KEY}
+                  value: ${HONEYCOMB_API_KEY}
 ---
 # Source: htp-builder/templates/primary-collector-agent-configmap.yaml
 apiVersion: v1
@@ -408,7 +408,7 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: management-api-secret
-            - name: BEEKEEPER_HONEYCOMB_API_KEY
+            - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
