@@ -161,7 +161,7 @@ data:
       reports_remote_config: true
     
     agent:
-      executable: /otelcol-contrib
+      executable: /honeycomb-otelcol
       config_files: 
         - /etc/agent/config.yaml
       passthrough_logs: true
@@ -382,7 +382,7 @@ spec:
       serviceAccountName: test-htp-builder-beekeeper
       containers:
         - name: htp-builder
-          image: "honeycombio/beekeeper:v0.0.14-alpha"
+          image: "honeycombio/beekeeper:v0.0.18-alpha"
           imagePullPolicy: IfNotPresent
           args:
             - -otel-config
@@ -471,7 +471,7 @@ spec:
       serviceAccountName: test-htp-builder-primary-collector
       containers:
         - name: htp-builder
-          image: "honeycombio/supervised-collector:v0.0.6"
+          image: "honeycombio/supervised-collector:v0.0.10"
           imagePullPolicy: IfNotPresent
           args:
             - --config
@@ -592,7 +592,7 @@ spec:
       serviceAccountName: test-htp-builder-refinery
       containers:
         - name: htp-builder
-          image: "honeycombio/refinery:2.9.5"
+          image: "honeycombio/refinery:2.9.6"
           imagePullPolicy: IfNotPresent
           command:
             - refinery
