@@ -154,7 +154,7 @@ spec:
         - name: redis
           securityContext:
             {}
-          image: "redis:7.2"
+          image: redis:7.2
           imagePullPolicy: IfNotPresent
           ports:
             - name: redis
@@ -196,7 +196,7 @@ spec:
         - name: refinery
           securityContext:
             {}
-          image: "honeycombio/refinery:2.9.6"
+          image: honeycombio/refinery:2.9.6
           imagePullPolicy: IfNotPresent
           command:
             - refinery
