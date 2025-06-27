@@ -104,7 +104,7 @@ tracer_provider:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
             - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
+              value: ${BEEKEEPER_HONEYCOMB_API_KEY}
 meter_provider:
   readers:
     - periodic:
@@ -114,7 +114,7 @@ meter_provider:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
             - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
+              value: ${BEEKEEPER_HONEYCOMB_API_KEY}
             - name: "x-honeycomb-dataset"
               value: "beekeeper-metrics"
             temporality_preference: delta
@@ -127,7 +127,7 @@ logger_provider:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
             - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
+              value: ${BEEKEEPER_HONEYCOMB_API_KEY}
 {{- end }}
 {{- end }}
 

@@ -56,18 +56,18 @@ spec:
                   fieldPath: metadata.uid
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id={{ .Values.pipeline.id }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            - name: HONEYCOMB_API
+            - name: BEEKEEPER_HONEYCOMB_API
               value: {{ include "htp-builder.beekeeper.endpoint" . }}
-            - name: HONEYCOMB_INSTALLATION_ID
+            - name: BEEKEEPER_HONEYCOMB_INSTALLATION_ID
               value: {{ .Values.pipeline.id }}
-            - name: HONEYCOMB_MGMT_API_KEY
+            - name: BEEKEEPER_HONEYCOMB_MGMT_API_KEY
               value: {{ .Values.managementApiKey.id }}
-            - name: HONEYCOMB_MGMT_API_SECRET
+            - name: BEEKEEPER_HONEYCOMB_MGMT_API_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.managementApiKey.secret.name }}
                   key: {{ .Values.managementApiKey.secret.key }}
-            - name: HONEYCOMB_API_KEY
+            - name: BEEKEEPER_HONEYCOMB_API_KEY
               {{- if .Values.telemetry.ingestKey.value }}
               value: {{ .Values.telemetry.ingestKey.value }}
               {{- else }}
@@ -76,17 +76,17 @@ spec:
                   name: {{ .Values.telemetry.ingestKey.secret.name }}
                   key: {{ .Values.telemetry.ingestKey.secret.key }}
               {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.LOG_LEVEL.enabled }}
-            - name: LOG_LEVEL
-              {{- toYaml .Values.beekeeper.defaultEnv.LOG_LEVEL.content | nindent 14 }}  
+            {{- if .Values.beekeeper.defaultEnv.BEEKEEPER_LOG_LEVEL.enabled }}
+            - name: BEEKEEPER_LOG_LEVEL
+              {{- toYaml .Values.beekeeper.defaultEnv.BEEKEEPER_LOG_LEVEL.content | nindent 14 }}  
             {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.HONEYCOMB_CONFIGURATION_KEY.enabled }}
-            - name: HONEYCOMB_CONFIGURATION_KEY
-              {{- toYaml .Values.beekeeper.defaultEnv.HONEYCOMB_CONFIGURATION_KEY.content | nindent 14 }}  
+            {{- if .Values.beekeeper.defaultEnv.BEEKEEPER_HONEYCOMB_CONFIGURATION_KEY.enabled }}
+            - name: BEEKEEPER_HONEYCOMB_CONFIGURATION_KEY
+              {{- toYaml .Values.beekeeper.defaultEnv.BEEKEEPER_HONEYCOMB_CONFIGURATION_KEY.content | nindent 14 }}  
             {{- end }}
-            {{- if .Values.beekeeper.defaultEnv.DEPLOYMENT_BATCH_SIZE.enabled }}
-            - name: DEPLOYMENT_BATCH_SIZE
-              {{- toYaml .Values.beekeeper.defaultEnv.DEPLOYMENT_BATCH_SIZE.content | nindent 14 }}  
+            {{- if .Values.beekeeper.defaultEnv.BEEKEEPER_DEPLOYMENT_BATCH_SIZE.enabled }}
+            - name: BEEKEEPER_DEPLOYMENT_BATCH_SIZE
+              {{- toYaml .Values.beekeeper.defaultEnv.BEEKEEPER_DEPLOYMENT_BATCH_SIZE.content | nindent 14 }}  
             {{- end }}
             {{- with .Values.beekeeper.extraEnvs }}
             {{- toYaml . | nindent 12 }}

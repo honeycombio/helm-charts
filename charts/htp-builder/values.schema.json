@@ -289,13 +289,13 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "LOG_LEVEL": {
+            "BEEKEEPER_LOG_LEVEL": {
               "type": "object"
             },
-            "HONEYCOMB_CONFIGURATION_KEY": {
+            "BEEKEEPER_HONEYCOMB_CONFIGURATION_KEY": {
               "type": "object"
             },
-            "DEPLOYMENT_BATCH_SIZE": {
+            "BEEKEEPER_DEPLOYMENT_BATCH_SIZE": {
               "type": "object"
             }
           }
