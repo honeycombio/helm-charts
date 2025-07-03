@@ -382,7 +382,7 @@ spec:
       serviceAccountName: test-htp-builder-beekeeper
       containers:
         - name: htp-builder
-          image: "honeycombio/beekeeper:v0.0.18-alpha"
+          image: "honeycombio/beekeeper:v0.0.19-alpha"
           imagePullPolicy: IfNotPresent
           args:
             - -otel-config
