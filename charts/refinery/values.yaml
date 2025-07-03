@@ -141,6 +141,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  digest: ""
 
 # Use this field to pass in extra arguments to the refinery command
 # such as --no-validate.  The chart already applies
@@ -205,6 +206,7 @@ redis:
   image:
     repository: redis
     tag: 7.2
+    digest: ""
     pullPolicy: IfNotPresent
 
   resources: {}
@@ -423,6 +425,7 @@ deployMarker:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is latest
     tag: "latest"
+    digest: ""
   honeycombAPI: ""
   honeycombDataset: ""
   # make sure to set REFINERY_HONEYCOMB_DEPLOY_MARKER_API_KEY for sending markers to honeycomb

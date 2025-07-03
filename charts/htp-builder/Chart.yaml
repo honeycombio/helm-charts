@@ -2,7 +2,7 @@ apiVersion: v2
 name: htp-builder
 description: Chart to deploy Honeycomb Telemetry Pipeline Builder
 type: application
-version: 0.0.60-alpha
+version: 0.0.72-alpha
 appVersion: 0.0.1-alpha
 keywords:
   - refinery
@@ -21,7 +21,3 @@ icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
   - name: Honeycomb
     email: pipeline-team@honeycomb.io
-dependencies:
-- name: refinery
-  version: 2.17.0
-  repository: "https://honeycombio.github.io/helm-charts"

@@ -16,8 +16,6 @@ done
 
 chart_dirs=($(ls -d */))
 
-has_errors=0
-
 for chart_dir in "${chart_dirs[@]}"; do
     echo "comparing rendered and rendered_compare for $chart_dir"
 
@@ -27,8 +25,9 @@ for chart_dir in "${chart_dirs[@]}"; do
     # compare the directories and return an error if they are not the same with a print out of the line differences
     result=$(diff -u ./$base_dir ./$compare_dir)
     if [ -n "$result" ]; then
-        has_errors=1
+        echo "$result"
+        exit 1
     fi
 done
 
-exit $is_error
+exit 0

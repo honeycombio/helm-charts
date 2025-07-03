@@ -1,0 +1,34 @@
+{{- if .Values.refinery.redis.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-refinery-redis
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.refinery.redis.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refinery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "htp-builder.refinery.redis.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "htp-builder.refinery.redis.labels" . | nindent 8 }}
+        app.kubernetes.io/component: refinery
+    spec:
+      serviceAccountName: {{ include "htp-builder.refinery.serviceAccountName" . }}
+      containers:
+        - name: redis
+          image: "{{ .Values.refinery.redis.image.repository }}:{{ .Values.refinery.redis.image.tag }}"
+          imagePullPolicy: {{ .Values.refinery.redis.image.pullPolicy }}
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          {{- with .Values.refinery.redis.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+  {{- end }}

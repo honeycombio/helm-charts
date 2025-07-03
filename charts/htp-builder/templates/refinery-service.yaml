@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "htp-builder.fullname" . }}-refinery
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "htp-builder.refinery.labels" . | nindent 4 }}
+    app.kubernetes.io/component: refinery
+spec:
+  ports:
+    - port: {{ .Values.refinery.service.port }}
+      targetPort: data
+      protocol: TCP
+      name: data
+    - port: {{ .Values.refinery.service.grpcPort }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    {{- include "htp-builder.refinery.selectorLabels" . | nindent 4 }}

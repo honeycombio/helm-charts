@@ -7,19 +7,71 @@
     "enabled": {
       "type": "boolean"
     },
-    "global": {
+    "pipeline": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "pipeline": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "ingestKey": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "id": {
+            "value": {
+              "type": "string"
+            },
+            "secret": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ingestKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "secret": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "key": {
               "type": "string"
             }
           }
-        },
-        "region": {
+        }
+      }
+    },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
           "type": "string",
           "enum": ["us1", "eu1", "custom"]
         },
@@ -28,11 +80,170 @@
         }
       }
     },
-    "publicMgmtAPIKey": {
-      "type": "string"
+    "managementApiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "secret": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "key": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "refinery": {
-      "type": "object"      
+      "type": "object",
+      "properties": {
+        "config": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The Refinery configuration",
+          "properties": {
+            "General": {
+              "type": "object",
+              "properties": {
+                "ConfigurationVersion": {
+                  "type": "integer"
+                },
+                "MinRefineryVersion": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "ConfigurationVersion",
+                "MinRefineryVersion"
+              ]
+            },
+            "Network": {
+              "type": "object"
+            },
+            "OpAMP": {
+              "type": "object"
+            },
+            "AccessKeys": {
+              "type": "object"
+            },
+            "RefineryTelemetry": {
+              "type": "object"
+            },
+            "Traces": {
+              "type": "object"
+            },
+            "Debugging": {
+              "type": "object"
+            },
+            "Logger": {
+              "type": "object"
+            },
+            "HoneycombLogger": {
+              "type": "object"
+            },
+            "StdoutLogger": {
+              "type": "object"
+            },
+            "PrometheusMetrics": {
+              "type": "object"
+            },
+            "LegacyMetrics": {
+              "type": "object"
+            },
+            "OTelMetrics": {
+              "type": "object"
+            },
+            "PeerManagement": {
+              "type": "object"
+            },
+            "RedisPeerManagement": {
+              "type": "object"
+            },
+            "Collection": {
+              "type": "object"
+            },
+            "BufferSizes": {
+              "type": "object"
+            },
+            "Specialized": {
+              "type": "object"
+            },
+            "IDFields": {
+              "type": "object"
+            },
+            "GRPCServerParameters": {
+              "type": "object"
+            },
+            "SampleCache": {
+              "type": "object"
+            },
+            "StressRelief": {
+              "type": "object"
+            },
+            "OTelTracing": {
+              "type": "object"
+            }
+          }
+        },
+        "rules": {
+          "type": "object",
+          "description": "The Refinery rules",
+          "properties": {
+            "RulesVersion": {
+              "type": "integer"
+            },
+            "Samplers": {
+              "type": "object",
+              "patternProperties": {
+                ".+": {
+                  "type": "object",
+                  "properties": {
+                    "RulesBasedSampler": {
+                      "type": "object",
+                      "properties": {
+                        "Rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "Conditions": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Operator": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "Operator"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "RulesVersion",
+            "Samplers"
+          ]
+        }
+      }
     },
     "beekeeper": {
       "type": "object",
@@ -78,12 +289,6 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "HONEYCOMB_MGMT_API_SECRET": {
-              "type": "object"
-            },
-            "HONEYCOMB_API_KEY": {
-              "type": "object"
-            },
             "LOG_LEVEL": {
               "type": "object"
             },
@@ -119,6 +324,9 @@
           "properties": {
             "enabled": {
               "type": "boolean"
+            },
+            "endpoint": {
+              "type": "string"
             },
             "config": {
               "type": "object"
@@ -197,18 +405,6 @@
             }
           }
         },
-        "defaultEnv": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "HONEYCOMB_API_KEY": {
-              "type": "object"
-            },
-            "STRAWS_REFINERY_SERVICE": {
-              "type": "object"
-            }
-          }          
-        },
         "extraEnvs": {
           "type": "array",
           "items": {
@@ -241,13 +437,13 @@
                 "enabled": {
                   "type": "boolean"
                 },
-                "defaultEndpoint": {
+                "endpoint": {
                   "type": "string"
                 },
                 "file": {
                   "type": "string"
                 },
-                "defaultServiceName": {
+                "serviceName": {
                   "type": "string"
                 },
                 "config": {
@@ -271,10 +467,10 @@
                 "enabled": {
                   "type": "boolean"
                 },
-                "defaultEndpoint": {
+                "endpoint": {
                   "type": "string"
                 },
-                "defaultServiceName": {
+                "serviceName": {
                   "type": "string"
                 },
                 "config": {

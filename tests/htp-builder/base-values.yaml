@@ -1,4 +1,4 @@
-global:
-  pipeline:
-    id: test-installation-id
-publicMgmtAPIKey: test-management-key-id
+pipeline:
+  id: test-installation-id
+managementApiKey:
+  id: test-management-key-id

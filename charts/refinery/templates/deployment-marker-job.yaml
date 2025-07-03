@@ -25,7 +25,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}-deploy-marker
-          image: "{{ .Values.deployMarker.image.repository }}:{{ .Values.deployMarker.image.tag }}"
+          image: {{ include "refinery.deploy-marker.image" . }}
           imagePullPolicy: {{ .Values.deployMarker.image.pullPolicy }}
 
           {{- with .Values.deployMarker.environment }}
