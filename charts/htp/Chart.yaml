@@ -2,7 +2,7 @@ apiVersion: v2
 name: htp
 description: Honeycomb Telemetry Pipeline
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: 1.89.3
 home: https://honeycomb.io
 sources:
