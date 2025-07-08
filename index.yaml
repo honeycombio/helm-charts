@@ -855,6 +855,33 @@ entries:
   htp-builder:
   - apiVersion: v2
     appVersion: 0.0.1-alpha
+    created: "2025-07-08T13:47:58.381742789Z"
+    description: Chart to deploy Honeycomb Telemetry Pipeline Builder
+    digest: 5719897a9f323977f49a1eaa630f83c0a2197d376acc8e7fdceac9dbb0b38349
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    - htp
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp-builder
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-builder-0.0.74-alpha/htp-builder-0.0.74-alpha.tgz
+    version: 0.0.74-alpha
+  - apiVersion: v2
+    appVersion: 0.0.1-alpha
     created: "2025-07-07T19:18:41.129145128Z"
     description: Chart to deploy Honeycomb Telemetry Pipeline Builder
     digest: 99afec568cadecad04366c3b6636d8a0b79e4ad286f9ebb5feb7e2d5539e3bab
@@ -5849,4 +5876,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-07T19:18:41.12956304Z"
+generated: "2025-07-08T13:47:58.382177797Z"
