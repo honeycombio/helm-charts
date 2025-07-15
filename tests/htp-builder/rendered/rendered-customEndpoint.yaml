@@ -471,7 +471,7 @@ spec:
       serviceAccountName: test-htp-builder-primary-collector
       containers:
         - name: htp-builder
-          image: "honeycombio/supervised-collector:v0.0.10"
+          image: "honeycombio/supervised-collector:v0.0.11"
           imagePullPolicy: IfNotPresent
           args:
             - --config
@@ -592,7 +592,7 @@ spec:
       serviceAccountName: test-htp-builder-refinery
       containers:
         - name: htp-builder
-          image: "honeycombio/refinery:2.9.6"
+          image: "honeycombio/refinery:2.9.7"
           imagePullPolicy: IfNotPresent
           command:
             - refinery
