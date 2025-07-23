@@ -47,10 +47,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            - name: STRAWS_COLLECTOR_POD_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id={{ .Values.pipeline.id }},k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: REFINERY_HONEYCOMB_LOGGER_ADDITIONAL_FIELDS
@@ -64,7 +60,7 @@ spec:
                   name: {{ .Values.telemetry.ingestKey.secret.name }}
                   key: {{ .Values.telemetry.ingestKey.secret.key }}
               {{- end }}
-            - name: HONEYCOMB_EXPORTER_APIKEY
+            - name: HTP_EXPORTER_APIKEY
               {{- if .Values.ingestKey.value }}
               value: {{ .Values.ingestKey.value }}
               {{- else }}

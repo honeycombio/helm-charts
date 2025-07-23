@@ -382,7 +382,7 @@ spec:
       serviceAccountName: test-htp-builder-beekeeper
       containers:
         - name: htp-builder
-          image: "honeycombio/beekeeper:v0.0.18-alpha"
+          image: "honeycombio/beekeeper:v0.0.19-alpha"
           imagePullPolicy: IfNotPresent
           args:
             - -otel-config
@@ -406,13 +406,13 @@ spec:
                   fieldPath: metadata.uid
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            - name: HONEYCOMB_API
+            - name: BEEKEEPER_HONEYCOMB_API
               value: https://this.is.a.test
-            - name: HONEYCOMB_INSTALLATION_ID
+            - name: BEEKEEPER_HONEYCOMB_INSTALLATION_ID
               value: test-installation-id
-            - name: HONEYCOMB_MGMT_API_KEY
+            - name: BEEKEEPER_HONEYCOMB_MGMT_API_KEY
               value: test-management-key-id
-            - name: HONEYCOMB_MGMT_API_SECRET
+            - name: BEEKEEPER_HONEYCOMB_MGMT_API_SECRET
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
@@ -422,9 +422,9 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: api-key
-            - name: LOG_LEVEL
+            - name: BEEKEEPER_LOG_LEVEL
               value: info
-            - name: DEPLOYMENT_BATCH_SIZE
+            - name: BEEKEEPER_DEPLOYMENT_BATCH_SIZE
               value: "1"
           volumeMounts:
             - name: otel-config
@@ -471,7 +471,7 @@ spec:
       serviceAccountName: test-htp-builder-primary-collector
       containers:
         - name: htp-builder
-          image: "honeycombio/supervised-collector:v0.0.10"
+          image: "honeycombio/supervised-collector:v0.0.11"
           imagePullPolicy: IfNotPresent
           args:
             - --config
@@ -493,13 +493,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            - name: STRAWS_COLLECTOR_POD_IP
+            - name: HTP_COLLECTOR_POD_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            - name: HONEYCOMB_EXPORTER_APIKEY
+            - name: HTP_EXPORTER_APIKEY
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
@@ -509,7 +509,7 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: api-key
-            - name: STRAWS_REFINERY_SERVICE
+            - name: HTP_REFINERY_SERVICE
               value: 'test-htp-builder-refinery'
           volumeMounts:
             - name: config
@@ -592,7 +592,7 @@ spec:
       serviceAccountName: test-htp-builder-refinery
       containers:
         - name: htp-builder
-          image: "honeycombio/refinery:2.9.6"
+          image: "honeycombio/refinery:2.9.7"
           imagePullPolicy: IfNotPresent
           command:
             - refinery
@@ -617,10 +617,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-            - name: STRAWS_COLLECTOR_POD_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
             - name: REFINERY_HONEYCOMB_LOGGER_ADDITIONAL_FIELDS
@@ -630,7 +626,7 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: api-key
-            - name: HONEYCOMB_EXPORTER_APIKEY
+            - name: HTP_EXPORTER_APIKEY
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
