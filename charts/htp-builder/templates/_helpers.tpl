@@ -108,6 +108,7 @@ tracer_provider:
 meter_provider:
   readers:
     - periodic:
+        interval: 1000
         exporter:
           otlp:
             protocol: http/protobuf
@@ -200,6 +201,10 @@ telemetry:
 Build config file for collector
 */}}
 {{- define "htp-builder.primaryCollector.agent.config" -}}
+exporters:
+    otlphttp/Start_Sampling_1:
+      idle_conn_timeout: 1s
+      max_idle_conns: 25
 service:
   telemetry:
     {{- if .Values.primaryCollector.agent.telemetry.config }}
@@ -210,6 +215,7 @@ service:
     metrics:
       readers:
         - periodic:
+            interval: 1000
             exporter:
               otlp:
                 endpoint: '{{ include "htp-builder.primaryCollector.agent.telemetryEndpoint" . }}'

@@ -97,6 +97,7 @@ refinery:
       RecordUsage: false
     OTelMetrics:
       Enabled: true
+      ReportingInterval: 1s
     Logger:
       Type: honeycomb
 
