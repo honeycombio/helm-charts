@@ -421,7 +421,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
-                  key: api-key
+                  key: pipeline-telemetry-key
             - name: BEEKEEPER_LOG_LEVEL
               value: info
             - name: BEEKEEPER_DEPLOYMENT_BATCH_SIZE
@@ -508,7 +508,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
-                  key: api-key
+                  key: pipeline-telemetry-key
             - name: HTP_REFINERY_SERVICE
               value: 'test-htp-builder-refinery'
           volumeMounts:
@@ -625,7 +625,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: htp-builder
-                  key: api-key
+                  key: pipeline-telemetry-key
             - name: HTP_EXPORTER_APIKEY
               valueFrom:
                 secretKeyRef:
