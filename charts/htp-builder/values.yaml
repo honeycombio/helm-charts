@@ -41,7 +41,7 @@ telemetry:
       # The name of the kubernetes secret providing the ingest key
       name: "htp-builder"
       # The name of the field in the secret which stores the ingest key
-      key: "api-key"
+      key: "pipeline-telemetry-key"
 
 # This setting configures regional configuration (like endpoints) across all artifacts.
 # Artifact-specific configuration is still supported and will take precedence.
