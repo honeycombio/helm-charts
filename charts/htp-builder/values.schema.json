@@ -7,6 +7,9 @@
     "enabled": {
       "type": "boolean"
     },
+    "global": {
+      "type": "object"
+    },
     "pipeline": {
       "type": "object",
       "additionalProperties": false,
