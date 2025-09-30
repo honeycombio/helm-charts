@@ -75,9 +75,6 @@
         "Collection": {
           "type": "object"
         },
-        "BufferSizes": {
-          "type": "object"
-        },
         "Specialized": {
           "type": "object"
         },
