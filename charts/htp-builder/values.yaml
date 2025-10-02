@@ -67,7 +67,7 @@ refinery:
     repository: honeycombio/refinery
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "2.9.7"
+    tag: "3.0.0"
   config:
     General:
       ConfigurationVersion: 2
