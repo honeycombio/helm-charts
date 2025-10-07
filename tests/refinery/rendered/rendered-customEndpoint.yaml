@@ -196,7 +196,7 @@ spec:
         - name: refinery
           securityContext:
             {}
-          image: honeycombio/refinery:3.0.0
+          image: ghcr.io/honeycombio/refinery/refinery:3.0.0
           imagePullPolicy: IfNotPresent
           command:
             - refinery
