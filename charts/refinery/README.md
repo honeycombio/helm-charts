@@ -167,7 +167,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 | `grpcIngress.labels`                            | gRPC Ingress labels                                                                                  | `{}`                                                          |
 | `grpcIngress.tls`                               | TLS hosts for gRPC Ingress                                                                           | `[]`                                                          |
 | `image.pullPolicy`                              | Refinery image pull policy                                                                           | `IfNotPresent`                                                |
-| `image.repository`                              | Refinery image name                                                                                  | `honeycombio/refinery`                                        |
+| `image.repository`                              | Refinery image name                                                                                  | `ghcr.io/honeycombio/refinery/refinery`                       |
 | `image.tag`                                     | Refinery image tag (leave blank to use app version)                                                  | `nil`                                                         |
 | `imagePullSecrets`                              | Specify docker-registry secret names as an array                                                     | `[]`                                                          |
 | `ingress.annotations`                           | HTTP Ingress annotations                                                                             | `{}`                                                          |
@@ -220,6 +220,12 @@ The following table lists the configurable parameters of the Refinery chart, and
 1. secretProvider functionality requires the [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
 
 ## Upgrading
+
+### Upgrading from 2.0.0 or earlier
+
+[Refinery had a 3.0 release!](https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-300). It a performance improvement release, focused on memory and CPU efficiency.
+The improvements introduce some backwards breaking changes to the chart affect `config`. In order to successfully update
+your existing values.yaml config to work with Refinery 3.0.0, follow our [migration doc](https://pr2755.prdocs.hny.wtf/troubleshoot/product-lifecycle/recommended-migrations/migrate-to-refinery-3-0/).
 
 ### Upgrading from 1.19.1 or earlier
 

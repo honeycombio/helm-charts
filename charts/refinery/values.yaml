@@ -137,6 +137,10 @@ readinessProbe:
   failureThreshold: 1
 
 image:
+  # Starting at 3.0.0, Refinery images are available through below registries:
+  # - GitHub Container Registry(https://github.com/honeycombio/refinery/pkgs/container/refinery%2Frefinery)
+  # - Docker Hub(https://hub.docker.com/r/honeycombio/refinery/tags)
+  # - Amazon ECR Public Gallery(https://gallery.ecr.aws/honeycombio/refinery)
   repository: ghcr.io/honeycombio/refinery/refinery
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
