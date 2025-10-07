@@ -60,9 +60,6 @@
         "PrometheusMetrics": {
           "type": "object"
         },
-        "LegacyMetrics": {
-          "type": "object"
-        },
         "OTelMetrics": {
           "type": "object"
         },
