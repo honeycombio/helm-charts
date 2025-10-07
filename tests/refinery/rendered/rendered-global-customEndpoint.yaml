@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 ---
 # Source: refinery/templates/configmap-config.yaml
 apiVersion: v1
@@ -19,7 +19,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 data:
   config.yaml: |
     Collection:
@@ -65,7 +65,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 data:
   rules.yaml: |
     RulesVersion: 2
@@ -83,7 +83,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 spec:
   type: ClusterIP
   ports:
@@ -104,7 +104,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 spec:
   type: ClusterIP
   ports:
@@ -134,7 +134,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 spec:
   replicas: 1
   selector:
@@ -170,7 +170,7 @@ metadata:
   labels:
     app.kubernetes.io/name: refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "2.9.7"
+    app.kubernetes.io/version: "3.0.0"
 spec:
   replicas: 3
   selector:
@@ -196,7 +196,7 @@ spec:
         - name: refinery
           securityContext:
             {}
-          image: honeycombio/refinery:2.9.7
+          image: ghcr.io/honeycombio/refinery/refinery:3.0.0
           imagePullPolicy: IfNotPresent
           command:
             - refinery
