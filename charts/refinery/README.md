@@ -225,7 +225,7 @@ The following table lists the configurable parameters of the Refinery chart, and
 
 [Refinery had a 3.0 release!](https://github.com/honeycombio/refinery/blob/main/RELEASE_NOTES.md#version-300). It a performance improvement release, focused on memory and CPU efficiency.
 The improvements introduce some backwards breaking changes to the chart affect `config`. In order to successfully update
-your existing values.yaml config to work with Refinery 3.0.0, follow our [migration doc](https://pr2755.prdocs.hny.wtf/troubleshoot/product-lifecycle/recommended-migrations/migrate-to-refinery-3-0/).
+your existing values.yaml config to work with Refinery 3.0.0, follow our [migration doc](https://docs.honeycomb.io/troubleshoot/product-lifecycle/recommended-migrations/upgrade-refinery/).
 
 ### Upgrading from 1.19.1 or earlier
 
