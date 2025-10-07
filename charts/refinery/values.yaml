@@ -137,7 +137,7 @@ readinessProbe:
   failureThreshold: 1
 
 image:
-  repository: honeycombio/refinery
+  repository: ghcr.io/honeycombio/refinery/refinery
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
