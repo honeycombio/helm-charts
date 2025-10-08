@@ -6,3 +6,8 @@ updates:
       - "./charts/htp-bindplane"
     schedule:
       interval: "daily"
+    labels:
+      - "type: dependencies"
+    commit-message:
+      prefix: "maint"
+      include: "scope"
