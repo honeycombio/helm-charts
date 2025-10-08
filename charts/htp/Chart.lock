@@ -1,6 +1,6 @@
 dependencies:
 - name: bindplane
   repository: https://observiq.github.io/bindplane-op-helm
-  version: 1.31.0
-digest: sha256:f10c45d2ec474e1367ce89a45c882c8c7b94ecf3e6a54ec52ed1ed62e05bdbb5
-generated: "2025-10-08T08:39:51.512812-07:00"
+  version: 1.31.1
+digest: sha256:666bd79df0517f04adffd3ef3c6136e611d71c061de008d3cebd945e2f0abbf3
+generated: "2025-10-08T11:38:11.495139-04:00"
