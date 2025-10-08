@@ -1,0 +1,8 @@
+version: 2
+updates:
+  - package-ecosystem: "helm"
+    directories:
+      - "./charts/htp"
+      - "./charts/htp-bindplane"
+    schedule:
+      interval: "daily"
