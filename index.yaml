@@ -632,6 +632,28 @@ entries:
     version: 0.9.1
   htp:
   - apiVersion: v2
+    appVersion: 1.94.0
+    created: "2025-10-08T15:49:14.923803411Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.31.1
+    description: Honeycomb Telemetry Pipeline
+    digest: c7710204094654b6310170c2b4349f9441da7d2daae9bb9efe404e65bdb2630d
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-0.2.4/htp-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
     appVersion: 1.92.0
     created: "2025-10-08T15:44:31.420710979Z"
     dependencies:
@@ -918,6 +940,28 @@ entries:
     - https://github.com/honeycombio/helm-charts/releases/download/htp-0.0.1-alpha/htp-0.0.1-alpha.tgz
     version: 0.0.1-alpha
   htp-bindplane:
+  - apiVersion: v2
+    appVersion: 1.94.0
+    created: "2025-10-08T15:49:15.078097039Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.31.1
+    description: Honeycomb Telemetry Pipeline - Bindplane
+    digest: 55913c5634c8f8381ea1a261f6bef86393812c662acd42e56eb487ab5ff3fc6a
+    home: https://honeycomb.io
+    icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp-bindplane
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-bindplane-0.2.4/htp-bindplane-0.2.4.tgz
+    version: 0.2.4
   - apiVersion: v2
     appVersion: 1.92.0
     created: "2025-10-08T15:44:31.69145978Z"
@@ -6283,4 +6327,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-08T15:44:31.692478842Z"
+generated: "2025-10-08T15:49:15.078578675Z"
