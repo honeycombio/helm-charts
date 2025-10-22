@@ -37,8 +37,6 @@ data:
       MinRefineryVersion: v2.0
     HoneycombLogger:
       APIHost: https://this.is.a.test
-    LegacyMetrics:
-      APIHost: https://this.is.a.test
     Network:
       HoneycombAPI: https://this.is.a.test
     OTelMetrics:

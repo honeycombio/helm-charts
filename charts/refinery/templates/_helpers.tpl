@@ -169,8 +169,6 @@ Network:
   HoneycombAPI: https://api.eu1.honeycomb.io
 HoneycombLogger:
   APIHost: https://api.eu1.honeycomb.io
-LegacyMetrics:
-  APIHost: https://api.eu1.honeycomb.io
 OTelMetrics:
   APIHost: https://api.eu1.honeycomb.io
 OTelTracing:
@@ -181,8 +179,6 @@ OTelTracing:
 Network:
   HoneycombAPI: {{ . }}
 HoneycombLogger:
-  APIHost: {{ . }}
-LegacyMetrics:
   APIHost: {{ . }}
 OTelMetrics:
   APIHost: {{ . }}
