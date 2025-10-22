@@ -37,8 +37,6 @@ data:
       MinRefineryVersion: v2.0
     HoneycombLogger:
       APIHost: https://api.eu1.honeycomb.io
-    LegacyMetrics:
-      APIHost: https://api.eu1.honeycomb.io
     Network:
       HoneycombAPI: https://api.eu1.honeycomb.io
     OTelMetrics:
