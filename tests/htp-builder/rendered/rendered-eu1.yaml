@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-beekeeper
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: beekeeper
 ---
 # Source: htp-builder/templates/primary-collector-serviceaccount.yaml
@@ -20,7 +20,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: collector
 ---
 # Source: htp-builder/templates/refinery-serviceaccount.yaml
@@ -32,7 +32,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 ---
 # Source: htp-builder/templates/beekeeper-configmap-otel.yaml
@@ -44,7 +44,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-beekeeper
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: beekeeper
 data:
   otel-config: |
@@ -97,7 +97,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: collector
 data:
   config: |
@@ -139,7 +139,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: collector
 data:
   config: |
@@ -198,7 +198,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 data:
   config.yaml: |
@@ -246,7 +246,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 data:
   rules.yaml: |
@@ -265,7 +265,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-beekeeper
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: beekeeper
 spec:
   type: ClusterIP
@@ -287,7 +287,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: collector
 spec:
   type: ClusterIP
@@ -314,7 +314,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 spec:
   type: ClusterIP
@@ -336,7 +336,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 spec:
   ports:
@@ -361,7 +361,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-beekeeper
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: beekeeper
 spec:
   replicas: 1
@@ -450,7 +450,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-primary-collector
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: collector
 spec:
   replicas: 2
@@ -471,7 +471,7 @@ spec:
       serviceAccountName: test-htp-builder-primary-collector
       containers:
         - name: htp-builder
-          image: "honeycombio/supervised-collector:v0.1.0"
+          image: "honeycombio/supervised-collector:v0.1.1"
           imagePullPolicy: IfNotPresent
           args:
             - --config
@@ -539,7 +539,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-redis
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 spec:
   replicas: 1
@@ -552,7 +552,7 @@ spec:
       labels:
         app.kubernetes.io/name: test-redis
         app.kubernetes.io/instance: test
-        app.kubernetes.io/version: "0.1.0"
+        app.kubernetes.io/version: "0.1.1"
         app.kubernetes.io/component: refinery
     spec:
       serviceAccountName: test-htp-builder-refinery
@@ -574,7 +574,7 @@ metadata:
   labels:
     app.kubernetes.io/name: test-refinery
     app.kubernetes.io/instance: test
-    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/version: "0.1.1"
     app.kubernetes.io/component: refinery
 spec:
   replicas: 3
