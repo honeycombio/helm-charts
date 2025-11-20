@@ -2,7 +2,7 @@ apiVersion: v2
 name: htp-builder
 description: Chart to deploy Honeycomb Telemetry Pipeline Builder
 type: application
-version: 0.1.4
+version: 0.2.0
 appVersion: 0.1.1
 keywords:
   - refinery
@@ -16,6 +16,7 @@ keywords:
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/refinery
+  - https://github.com/honeycombio/supervised-collector
   - https://github.com/open-telemetry/opentelemetry-collector-releases
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
