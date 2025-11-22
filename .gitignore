@@ -5,4 +5,7 @@
 .vscode/
 *.code-workspace
 
+### Claude Code ###
+.claude/
+
 tests/*/rendered-compare
