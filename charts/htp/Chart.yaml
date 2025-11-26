@@ -13,6 +13,6 @@ maintainers:
     email: pipeline-team@honeycomb.io
 dependencies:
   - name: bindplane
-    version: "1.31.1"
+    version: 1.32.6
     repository: "https://observiq.github.io/bindplane-op-helm"
     alias: htp
