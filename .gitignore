@@ -6,3 +6,5 @@
 *.code-workspace
 
 tests/*/rendered-compare
+
+.claude/
