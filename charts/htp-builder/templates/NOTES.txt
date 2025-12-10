@@ -26,10 +26,6 @@
   {{- fail "managementApiKey.secret.key must be set" }}
 {{- end }}
 
-{{- if and (not .Values.ingestKey.value) (or (not .Values.ingestKey.secret.name) (not .Values.ingestKey.secret.key)) }}
-  {{- fail "an ingest key must be provided via ingestKey.value or ingestKey.secret" }}
-{{- end }}
-
 {{- if (not .Values.primaryCollector.image.repository) }}
   {{- fail "collector.image.repository must be set" }}
 {{- end }}

@@ -417,6 +417,8 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: management-api-secret
+            - name: BEEKEEPER_GENERATE_INGEST_KEYS
+              value: "true"
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -499,11 +501,6 @@ spec:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            - name: HTP_EXPORTER_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: htp-builder
-                  key: api-key
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -626,11 +623,6 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: pipeline-telemetry-key
-            - name: HTP_EXPORTER_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: htp-builder
-                  key: api-key
           ports:
             - name: data
               containerPort: 8080

@@ -16,15 +16,17 @@ managementApiKey:
     key: "management-api-secret"
 
 # The Honeycomb ingest key used to export the received data.
-ingestKey:
+# By default Honeycomb will manage your ingest key. Only
+# set these values if you want to manage the key yourself.
+ingestKey: {}
   # The key may be provided directly, although this is not secure and not recommended
-  value: ""
+  # value: ""
   # The recommend way to supply the ingest key is via a kubernetes secret
-  secret:
+  # secret:
     # The name of the kubernetes secret providing the ingest key
-    name: "htp-builder"
+    # name: "htp-builder"
     # The name of the field in the secret which stores the ingest key
-    key: "api-key"
+    # key: "api-key"
 
 # This section configures the ingest key to use for ingesting internal telemetry
 # produced by the installed artifacts.
