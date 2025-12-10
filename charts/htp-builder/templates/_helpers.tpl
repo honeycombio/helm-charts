@@ -375,8 +375,10 @@ Network:
   HoneycombAPI: https://api.eu1.honeycomb.io
 HoneycombLogger:
   APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
+{{- if hasPrefix "2" .Values.refinery.image.tag }}
 LegacyMetrics:
   APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
+{{- end }}
 OTelMetrics:
   APIHost: {{ default "https://api.eu1.honeycomb.io" .Values.telemetry.endpoint }}
 OTelTracing:
@@ -388,8 +390,10 @@ Network:
   HoneycombAPI: {{ .customEndpoint }}
 HoneycombLogger:
   APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
+{{- if hasPrefix "2" .Values.refinery.image.tag }}
 LegacyMetrics:
   APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
+{{- end }}
 OTelMetrics:
   APIHost: {{ default .customEndpoint .Values.telemetry.endpoint }}
 OTelTracing:
