@@ -93,41 +93,38 @@ Build otel config file for beekeeper
 file_format: "0.3"
 propagator:
   composite:
-    - tracecontext
-    - baggage
+    - tracecontext:
+    - baggage:
 tracer_provider:
   processors:
     - batch:
         exporter:
-          otlp:
-            protocol: http/protobuf
+          otlp_http:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
-            - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
+              - name: "x-honeycomb-team"
+                value: ${HONEYCOMB_API_KEY}
 meter_provider:
   readers:
     - periodic:
         exporter:
-          otlp:
-            protocol: http/protobuf
+          otlp_http:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
-            - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
-            - name: "x-honeycomb-dataset"
-              value: "beekeeper-metrics"
+              - name: "x-honeycomb-team"
+                value: ${HONEYCOMB_API_KEY}
+              - name: "x-honeycomb-dataset"
+                value: "beekeeper-metrics"
             temporality_preference: delta
 logger_provider:
   processors:
     - batch:
         exporter:
-          otlp:
-            protocol: http/protobuf
+          otlp_http:
             endpoint: '{{ include "htp-builder.beekeeper.telemetryEndpoint" . }}'
             headers:
-            - name: "x-honeycomb-team"
-              value: ${HONEYCOMB_API_KEY}
+              - name: "x-honeycomb-team"
+                value: ${HONEYCOMB_API_KEY}
 {{- end }}
 {{- end }}
 
