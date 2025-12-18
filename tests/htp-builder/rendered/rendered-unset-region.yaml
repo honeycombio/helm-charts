@@ -373,7 +373,7 @@ spec:
       serviceAccountName: test-htp-builder-beekeeper
       containers:
         - name: htp-builder
-          image: "honeycombio/beekeeper:v0.1.0"
+          image: "honeycombio/beekeeper:v0.1.1"
           imagePullPolicy: IfNotPresent
           args:
             - -otel-config
@@ -580,7 +580,7 @@ spec:
       serviceAccountName: test-htp-builder-refinery
       containers:
         - name: htp-builder
-          image: "honeycombio/refinery:2.9.7"
+          image: "honeycombio/refinery:3.0.1"
           imagePullPolicy: IfNotPresent
           command:
             - refinery
