@@ -339,3 +339,37 @@ primaryCollector:
       # Override Primary Collector opampsupervisor's default OTel SDK Configuration.
       # Config set here will take precedence over config produced by 'telemetry' and 'region'.
       config: {}
+
+  # Ingress configuration for the Primary Collector
+  ingress:
+    enabled: false
+    # annotations: {}
+    # ingressClassName: nginx
+    # hosts:
+    #   - host: primary-collector.example.com
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         port: 4318
+    # tls:
+    #   - secretName: primary-collector-tls
+    #     hosts:
+    #       - primary-collector.example.com
+
+    # Additional ingresses - only created if ingress.enabled is true
+    # Useful for when differently annotated ingress services are required
+    # Each additional ingress needs key "name" set to something unique
+    additionalIngresses: []
+    # - name: grpc
+    #   ingressClassName: nginx
+    #   annotations: {}
+    #   hosts:
+    #     - host: primary-collector-grpc.example.com
+    #       paths:
+    #         - path: /
+    #           pathType: Prefix
+    #           port: 4317
+    #   tls:
+    #     - secretName: primary-collector-grpc-tls
+    #       hosts:
+    #         - primary-collector-grpc.example.com

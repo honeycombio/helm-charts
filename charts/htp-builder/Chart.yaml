@@ -16,6 +16,7 @@ keywords:
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/refinery
+  - https://github.com/honeycombio/supervised-collector
   - https://github.com/open-telemetry/opentelemetry-collector-releases
 icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
 maintainers:
