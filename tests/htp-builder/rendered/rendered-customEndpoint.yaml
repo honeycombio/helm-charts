@@ -52,41 +52,38 @@ data:
     file_format: "0.3"
     propagator:
       composite:
-        - tracecontext
-        - baggage
+        - tracecontext:
+        - baggage:
     tracer_provider:
       processors:
         - batch:
             exporter:
-              otlp:
-                protocol: http/protobuf
+              otlp_http:
                 endpoint: 'https://this.is.a.test'
                 headers:
-                - name: "x-honeycomb-team"
-                  value: ${HONEYCOMB_API_KEY}
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
     meter_provider:
       readers:
         - periodic:
             exporter:
-              otlp:
-                protocol: http/protobuf
+              otlp_http:
                 endpoint: 'https://this.is.a.test'
                 headers:
-                - name: "x-honeycomb-team"
-                  value: ${HONEYCOMB_API_KEY}
-                - name: "x-honeycomb-dataset"
-                  value: "beekeeper-metrics"
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
+                  - name: "x-honeycomb-dataset"
+                    value: "beekeeper-metrics"
                 temporality_preference: delta
     logger_provider:
       processors:
         - batch:
             exporter:
-              otlp:
-                protocol: http/protobuf
+              otlp_http:
                 endpoint: 'https://this.is.a.test'
                 headers:
-                - name: "x-honeycomb-team"
-                  value: ${HONEYCOMB_API_KEY}
+                  - name: "x-honeycomb-team"
+                    value: ${HONEYCOMB_API_KEY}
 ---
 # Source: htp-builder/templates/primary-collector-agent-configmap.yaml
 apiVersion: v1
@@ -213,8 +210,6 @@ data:
       ConfigurationVersion: 2
       MinRefineryVersion: v2.0
     HoneycombLogger:
-      APIHost: https://this.is.a.test
-    LegacyMetrics:
       APIHost: https://this.is.a.test
     Logger:
       Type: honeycomb
@@ -382,7 +377,7 @@ spec:
       serviceAccountName: test-htp-builder-beekeeper
       containers:
         - name: htp-builder
-          image: "honeycombio/beekeeper:v0.1.0"
+          image: "honeycombio/beekeeper:v0.1.1"
           imagePullPolicy: IfNotPresent
           args:
             - -otel-config
@@ -417,6 +412,8 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: management-api-secret
+            - name: BEEKEEPER_GENERATE_INGEST_KEYS
+              value: "true"
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -499,11 +496,6 @@ spec:
                   fieldPath: status.podIP
             - name: OTEL_RESOURCE_ATTRIBUTES
               value: pipeline.id=test-installation-id,k8s.namespace.name=$(K8S_NAMESPACE_NAME),k8s.node.name=$(K8S_NODE_NAME),k8s.pod.name=$(K8S_POD_NAME),k8s.pod.uid=$(K8S_POD_UID)
-            - name: HTP_EXPORTER_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: htp-builder
-                  key: api-key
             - name: HONEYCOMB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -592,7 +584,7 @@ spec:
       serviceAccountName: test-htp-builder-refinery
       containers:
         - name: htp-builder
-          image: "honeycombio/refinery:2.9.7"
+          image: "honeycombio/refinery:3.0.1"
           imagePullPolicy: IfNotPresent
           command:
             - refinery
@@ -626,11 +618,6 @@ spec:
                 secretKeyRef:
                   name: htp-builder
                   key: pipeline-telemetry-key
-            - name: HTP_EXPORTER_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: htp-builder
-                  key: api-key
           ports:
             - name: data
               containerPort: 8080
