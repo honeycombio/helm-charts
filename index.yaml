@@ -3,6 +3,27 @@ entries:
   honeycomb:
   - apiVersion: v2
     appVersion: 2.7.4
+    created: "2026-02-12T16:39:26.218700382Z"
+    description: Honeycomb Kubernetes Agent
+    digest: 0fd6be8cbf8c87facff5449f0de1c33d79b200434a5119f55001f3e80d687cb6
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    keywords:
+    - observability
+    - tracing
+    - logs
+    - events
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: honeycomb
+    sources:
+    - https://github.com/honeycombio/honeycomb-kubernetes-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/honeycomb-1.9.3/honeycomb-1.9.3.tgz
+    version: 1.9.3
+  - apiVersion: v2
+    appVersion: 2.7.4
     created: "2025-05-15T14:38:05.186960946Z"
     description: Honeycomb Kubernetes Agent
     digest: 04060a94a74698ec5daf422c245ac78a323605bbe05d21264ae05800f6d3c0dd
@@ -633,6 +654,28 @@ entries:
   htp:
   - apiVersion: v2
     appVersion: 1.94.3
+    created: "2026-02-12T16:39:26.364134056Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.31.1
+    description: Honeycomb Telemetry Pipeline
+    digest: bc56a7cffe3b74deee9d0148eeaa48c66783bc862221111e85d3fbf66c0d8c65
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-0.2.6/htp-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: 1.94.3
     created: "2025-10-08T19:42:59.812042592Z"
     dependencies:
     - alias: htp
@@ -964,6 +1007,28 @@ entries:
   htp-bindplane:
   - apiVersion: v2
     appVersion: 1.96.3
+    created: "2026-02-12T16:39:26.517156939Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.32.6
+    description: Honeycomb Telemetry Pipeline - Bindplane
+    digest: f2bf91f89eab6b90c0c23678e671c0ae093e863313576d5edddd6c78211d248d
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp-bindplane
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-bindplane-0.2.8/htp-bindplane-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 1.96.3
     created: "2025-12-01T17:03:49.838956064Z"
     dependencies:
     - alias: htp
@@ -1161,6 +1226,33 @@ entries:
     - https://github.com/honeycombio/helm-charts/releases/download/htp-bindplane-0.1.5/htp-bindplane-0.1.5.tgz
     version: 0.1.5
   htp-builder:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-02-12T16:39:26.659461975Z"
+    description: Chart to deploy Honeycomb Telemetry Pipeline Builder
+    digest: 22bc278227656204ff556a87cbc5d8a5fc5d76b41726d246e8c0136f507ee6f4
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    - htp
+    maintainers:
+    - email: pipeline-team@honeycomb.io
+      name: Honeycomb
+    name: htp-builder
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-builder-0.2.2/htp-builder-0.2.2.tgz
+    version: 0.2.2
   - apiVersion: v2
     appVersion: 0.1.1
     created: "2026-01-20T16:24:05.695764258Z"
@@ -1845,6 +1937,24 @@ entries:
     - https://github.com/honeycombio/helm-charts/releases/download/htp-builder-0.0.60-alpha/htp-builder-0.0.60-alpha.tgz
     version: 0.0.60-alpha
   network-agent:
+  - apiVersion: v2
+    appVersion: v0.2.1-beta
+    created: "2026-02-12T16:39:26.803092173Z"
+    description: Honeycomb Network Agent
+    digest: aa97da1c9fd35953280929d64791c218d2a4c50bc533118ad3e17fa057f9f2c6
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    - email: telemetry-team@honeycomb.io
+      name: Honeycomb
+    name: network-agent
+    sources:
+    - https://github.com/honeycombio/honeycomb-network-agent
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/network-agent-0.3.2/network-agent-0.3.2.tgz
+    version: 0.3.2
   - apiVersion: v2
     appVersion: v0.2.1-beta
     created: "2024-02-09T16:15:02.947673342Z"
@@ -4344,6 +4454,29 @@ entries:
   refinery:
   - apiVersion: v2
     appVersion: 3.1.0
+    created: "2026-02-12T16:39:26.937038897Z"
+    description: Chart to deploy Honeycomb Refinery
+    digest: 307ebb1f7ea0bab12f4418c690a460f7346fb100b85ef26de86b9b2a4bcd03af
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    keywords:
+    - refinery
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    maintainers:
+    - email: collection-team@honeycomb.io
+      name: Honeycomb
+    name: refinery
+    sources:
+    - https://github.com/honeycombio/refinery
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/refinery-3.0.5/refinery-3.0.5.tgz
+    version: 3.0.5
+  - apiVersion: v2
+    appVersion: 3.1.0
     created: "2026-02-05T20:34:33.654946729Z"
     description: Chart to deploy Honeycomb Refinery
     digest: f2c5f589cb109407adecd1c58f632422e5970a9dd3b39d508eb34771b3a8da65
@@ -6592,4 +6725,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-05T20:34:33.655422145Z"
+generated: "2026-02-12T16:39:26.938938007Z"
