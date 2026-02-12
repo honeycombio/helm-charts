@@ -2,7 +2,7 @@ apiVersion: v2
 name: refinery
 description: Chart to deploy Honeycomb Refinery
 type: application
-version: 3.0.4
+version: 3.0.5
 appVersion: 3.1.0
 keywords:
   - refinery
@@ -13,7 +13,7 @@ keywords:
 home: https://honeycomb.io
 sources:
   - https://github.com/honeycombio/refinery
-icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
 maintainers:
   - name: Honeycomb
     email: collection-team@honeycomb.io
