@@ -2,12 +2,12 @@ apiVersion: v2
 name: htp
 description: Honeycomb Telemetry Pipeline
 type: application
-version: 0.2.5
+version: 0.2.6
 appVersion: 1.94.3
 home: https://honeycomb.io
 sources:
   - https://github.com/observIQ/bindplane-op-helm
-icon: https://www.honeycomb.io/wp-content/themes/honeycomb/assets/img/logo.svg
+icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
 maintainers:
   - name: Honeycomb
     email: pipeline-team@honeycomb.io
