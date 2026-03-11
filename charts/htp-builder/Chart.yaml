@@ -20,4 +20,4 @@ sources:
 icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
 maintainers:
   - name: Honeycomb
-    email: pipeline-team@honeycomb.io
+    email: opensource@honeycomb.io
