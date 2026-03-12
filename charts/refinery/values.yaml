@@ -232,6 +232,8 @@ redis:
 
   # Affinity specific to installed Redis configuration. Requires redis.enabled to be true
   affinity: {}
+
+  priorityClassName: ""
   topologySpreadConstraints: []
   annotations: {}
   podAnnotations: {}
@@ -354,6 +356,8 @@ tolerations: []
 topologySpreadConstraints: []
 
 affinity: {}
+
+priorityClassName: ""
 
 terminationGracePeriodSeconds: 35
 
