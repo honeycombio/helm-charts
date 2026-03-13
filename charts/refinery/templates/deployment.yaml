@@ -55,6 +55,9 @@ spec:
       {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "refinery.serviceAccountName" . }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+      {{- end }}
       securityContext:
       {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
