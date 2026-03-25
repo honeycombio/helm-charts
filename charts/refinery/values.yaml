@@ -209,7 +209,7 @@ redis:
   # the Redis deployment
   image:
     repository: redis
-    tag: 7.2
+    tag: 8.4
     digest: ""
     pullPolicy: IfNotPresent
 
