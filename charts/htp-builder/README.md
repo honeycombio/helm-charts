@@ -1,7 +1,7 @@
 # Honeycomb Telemetry Pipeline Builder
 
-> [!WARNING]  
-> This is an experimental helm chart that is still under development. Breaking changes may be made without warning.
+> [!WARNING]
+> This chart is deprecated and will no longer receive updates.
 
 ## Prerequisites
 
