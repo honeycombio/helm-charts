@@ -654,6 +654,29 @@ entries:
   htp:
   - apiVersion: v2
     appVersion: 1.94.3
+    created: "2026-04-06T14:47:48.758903701Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.31.1
+    deprecated: true
+    description: Honeycomb Telemetry Pipeline
+    digest: fda950358830e87842bdb334aa713d7253971deef8f37e906da1976b54a4fd27
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    maintainers:
+    - email: opensource@honeycomb.io
+      name: Honeycomb
+    name: htp
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-0.2.8/htp-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: 1.94.3
     created: "2026-03-13T15:36:19.218020461Z"
     dependencies:
     - alias: htp
@@ -1029,6 +1052,29 @@ entries:
   htp-bindplane:
   - apiVersion: v2
     appVersion: 1.96.3
+    created: "2026-04-06T14:47:48.888158314Z"
+    dependencies:
+    - alias: htp
+      name: bindplane
+      repository: https://observiq.github.io/bindplane-op-helm
+      version: 1.32.6
+    deprecated: true
+    description: Honeycomb Telemetry Pipeline - Bindplane
+    digest: adde43bcc47f4406f7fd2d3ab72eea1536b98030494bf6180cc6e4fa1d064804
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    maintainers:
+    - email: opensource@honeycomb.io
+      name: Honeycomb
+    name: htp-bindplane
+    sources:
+    - https://github.com/observIQ/bindplane-op-helm
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-bindplane-0.2.10/htp-bindplane-0.2.10.tgz
+    version: 0.2.10
+  - apiVersion: v2
+    appVersion: 1.96.3
     created: "2026-03-13T15:36:19.328336946Z"
     dependencies:
     - alias: htp
@@ -1270,6 +1316,34 @@ entries:
     - https://github.com/honeycombio/helm-charts/releases/download/htp-bindplane-0.1.5/htp-bindplane-0.1.5.tgz
     version: 0.1.5
   htp-builder:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2026-04-06T14:47:49.008026082Z"
+    deprecated: true
+    description: Chart to deploy Honeycomb Telemetry Pipeline Builder
+    digest: 789759358f6695db5b3cedc219f4c39acb700d2532ecab2ddce8e6f6dc5d67a0
+    home: https://honeycomb.io
+    icon: https://raw.githubusercontent.com/honeycombio/helm-charts/main/hny_logo.svg
+    keywords:
+    - refinery
+    - open-telemetry
+    - honeycomb
+    - observability
+    - sampling
+    - tracing
+    - collector
+    - htp
+    maintainers:
+    - email: opensource@honeycomb.io
+      name: Honeycomb
+    name: htp-builder
+    sources:
+    - https://github.com/honeycombio/refinery
+    - https://github.com/open-telemetry/opentelemetry-collector-releases
+    type: application
+    urls:
+    - https://github.com/honeycombio/helm-charts/releases/download/htp-builder-0.2.4/htp-builder-0.2.4.tgz
+    version: 0.2.4
   - apiVersion: v2
     appVersion: 0.1.1
     created: "2026-03-13T15:36:19.43460864Z"
@@ -6865,4 +6939,4 @@ entries:
     urls:
     - secure-tenancy-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-25T20:45:13.452683189Z"
+generated: "2026-04-06T14:47:49.008593863Z"
