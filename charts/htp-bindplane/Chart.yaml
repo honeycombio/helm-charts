@@ -2,7 +2,8 @@ apiVersion: v2
 name: htp-bindplane
 description: Honeycomb Telemetry Pipeline - Bindplane
 type: application
-version: 0.2.9
+version: 0.2.10
+deprecated: true
 appVersion: 1.96.3
 home: https://honeycomb.io
 sources:

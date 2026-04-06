@@ -1,5 +1,8 @@
 # Honeycomb Telemetry Pipeline - Bindplane
 
+> [!WARNING]
+> This chart is deprecated and will no longer receive updates.
+
 This helm chart installs the Honeycomb Telemetry Pipeline - Bindplane in a Kubernetes cluster.
 The only requirement is a License Key.
 
