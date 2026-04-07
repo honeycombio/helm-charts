@@ -1,4 +1,0 @@
-pipeline:
-  id: test-installation-id
-managementApiKey:
-  id: test-management-key-id
