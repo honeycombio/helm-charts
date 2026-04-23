@@ -2,14 +2,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "refinery.fullname" . }}-deploy-marker-{{ randAlphaNum 5 | lower }}
+  name: {{ include "refinery.fullname" . }}-deploy-marker
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "refinery.labels" . | nindent 4 }}
 
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
 spec:
   template:
     spec:
