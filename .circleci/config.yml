@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   test-modified-charts:
     machine:
@@ -41,7 +41,6 @@ jobs:
             .circleci/release.sh
 
 workflows:
-  version: 2
   test:
     jobs:
       - test-modified-charts:
