@@ -1,0 +1,3 @@
+startupProbe:
+  periodSeconds: 2
+  failureThreshold: 30
