@@ -136,6 +136,12 @@ readinessProbe:
   timeoutSeconds: 1
   failureThreshold: 1
 
+# startup probe configuration, disabled when empty
+# Liveness and readiness probes are held off until this succeeds, giving Refinery time to start
+# when dependencies such as Redis are slow, e.g. periodSeconds: 2 and failureThreshold: 30 for 60s.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+startupProbe: {}
+
 image:
   # Starting at 3.0.0, Refinery images are available through below registries:
   # - GitHub Container Registry(https://github.com/honeycombio/refinery/pkgs/container/refinery%2Frefinery)

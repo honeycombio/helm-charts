@@ -126,6 +126,13 @@ spec:
           {{- with .Values.readinessProbe }}
           {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /alive
+              port: data
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
       volumes:
